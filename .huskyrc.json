@@ -1,0 +1,6 @@
+{
+    "hooks": {
+        "pre-commit": "./vendor/bin/pint -v && php artisan test",
+        "commit-msg": "scripts/commitlint.sh $(cat $HUSKY_GIT_PARAMS)"
+    }
+}

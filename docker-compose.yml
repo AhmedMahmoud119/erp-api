@@ -1,0 +1,38 @@
+version: '3.7'
+
+services:
+  main:
+    container_name: sms-api
+    build:
+      dockerfile: Dockerfile
+      args:
+        - UID=${UID:-1000}
+        - GID=${GID:-1000}
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/var/www/html
+      - /var/www/html/node_modules
+      - /var/www/html/vendor
+    env_file:
+      - .env
+    restart: on-failure
+    networks:
+      - uktra-dev
+    depends_on:
+      - database
+  database:
+    container_name: mysql
+    image: mysql:8.0.31
+    environment:
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+    networks:
+      - uktra-dev
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+
+networks:
+  uktra-dev:
