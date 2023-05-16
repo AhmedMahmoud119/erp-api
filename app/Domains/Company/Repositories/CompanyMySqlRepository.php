@@ -42,7 +42,7 @@ class CompanyMySqlRepository implements CompanyRepositoryInterface
     public function store($request):bool
     {
 
-         $this->company::create($request->except(['password','password_confirmation'])+[
+        $this->company::create($request->except(['password','password_confirmation'])+[
             'creator_id' => auth()->user()->id
             ]);
 
