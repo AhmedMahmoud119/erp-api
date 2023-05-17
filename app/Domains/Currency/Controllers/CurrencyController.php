@@ -24,7 +24,7 @@ class CurrencyController extends Controller
     {
 //        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCurrency::view_currencies->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return  CurrencyResource::collection($this->currencyService->list());
+        return  $this->currencyService->list();
     }
 
     public function delete($id)
