@@ -33,9 +33,9 @@ class TaxMySqlRepository implements TaxRepositoryInterface
                 $q->orderBy(request()->order_by, request()->sort_by === 'asc' ? 'asc' : 'desc');
             }
             $q->orderBy('id', 'asc');
-        })->orderBy('id', 'asc')
+        })
         ->with('creator')
-            ->paginate(config('app.pagination_count'));
+        ->paginate(config('app.pagination_count'));
     }
 
     public function store($request): bool
