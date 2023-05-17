@@ -17,11 +17,13 @@ class Tax extends Model
         'code',
         'name',
         'percentage',
+        'creator_id',
     ];
-    // public function creator()
-    // {
-    //     return $this->belongsTo(User::class,'creator_id');
-    // }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class,'creator_id');
+    }
     // public function tenant()
     // {
     //     return $this->belongsTo(Tenant::class,'tenant_id');
