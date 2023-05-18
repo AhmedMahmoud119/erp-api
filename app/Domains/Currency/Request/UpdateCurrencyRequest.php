@@ -2,6 +2,7 @@
 
 namespace App\Domains\Currency\Request;
 
+use App\Domains\Currency\Models\EnumCurrencies;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use \Illuminate\Validation\Rule;
@@ -17,8 +18,8 @@ class UpdateCurrencyRequest extends FormRequest
     {
         return [
             'name' => 'required|regex:/^[a-zA-Z\s]*$/',
-            'code' => ['required','alpha','min:3','max:3',Rule::unique('currencies')->ignore(request()->id)],
-            'symbol' => 'max:3',
+            'code' => ['required','alpha','min:3','max:3',Rule::unique('currencies')->ignore(request()->id),Rule::in(array_column(EnumCurrencies::cases(), 'value'))],
+            'symbol' => ['max:3',Rule::unique('currencies')->ignore(request()->id)],
             'price_rate' => ['required', Rule::in(['Custom', 'Official'])],
             'backup_changes' => ['required_if:price_rate,Official', Rule::in(['Custom', '12_pm_every_day', '12_am_every_day', '24_hours_per_day'])],
             'custom_price' => 'required_if:price_rate,Custom',

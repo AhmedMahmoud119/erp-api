@@ -9,7 +9,7 @@ interface CurrencyRepositoryInterface
 {
     public function findById(string $id): Currency;
     public function list();
-    public function store($request):bool;
-    public function update(string $id, $request):bool;
+    public function store($request,$price):bool;
+    public function update(string $id, $request,$price):bool;
     public function delete(string $id): bool;
 }

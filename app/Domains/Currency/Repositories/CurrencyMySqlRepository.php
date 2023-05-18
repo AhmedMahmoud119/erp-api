@@ -5,7 +5,11 @@ namespace App\Domains\Currency\Repositories;
 use App\Domains\currency\Interfaces\CurrencyRepositoryInterface;
 use App\Domains\Currency\Models\Currency;
 use Illuminate\Database\Eloquent\Collection;
+use AshAllenDesign\LaravelExchangeRates\ExchangeRate;
 
+use Guzzle\Http\Exception\ClientErrorResponseException;
+
+use carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CurrencyMySqlRepository implements CurrencyRepositoryInterface
@@ -51,7 +55,7 @@ class CurrencyMySqlRepository implements CurrencyRepositoryInterface
         return $this->currency::findOrFail($id);
     }
 
-    public function store($request):bool
+    public function store($request,$price):bool
     {
             $this->currency::create([
                 'name' => $request->name ,
@@ -60,7 +64,7 @@ class CurrencyMySqlRepository implements CurrencyRepositoryInterface
                 'price_rate' => $request->price_rate ,
                 'default' => 0,
                 'creator_id' => auth()->user()->id ,
-                'custom_price' => $request->price_rate==='Custom'?$request->custom_price:'5.00',
+                'custom_price' => $price,
                 'backup_changes' => $request->price_rate==='Official'?$request->backup_changes:null,
                 'from' => $request->backup_changes==='Custom'?$request->from:null,
                 'to' => $request->backup_changes==='Custom'?$request->to:null,
@@ -69,7 +73,7 @@ class CurrencyMySqlRepository implements CurrencyRepositoryInterface
         return true;
     }
 
-    public function update(string $id, $request):bool
+    public function update(string $id, $request,$price):bool
     {
 
         $currency = $this->currency::findOrFail($id);
@@ -85,7 +89,7 @@ class CurrencyMySqlRepository implements CurrencyRepositoryInterface
                 'price_rate' => $request->price_rate ,
                 'default' => $request->default,
                 'creator_id' => auth()->user()->id ,
-                'custom_price' => $request->price_rate==='Custom'?$request->custom_price:'5.00',
+                'custom_price' => $price,
                 'backup_changes' => $request->price_rate==='Official'?$request->backup_changes:null,
                 'from' => $request->backup_changes==='Custom'?$request->from:null,
                 'to' => $request->backup_changes==='Custom'?$request->to:null,
@@ -104,6 +108,28 @@ class CurrencyMySqlRepository implements CurrencyRepositoryInterface
 
     public function test(Request $request) {
 
+  $amount = ($request->amount)?($request->amount):(1);
+
+      $apikey = 'fbfbb16c96-732ab3eb69-rut2z7';
+
+      $from_Currency = urlencode($request->from_currency);
+      $to_Currency = urlencode($request->to_currency);
+      $query = "{$from_Currency}_{$to_Currency}";
+
+      // change to the free URL if you're using the free version
+      $json = file_get_contents("http://free.currencyconverterapi.com/api/v5/convert?q={$query}&amp;compact=y&amp;apiKey={$apikey}");
+
+      $obj = json_decode($json, true);
+
+      $val = $obj["$query"];
+
+      $total = $val['val'] * 1;
+
+      $formatValue = number_format($total, 2, '.', '');
+
+      $data = "$amount $from_Currency = $to_Currency $formatValue";
+
+     return $data;
 
 
     }

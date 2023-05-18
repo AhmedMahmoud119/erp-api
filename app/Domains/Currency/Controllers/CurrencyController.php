@@ -13,6 +13,7 @@ use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class CurrencyController extends Controller
 {
@@ -22,6 +23,7 @@ class CurrencyController extends Controller
 
     public function list()
     {
+
 //        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCurrency::view_currencies->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return  $this->currencyService->list();
@@ -59,6 +61,7 @@ class CurrencyController extends Controller
 
     public function update($id, UpdateCurrencyRequest $request)
     {
+
 //        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCurrency::edit_currency->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->currencyService->update($id, $request);
