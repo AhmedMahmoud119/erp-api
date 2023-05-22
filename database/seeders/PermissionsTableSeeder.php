@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Domains\Company\Models\EnumPermissionCompany;
+use App\Domains\Currency\Models\EnumPermissionCurrency;
 use App\Domains\Field\Models\EnumPermissionField;
 use App\Domains\Form\Models\EnumPermissionForm;
 use App\Domains\Module\Models\Module;
@@ -29,7 +30,11 @@ class PermissionsTableSeeder extends Seeder
                 'Field' => array_column(EnumPermissionField::cases(), 'value'),
                 'Form' => array_column(EnumPermissionForm::cases(), 'value'),
                 'Company' => array_column(EnumPermissionCompany::cases(), 'value'),
-            ]
+            ],
+            'Accountant' => [
+
+                'Currency' => array_column(EnumPermissionCurrency::cases(), 'value'),
+    ]
         ];
 
         foreach ($modules as $key => $module){

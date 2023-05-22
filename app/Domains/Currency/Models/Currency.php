@@ -18,7 +18,7 @@ class Currency extends Model
         'code',
         'symbol',
         'price_rate',
-        'custom_price',
+        'price',
         'backup_changes',
         'from',
         'to',

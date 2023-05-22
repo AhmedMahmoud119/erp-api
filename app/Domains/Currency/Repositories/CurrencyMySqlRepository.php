@@ -4,6 +4,7 @@ namespace App\Domains\Currency\Repositories;
 
 use App\Domains\currency\Interfaces\CurrencyRepositoryInterface;
 use App\Domains\Currency\Models\Currency;
+use App\Domains\Currency\Models\EnumCurrencies;
 use Illuminate\Database\Eloquent\Collection;
 use AshAllenDesign\LaravelExchangeRates\ExchangeRate;
 
@@ -20,8 +21,9 @@ class CurrencyMySqlRepository implements CurrencyRepositoryInterface
 
     public function list()
     {
+//        return EnumCurrencies::cases(),'value';
         return $this->currency::when(request()->sort_by, function ($q) {
-            if (in_array(request()->sort_by, ['name', 'code', 'symbol','custom_price', 'creator_id', 'creator_at', 'price_rate'])) {
+            if (in_array(request()->sort_by, ['name', 'code', 'symbol','price', 'creator_id', 'creator_at', 'price_rate'])) {
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
             }
             $q->orderBy('name', 'asc');
@@ -31,7 +33,7 @@ class CurrencyMySqlRepository implements CurrencyRepositoryInterface
                     ->orwhere('code','like','%' . request()->search . '%')
                     ->orwhere('symbol','like','%' . request()->search . '%')
                     ->orwhere('price_rate','like','%' . request()->search . '%')
-                    ->orwhere('custom_price','like','%' . request()->search . '%');
+                    ->orwhere('price','like','%' . request()->search . '%');
 
             })  ->when(request()->name,function ($q){
             $q->where('name',request()->name );
@@ -64,7 +66,7 @@ class CurrencyMySqlRepository implements CurrencyRepositoryInterface
                 'price_rate' => $request->price_rate ,
                 'default' => 0,
                 'creator_id' => auth()->user()->id ,
-                'custom_price' => $price,
+                'price' => $price,
                 'backup_changes' => $request->price_rate==='Official'?$request->backup_changes:null,
                 'from' => $request->backup_changes==='Custom'?$request->from:null,
                 'to' => $request->backup_changes==='Custom'?$request->to:null,
@@ -89,7 +91,7 @@ class CurrencyMySqlRepository implements CurrencyRepositoryInterface
                 'price_rate' => $request->price_rate ,
                 'default' => $request->default,
                 'creator_id' => auth()->user()->id ,
-                'custom_price' => $price,
+                'price' => $price,
                 'backup_changes' => $request->price_rate==='Official'?$request->backup_changes:null,
                 'from' => $request->backup_changes==='Custom'?$request->from:null,
                 'to' => $request->backup_changes==='Custom'?$request->to:null,
@@ -106,32 +108,8 @@ class CurrencyMySqlRepository implements CurrencyRepositoryInterface
         return true;
     }
 
-    public function test(Request $request) {
-
-  $amount = ($request->amount)?($request->amount):(1);
-
-      $apikey = 'fbfbb16c96-732ab3eb69-rut2z7';
-
-      $from_Currency = urlencode($request->from_currency);
-      $to_Currency = urlencode($request->to_currency);
-      $query = "{$from_Currency}_{$to_Currency}";
-
-      // change to the free URL if you're using the free version
-      $json = file_get_contents("http://free.currencyconverterapi.com/api/v5/convert?q={$query}&amp;compact=y&amp;apiKey={$apikey}");
-
-      $obj = json_decode($json, true);
-
-      $val = $obj["$query"];
-
-      $total = $val['val'] * 1;
-
-      $formatValue = number_format($total, 2, '.', '');
-
-      $data = "$amount $from_Currency = $to_Currency $formatValue";
-
-     return $data;
 
 
-    }
+
 
 }

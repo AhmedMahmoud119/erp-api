@@ -14,10 +14,10 @@ class CurrencyResource extends JsonResource
             'code'=>$this->code,
             'symbol'=>$this->symbol,
             'price_rate'=>$this->price_rate,
-            'custom_price'=>$this->custom_price,
+            'price'=>$this->price,
             'default'=>$this->default,
             'creator'=>$this->creator->name??null,
-            'creator_date'=>$this->created_at->format('Y-m-d'),
+            'creation_date'=>$this->created_at->format('Y-m-d'),
 
         ];
     }
