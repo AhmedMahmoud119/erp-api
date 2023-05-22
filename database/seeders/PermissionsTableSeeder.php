@@ -13,6 +13,7 @@ use App\Domains\Permission\Models\Permission;
 use App\Domains\Tenant\Models\EnumPermissionTenant;
 use App\Domains\User\Models\User;
 use App\Domains\Role\Models\Role;
+use App\Domains\Tax\Models\EnumPermissionTax;
 use Illuminate\Database\Seeder;
 
 class PermissionsTableSeeder extends Seeder
@@ -29,6 +30,7 @@ class PermissionsTableSeeder extends Seeder
                 'Field' => array_column(EnumPermissionField::cases(), 'value'),
                 'Form' => array_column(EnumPermissionForm::cases(), 'value'),
                 'Company' => array_column(EnumPermissionCompany::cases(), 'value'),
+                'Tax' => array_column(EnumPermissionTax::cases(), 'value'),
             ]
         ];
 

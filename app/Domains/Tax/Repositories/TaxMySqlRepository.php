@@ -20,8 +20,6 @@ class TaxMySqlRepository implements TaxRepositoryInterface
 
     public function list()
     {
-        // return $this->tax::paginate(config('app.pagination_count'));
-
         return $this->tax::when(request()->search, function ($q) {
             $q->where('name', 'like', '%' . request()->search . '%');
         })->when(request()->creator_id, function ($q) {
