@@ -201,6 +201,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
         \App\Domains\Tenant\Providers\TenancyServiceProvider::class,
 
         App\Domains\User\Providers\UserServiceProvider::class,
@@ -211,6 +212,9 @@ return [
         App\Domains\Form\Providers\FormServiceProvider::class,
         App\Domains\Module\Providers\ModuleServiceProvider::class,
         App\Domains\Language\Providers\LanguageServiceProvider::class,
+        App\Domains\Tax\Providers\TaxServiceProvider::class,
+
+
 
 
     ],
