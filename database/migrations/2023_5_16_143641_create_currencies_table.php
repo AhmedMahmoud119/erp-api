@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('code');
             $table->string('symbol')->nullable();
             $table->string('price_rate');
-            $table->decimal('custom_price', 8, 2);
+            $table->decimal('price', 8, 2);
             $table->string('backup_changes')->nullable();
             $table->date('from')->nullable();
             $table->date('to')->nullable();
