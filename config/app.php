@@ -201,6 +201,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
         \App\Domains\Tenant\Providers\TenancyServiceProvider::class,
 
         App\Domains\User\Providers\UserServiceProvider::class,

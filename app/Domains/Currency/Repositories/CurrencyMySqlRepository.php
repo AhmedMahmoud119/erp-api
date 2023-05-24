@@ -21,7 +21,6 @@ class CurrencyMySqlRepository implements CurrencyRepositoryInterface
 
     public function list()
     {
-//        return EnumCurrencies::cases(),'value';
         return $this->currency::when(request()->sort_by, function ($q) {
             if (in_array(request()->sort_by, ['name', 'code', 'symbol','price', 'creator_id', 'creator_at', 'price_rate'])) {
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');

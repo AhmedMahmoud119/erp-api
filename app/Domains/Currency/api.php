@@ -20,5 +20,7 @@ Route::group(['middleware' => 'auth:sanctum','prefix' => 'currency'],function ()
     Route::delete('/{id}', [\App\Domains\Currency\Controllers\CurrencyController::class, 'delete']);
     Route::post('/create', [\App\Domains\Currency\Controllers\CurrencyController::class, 'create']);
     Route::post('/update/{id}', [\App\Domains\Currency\Controllers\CurrencyController::class, 'update']);
+    Route::get('/codes/all', [\App\Domains\Currency\Controllers\CurrencyController::class, 'getCodes']);
 
 });
+

@@ -32,7 +32,7 @@
     'The_password_must_be_at_least_6_characters' => 'The password must be at least 6 characters',
     'The_role_id_field_is_required' => 'The role_id field is required',
     'The_parent_id_not_exist' => 'The parent_id not exist',
-    'The_role_id_not_exist' => 'The parent_id not exist',
+    'The_role_id_not_exist' => 'The role_id not exist',
     'The_old_password_field_is_required' => 'The old_password field is required',
     'The_new_password_field_is_required' => 'The new_password field is required',
     'The_field_id_field_is_required' => 'The field_id field is required',

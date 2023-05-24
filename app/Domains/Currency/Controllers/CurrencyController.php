@@ -4,6 +4,7 @@ namespace App\Domains\Currency\Controllers;
 
 
 use App\Domains\Currency\Models\Currency;
+use App\Domains\Currency\Models\EnumCurrencies;
 use App\Domains\Currency\Models\EnumPermissionCurrency;
 use App\Domains\Currency\Request\StoreCurrencyRequest;
 use App\Domains\Currency\Request\UpdateCurrencyRequest;
@@ -24,14 +25,14 @@ class CurrencyController extends Controller
     public function list()
     {
 
-//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCurrency::view_currencies->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCurrency::view_currencies->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return  CurrencyResource::collection($this->currencyService->list());
     }
 
     public function delete($id)
     {
-//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCurrency::delete_currency->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCurrency::delete_currency->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->currencyService->delete($id);
         return response()->json([
@@ -42,7 +43,7 @@ class CurrencyController extends Controller
 
     public function findById($id)
     {
-//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCurrency::view_currencies->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCurrency::view_currencies->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new CurrencyResource($this->currencyService->findById($id));
     }
@@ -50,7 +51,7 @@ class CurrencyController extends Controller
     public function create(StoreCurrencyRequest $request)
     {
 
-//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCurrency::create_currency->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCurrency::create_currency->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->currencyService->create($request);
         return response()->json([
@@ -62,12 +63,19 @@ class CurrencyController extends Controller
     public function update($id, UpdateCurrencyRequest $request)
     {
 
-//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCurrency::edit_currency->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCurrency::edit_currency->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->currencyService->update($id, $request);
         return response()->json([
             'message' => __('messages.updated_successfully'),
             'status' => true,
         ], 200);
+    }
+    public function getCodes()
+    {
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCurrency::get_codes->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return array_column(EnumCurrencies::cases(), 'value');
+
     }
 }
