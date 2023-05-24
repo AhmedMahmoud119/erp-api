@@ -16,7 +16,7 @@ class UpdateRoleRequest extends FormRequest
     public function rules(Request $request)
     {
         return [
-            'name' => ['string', 'nullable','regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/', Rule::unique('roles')->ignore(request()->id)],
+            'name' => ['required','regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/', Rule::unique('roles')->ignore(request()->id)],
             'permissions' => 'required|array',
             'permissions.*' => 'exists:permissions,id',
         ];
