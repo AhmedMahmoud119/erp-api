@@ -28,7 +28,7 @@ class User extends Authenticatable
         'creator_id',
     ];
     protected $appends = ['role'];
-
+    
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -47,7 +47,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
+    
+    public static function newFactory() {
+        return \App\Domains\User\Database\Factories\UserFactory::new();
+    }
     public function activeScope($query) {
         return $query->where('active', true);
     }
@@ -73,5 +76,6 @@ class User extends Authenticatable
     public function getRoleAttribute() {
         return $this->roles()->first();
     }
+    
 
 }

@@ -14,6 +14,7 @@ use App\Domains\Permission\Models\Permission;
 use App\Domains\Tenant\Models\EnumPermissionTenant;
 use App\Domains\User\Models\User;
 use App\Domains\Role\Models\Role;
+use App\Domains\Tax\Models\EnumPermissionTax;
 use Illuminate\Database\Seeder;
 
 class PermissionsTableSeeder extends Seeder
@@ -34,7 +35,9 @@ class PermissionsTableSeeder extends Seeder
             'Accountant' => [
 
                 'Currency' => array_column(EnumPermissionCurrency::cases(), 'value'),
-    ]
+
+                'Tax' => array_column(EnumPermissionTax::cases(), 'value'),
+            ]
         ];
 
         foreach ($modules as $key => $module){

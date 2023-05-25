@@ -26,7 +26,7 @@ class PermissionMySqlRepository implements PermissionRepositoryInterface
                         $q->where('permissions.name', 'like', '%' . request()->search . '%');
                     }
             ])
-            ->paginate(config('app.pagination_count'));
+            ->paginate(request('limit',config('app.pagination_count')));
         return $permissionModule;
     }
 

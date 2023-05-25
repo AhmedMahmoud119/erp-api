@@ -16,16 +16,16 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 
-        User::firstOrCreate(['email' => 'admin@admin.com'],[
-            'name' => 'super-admin',
-            'email' => 'admin@admin.com',
-           'password' => Hash::make('123456'),
-        ]);
-
-        $this->call(PermissionsTableSeeder::class);
+        // User::firstOrCreate(['email' => 'admin@admin.com'], [
+        //     'name' => 'super-admin',
+        //     'email' => 'admin@admin.com',
+        //     'password' => Hash::make('123456'),
+        // ]);
 
 
-
+        $this->call(
+            PermissionsTableSeeder::class,
+            // TaxSeeder::class
+        );
     }
-
 }

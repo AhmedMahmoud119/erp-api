@@ -27,7 +27,7 @@ class FieldMySqlRepository implements FieldRepositoryInterface
         })
             ->when(request()->type, function ($q) {
                 $q->where('type', request()->type);
-            })->paginate(config('app.pagination_count'));
+            })->paginate(request('limit',config('app.pagination_count')));
 
     }
 

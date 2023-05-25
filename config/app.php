@@ -213,7 +213,7 @@ return [
         App\Domains\Module\Providers\ModuleServiceProvider::class,
         App\Domains\Language\Providers\LanguageServiceProvider::class,
         App\Domains\Currency\Providers\CurrencyServiceProvider::class,
-
+        App\Domains\Tax\Providers\TaxServiceProvider::class,
 
 
     ],

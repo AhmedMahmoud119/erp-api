@@ -29,22 +29,35 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Sanctum::authenticateAccessTokensUsing(function (PersonalAccessToken $token, $isValid) {
-            if($isValid) return true;
+            if ($isValid) return true;
             return $token->can('remember') && $token->created_at->gt(now()->subYears(5));
         });
 
         if (!Collection::hasMacro('paginate')) {
 
-            Collection::macro('paginate',
+            Collection::macro(
+                'paginate',
 
                 function ($perPage = 15, $page = null, $options = []) {
                     $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
                     return (new LengthAwarePaginator(
-                        $this->forPage($page, $perPage), $this->count(), $perPage, $page, $options))
+                        $this->forPage($page, $perPage),
+                        $this->count(),
+                        $perPage,
+                        $page,
+                        $options
+                    ))
                         ->withPath(url()->current());
                 }
-
             );
+        }
+
+        
+       
+
+        if ($this->app->environment('local')) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
         }
     }
 }
