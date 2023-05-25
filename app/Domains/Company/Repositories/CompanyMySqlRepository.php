@@ -36,7 +36,7 @@ class CompanyMySqlRepository implements CompanyRepositoryInterface
             $q->whereDate('created_at','>=',request()->date_from);
         })->when(request()->date_to,function ($q){
             $q->whereDate('created_at','<=',request()->date_to);
-        })->get()->paginate(config('app.pagination_count'));
+        })->get()->paginate(request('limit',config('app.pagination_count')));
     }
 
     public function store($request):bool
