@@ -81,6 +81,7 @@ class UserMySqlRepository implements UserRepositoryInterface
     // Authentication methods
     public function loginUser($request)
     {
+
         $remember_me = $request->has('remember_me') ? true : false;
         if (!Auth::attempt($request->only(['email', 'password']), $remember_me)) {
             return false;

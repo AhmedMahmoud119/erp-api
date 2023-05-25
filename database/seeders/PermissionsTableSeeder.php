@@ -36,7 +36,7 @@ class PermissionsTableSeeder extends Seeder
 
                 'Currency' => array_column(EnumPermissionCurrency::cases(), 'value'),
 
-                'Tax' => array_column(EnumPermissionTax::cases(), 'value'),
+//                'Tax' => array_column(EnumPermissionTax::cases(), 'value'),
             ]
         ];
 
