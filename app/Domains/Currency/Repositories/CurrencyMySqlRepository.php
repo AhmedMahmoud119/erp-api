@@ -47,9 +47,8 @@ class CurrencyMySqlRepository implements CurrencyRepositoryInterface
             })
             ->when(request()->creator_id,function ($q){
                 $q->where('creator_id',request()->creator_id );
-            })
-            ->get();
-//       ->orderBy('name', 'asc')->paginate(config('app.pagination_count'));
+            })->with('creator')
+            ->orderBy('name', 'asc')->paginate(request('limit',config('app.pagination_count')));
     }
     public function findById(string $id) :Currency
     {

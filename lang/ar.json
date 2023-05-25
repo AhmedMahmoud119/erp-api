@@ -34,7 +34,9 @@
     "Role": "وظيفة",
     "User": "مستخدم",
     "Permission": "صلاحية",
-    "The title field is required": "حقل عنوان الحقل  مطلوب ",
+    "The title field is required in arabic": "حقل عنوان الحقل  مطلوب ",
+    "The title field is required in english": "حقل عنوان الحقل  مطلوب ",
+
     "The type field is required": "حقل نوع الحقل  مطلوب  ",
     "The language field is required": "حقل لغة  الحقل  مطلوب ",
     "The options field is required": "حقل اختيارات  الحقل  مطلوبه ",

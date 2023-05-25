@@ -15,6 +15,7 @@ class StoreFormRequest extends FormRequest
     {
         return [
             'title' => 'required',
+
             'module_id' => 'required|exists:modules,id',
             'module_id.*' => 'required|exists:modules,id'
         ];

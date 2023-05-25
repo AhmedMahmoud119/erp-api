@@ -29,7 +29,7 @@ class TenantMySqlRepository implements TenantRepositoryInterface
             $q->whereDate('created_at', '<=', request()->date_to);
         })->when(request()->industry_type, function ($q) {
             $q->where('industry_type', request()->industry_type);
-        })->with('domains')->get()->paginate(request('limit',config('app.pagination_count')));
+        })->with('domains')->paginate(request('limit',config('app.pagination_count')));
     }
 
     public function findById(string $id)
