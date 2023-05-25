@@ -140,7 +140,7 @@ class FormController extends Controller
 
     public function create(StoreFormRequest $request)
     {
-       // abort_if(!auth()->user()->hasPermissionTo(EnumPermissionForm::create_form->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionForm::create_form->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->formService->create($request);
         return response()->json([
