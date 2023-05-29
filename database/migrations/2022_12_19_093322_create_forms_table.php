@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('forms', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->json('title');
             $table->timestamps();
             $table->softDeletes();
         });

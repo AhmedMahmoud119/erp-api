@@ -10,6 +10,7 @@ use App\Domains\Form\Models\Form;
 use App\Domains\Form\Models\FormField;
 use App\Domains\Form\Models\FormVersion;
 use App\Domains\Form\Resources\FieldResponseResource;
+use App\Domains\Form\Resources\FormResource;
 use App\Domains\Form\Resources\FormVersionFieldsResource;
 use Illuminate\Database\Eloquent\Collection;
 use DB;
@@ -197,7 +198,7 @@ class FormMySqlRepository implements FormRepositoryInterface
     {
         $form = $this->form->with('formVersions')->findOrFail($id);
 
-        return $form;
+        return FormResource::make($form);
     }
 
     public function addField($id, $request)

@@ -22,7 +22,6 @@ return new class extends Migration
             $table->integer('creator_id')->nullable();
             $table->integer('parent_id')->nullable();
             $table->string('status')->default('Active'); //   ['Disabled', 'Active', 'Suspended']
-
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

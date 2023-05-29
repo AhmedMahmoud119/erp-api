@@ -17,7 +17,7 @@ class RoleMySqlRepository implements RoleRepositoryInterface
     {
         return $this->role::select('id', 'name', 'created_at')->with(['permissions' => function ($query) {
             $query->select('id', 'name');
-        }])->findOrFail($id);
+        }])->with('users')->findOrFail($id);
     }
 
     public function findByEmail(string $email)
@@ -34,7 +34,7 @@ class RoleMySqlRepository implements RoleRepositoryInterface
                 $q->where('name', 'like', '%' . request()->search . '%');
             })->with(['permissions' => function ($query) {
                 $query->select('id', 'name');
-            }])->paginate(request('limit',config('app.pagination_count')));
+            }])->with('users')->paginate(request('limit',config('app.pagination_count')));
     }
 
     public function store($request): bool

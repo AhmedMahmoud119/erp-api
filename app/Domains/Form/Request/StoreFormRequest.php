@@ -14,7 +14,8 @@ class StoreFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required',
+            'title.ar' => 'required',
+            'title.en' => 'required',
             'module_id' => 'required|exists:modules,id',
             'module_id.*' => 'required|exists:modules,id'
         ];

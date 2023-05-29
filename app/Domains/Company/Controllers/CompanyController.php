@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
-    public function __construct(private CompanyService $tenantService)
+    public function __construct(private CompanyService $companyService)
     {
     }
 
@@ -22,14 +22,14 @@ class CompanyController extends Controller
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCompany::view_companies->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return  CompanyResource::collection($this->tenantService->list());
+        return  CompanyResource::collection($this->companyService->list());
     }
 
     public function delete($id)
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCompany::delete_company->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $this->tenantService->delete($id);
+        $this->companyService->delete($id);
         return response()->json([
             'message' => __('messages.deleted_successfully'),
             'status' => true,
@@ -40,14 +40,14 @@ class CompanyController extends Controller
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCompany::view_companies->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new CompanyResource($this->tenantService->findById($id));
+        return new CompanyResource($this->companyService->findById($id));
     }
 
     public function create(StoreCompanyRequest $request)
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCompany::create_company->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $this->tenantService->create($request);
+        $this->companyService->create($request);
         return response()->json([
             'message' => __('messages.created_successfully'),
             'status' => true,
@@ -58,7 +58,7 @@ class CompanyController extends Controller
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCompany::edit_company->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $this->tenantService->update($id, $request);
+        $this->companyService->update($id, $request);
         return response()->json([
             'message' => __('messages.updated_successfully'),
             'status' => true,
