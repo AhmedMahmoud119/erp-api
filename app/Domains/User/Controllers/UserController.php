@@ -44,6 +44,7 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request)
     {
+//        return $request->status;
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionUser::create_user->value,'api'),Response::HTTP_FORBIDDEN, '403 Forbidden');
 
        $this->userService->store($request);

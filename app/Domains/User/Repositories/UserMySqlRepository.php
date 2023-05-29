@@ -45,7 +45,7 @@ class UserMySqlRepository implements UserRepositoryInterface
     public function store($request): bool
     {
         $password = Str::random(10);
-        $user = $this->user::create($request->except('password') + ['creator_id' => auth()->user()->id, 'password' => $password]);
+        $user = $this->user::create($request->except('password') + ['creator_id' => auth()->user()->id, 'password' => $password,'status' => $request->status]);
         $user->roles()->sync($request->role_id);
         $subject = "Your Password For Your Email";
         $email = $request->email;
