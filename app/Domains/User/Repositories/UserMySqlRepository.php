@@ -27,7 +27,7 @@ class UserMySqlRepository implements UserRepositoryInterface
                 $q->where('name', 'like', '%' . request()->search . '%')
                     ->orwhere('category', 'like', '%' . request()->search . '%');
             }
-        )->paginate(request('limit', config('app.pagination_count')));
+        )->with('roles')->paginate(request('limit', config('app.pagination_count')));
     }
 
     public function findById($id)

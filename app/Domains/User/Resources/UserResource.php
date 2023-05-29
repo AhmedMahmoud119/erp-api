@@ -18,12 +18,9 @@ class UserResource extends JsonResource
             'status' => $this->status,
             'parent' => $this->parent->name ?? '',
             'parent_id' => $this->parent_id,
-            'role' => $this->whenLoaded('role', function () {
-                return $this->role->name ?? '';
-            }),
-            'role_id' => $this->whenLoaded('role', function () {
-                return $this->role->id ?? '';
-            }),
+            'role' =>  $this->roles->first()->name ?? '',
+            'role_id' =>  $this->roles->first()->id ?? '',
+
         ];
     }
 }
