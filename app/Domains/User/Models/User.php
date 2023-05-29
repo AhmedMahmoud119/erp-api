@@ -28,7 +28,7 @@ class User extends Authenticatable
         'parent_id',
         'creator_id',
     ];
-    protected $appends = ['role'];
+//    protected $appends = ['role'];
     
     /**
      * The attributes that should be hidden for serialization.
@@ -74,9 +74,9 @@ class User extends Authenticatable
     }
 
 
-    public function getRoleAttribute() {
-        return $this->roles()->first();
-    }
-    
+//    public function getRoleAttribute() {
+//        return $this->roles()->first();
+//    }
+//
 
 }
