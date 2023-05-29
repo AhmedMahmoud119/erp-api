@@ -65,7 +65,11 @@ class FieldMySqlRepository implements FieldRepositoryInterface
 
     public function delete(int $id): bool
     {
-        $this->field::findOrFail($id)?->delete();
+        $field = $this->field::findOrFail($id);
+        if ($field->formField->count() > 0) {
+            return false;
+        }
+        $field->delete();
 
         return true;
     }
