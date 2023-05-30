@@ -72,6 +72,7 @@ class TenantMySqlRepository implements TenantRepositoryInterface
             'status' => $request->status ?? $tenant->status,
             'industry_type' => $request->industry_type ?? $tenant->industry_type,
             'assigned_id' => $request->assigned_id ?? $tenant->assigned_id,
+            'plan' => $request->plan ?? $tenant->plan,
 
         ]);
 
