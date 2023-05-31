@@ -34,7 +34,8 @@ class RoleMySqlRepository implements RoleRepositoryInterface
                 $q->where('name', 'like', '%' . request()->search . '%');
             })->with(['permissions' => function ($query) {
                 $query->select('id', 'name');
-            }])->with('users')->paginate(request('limit',config('app.pagination_count')));
+            }])->with('users')->get();
+//            ->paginate(request('limit',config('app.pagination_count')));
     }
 
     public function store($request): bool
