@@ -4,7 +4,7 @@ namespace App\Domains\Field\Request;
 
 use App\Domains\Field\Models\EnumFieldTypes;
 use App\Domains\Field\Models\EnumSomeRequirements;
-use App\Domains\Field\Rules\LangKeysRule;
+//use App\Domains\Field\Rules\LangKeysRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use \Illuminate\Validation\Rule;
@@ -19,20 +19,15 @@ class UpdateFieldRequest extends FormRequest
     public function rules(Request $request)
     {
         return [
-            'title' => [new LangKeysRule],
             'title.en' => ['required'],
             'title.ar' => ['required'],
 
             'type' => ['required', Rule::in(array_column(EnumFieldTypes::cases(), 'value'))],
             'some_requirements.*' => [Rule::in(array_column(EnumSomeRequirements::cases(), 'value'))],
             'options.ar' => ['required_if:type,' . EnumFieldTypes::checkbox->value . ',' . EnumFieldTypes::radioButton->value
-                . ',' . EnumFieldTypes::rating->value . ',' . EnumFieldTypes::dropdown->value . ',' . EnumFieldTypes::toggleSwitch->value
-                ,new LangKeysRule],
+                . ',' . EnumFieldTypes::rating->value . ',' . EnumFieldTypes::dropdown->value . ',' . EnumFieldTypes::toggleSwitch->value],
             'options.en' => ['required_if:type,' . EnumFieldTypes::checkbox->value . ',' . EnumFieldTypes::radioButton->value
-                . ',' . EnumFieldTypes::rating->value . ',' . EnumFieldTypes::dropdown->value . ',' . EnumFieldTypes::toggleSwitch->value
-                ,new LangKeysRule],
-
-
+                . ',' . EnumFieldTypes::rating->value . ',' . EnumFieldTypes::dropdown->value . ',' . EnumFieldTypes::toggleSwitch->value],
         ];
 
     }

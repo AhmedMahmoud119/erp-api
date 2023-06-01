@@ -1,0 +1,73 @@
+<?php
+
+namespace App\Domains\BankAccount\Controllers;
+
+
+use App\Domains\BankAccount\Models\BankAccount;
+use App\Domains\BankAccount\Models\EnumPermissionBankAccount;
+use App\Domains\BankAccount\Request\StoreBankAccountRequest;
+use App\Domains\BankAccount\Request\UpdateBankAccountRequest;
+use App\Domains\BankAccount\Resources\BankAccountResource;
+use App\Domains\BankAccount\Services\BankAccountService;
+use App\Http\Controllers\Controller;
+use Symfony\Component\HttpFoundation\Response;
+
+use Illuminate\Http\Request;
+
+class BankAccountController extends Controller
+{
+    public function __construct(private BankAccountService $bankAccountService)
+    {
+    }
+
+    public function list()
+    {
+
+//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::view_bankAccounts->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return  BankAccountResource::collection($this->bankAccountService->list());
+    }
+
+    public function delete($id)
+    {
+//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::delete_bankAccount->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $this->bankAccountService->delete($id);
+        return response()->json([
+            'message' => __('messages.deleted_successfully'),
+            'status' => true,
+        ], 200);
+    }
+
+    public function findById($id)
+    {
+//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::view_bankAccounts->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return new BankAccountResource($this->bankAccountService->findById($id));
+    }
+
+    public function create(StoreBankAccountRequest $request)
+    {
+
+//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::create_bankAccount->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $this->bankAccountService->create($request);
+        return response()->json([
+            'message' => __('messages.created_successfully'),
+            'status' => true,
+        ], 200);
+    }
+
+    public function update($id, UpdateBankAccountRequest $request)
+    {
+
+//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::edit_bankAccount->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $this->bankAccountService->update($id, $request);
+        return response()->json([
+            'message' => __('messages.updated_successfully'),
+            'status' => true,
+        ], 200);
+    }
+
+}

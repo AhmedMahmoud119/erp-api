@@ -98,7 +98,7 @@ class UserController extends Controller
                'status' => true,
                'message' => __('messages.successfully_logged_in'),
                'token' => $user->createToken("API TOKEN", ['remember'])->plainTextToken,
-               'role'=>RolePermissionsResource::collection($user->roles)
+//               'role'=>new RolePermissionsResource($user->roles->first())
            ], 200);
        }
         return response()->json([

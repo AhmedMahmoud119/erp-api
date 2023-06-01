@@ -25,7 +25,7 @@ return new class extends Migration
             $table->date('from')->nullable();
             $table->date('to')->nullable();
             $table->string('default')->default('0'); // 0   , 1
-            $table->foreignId('creator_id')->references('id')->on('users')->nullable();
+            $table->foreignId('creator_id')->references('id')->on('users');
             $table->timestamps();
             $table->softDeletes();
 

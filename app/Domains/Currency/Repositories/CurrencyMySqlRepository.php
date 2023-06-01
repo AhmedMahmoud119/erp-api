@@ -2,7 +2,7 @@
 
 namespace App\Domains\Currency\Repositories;
 
-use App\Domains\currency\Interfaces\CurrencyRepositoryInterface;
+use App\Domains\Currency\Interfaces\CurrencyRepositoryInterface;
 use App\Domains\Currency\Models\Currency;
 use App\Domains\Currency\Models\EnumCurrencies;
 use Illuminate\Database\Eloquent\Collection;
