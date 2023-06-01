@@ -30,11 +30,15 @@ class FormMySqlRepository implements FormRepositoryInterface
 
     public function list(): Collection
     {
-        return $this->form::with([
+        $forms = $this->form::with([
             'formVersions' => function ($query) {
                 $query->orderBy('updated_at', 'desc')->select(['form_id', 'updated_at as last_update']);
             },
-        ])->select(['id', 'title'])->withCount('formVersions')->get();
+        ])
+//            ->select(['id', 'title'])
+            ->withCount('formVersions')->get();
+
+        return FormResource::collection($forms);
     }
 
     public function viewResponses($id, $request)
