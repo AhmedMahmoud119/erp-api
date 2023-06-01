@@ -20,7 +20,7 @@ class FormFieldsResource extends JsonResource
             'title' => $this->field->getTranslations('title')??null,
             'type' => $this->field->type??null,
             'some_requirements' => $this->field->some_requirements??null,
-            'options' => $this->field->options??null,
+            'options' => $this->field->getTranslations('options')??null,
 
         ];
     }
