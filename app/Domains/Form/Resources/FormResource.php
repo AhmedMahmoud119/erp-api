@@ -13,7 +13,7 @@ class FormResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'last_version_id' => $this->last_version_id,
-            'update_at' => $this->update_at?->format('Y-m-d'),
+            'updated_at' => $this->updated_at?->format('Y-m-d'),
             'form_versions'=> FormVersionsResource::collection($this->formVersions),
 
 

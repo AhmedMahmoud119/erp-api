@@ -28,11 +28,13 @@ class FormMySqlRepository implements FormRepositoryInterface
         return $this->form::findOrFail($id);
     }
 
-    public function list(): Collection
+    public function list()
     {
         $forms = $this->form::with([
             'formVersions' => function ($query) {
-                $query->orderBy('updated_at', 'desc')->select(['form_id', 'updated_at as last_update']);
+                $query->orderBy('updated_at', 'desc')
+//                    ->select(['form_id', 'updated_at as last_update'])
+                ;
             },
         ])
 //            ->select(['id', 'title'])
