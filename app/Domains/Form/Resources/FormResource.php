@@ -11,9 +11,10 @@ class FormResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
+            'title' => $this->getTranslations('title'),
             'last_version_id' => $this->last_version_id,
             'updated_at' => $this->updated_at?->format('Y-m-d'),
+            'version_count' => $this->formVersions->count(),
             'form_versions'=> FormVersionsResource::collection($this->formVersions),
 
 
