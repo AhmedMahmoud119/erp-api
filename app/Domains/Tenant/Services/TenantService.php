@@ -29,7 +29,7 @@ class TenantService
 
     public function create($request)
     {
-        Mail::to($request->email)->send(new SendPassword($request->password??123456));
+//        Mail::to($request->email)->send(new SendPassword($request->password??123456));
         return $this->tenantRepository->store($request);
     }
 
