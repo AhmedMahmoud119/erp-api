@@ -4,9 +4,8 @@ namespace App\Domains\BankAccount\Repositories;
 
 use App\Domains\BankAccount\Interfaces\BankAccountRepositoryInterface;
 use App\Domains\BankAccount\Models\BankAccount;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\Eloquent\Collection;
-
-
 use carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -100,7 +99,22 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
         return true;
     }
 
+    public function generatePDF()
+    {
+        $bankaccounts = BankAccount::get();
 
+        $data = [
+            'title' => 'Bank Accounts List',
+            'date' => date('m/d/Y'),
+            'bankaccounts' => $bankaccounts
+        ];
+
+        $pdf = PDF::loadView('myPDF', $data);
+
+        return $pdf->download('itsolutionstuff.pdf');
+
+
+    }
 
 
 

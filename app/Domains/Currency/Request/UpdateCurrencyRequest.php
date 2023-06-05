@@ -18,8 +18,7 @@ class UpdateCurrencyRequest extends FormRequest
     {
         return [
             'name' => 'required|regex:/^[a-zA-Z\s]*$/',
-            'code' => ['required','alpha','min:3','max:3',Rule::unique('currencies')->ignore(request()->id),Rule::in(array_column(EnumCurrencies::cases(), 'value'))],
-            'symbol' => ['max:3',Rule::unique('currencies')->ignore(request()->id)],
+            'code' => ['required','exists:currency,code'],
             'price_rate' => ['required', Rule::in(['Custom', 'Official'])],
             'backup_changes' => ['required_if:price_rate,Official', Rule::in(['Custom', '12_pm_every_day', '12_am_every_day', '24_hours_per_day'])],
             'price' => 'required_if:price_rate,Custom',

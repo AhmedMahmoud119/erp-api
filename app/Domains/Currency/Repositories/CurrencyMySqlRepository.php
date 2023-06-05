@@ -12,6 +12,7 @@ use Guzzle\Http\Exception\ClientErrorResponseException;
 
 use carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CurrencyMySqlRepository implements CurrencyRepositoryInterface
 {
@@ -48,7 +49,7 @@ class CurrencyMySqlRepository implements CurrencyRepositoryInterface
             ->when(request()->creator_id,function ($q){
                 $q->where('creator_id',request()->creator_id );
             })->with('creator')
-            ->orderBy('name', 'asc')->paginate(request('limit',config('app.pagination_count')));
+            ->orderBy('name', 'asc')->get();
     }
     public function findById(string $id) :Currency
     {
@@ -57,10 +58,11 @@ class CurrencyMySqlRepository implements CurrencyRepositoryInterface
 
     public function store($request,$price):bool
     {
+       $code=DB::table('currency')->where('code','=',$request->code )->first();
             $this->currency::create([
-                'name' => $request->name ,
+                'name' =>$request->name,
                 'code' => $request->code ,
-                'symbol' => $request->symbol ,
+                'symbol' => $code->symbol ,
                 'price_rate' => $request->price_rate ,
                 'default' => 0,
                 'creator_id' => auth()->user()->id ,
@@ -77,15 +79,16 @@ class CurrencyMySqlRepository implements CurrencyRepositoryInterface
     {
 
         $currency = $this->currency::findOrFail($id);
+        $code=DB::table('currency')->where('code','=',$request->code )->first();
         $default=$request->default;
         if($default=='1'){
             Currency::where("id","!=",$id)
                 ->update(["default" => 0]);
         }
             $currency->update([
-                'name' => $request->name ,
+                'name' =>$request->name,
                 'code' => $request->code ,
-                'symbol' => $request->symbol ,
+                'symbol' => $code->symbol ,
                 'price_rate' => $request->price_rate ,
                 'default' => $request->default,
                 'creator_id' => auth()->user()->id ,

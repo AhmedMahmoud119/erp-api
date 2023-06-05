@@ -23,14 +23,14 @@ class BankAccountController extends Controller
     public function list()
     {
 
-//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::view_bankAccounts->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::view_bankAccounts->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return  BankAccountResource::collection($this->bankAccountService->list());
     }
 
     public function delete($id)
     {
-//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::delete_bankAccount->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::delete_bankAccount->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->bankAccountService->delete($id);
         return response()->json([
@@ -41,7 +41,7 @@ class BankAccountController extends Controller
 
     public function findById($id)
     {
-//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::view_bankAccounts->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::view_bankAccounts->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new BankAccountResource($this->bankAccountService->findById($id));
     }
@@ -49,7 +49,7 @@ class BankAccountController extends Controller
     public function create(StoreBankAccountRequest $request)
     {
 
-//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::create_bankAccount->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::create_bankAccount->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->bankAccountService->create($request);
         return response()->json([
@@ -61,13 +61,27 @@ class BankAccountController extends Controller
     public function update($id, UpdateBankAccountRequest $request)
     {
 
-//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::edit_bankAccount->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::edit_bankAccount->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->bankAccountService->update($id, $request);
         return response()->json([
             'message' => __('messages.updated_successfully'),
             'status' => true,
         ], 200);
+    }
+    public function generatePDF()
+    {
+
+
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::generatePDF_bankAccounts->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return $this->bankAccountService->generatePDF();
+    }
+    public function export()
+    {
+//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::export_bankAccounts->value,'api'),Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return $this->bankAccountService->export();
     }
 
 }
