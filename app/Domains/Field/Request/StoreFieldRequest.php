@@ -33,8 +33,6 @@ class StoreFieldRequest extends FormRequest
 
             'options.*.*' => ['required_if:type,' . EnumFieldTypes::checkbox->value . ',' . EnumFieldTypes::radioButton->value
                 . ',' . EnumFieldTypes::rating->value . ',' . EnumFieldTypes::dropdown->value . ',' . EnumFieldTypes::toggleSwitch->value]
-
-
         ];
     }
 

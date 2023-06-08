@@ -23,7 +23,7 @@ class CurrencyMySqlRepository implements CurrencyRepositoryInterface
     public function list()
     {
         return $this->currency::when(request()->sort_by, function ($q) {
-            if (in_array(request()->sort_by, ['name', 'code', 'symbol','price', 'creator_id', 'creator_at', 'price_rate'])) {
+            if (in_array(request()->sort_by, ['name', 'code', 'symbol','price', 'created_at', 'price_rate'])) {
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
             }
             $q->orderBy('name', 'asc');
@@ -35,7 +35,14 @@ class CurrencyMySqlRepository implements CurrencyRepositoryInterface
                     ->orwhere('price_rate','like','%' . request()->search . '%')
                     ->orwhere('price','like','%' . request()->search . '%');
 
-            })  ->when(request()->name,function ($q){
+            })
+            ->when(request()->from, function ($q) {
+            $q->whereDate('created_at', '>=', request()->from);
+            })
+            ->when(request()->to, function ($q) {
+            $q->whereDate('created_at', '<=', request()->to);
+            })
+            ->when(request()->name,function ($q){
             $q->where('name',request()->name );
              })
             ->when(request()->code,function ($q){
@@ -49,7 +56,8 @@ class CurrencyMySqlRepository implements CurrencyRepositoryInterface
             ->when(request()->creator_id,function ($q){
                 $q->where('creator_id',request()->creator_id );
             })->with('creator')
-            ->orderBy('name', 'asc')->get();
+//            ->orderBy('name', 'asc')
+            ->get();
     }
     public function findById(string $id) :Currency
     {
@@ -58,13 +66,15 @@ class CurrencyMySqlRepository implements CurrencyRepositoryInterface
 
     public function store($request,$price):bool
     {
-       $code=DB::table('currency')->where('code','=',$request->code )->first();
-            $this->currency::create([
+        $code=DB::table('currency')->where('code','=',$request->code )->first();
+        $currencies =  Currency::get() ;
+
+        $this->currency::create([
                 'name' =>$request->name,
                 'code' => $request->code ,
                 'symbol' => $code->symbol ,
                 'price_rate' => $request->price_rate ,
-                'default' => 0,
+                'default' =>   count($currencies)===0?1:0,
                 'creator_id' => auth()->user()->id ,
                 'price' => $price,
                 'backup_changes' => $request->price_rate==='Official'?$request->backup_changes:null,
@@ -84,6 +94,9 @@ class CurrencyMySqlRepository implements CurrencyRepositoryInterface
         if($default=='1'){
             Currency::where("id","!=",$id)
                 ->update(["default" => 0]);
+        }
+        if($default=='0'&&$currency->default=='1'){
+            return false;
         }
             $currency->update([
                 'name' =>$request->name,

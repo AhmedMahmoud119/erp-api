@@ -26,6 +26,7 @@ class CurrencyController extends Controller
     public function list()
     {
 
+
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCurrency::view_currencies->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return  CurrencyResource::collection($this->currencyService->list());
@@ -66,11 +67,17 @@ class CurrencyController extends Controller
 
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCurrency::edit_currency->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $this->currencyService->update($id, $request);
+        $currency=$this->currencyService->update($id, $request);
+        if($currency==true){
         return response()->json([
             'message' => __('messages.updated_successfully'),
             'status' => true,
-        ], 200);
+        ], 200);}
+        return response()->json([
+            'message' => __('can not update because must be at least one currency as a default'),
+            'status' => false,
+        ], 422);
+
     }
     public function getCodes()
     {
