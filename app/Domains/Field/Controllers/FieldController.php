@@ -29,11 +29,17 @@ class FieldController extends Controller
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionField::delete_field->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $this->fieldService->delete($id);
-        return response()->json([
-            'message' => __('messages.deleted_successfully'),
-            'status' => true,
-        ], 200);
+        if ($this->fieldService->delete($id)) {
+            return response()->json([
+                'message' => __('messages.deleted_successfully'),
+                'status' => true,
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => __('messages.cant_delete_its_belongs_to_form')
+            ],401);
+        }
+
     }
 
     public function findById($id)
@@ -66,7 +72,7 @@ class FieldController extends Controller
         } else {
             return response()->json([
                 'message' => __('messages.cant_update_its_belongs_to_form')
-            ]);
+            ],401);
         }
     }
 
