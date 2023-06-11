@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Domains\BankAccount\Models\EnumPermissionBankAccount;
 use App\Domains\Company\Models\EnumPermissionCompany;
 use App\Domains\Currency\Models\EnumPermissionCurrency;
 use App\Domains\Field\Models\EnumPermissionField;
@@ -35,8 +36,8 @@ class PermissionsTableSeeder extends Seeder
             'Accountant' => [
 
                 'Currency' => array_column(EnumPermissionCurrency::cases(), 'value'),
-
-//                'Tax' => array_column(EnumPermissionTax::cases(), 'value'),
+                'BankAccount' => array_column(EnumPermissionBankAccount::cases(), 'value'),
+                'Tax' => array_column(EnumPermissionTax::cases(), 'value'),
             ]
         ];
 

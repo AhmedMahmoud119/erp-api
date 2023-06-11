@@ -32,7 +32,7 @@ class CurrencyService
     {
         if($request->price_rate=='Official') {
             $from = $request->code;
-            $res= Http::get("https://free.currconv.com/api/v7/convert?q=".$from."_EGP&compact=ultra&apiKey=4e169e31d96998e3238f");
+            $res= Http::get("https://free.currconv.com/api/v7/convert?q=".$from."_EGP&compact=".config('key.compact')."&apiKey=".config('key.apiKey'));
 //            https://api.fastforex.io/fetch-multi?from=$from&to=EGP&api_key=fbfbb16c96-732ab3eb69-rut2z7
             $price=$res[$from.'_EGP'];
 

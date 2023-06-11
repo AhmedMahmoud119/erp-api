@@ -28,6 +28,8 @@ class UpdateFieldRequest extends FormRequest
                 . ',' . EnumFieldTypes::rating->value . ',' . EnumFieldTypes::dropdown->value . ',' . EnumFieldTypes::toggleSwitch->value],
             'options.en' => ['required_if:type,' . EnumFieldTypes::checkbox->value . ',' . EnumFieldTypes::radioButton->value
                 . ',' . EnumFieldTypes::rating->value . ',' . EnumFieldTypes::dropdown->value . ',' . EnumFieldTypes::toggleSwitch->value],
+            'options.*.*' => ['required_if:type,' . EnumFieldTypes::checkbox->value . ',' . EnumFieldTypes::radioButton->value
+                . ',' . EnumFieldTypes::rating->value . ',' . EnumFieldTypes::dropdown->value . ',' . EnumFieldTypes::toggleSwitch->value]
         ];
 
     }

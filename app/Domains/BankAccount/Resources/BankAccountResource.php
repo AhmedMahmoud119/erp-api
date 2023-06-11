@@ -21,6 +21,7 @@ class BankAccountResource extends JsonResource
             'created_at'=>$this->created_at,
             'opening_balance'=>$this->opening_balance,
             'current_balance'=>$this->current_balance,
+            'status'=>$this->status,
             'authorized_by' => $this->getTranslations('authorized_by')??null,
 
         ];

@@ -25,4 +25,6 @@ Route::prefix('user')->group(function() {
     Route::post('/change-password', [\App\Domains\User\Controllers\UserController::class, 'updatePassword']);
     Route::get('/data/export', [\App\Domains\User\Controllers\UserController::class, 'export']);
 
+
 });
+

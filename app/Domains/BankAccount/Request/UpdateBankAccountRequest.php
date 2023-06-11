@@ -16,14 +16,14 @@ class UpdateBankAccountRequest extends FormRequest
     public function rules(Request $request)
     {
         return [
-            'name' => 'required|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
+            'name' => 'required|regex:'.config('regex'),
             'account_number' => ['required',Rule::unique('bank_accounts')->ignore(request()->id)],
-            'holder_name' => 'regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
+            'holder_name' => 'regex:'.config('regex'),
 //            'account_type' => 'required',
 //            'chart_of_account' => 'required',
             'currency_id' => 'exists:currencies,id',
             'opening_balance' => 'required|numeric',
-            'authorized_by.*' => 'regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
+            'authorized_by.*' => 'regex:'.config('regex'),
 
 
         ];
