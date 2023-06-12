@@ -16,8 +16,10 @@ class StoreTaxRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'code' => 'required',
+            'code' => 'required|unique:taxes',
             'percentage' => 'required|numeric',
+            'modules.*' => 'nullable|exists:modules,id',
+
         ];
     }
     public function messages()

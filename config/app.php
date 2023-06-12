@@ -215,6 +215,7 @@ return [
         App\Domains\Currency\Providers\CurrencyServiceProvider::class,
         App\Domains\Tax\Providers\TaxServiceProvider::class,
         App\Domains\BankAccount\Providers\BankAccountServiceProvider::class,
+        App\Domains\FinancialPeriod\Providers\FinancialPeriodServiceProvider::class,
 
 
 

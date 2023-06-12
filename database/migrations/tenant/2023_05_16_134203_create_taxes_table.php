@@ -18,9 +18,10 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->string('name');
             $table->decimal('percentage', 5, 2);
-            
+
             $table->unsignedBigInteger('creator_id');
             $table->foreign('creator_id')->references('id')->on('users');
+
 
             $table->timestamps();
             $table->softDeletes();
