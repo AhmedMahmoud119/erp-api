@@ -17,10 +17,6 @@ class CompanyResource extends JsonResource
             'tenant_name'=>$this->tenant->name,
             'creator'=>$this->creator->name,
 
-
-
-
-
         ];
     }
 }

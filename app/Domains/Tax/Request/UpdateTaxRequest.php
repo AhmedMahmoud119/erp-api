@@ -17,8 +17,10 @@ class UpdateTaxRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'code' => 'required',
+            'code' => ['required',Rule::unique('taxes')->ignore(request()->id)],
             'percentage' => 'required|numeric',
+            'modules.*' => 'nullable|exists:modules,id',
+
         ];
     }
     public function messages()

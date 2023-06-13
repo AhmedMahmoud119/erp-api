@@ -32,18 +32,21 @@ class TaxMySqlRepository implements TaxRepositoryInterface
             }
             $q->orderBy('id', 'asc');
         })
-        ->with('creator')
-        ->paginate(request('limit',config('app.pagination_count')));
+            ->with('creator')
+            ->paginate(request('limit', config('app.pagination_count')));
     }
 
     public function store($request): bool
     {
-        $this->tax::create([
+        $tax = $this->tax::create([
             'code' => $request->code,
             'name' => $request->name,
             'percentage' => $request->percentage,
-            'creator_id' => Auth::user()->id
+            'creator_id' => Auth::user()->id,
         ]);
+        $modules = $request->modules;
+        $tax->modules()->attach($modules);
+
         return true;
     }
 
@@ -55,7 +58,8 @@ class TaxMySqlRepository implements TaxRepositoryInterface
             'name' => $request->name ?? $tax->name,
             'percentage' => $request->percentage ?? $tax->percentage,
         ]);
-
+        $modules = $request->modules;
+        $tax->modules()->sync($modules);
         return true;
     }
 

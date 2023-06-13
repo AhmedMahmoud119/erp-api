@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use App\Domains\User\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Database\Seeders\TaxSeeder;
+use Database\Seeders\FinancialPeriodSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,10 +23,12 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('123456'),
         ]);
 
-        $this->call(
+        $this->call([
             PermissionsTableSeeder::class,
-//             TaxSeeder::class
-        );
+            // TaxTableSeeder::class,
+            FinancialPeriodSeeder::class,
+            // TaxSeeder::class,
+        ]);
 
         $user->roles()->sync([1]);
     }

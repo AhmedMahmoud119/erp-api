@@ -14,22 +14,22 @@ use Illuminate\Http\Request;
 
 class TaxController extends Controller
 {
-    public function __construct(private TaxService $tenantService)
+    public function __construct(private TaxService $taxService)
     {
     }
 
     public function list()
     {
-        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionTax::view_taxes->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        // abort_if(!auth()->user()->hasPermissionTo(EnumPermissionTax::view_taxes->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return  TaxResource::collection($this->tenantService->list());
+        return  TaxResource::collection($this->taxService->list());
     }
 
     public function delete($id)
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionTax::delete_tax->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $this->tenantService->delete($id);
+        $this->taxService->delete($id);
         return response()->json([
             'message' => __('messages.deleted_successfully'),
             'status' => true,
@@ -40,14 +40,14 @@ class TaxController extends Controller
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionTax::view_taxes->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new TaxResource($this->tenantService->findById($id));
+        return new TaxResource($this->taxService->findById($id));
     }
 
     public function create(StoreTaxRequest $request)
     {
-        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionTax::create_tax->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        // abort_if(!auth()->user()->hasPermissionTo(EnumPermissionTax::create_tax->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $this->tenantService->create($request);
+        $this->taxService->create($request);
         return response()->json([
             'message' => __('messages.created_successfully'),
             'status' => true,
@@ -58,7 +58,7 @@ class TaxController extends Controller
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionTax::edit_tax->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $this->tenantService->update($id, $request);
+        $this->taxService->update($id, $request);
         return response()->json([
             'message' => __('messages.updated_successfully'),
             'status' => true,

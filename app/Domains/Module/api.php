@@ -15,4 +15,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => 'auth:sanctum','prefix' => 'module'],function (){
+    Route::get('/', [\App\Domains\Module\Controllers\ModuleController::class, 'index']);
+
 });

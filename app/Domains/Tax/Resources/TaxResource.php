@@ -2,6 +2,7 @@
 
 namespace App\Domains\Tax\Resources;
 
+use App\Domains\Module\Resources\ModuleResource;
 use App\Domains\User\Resources\UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,7 +18,8 @@ class TaxResource extends JsonResource
             'percentage'=>$this->percentage,
             'created_at'=>$this->created_at->format('Y-m-d H:i'),
             'updated_at'=>$this->updated_at->format('Y-m-d H:i'),
-            'creator'=>UserResource::make($this->whenLoaded('creator'))
+            'creator'=>$this->creator->name??null,
+            'modules'=>ModuleResource::collection($this->modules),
         ];
     }
 }

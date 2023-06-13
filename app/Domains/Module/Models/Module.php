@@ -21,4 +21,8 @@ class Module extends Model
     {
         return $this->belongsToMany(FormModule::class,'form_modules','module_id','form_id');
     }
+    public function taxes()
+    {
+        return $this->belongsToMany(Tax::class,'tax_modules');
+    }
 }
