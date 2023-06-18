@@ -90,7 +90,7 @@ class CurrencyMySqlRepository implements CurrencyRepositoryInterface
                 'price_rate' => $request->price_rate ,
                 'default' => $request->default,
                 'creator_id' => auth()->user()->id ,
-                'price' => $price,
+                'price' => round($price,2),
                 'backup_changes' => $request->price_rate==='Official'?$request->backup_changes:null,
                 'from' => $request->backup_changes==='Custom'?$request->from:null,
                 'to' => $request->backup_changes==='Custom'?$request->to:null,
