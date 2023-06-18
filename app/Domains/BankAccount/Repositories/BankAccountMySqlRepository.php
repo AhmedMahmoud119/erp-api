@@ -4,7 +4,7 @@ namespace App\Domains\BankAccount\Repositories;
 
 use App\Domains\BankAccount\Interfaces\BankAccountRepositoryInterface;
 use App\Domains\BankAccount\Models\BankAccount;
-use Barryvdh\DomPDF\Facade\Pdf;
+use PDF;
 use Illuminate\Database\Eloquent\Collection;
 use carbon\Carbon;
 use Illuminate\Http\Request;
@@ -18,7 +18,7 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
     public function list()
     {
         return $this->bankAccount::when(request()->sort_by, function ($q) {
-            if (in_array(request()->sort_by, ['id','name', 'account_number', 'holder_name','account_type', 'chart_of_account', 'currency_id', 'opening_balance','creator_id','created_at'])) {
+            if (in_array(request()->sort_by, ['id','name', 'account_number', 'holder_name','account_type', 'chart_of_account', 'currency_id', 'opening_balance','current_balance','creator_id','created_at'])) {
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
             }
             $q->orderBy('name', 'asc');
@@ -34,14 +34,22 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
             $q->where('name',request()->name );
              })
             ->when(request()->from, function ($q) {
-                $q->whereDate('created_at', '>=', request()->date_from);
+                $q->whereDate('created_at', '>=', request()->from);
             })->when(request()->to, function ($q) {
-                $q->whereDate('created_at', '<=', request()->date_to);
+                $q->whereDate('created_at', '<=', request()->to);
+            })
+            ->when(request()->balance_from, function ($q) {
+                $q->where('opening_balance', '>=', request()->balance_from);
+            })->when(request()->balance_to, function ($q) {
+                $q->where('opening_balance', '<=', request()->opening_balance);
+            })
+            ->when(request()->status, function ($q) {
+                $q->where('status', '=', request()->status);
             })
             ->when(request()->creator_id,function ($q){
                 $q->where('creator_id',request()->creator_id );
             })->with('creator')
-            ->orderBy('name', 'asc')->paginate(request('limit',config('app.pagination_count')));
+            ->orderBy('name', 'asc')->get();
     }
     public function findById(string $id) :BankAccount
     {
@@ -50,13 +58,15 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
 
     public function store($request):bool
     {
-        $bankAccount=$this->bankAccount::create([
+        $this->bankAccount::create([
             'name' => $request->name ,
             'account_number' => $request->account_number ,
             'holder_name' => $request->holder_name ,
             'account_type' => $request->account_type ,
             'chart_of_account' => $request->chart_of_account,
             'currency_id' => $request->currency_id,
+            'opening_balance'=>$request->opening_balance,
+            'current_balance'=>$request->opening_balance,
             'authorized_by' => $request->authorized_by,
             'creator_id' => auth()->user()->id ,
 
@@ -73,15 +83,16 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
 
             $bankAccount->update([
                 'name' => $request->name ,
-                'account_number' => $request->account_number ,
-                'holder_name' => $request->holder_name ,
+                'account_number' => $request->account_number,
+                'holder_name' => $request->holder_name,
                 'account_type' => $request->account_type ,
+                'authorized_by' => $request->authorized_by,
                 'chart_of_account' => $request->chart_of_account,
+                'current_balance'=>$request->current_balance,
                 'currency_id' => $request->currency_id,
                 'status' => $request->status,
-                'creator_id' => auth()->user()->id ,
             ]);
-             $bankAccount->users()->sync($request->authorized_by);
+
 
 
         return true;
@@ -89,13 +100,8 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
 
     public function delete(string $id): bool
     {
-        $bankAccount= $this->bankAccount::findOrFail($id);
-        if($bankAccount)
-        {
+         $this->bankAccount::findOrFail($id)->delete();
 
-            $bankAccount->users()->detach();
-            $bankAccount->delete();
-        }
         return true;
     }
 
@@ -110,12 +116,9 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
         ];
 
         $pdf = PDF::loadView('myPDF', $data);
+        $headers = ['Content-Type: application/pdf'];
 
-        return $pdf->download('itsolutionstuff.pdf');
 
-
+        return $pdf->stream('bankAccountsDetailes.pdf');
     }
-
-
-
 }

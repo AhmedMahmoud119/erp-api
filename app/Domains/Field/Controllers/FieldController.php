@@ -31,7 +31,7 @@ class FieldController extends Controller
 
         $this->fieldService->delete($id);
         return response()->json([
-            'message' => __('messages.deleted_successfully'),
+            'message' => __('Deleted Successfully'),
             'status' => true,
         ], 200);
     }
@@ -49,7 +49,7 @@ class FieldController extends Controller
 
         $field = $this->fieldService->create($request);
         return response()->json([
-            'message' => __('messages.created_successfully'),
+            'message' => __('Created Successfully'),
             'status' => true,
             'field' => $field,
         ], 200);
@@ -60,12 +60,12 @@ class FieldController extends Controller
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionField::edit_field->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         if ($this->fieldService->update($id, $request)) {
             return response()->json([
-                'message' => __('messages.updated_successfully'),
+                'message' => __('Updated Successfully'),
                 'status' => true,
             ], 200);
         } else {
             return response()->json([
-                'message' => __('messages.cant_update_its_belongs_to_form')
+                'message' => __('cant update its belongs to form')
             ]);
         }
     }

@@ -38,6 +38,17 @@
 <body>
 <header>
     {{$title}}
+    <table>
+    <tr>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Status</th>
+        <th>opening_balance</th>
+        <th>current_balance</th>
+        <th>Created By</th>
+        <th>Creation Date</th>
+    </tr>
+        </table>
 </header>
 
 <footer>
@@ -54,11 +65,9 @@
         <th>current_balance</th>
         <th>Created By</th>
         <th>Creation Date</th>
-
-
-
     </tr>
     @foreach($bankaccounts as $bankaccount)
+
         <tr>
             <td>{{ $bankaccount->id }}</td>
             <td>{{ $bankaccount->name }}</td>

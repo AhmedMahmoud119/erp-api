@@ -29,7 +29,7 @@ class RoleController extends Controller
 
 
             return response()->json([
-                'message' => __('messages.deleted_successfully'),
+                'message' => __('Deleted Successfully'),
                 'status' => true,
 
             ], 200);
@@ -52,7 +52,7 @@ class RoleController extends Controller
 
         $this->roleService->create($request);
         return response()->json([
-            'message' => __('messages.created_successfully'),
+            'message' => __('Created Successfully'),
             'status' => true,
 
         ], 200);
@@ -60,11 +60,20 @@ class RoleController extends Controller
 
     public function update($id, UpdateRoleRequest $request)
     {
-        $this->roleService->update($id, $request);
-        return response()->json([
-            'message' => __('messages.updated_successfully'),
-            'status' => true,
+        if($this->roleService->update($id, $request))
+        {
+            return response()->json([
+                'message' => __('Updated Successfully'),
+                'status' => true,
 
-        ], 200);
+            ], 200);
+        }
+        return response()->json([
+            'message' => __('can not update super admin role'),
+            'status' => false,
+
+        ], 402);
+
+
     }
 }

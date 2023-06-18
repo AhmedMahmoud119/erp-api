@@ -15,14 +15,14 @@ class StoreBankAccountRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|regex:'.config('regex'),
+            'name' => 'required|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
             'account_number' =>'required|unique:bank_accounts|numeric',
-            'holder_name' => 'regex:'.config('regex'),
+            'holder_name' => 'nullable|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
 //            'account_type' => 'required',
 //            'chart_of_account' => 'required',
-            'currency_id' => 'exists:currencies,id',
+            'currency_id' => 'exists:currencies,id|nullable',
             'opening_balance' => 'required|numeric',
-            'authorized_by.*' => 'regex:'.config('regex'),
+            'authorized_by.*' => 'nullable|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
 
         ];
 
@@ -30,8 +30,16 @@ class StoreBankAccountRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => __('messages.the_name_field_is_required'),
-            'name.regex' => __('messages.The_name_must_only_contain_letters'),
+            'name.required' => __('The name field is required'),
+            'name.regex' => __('The name must only contain letters'),
+            'holder_name.regex' => __('The holder_name must be only contain letters'),
+            'authorized_by.*.regex' => __('The authorized_by.* must be only contain letters'),
+            'currency_id.exists' => __('The currency_id not exist'),
+            'account_number.required' => __('The account_number field is required'),
+            'account_number.numeric' => __('The account_number must be a number'),
+            'account_number.unique' => __('The account_number has already been taken'),
+            'opening_balance.required' => __('The opening_balance field is required'),
+            'opening_balance.numeric' => __('The opening_balance must be a number'),
 
 
         ];

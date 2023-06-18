@@ -27,8 +27,8 @@ class StoreTenantRequest extends FormRequest
     {
         return [
 
-            'name.required' => __('messages.the_name_field_is_required'),
-            'name.regex' => __('messages.The_name_must_only_contain_letters'),
+            'name.required' => __('The name field is required'),
+            'name.regex' => __('The name must only contain letters'),
             'domain.required' => __('messages.The_domain_field_is_required'),
             'domain.unique' => __('messages.The_domain_has_already_been_taken'),
             'email.required' => __('messages.The_email_field_is_required'),
