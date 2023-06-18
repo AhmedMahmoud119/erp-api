@@ -22,9 +22,9 @@ return new class extends Migration
             $table->unsignedBigInteger('edited_by');
             $table->foreign('edited_by')->references('id')->on('users');
 
-            $table->text('old_data');
-            $table->text('new_data');
-            $table->string('reason');
+            $table->text('old_data')->nullable();
+            $table->text('new_data')->nullable();
+            $table->string('reason')->nullable();
 
             $table->softDeletes();
 

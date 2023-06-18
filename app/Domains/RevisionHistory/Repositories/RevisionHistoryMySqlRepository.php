@@ -25,7 +25,10 @@ class RevisionHistoryMySqlRepository implements RevisionHistoryRepositoryInterfa
 
     public function list()
     {
-        return $this->revisionHistory::paginate(request('limit', config('app.pagination_count')));
+        return $this->revisionHistory::
+        when(request()->type, function ($q, $v) {
+            $q->where('revision_historyable_type','LIKE','%'.request()->type.'%');
+        })->paginate(request('limit', config('app.pagination_count')));
     }
 
     public function store($request, $model, $changes): bool
@@ -36,8 +39,9 @@ class RevisionHistoryMySqlRepository implements RevisionHistoryRepositoryInterfa
                 'edited_by'                 => auth()->user()->id,
                 'revision_historyable_type' => $model,
                 'revision_historyable_id'   => $request->id,
-                'old_data'                  => json_encode($changes['old']),
-                'new_data'                  => json_encode($changes['new']),
+                'reason'                    => $request->reason,
+                'old_data'                  => is_array($changes) ? json_encode($changes['old']) : $changes,
+                'new_data'                  => is_array($changes) ? json_encode($changes['new']) : $changes,
             ]);
 
         return true;

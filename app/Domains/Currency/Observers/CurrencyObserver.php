@@ -31,12 +31,18 @@ class CurrencyObserver
 
 
         app(RevisionHistoryService::class)->create(request(),
-            'App\Domains\RevisionHistory\Models\RevisionHistory',$changes);
+            'App\Domains\Currency\Models\Currency',$changes);
 
     }
 
     public function updated(Currency $currency)
     {
+    }
+
+    public function deleting(Currency $currency)
+    {
+        app(RevisionHistoryService::class)->create(request(),
+            'App\Domains\Currency\Models\Currency','Row ' . $currency->id . ' Deleted');
     }
 
     /**

@@ -16,14 +16,14 @@ class UpdateBankAccountRequest extends FormRequest
     public function rules(Request $request)
     {
         return [
-            'name' => 'required|regex:'.config('regex'),
+            'name' => 'required|regex:'.config('key.regex'),
             'account_number' => ['required',Rule::unique('bank_accounts')->ignore(request()->id)],
-            'holder_name' => 'regex:'.config('regex'),
+            'holder_name' => 'regex:'.config('key.regex'),
 //            'account_type' => 'required',
 //            'chart_of_account' => 'required',
             'currency_id' => 'exists:currencies,id',
             'opening_balance' => 'required|numeric',
-            'authorized_by.*' => 'regex:'.config('regex'),
+            'authorized_by.*' => 'regex:'.config('key.regex'),
 
 
         ];

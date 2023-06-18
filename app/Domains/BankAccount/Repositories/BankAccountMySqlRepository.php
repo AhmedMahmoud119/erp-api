@@ -83,7 +83,7 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
                 'status' => $request->status,
                 'creator_id' => auth()->user()->id ,
             ]);
-             $bankAccount->users()->sync($request->authorized_by);
+//             $bankAccount->users()->sync($request->authorized_by);
 
 
         return true;
@@ -95,7 +95,7 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
         if($bankAccount)
         {
 
-            $bankAccount->users()->detach();
+//            $bankAccount->users()->detach();
             $bankAccount->delete();
         }
         return true;
