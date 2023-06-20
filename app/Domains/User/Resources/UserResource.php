@@ -21,7 +21,7 @@ class UserResource extends JsonResource
             'parent_id' => $this->parent_id,
             'role' =>  $this->whenLoaded('roles', ['name' => $this->roles->first()->name ?? '', 'id' => $this->roles->first()->id]),
 
-            'permissions' => $this->whenLoaded('permissions', PermissionsResource::collection($this->getAllPermissions())),
+            'permissions' => $this->whenLoaded('permissions', PermissionsResource::collection($this->permissions)),
 
         ];
     }

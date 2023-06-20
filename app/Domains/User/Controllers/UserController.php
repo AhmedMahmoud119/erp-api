@@ -131,6 +131,7 @@ class UserController extends Controller
     }
     public function me(){
         return UserResource::make($this->userService->me());
+        // return $this->userService->me();
     }
 
 }
