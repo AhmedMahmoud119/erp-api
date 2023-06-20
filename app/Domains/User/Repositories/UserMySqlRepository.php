@@ -113,4 +113,7 @@ class UserMySqlRepository implements UserRepositoryInterface
         });
         return true;
     }
+    public function me(){
+        return auth()->user()->load('roles','permissions');
+    }
 }

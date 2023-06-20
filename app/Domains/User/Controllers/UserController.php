@@ -98,7 +98,7 @@ class UserController extends Controller
                'status' => true,
                'message' => __('messages.successfully_logged_in'),
                'token' => $user->createToken("API TOKEN", ['remember'])->plainTextToken,
-//               'role'=>new RolePermissionsResource($user->roles->first())
+              'user'=>  UserResource::make($user)
            ], 200);
        }
         return response()->json([
@@ -129,6 +129,8 @@ class UserController extends Controller
             'message' =>__('messages.successfully_logged_out'),
         ], 200);
     }
-
+    public function me(){
+        return UserResource::make($this->userService->me());
+    }
 
 }

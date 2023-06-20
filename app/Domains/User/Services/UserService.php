@@ -58,4 +58,7 @@ class UserService
             'file_path' => asset('storage/'.$path)
         ]);
     }
+    public function me(){
+        return $this->userRepository->me();
+    }
 }

@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('user')->group(function() {
     Route::get('/', [\App\Domains\User\Controllers\UserController::class, 'list']);
+    Route::get('/me', [\App\Domains\User\Controllers\UserController::class, 'me']);
     Route::get('/{id}', [\App\Domains\User\Controllers\UserController::class, 'findById']);
     Route::delete('/{id}', [\App\Domains\User\Controllers\UserController::class, 'delete']);
     Route::post('/create', [\App\Domains\User\Controllers\UserController::class, 'store']);
@@ -24,7 +25,5 @@ Route::prefix('user')->group(function() {
     Route::post('/logout', [\App\Domains\User\Controllers\UserController::class, 'logout']);
     Route::post('/change-password', [\App\Domains\User\Controllers\UserController::class, 'updatePassword']);
     Route::get('/data/export', [\App\Domains\User\Controllers\UserController::class, 'export']);
-
-
 });
 
