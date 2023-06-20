@@ -20,6 +20,8 @@ class StoreTenantRequest extends FormRequest
             'phone' => 'required|unique:tenants|digits:11|starts_with:010,011,012,015|numeric',
             'email' => 'required|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,3}$/ix|unique:tenants',
             'status' => ['required', Rule::in(['Disabled', 'Active' , 'Suspended'])],
+            'industry_type' => ['required', Rule::in(['Schools', 'ERP System' , 'Health', 'Retail'])],
+
             'assigned_id' => 'required|exists:users,id',
         ];
     }
@@ -27,20 +29,24 @@ class StoreTenantRequest extends FormRequest
     {
         return [
 
+
+
             'name.required' => __('The name field is required'),
             'name.regex' => __('The name must only contain letters'),
-            'domain.required' => __('messages.The_domain_field_is_required'),
-            'domain.unique' => __('messages.The_domain_has_already_been_taken'),
-            'email.required' => __('messages.The_email_field_is_required'),
-            'email.email' => __('messages.The_email_must_be_a_valid_email_address'),
-            'email.unique' => __('messages.The_email_has_already_been_taken'),
-            'phone.required' => __('messages.The_phone_field_is_required'),
-            'phone.unique' => __('messages.The_phone_has_already_been_taken'),
-            'phone.digits' => __('messages.The_phone_must_be_11_digits'),
-            'phone.starts_with' => __('messages.The_phone_must_start_with_one_of_the_following:_010_011_012_015'),
-            'phone.numeric' => __('messages.The_phone_must_be_a_number'),
-            'assigned_id.required' => __('messages.The_assigned_id_field_is_required'),
-            'assigned_id.exist' => __('messages.The_assigned_id_not_exist'),
+            'domain.required' => __('The domain field is required'),
+            'domain.unique' => __('The domain has already been taken'),
+            'email.required' => __('The email field is required'),
+            'email.email' => __('The email must be a valid email address'),
+            'email.unique' => __('The email has already been taken'),
+            'phone.required' => __('The phone field is required'),
+            'phone.unique' => __('The phone has already been taken'),
+            'phone.digits' => __('The phone must be 11 digits'),
+            'phone.starts_with' => __('The phone must start with one of the following: 010, 011, 012, 015'),
+            'phone.numeric' => __('The phone must be a number'),
+            'assigned_id.required' => __('The assigned id field is required'),
+            'assigned_id.exist' => __('The assigned id not exist'),
+            'industry_type.required' => __('The industry_type field is required'),
+
 
         ];
 

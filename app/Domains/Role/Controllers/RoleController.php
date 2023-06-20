@@ -2,6 +2,7 @@
 
 namespace App\Domains\Role\Controllers;
 
+use App\Domains\Permission\Models\EnumPermissionRole;
 use App\Domains\Role\Request\DeleteRoleRequest;
 use App\Domains\Role\Request\StoreRoleRequest;
 use App\Domains\Role\Request\UpdateRoleRequest;
@@ -19,12 +20,15 @@ class RoleController extends Controller
 
     public function list()
     {
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionRole::view_roles->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return RolePermissionsResource::collection($this->roleService->list());
     }
 
     public function delete($id)
     {
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionRole::delete_role->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         if ($this->roleService->delete($id)) {
 
 
@@ -35,7 +39,7 @@ class RoleController extends Controller
             ], 200);
         }
         return response()->json([
-            'message' => __("messages.can_not_delete_because_the_role_assigned_to_users"),
+            'message' => __("can not delete because the role assigned to users"),
             'status' => false,
 
         ], 402);
@@ -44,11 +48,14 @@ class RoleController extends Controller
 
     public function findById($id)
     {
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionRole::view_roles->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         return new RolePermissionsResource($this->roleService->findById($id));
     }
 
     public function create(StoreRoleRequest $request)
     {
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionRole::create_role->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->roleService->create($request);
         return response()->json([
@@ -60,6 +67,8 @@ class RoleController extends Controller
 
     public function update($id, UpdateRoleRequest $request)
     {
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionRole::update_role->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         if($this->roleService->update($id, $request))
         {
             return response()->json([

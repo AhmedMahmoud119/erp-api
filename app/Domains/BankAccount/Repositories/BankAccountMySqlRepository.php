@@ -4,6 +4,7 @@ namespace App\Domains\BankAccount\Repositories;
 
 use App\Domains\BankAccount\Interfaces\BankAccountRepositoryInterface;
 use App\Domains\BankAccount\Models\BankAccount;
+use Illuminate\Support\Facades\Storage;
 use PDF;
 use Illuminate\Database\Eloquent\Collection;
 use carbon\Carbon;
@@ -48,7 +49,7 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
             })
             ->when(request()->creator_id,function ($q){
                 $q->where('creator_id',request()->creator_id );
-            })->with('creator')
+            })->with('creator','currency')
             ->orderBy('name', 'asc')->get();
     }
     public function findById(string $id) :BankAccount
@@ -107,18 +108,22 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
 
     public function generatePDF()
     {
-        $bankaccounts = BankAccount::get();
+        $bankaccounts = BankAccount::with('creator')->get();
+
 
         $data = [
             'title' => 'Bank Accounts List',
             'date' => date('m/d/Y'),
             'bankaccounts' => $bankaccounts
         ];
-
         $pdf = PDF::loadView('myPDF', $data);
-        $headers = ['Content-Type: application/pdf'];
 
+        $path = public_path('storage/exports/bankAccounts/');
+        $fileName = time(). '-bankAccountsDetailes.pdf' ;
+            $pdf->save($path . '/' . $fileName);
+        return response()->json([
+            'file_path' =>  asset('storage/exports/bankAccounts/'. $fileName)
+        ]);
 
-        return $pdf->stream('bankAccountsDetailes.pdf');
     }
 }

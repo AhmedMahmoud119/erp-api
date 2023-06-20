@@ -31,7 +31,7 @@ class LanguageController extends Controller
 
         if(!isset($full_data_en[$request['key']])){
             return response()->json([
-                'message' => __('messages.key_not_found')
+                'message' => __('key not found')
             ]);
         }
 
@@ -48,7 +48,7 @@ class LanguageController extends Controller
         file_put_contents(base_path('lang/en/messages.php'), $str_en);
 
         return response()->json([
-            'message' => __('messages.updated_successfully')
+            'message' => __('Updated Successfully')
         ]);
     }
 }
