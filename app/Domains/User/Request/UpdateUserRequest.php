@@ -28,21 +28,20 @@ class UpdateUserRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => __('messages.the_name_field_is_required'),
-            'name.regex' => __('messages.The_name_must_only_contain_letters'),
-            'email.required' => __('messages.The_email_field_is_required'),
-            'email.email' => __('messages.The_email_must_be_a_valid_email_address'),
-            'email.unique' => __('messages.The_email_has_already_been_taken'),
-            'phone.required' => __('messages.The_phone_field_is_required'),
-            'phone.unique' => __('messages.The_phone_has_already_been_taken'),
-            'phone.digits' => __('messages.The_phone_must_be_11_digits'),
-            'phone.starts_with' => __('messages.The_phone_must_start_with_one_of_the_following:_010_011_012_015'),
-            'phone.numeric' => __('messages.The_phone_must_be_a_number'),
-            'role_id.required' => __('messages.The_role_id_field_is_required'),
-            'role_id.exists' => __('messages.The_role_id_not_exist'),
-            'parent_id.exists' => __('messages.The_parent_id_not_exist'),
-            'status.required' => __('messagesThe_status_field_is_required'),
-
+            'name.required' => __('The name field is required'),
+            'name.regex' => __('The name must only contain letters'),
+            'email.required' => __('The email field is required'),
+            'email.email' => __('The email must be a valid email address'),
+            'email.unique' => __('The email has already been taken'),
+            'phone.required' => __('The phone field is required'),
+            'phone.unique' => __('The phone has already been taken'),
+            'phone.digits' => __('The phone must be 11 digits'),
+            'phone.starts_with' => __('The phone must start with one of the following: 010, 011, 012, 015'),
+            'phone.numeric' => __('The phone must be a number'),
+            'role_id.required' => __('The role_id field is required'),
+            'role_id.exists' => __('The role_id not exist'),
+            'parent_id.exists' => __('The parent_id not exist'),
+            'status.required' => __('The status field is required'),
 
         ];
 

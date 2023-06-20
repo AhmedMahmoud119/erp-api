@@ -22,8 +22,8 @@ class LoginUserRequest extends FormRequest
     public function messages()
     {
        return [
-           'password.required' => __('messages.The_password_field_is_required'),
-           'email.required' => __('messages.The_email_field_is_required'),
+           'password.required' => __('The password field is required'),
+           'email.required' => __('The email field is required'),
 
         ];
 

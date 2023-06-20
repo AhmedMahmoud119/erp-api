@@ -12,6 +12,7 @@ class PermissionCategoriesResource extends JsonResource
             'id' => $this->id,
             'name' => __($this->name),
             'permissions' => PermissionsResource::collection($this->permissions),
+            'checked' => false
         ];
     }
 }

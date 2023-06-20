@@ -11,7 +11,6 @@ enum EnumPermissionBankAccount: string
     case delete_bankAccount = 'Delete BankAccount';
     case view_bankAccounts = 'View BankAccounts';
     case generatePDF_bankAccounts = 'Generate PDF BankAccounts';
-
-
+    case export_bankAccounts = 'Export BankAccounts';
 
 }

@@ -3,6 +3,7 @@
 namespace App\Domains\Tenant\Controllers;
 
 use App\Domains\Tenant\Models\EnumPermissionTenant;
+use App\Domains\Tenant\Request\FilterTenantRequest;
 use App\Domains\Tenant\Request\StoreTenantRequest;
 use App\Domains\Tenant\Request\UpdateTenantRequest;
 use App\Domains\Tenant\Resources\TenantResource;
@@ -17,8 +18,9 @@ class TenantController extends Controller
     {
     }
 
-    public function list()
+    public function list(FilterTenantRequest $request)
     {
+
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionTenant::view_tenants->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return TenantResource::collection($this->tenantService->list());
@@ -30,7 +32,7 @@ class TenantController extends Controller
 
         $this->tenantService->delete($id);
         return response()->json([
-            'message' => __('messages.deleted_successfully'),
+            'message' => __('Deleted Successfully'),
             'status' => true,
         ], 200);
     }
@@ -49,7 +51,7 @@ class TenantController extends Controller
 
         $this->tenantService->create($request);
         return response()->json([
-            'message' => __('messages.created_successfully'),
+            'message' => __('Created Successfully'),
             'status' => true,
         ], 200);
     }
@@ -60,7 +62,7 @@ class TenantController extends Controller
 
         $this->tenantService->update($id, $request);
         return response()->json([
-            'message' => __('messages.updated_successfully'),
+            'message' => __('Updated Successfully'),
             'status' => true,
         ], 200);
     }

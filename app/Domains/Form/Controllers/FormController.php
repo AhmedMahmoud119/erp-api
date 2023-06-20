@@ -46,11 +46,11 @@ class FormController extends Controller
         $deleteFormField = $this->formService->deleteFormField($form_field_id);
         if ($deleteFormField) {
             return response()->json([
-                'success' => __('messages.deleted_successfully')
+                'success' => __('Deleted Successfully')
             ]);
         }
         return response()->json([
-            'error' => __('messages.cant_delete_field_with_response')
+            'error' => __('cant delete field with response')
         ], 401);
     }
 
@@ -59,7 +59,7 @@ class FormController extends Controller
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionForm::hideFormField_form->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $this->formService->hideFormField($form_field_id, $request);
         return response()->json([
-            'success' => __('messages.updated_successfully')
+            'success' => __('Updated Successfully')
         ]);
     }
 
@@ -103,7 +103,7 @@ class FormController extends Controller
             ], $e->getCode());
         }
         return response()->json([
-            'message' => __('messages.created_successfully')
+            'message' => __('Created Successfully')
         ]);
     }
 
@@ -120,7 +120,7 @@ class FormController extends Controller
         $this->formService->fillData($id, $request);
 
         return response()->json([
-            'message' => __('messages.created_successfully')
+            'message' => __('Created Successfully')
         ]);
     }
 
@@ -144,7 +144,7 @@ class FormController extends Controller
 
         $this->formService->create($request);
         return response()->json([
-            'message' => __('messages.created_successfully')
+            'message' => __('Created Successfully')
         ]);
     }
 

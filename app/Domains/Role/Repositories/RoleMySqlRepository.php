@@ -47,6 +47,11 @@ class RoleMySqlRepository implements RoleRepositoryInterface
 
     public function update(string $id, $request): bool
     {
+        if($id ==1)
+        {
+            return false;
+        }
+
         $role = $this->role::findOrFail($id);
         $role->update([
             'name' => $request->name ?? $role->name,

@@ -6,6 +6,7 @@ namespace App\Domains\Currency\Controllers;
 use App\Domains\Currency\Models\Currency;
 use App\Domains\Currency\Models\EnumCurrencies;
 use App\Domains\Currency\Models\EnumPermissionCurrency;
+use App\Domains\Currency\Request\FilterCurrencyRequest;
 use App\Domains\Currency\Request\StoreCurrencyRequest;
 use App\Domains\Currency\Request\UpdateCurrencyRequest;
 use App\Domains\Currency\Resources\CurrencyResource;
@@ -19,13 +20,16 @@ use Illuminate\Support\Facades\Http;
 
 class CurrencyController extends Controller
 {
+
+
+
+
     public function __construct(private CurrencyService $currencyService)
     {
     }
 
-    public function list()
+    public function list(FilterCurrencyRequest $request)
     {
-
 
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCurrency::view_currencies->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -38,7 +42,7 @@ class CurrencyController extends Controller
 
         $this->currencyService->delete($id);
         return response()->json([
-            'message' => __('messages.deleted_successfully'),
+            'message' => __('Deleted Successfully'),
             'status' => true,
         ], 200);
     }
@@ -57,7 +61,7 @@ class CurrencyController extends Controller
 
         $this->currencyService->create($request);
         return response()->json([
-            'message' => __('messages.created_successfully'),
+            'message' => __('Created Successfully'),
             'status' => true,
         ], 200);
     }
@@ -70,7 +74,7 @@ class CurrencyController extends Controller
         $currency=$this->currencyService->update($id, $request);
         if($currency==true){
         return response()->json([
-            'message' => __('messages.updated_successfully'),
+            'message' => __('Updated Successfully'),
             'status' => true,
         ], 200);}
         return response()->json([
