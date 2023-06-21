@@ -14,7 +14,7 @@ class FormVersionsResource extends JsonResource
             'form_id' => $this->form_id,
             'user_id' => $this->user_id,
             'version' => $this->user_id,
-            'updated_at' => $this->updated_at->format('Y-m-d'),
+            'updated_at' => $this->updated_at?->format('Y-m-d'),
 
         ];
     }

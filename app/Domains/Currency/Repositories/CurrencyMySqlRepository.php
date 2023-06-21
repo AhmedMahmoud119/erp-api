@@ -28,26 +28,26 @@ class CurrencyMySqlRepository implements CurrencyRepositoryInterface
             }
             $q->orderBy('name', 'asc');
         })->when(request()->search,function ($q)
-            {
-                $q->where('name','like','%' . request()->search . '%')
-                    ->orwhere('code','like','%' . request()->search . '%')
-                    ->orwhere('symbol','like','%' . request()->search . '%')
-                    ->orwhere('price_rate','like','%' . request()->search . '%')
-                    ->orwhere('price','like','%' . request()->search . '%');
+        {
+            $q->where('name','like','%' . request()->search . '%')
+                ->orwhere('code','like','%' . request()->search . '%')
+                ->orwhere('symbol','like','%' . request()->search . '%')
+                ->orwhere('price_rate','like','%' . request()->search . '%')
+                ->orwhere('price','like','%' . request()->search . '%');
 
-            })
+        })
             ->when(request()->from, function ($q) {
-            $q->whereDate('created_at', '>=', request()->from);
+                $q->whereDate('created_at', '>=', request()->from);
             })
             ->when(request()->to, function ($q) {
-            $q->whereDate('created_at', '<=', request()->to);
+                $q->whereDate('created_at', '<=', request()->to);
             })
             ->when(request()->name,function ($q){
-            $q->where('name',request()->name );
-             })
+                $q->where('name',request()->name );
+            })
             ->when(request()->code,function ($q){
 
-            $q->where('code', request()->code );
+                $q->where('code', request()->code );
             })
 
             ->when(request()->price_rate,function ($q){
@@ -70,16 +70,16 @@ class CurrencyMySqlRepository implements CurrencyRepositoryInterface
         $currencies =  Currency::get() ;
 
         $this->currency::create([
-                'name' =>$request->name,
-                'code' => $request->code ,
-                'symbol' => $code->symbol ,
-                'price_rate' => $request->price_rate ,
-                'default' =>   count($currencies)===0?1:0,
-                'creator_id' => auth()->user()->id ,
-                'price' => $price,
-                'backup_changes' => $request->price_rate==='Official'?$request->backup_changes:null,
-                'from' => $request->backup_changes==='Custom'?$request->from:null,
-                'to' => $request->backup_changes==='Custom'?$request->to:null,
+            'name' =>$request->name,
+            'code' => $request->code ,
+            'symbol' => $code->symbol ,
+            'price_rate' => $request->price_rate ,
+            'default' =>   count($currencies)===0?1:0,
+            'creator_id' => auth()->user()->id ,
+            'price' => $price,
+            'backup_changes' => $request->price_rate==='Official'?$request->backup_changes:null,
+            'from' => $request->backup_changes==='Custom'?$request->from:null,
+            'to' => $request->backup_changes==='Custom'?$request->to:null,
         ]);
 
         return true;
@@ -98,18 +98,18 @@ class CurrencyMySqlRepository implements CurrencyRepositoryInterface
         if($default=='0'&&$currency->default=='1'){
             return false;
         }
-            $currency->update([
-                'name' =>$request->name,
-                'code' => $request->code ,
-                'symbol' => $code->symbol ,
-                'price_rate' => $request->price_rate ,
-                'default' => $request->default,
-                'creator_id' => auth()->user()->id ,
-                'price' => $price,
-                'backup_changes' => $request->price_rate==='Official'?$request->backup_changes:null,
-                'from' => $request->backup_changes==='Custom'?$request->from:null,
-                'to' => $request->backup_changes==='Custom'?$request->to:null,
-            ]);
+        $currency->update([
+            'name' =>$request->name,
+            'code' => $request->code ,
+            'symbol' => $code->symbol ,
+            'price_rate' => $request->price_rate ,
+            'default' => $request->default,
+            'creator_id' => auth()->user()->id ,
+            'price' => $price,
+            'backup_changes' => $request->price_rate==='Official'?$request->backup_changes:null,
+            'from' => $request->backup_changes==='Custom'?$request->from:null,
+            'to' => $request->backup_changes==='Custom'?$request->to:null,
+        ]);
 
 
 
@@ -121,9 +121,5 @@ class CurrencyMySqlRepository implements CurrencyRepositoryInterface
         $this->currency::findOrFail($id)?->delete();
         return true;
     }
-
-
-
-
 
 }

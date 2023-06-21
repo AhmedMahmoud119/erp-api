@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 interface FormRepositoryInterface
 {
     public function findById(string $id): Form;
-    public function list(): Collection;
+    public function list();
     public function store($request);
     public function update(string $id, $request);
     public function delete(string $id): bool;

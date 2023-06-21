@@ -13,18 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('taxes', function (Blueprint $table) {
+        Schema::create('financial_periods', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->decimal('percentage', 5, 2);
+            $table->string('financial_Year');
+            $table->boolean('status');
+            $table->date('financial_Year_Start');
+            $table->date('financial_Year_End');
 
             $table->unsignedBigInteger('creator_id');
             $table->foreign('creator_id')->references('id')->on('users');
 
-
             $table->timestamps();
             $table->softDeletes();
-
         });
     }
 
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('taxes');
+        Schema::dropIfExists('financial_periods');
     }
 };

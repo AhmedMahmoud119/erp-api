@@ -13,18 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('taxes', function (Blueprint $table) {
+        Schema::create('tax_modules', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->decimal('percentage', 5, 2);
-
-            $table->unsignedBigInteger('creator_id');
-            $table->foreign('creator_id')->references('id')->on('users');
-
+            $table->foreignId('module_id')->references('id')->on('modules');
+            $table->foreignId('tax_id')->references('id')->on('taxes');
 
             $table->timestamps();
-            $table->softDeletes();
-
         });
     }
 
@@ -35,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('taxes');
+        Schema::dropIfExists('tax_modules');
     }
 };

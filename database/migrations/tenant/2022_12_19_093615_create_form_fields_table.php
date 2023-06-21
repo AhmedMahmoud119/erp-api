@@ -13,15 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('taxes', function (Blueprint $table) {
+        Schema::create('form_fields', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->decimal('percentage', 5, 2);
-
-            $table->unsignedBigInteger('creator_id');
-            $table->foreign('creator_id')->references('id')->on('users');
-
-
+            $table->foreignId('field_id')->constrained('fields');
+            $table->foreignId('form_version_id')->constrained('form_versions');
+            $table->integer('hidden')->default(0);
             $table->timestamps();
             $table->softDeletes();
 
@@ -35,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('taxes');
+        Schema::dropIfExists('form_fields');
     }
 };
