@@ -16,7 +16,6 @@ class StoreTaxRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'code' => 'required|unique:taxes',
             'percentage' => 'required|numeric',
             'modules.*' => 'nullable|exists:modules,id',
 
@@ -25,9 +24,9 @@ class StoreTaxRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => __('The name field is required'),
-            'code.required' => __('The name field is required'),
-            'percentage.required' => __('The percentage field is required'),
+            'name.required' => __('messages.the_name_field_is_required'),
+            'percentage.required' => __('messages.The_percentage_field_is_required'),
+
         ];
 
     }
