@@ -17,16 +17,15 @@ class UpdateTaxRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'code' => 'required',
             'percentage' => 'required|numeric',
         ];
     }
     public function messages()
     {
         return [
-            'name.required' => __('The name field is required'),
-            'code.required' => __('The name field is required'),
-            'percentage.required' => __('The percentage field is required'),
+            'name.required' => __('messages.the_name_field_is_required'),
+            'percentage.required' => __('messages.The_percentage_field_is_required'),
+
         ];
 
     }
