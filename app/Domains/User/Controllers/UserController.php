@@ -100,6 +100,7 @@ class UserController extends Controller
                'token' => $user->createToken("API TOKEN", ['remember'])->plainTextToken,
               'user'=>  UserResource::make($user)
            ], 200);
+        
        }
         return response()->json([
             'status' => false,

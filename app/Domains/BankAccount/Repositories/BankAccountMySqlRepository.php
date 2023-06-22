@@ -5,12 +5,8 @@ namespace App\Domains\BankAccount\Repositories;
 use App\Domains\BankAccount\Interfaces\BankAccountRepositoryInterface;
 use App\Domains\BankAccount\Models\BankAccount;
 use Illuminate\Support\Facades\Storage;
-use PDF;
-use Illuminate\Database\Eloquent\Collection;
-
-
-use carbon\Carbon;
-use Illuminate\Http\Request;
+// use PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class BankAccountMySqlRepository implements BankAccountRepositoryInterface
 {

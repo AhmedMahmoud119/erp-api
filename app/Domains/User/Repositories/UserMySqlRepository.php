@@ -88,6 +88,7 @@ class UserMySqlRepository implements UserRepositoryInterface
         }
 
         $user =  $this->user::with('roles')->where('email', $request->email)->first();
+        $user->permissions = $user->getAllPermissions();
 
 
         return $user;
