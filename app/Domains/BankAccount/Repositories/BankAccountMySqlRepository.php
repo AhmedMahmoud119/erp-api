@@ -22,16 +22,16 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
             }
             $q->orderBy('name', 'asc');
         })->when(request()->search,function ($q)
-            {
-                $q->where('name','like','%' . request()->search . '%')
-                    ->orwhere('currency_id','like','%' . request()->search . '%')
-                    ->orwhere('opening_balance','like','%' . request()->search . '%')
-                    ->orwhere('account_number','like','%' . request()->search . '%')
-                    ->orwhere('account_type','like','%' . request()->search . '%');
+        {
+            $q->where('name','like','%' . request()->search . '%')
+                ->orwhere('currency_id','like','%' . request()->search . '%')
+                ->orwhere('opening_balance','like','%' . request()->search . '%')
+                ->orwhere('account_number','like','%' . request()->search . '%')
+                ->orwhere('account_type','like','%' . request()->search . '%');
 
-            })  ->when(request()->name,function ($q){
+        })  ->when(request()->name,function ($q){
             $q->where('name',request()->name );
-             })
+        })
             ->when(request()->from, function ($q) {
                 $q->whereDate('created_at', '>=', request()->from);
             })->when(request()->to, function ($q) {
@@ -80,17 +80,18 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
 
         $bankAccount = $this->bankAccount::findOrFail($id);
 
-            $bankAccount->update([
-                'name' => $request->name ,
-                'account_number' => $request->account_number,
-                'holder_name' => $request->holder_name,
-                'account_type' => $request->account_type ,
-                'authorized_by' => $request->authorized_by,
-                'chart_of_account' => $request->chart_of_account,
-                'current_balance'=>$request->current_balance,
-                'currency_id' => $request->currency_id,
-                'status' => $request->status,
-            ]);
+        $bankAccount->update([
+            'name' => $request->name ,
+            'account_number' => $request->account_number,
+            'holder_name' => $request->holder_name,
+            'account_type' => $request->account_type ,
+            'authorized_by' => $request->authorized_by,
+            'chart_of_account' => $request->chart_of_account,
+            'current_balance'=>$request->current_balance,
+            'currency_id' => $request->currency_id,
+            'status' => $request->status,
+        ]);
+
 
 
         return true;
@@ -98,7 +99,7 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
 
     public function delete(string $id): bool
     {
-         $this->bankAccount::findOrFail($id)->delete();
+        $this->bankAccount::findOrFail($id)->delete();
 
         return true;
     }
@@ -119,7 +120,7 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
 
         $path = public_path('storage/exports/bankAccounts/');
         $fileName = time(). '-bankAccountsDetailes.pdf' ;
-            $pdf->save($path . '/' . $fileName);
+        $pdf->save($path . '/' . $fileName);
         return response()->json([
             'file_path' =>  asset('storage/exports/bankAccounts/'. $fileName)
         ]);
