@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             PermissionsTableSeeder::class,
             // TaxTableSeeder::class,
-            FinancialPeriodSeeder::class,
+//            FinancialPeriodSeeder::class,
             // TaxSeeder::class,
         ]);
 

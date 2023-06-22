@@ -28,15 +28,17 @@ class UpdateFieldRequest extends FormRequest
                 . ',' . EnumFieldTypes::rating->value . ',' . EnumFieldTypes::dropdown->value . ',' . EnumFieldTypes::toggleSwitch->value],
             'options.en' => ['required_if:type,' . EnumFieldTypes::checkbox->value . ',' . EnumFieldTypes::radioButton->value
                 . ',' . EnumFieldTypes::rating->value . ',' . EnumFieldTypes::dropdown->value . ',' . EnumFieldTypes::toggleSwitch->value],
+            'options.*.*' => ['required_if:type,' . EnumFieldTypes::checkbox->value . ',' . EnumFieldTypes::radioButton->value
+                . ',' . EnumFieldTypes::rating->value . ',' . EnumFieldTypes::dropdown->value . ',' . EnumFieldTypes::toggleSwitch->value]
         ];
 
     }
     public function messages()
     {
         return [
-            'title.ar.required' => __('The title field is required'),
-            'type.required' => __('messages.The_type_field_is_required'),
-            'options.required_if' => __('messages.The_options_field_is_required'),
+            'title.ar.required' => __('The title field is required in arabic'),
+            'type.required' => __('The type field is required'),
+            'options.required_if' => __('The options field is required'),
 
 
         ];

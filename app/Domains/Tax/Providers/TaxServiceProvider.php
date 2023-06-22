@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Domains\Tax\Providers;
 
 use App\Domains\Tax\Interfaces\TaxRepositoryInterface;
+use App\Domains\Tax\Models\Tax;
+use App\Domains\Tax\Observers\TaxObserver;
 use App\Domains\Tax\Repositories\TaxMySqlRepository;
-use App\Domains\Tax\Repositories\ModuleMySqlRepository;
 use Illuminate\Support\ServiceProvider;
 
 class TaxServiceProvider extends ServiceProvider
@@ -22,6 +23,6 @@ class TaxServiceProvider extends ServiceProvider
 
     public function boot()
     {
-
+        Tax::observe(TaxObserver::class);
     }
 }

@@ -16,6 +16,7 @@ interface UserRepositoryInterface
     public function update(int $id, $request): bool;
     public function delete(int $id): bool;
     public function updatePassword($request);
+    public function me();
 
 
 }

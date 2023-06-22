@@ -3,9 +3,11 @@
 namespace App\Domains\BankAccount\Services;
 
 
+use App\Domains\BankAccount\Exports\BankAccountsExport;
 use App\Domains\BankAccount\Interfaces\BankAccountRepositoryInterface;
 use App\Mail\SendPassword;
 use Illuminate\Support\Facades\Mail;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BankAccountService
 {
@@ -37,5 +39,19 @@ class BankAccountService
     {
 
         return $this->bankAccountRepository->update($id,$request);
+    }
+    public function generatePDF()
+    {
+        return $this->bankAccountRepository->generatePDF();
+    }
+    public function export()
+    {
+        $filename = time() . '-bankAccounts.csv';
+        $path = 'exports/bankAccounts/' . $filename;
+        Excel::store(new BankAccountsExport(), $path, 'public');
+
+        return response()->json([
+            'file_path' => asset('storage/'.$path)
+        ]);
     }
 }

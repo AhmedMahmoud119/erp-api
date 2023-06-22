@@ -52,6 +52,7 @@
     'The_module_id_field_is_required' => 'The module_id field is required',
     'The_module_id_field_is_not_exist' => 'The module_id field is not exist',
     'cant_update_its_belongs_to_form' => 'Cant Update Its Belongs to form',
+    'cant_delete_its_belongs_to_form' => 'Cant Delete Its Belongs to form',
     'cant_delete_field_with_response' => 'Cant delete Field with response',
     'can_not_delete_because_the_role_assigned_to_users' => 'Can Not Delete because the Role assigned to users',
     'key_not_found' => 'Key not found',

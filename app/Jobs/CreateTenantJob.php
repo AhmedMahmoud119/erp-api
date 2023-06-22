@@ -36,12 +36,12 @@ class CreateTenantJob implements ShouldQueue
     public function handle()
     {
 
-        $this->tenant->run(function () {
-            User::create([
-                'name' => $this->request['name'],
-                'email' => $this->request['email'],
-                'password' => bcrypt($this->request['password']??123456),
-            ]);
-        });
+//        $this->tenant->run(function () {
+//            User::create([
+//                'name' => $this->request['name'],
+//                'email' => $this->request['email'],
+//                'password' => bcrypt($this->request['password']??123456),
+//            ]);
+//        });
     }
 }

@@ -188,6 +188,9 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
+
+
 
         /*
          * Package Service Providers...
@@ -216,6 +219,7 @@ return [
         App\Domains\Tax\Providers\TaxServiceProvider::class,
         App\Domains\BankAccount\Providers\BankAccountServiceProvider::class,
         App\Domains\FinancialPeriod\Providers\FinancialPeriodServiceProvider::class,
+        App\Domains\RevisionHistory\Providers\RevisionHistoryServiceProvider::class,
 
 
 
@@ -234,6 +238,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ])->toArray(),
 
 ];

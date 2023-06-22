@@ -23,11 +23,12 @@ class StoreCompanyRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => __('messages.the_name_field_is_required'),
-            'name.regex' => __('messages.The_name_must_only_contain_letters'),
-            'status.required' => __('messages.The_status_field_is_required'),
-            'tenant_id.required' => __('messages.The_tenant_id_field_is_required'),
-            'tenant_id.exists' => __('messages.The_tenant_not_exist'),
+            'name.required' => __('The name field is required'),
+            'name.regex' => __('The name must only contain letters'),
+            'status.required' => __('The status field is required'),
+            'status.in' => __('The status is invalid'),
+            'tenant_id.required' => __('The tenant is required'),
+            'tenant_id.exists' => __('The tenant not exist'),
 
         ];
 

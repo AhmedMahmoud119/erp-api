@@ -31,7 +31,7 @@ class CompanyController extends Controller
 
         $this->companyService->delete($id);
         return response()->json([
-            'message' => __('messages.deleted_successfully'),
+            'message' => __('Deleted Successfully'),
             'status' => true,
         ], 200);
     }
@@ -49,7 +49,7 @@ class CompanyController extends Controller
 
         $this->companyService->create($request);
         return response()->json([
-            'message' => __('messages.created_successfully'),
+            'message' => __('Created Successfully'),
             'status' => true,
         ], 200);
     }
@@ -60,7 +60,7 @@ class CompanyController extends Controller
 
         $this->companyService->update($id, $request);
         return response()->json([
-            'message' => __('messages.updated_successfully'),
+            'message' => __('Updated Successfully'),
             'status' => true,
         ], 200);
     }

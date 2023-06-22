@@ -27,6 +27,7 @@ class UpdateTaxRequest extends FormRequest
         return [
             'name.required' => __('messages.the_name_field_is_required'),
             'percentage.required' => __('messages.The_percentage_field_is_required'),
+
         ];
 
     }

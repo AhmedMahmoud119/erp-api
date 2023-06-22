@@ -49,7 +49,7 @@ class UserController extends Controller
 
        $this->userService->store($request);
         return response()->json([
-            'message' => __('messages.created_successfully'),
+            'message' => __('Created Successfully'),
             'status' => true,
 
         ],200);
@@ -63,7 +63,7 @@ class UserController extends Controller
 
       $this->userService->update($id,$request);
         return response()->json([
-            'message' => __('messages.updated_successfully'),
+            'message' => __('Updated Successfully'),
             'status' => true,
 
         ],200);
@@ -75,7 +75,7 @@ class UserController extends Controller
         $this->userService->delete($id);
 
         return response()->json([
-            'message' => __('messages.deleted_successfully'),
+            'message' => __('Deleted Successfully'),
             'status' => true,
         ],200);
 
@@ -96,14 +96,14 @@ class UserController extends Controller
        {
            return response()->json([
                'status' => true,
-               'message' => __('messages.successfully_logged_in'),
+               'message' => __('Successfully logged in'),
                'token' => $user->createToken("API TOKEN", ['remember'])->plainTextToken,
-//               'role'=>new RolePermissionsResource($user->roles->first())
+              'user'=>  UserResource::make($user)
            ], 200);
        }
         return response()->json([
             'status' => false,
-            'message' => __('messages.email_&_password_does_not_match_with_our_record'),
+            'message' => __('Email & Password does not match with our record.'),
         ], 401);
     }
     public function updatePassword(ChangePasswordRequest $request)
@@ -112,12 +112,12 @@ class UserController extends Controller
       {
           return response()->json([
               'status' => true,
-              'message' => __('messages.password_changed_successfully'),
+              'message' => __('Password changed successfully!'),
           ], 200);
       }
         return response()->json([
             'status' => false,
-            'message' => __('messages.old_password_does_not_match'),
+            'message' => __('Old Password Does not match'),
         ], 401);
     }
 
@@ -126,9 +126,11 @@ class UserController extends Controller
         $this->userService->logout();
         return response()->json([
             'status' => true,
-            'message' =>__('messages.successfully_logged_out'),
+            'message' =>__('Successfully logged out'),
         ], 200);
     }
-
+    public function me(){
+        return UserResource::make($this->userService->me());
+    }
 
 }

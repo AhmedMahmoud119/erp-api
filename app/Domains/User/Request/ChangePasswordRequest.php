@@ -21,9 +21,9 @@ class ChangePasswordRequest extends FormRequest
     public function messages()
     {
         return [
-            'old_password.required' => __('messages.The old_password field is required'),
-            'new_password.required' => __('messages.The_new_password_field_is_required'),
-            'new_password.confirmed' => __('messages.The_new_password_confirmation_does_not_match'),
+            'old_password.required' => __('The old password field is required'),
+            'new_password.required' => __('The new password field is required'),
+            'new_password.confirmed' => __('The new password confirmation does not match'),
 
         ];
 

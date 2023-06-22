@@ -14,7 +14,7 @@ class RolePermissionsResource extends JsonResource
             'id'=>$this->id,
             'name'=>$this->name,
             'created_at'=>$this->created_at?->format('Y-m-d'),
-            'permissions'=>PermissionsResource::collection($this->permissions),
+//            'permissions'=>PermissionsResource::collection($this->permissions),
             'users'=>count($this->users),
 
         ];

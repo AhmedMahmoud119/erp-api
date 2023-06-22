@@ -24,10 +24,14 @@ class UpdateRoleRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.regex' => __('messages.The_name_must_only_contain_letters'),
-            'permissions.required' => __('messages.The_permissions_is_required'),
-            'permissions.array' => __('messages.The_permissions_must_be_of_type_array'),
-            'permissions.*.exists' => __('messages.The_permissions_not_exist'),
+
+
+            'name.required' => __('The name field is required'),
+            'name.regex' => __('The name must only contain letters'),
+            'name.unique' => __('messages.The_name_has_already_been_taken'),
+            'permissions.required' => __('The permissions is required'),
+            'permissions.array' => __('The permissions must be of type array'),
+            'permissions.*.exists' => __('The permissions not exist'),
 
         ];
     }
