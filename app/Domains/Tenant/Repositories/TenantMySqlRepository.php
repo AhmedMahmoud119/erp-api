@@ -56,16 +56,6 @@ class TenantMySqlRepository implements TenantRepositoryInterface
             'domain' => $request->domain,
         ]);
 
-        $this->tenant->run(function () use ($request) {
-            User::create([
-                'name' => $request['name'],
-                'email' => $request['email'],
-                'password' => bcrypt($this->request['password']??123456),
-            ]);
-        });
-
-//        CreateTenantJob::dispatch($request->all(),$tenant);
-
         return true;
     }
 
