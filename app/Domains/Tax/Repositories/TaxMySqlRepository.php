@@ -22,18 +22,24 @@ class TaxMySqlRepository implements TaxRepositoryInterface
     {
         return $this->tax::when(request()->search, function ($q) {
             $q->where('name', 'like', '%' . request()->search . '%');
+        })->when(request()->percentage, function ($q) {
+            $q->where('percentage', request()->creator_id);
         })->when(request()->creator_id, function ($q) {
             $q->where('creator_id', request()->creator_id);
-        })->when(request()->created_at, function ($q) {
+        })   ->when(request()->from, function ($q) {
+            $q->whereDate('created_at', '>=', request()->from);
+        })->when(request()->to, function ($q) {
+            $q->whereDate('created_at', '<=', request()->to);
+        })
+            ->when(request()->created_at, function ($q) {
             $q->whereBetween('created_at', [request()->date_from, request()->date_to]);
         })->when(request()->sort_by, function ($q) {
-            if (in_array(request()->order_by, ['percentage', 'code', 'name', 'created_at'])) {
-                $q->orderBy(request()->order_by, request()->sort_by === 'asc' ? 'asc' : 'desc');
+            if (in_array(request()->sort_by, ['percentage',  'name', 'created_at'])) {
+                $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
             }
             $q->orderBy('id', 'asc');
         })
-            ->with('creator')
-            ->paginate(request('limit', config('app.pagination_count')));
+            ->with('creator')->get();
     }
 
     public function store($request): bool
