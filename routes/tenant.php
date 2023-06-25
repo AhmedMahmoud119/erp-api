@@ -22,7 +22,7 @@ use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 */
 
 Route::middleware([
-//    InitializeTenancyByDomain::class,
+   InitializeTenancyByDomain::class,
     InitializeTenancyBySubdomain::class,
     PreventAccessFromCentralDomains::class,
 ])

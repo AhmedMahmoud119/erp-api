@@ -5,12 +5,8 @@ namespace App\Domains\BankAccount\Repositories;
 use App\Domains\BankAccount\Interfaces\BankAccountRepositoryInterface;
 use App\Domains\BankAccount\Models\BankAccount;
 use Illuminate\Support\Facades\Storage;
-use PDF;
-use Illuminate\Database\Eloquent\Collection;
-
-
-use carbon\Carbon;
-use Illuminate\Http\Request;
+// use PDF;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class BankAccountMySqlRepository implements BankAccountRepositoryInterface
 {
@@ -34,6 +30,16 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
 
         })->when(request()->name, function ($q) {
             $q->where('name', request()->name);
+        })->when(request()->search,function ($q)
+        {
+            $q->where('name','like','%' . request()->search . '%')
+                ->orwhere('currency_id','like','%' . request()->search . '%')
+                ->orwhere('opening_balance','like','%' . request()->search . '%')
+                ->orwhere('account_number','like','%' . request()->search . '%')
+                ->orwhere('account_type','like','%' . request()->search . '%');
+
+        })  ->when(request()->name,function ($q){
+            $q->where('name',request()->name );
         })
             ->when(request()->from, function ($q) {
                 $q->whereDate('created_at', '>=', request()->from);
@@ -95,6 +101,7 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
             'currency_id' => $request->currency_id,
             'status' => $request->status,
         ]);
+
 
 
         return true;

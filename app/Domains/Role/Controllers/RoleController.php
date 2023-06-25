@@ -11,6 +11,7 @@ use App\Domains\Role\Resources\RoleResource;
 use App\Domains\Role\Services\RoleService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class RoleController extends Controller
 {
@@ -20,8 +21,9 @@ class RoleController extends Controller
 
     public function list()
     {
+        // return 'good';
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionRole::view_roles->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
+        // return 'good';
         return RolePermissionsResource::collection($this->roleService->list());
     }
 
