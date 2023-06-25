@@ -3,6 +3,7 @@
 namespace App\Domains\Tax\Controllers;
 
 use App\Domains\Tax\Models\EnumPermissionTax;
+use App\Domains\Tax\Request\FilterTaxRequest;
 use App\Domains\Tax\Request\StoreTaxRequest;
 use App\Domains\Tax\Request\UpdateTaxRequest;
 use App\Domains\Tax\Resources\TaxResource;
@@ -18,7 +19,7 @@ class TaxController extends Controller
     {
     }
 
-    public function list()
+    public function list(FilterTaxRequest $request)
     {
         // abort_if(!auth()->user()->hasPermissionTo(EnumPermissionTax::view_taxes->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 

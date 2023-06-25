@@ -15,7 +15,6 @@ class Tax extends Model
     use HasFactory,SoftDeletes;
 
     protected $fillable = [
-        'code',
         'name',
         'percentage',
         'creator_id',
