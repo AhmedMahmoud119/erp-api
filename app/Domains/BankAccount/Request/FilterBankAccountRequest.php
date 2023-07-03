@@ -17,8 +17,8 @@ class FilterBankAccountRequest extends FormRequest
         return [
             'from' => 'date|nullable',
             'to' => 'date|after_or_equal:date_from|nullable',
-            'balance_from' => 'date|nullable',
-            'balance_to' => 'date|after_or_equal:date_from|nullable',
+            'balance_from' => 'numeric',
+            'balance_to' => 'numeric',
 
         ];
     }

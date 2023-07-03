@@ -49,7 +49,7 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
             ->when(request()->balance_from, function ($q) {
                 $q->where('opening_balance', '>=', request()->balance_from);
             })->when(request()->balance_to, function ($q) {
-                $q->where('opening_balance', '<=', request()->opening_balance);
+                $q->where('opening_balance', '<=', request()->balance_to);
             })
             ->when(request()->status, function ($q) {
                 $q->where('status', '=', request()->status);

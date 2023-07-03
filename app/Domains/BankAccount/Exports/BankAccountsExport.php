@@ -12,11 +12,9 @@ use Maatwebsite\Excel\Concerns\WithEvents;
 class BankAccountsExport implements FromCollection, WithMapping, WithHeadings, WithEvents
 {
 
-
     public function collection()
     {
-        return BankAccountResource::collection( BankAccount::get());
-
+        return BankAccount::get();
     }
 
     public function map($data): array
@@ -24,7 +22,7 @@ class BankAccountsExport implements FromCollection, WithMapping, WithHeadings, W
         return [
             $data->id,
             $data->name,
-            $data->creator->name??null,
+            $data->creator->name ?? null,
             $data->created_at,
             $data->opening_balance,
             $data->current_balance,
@@ -36,9 +34,8 @@ class BankAccountsExport implements FromCollection, WithMapping, WithHeadings, W
 
     public function headings(): array
     {
-        return ['Code','Name','Creatot By','Created Date','opening_balance','current_balance','status'];
+        return ['Code', 'Name', 'Created By', 'Created Date', 'opening_balance', 'current_balance', 'status'];
     }
-
 
     public function registerEvents(): array
     {
