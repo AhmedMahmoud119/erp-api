@@ -23,7 +23,7 @@ class TaxMySqlRepository implements TaxRepositoryInterface
         return $this->tax::when(request()->search, function ($q) {
             $q->where('name', 'like', '%' . request()->search . '%');
         })->when(request()->percentage, function ($q) {
-            $q->where('percentage', request()->creator_id);
+            $q->where('percentage', request()->percentage);
         })->when(request()->creator_id, function ($q) {
             $q->where('creator_id', request()->creator_id);
         })   ->when(request()->from, function ($q) {
