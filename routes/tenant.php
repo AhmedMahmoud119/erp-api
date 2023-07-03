@@ -22,7 +22,7 @@ use Stancl\Tenancy\Middleware\PreventAccessFromCentralDomains;
 */
 
 Route::middleware([
-   InitializeTenancyByDomain::class,
+//   InitializeTenancyByDomain::class,
     InitializeTenancyBySubdomain::class,
     PreventAccessFromCentralDomains::class,
 ])
@@ -46,3 +46,7 @@ Route::middleware([
         ->group($domainRoutes);
 
 });
+
+Route::get('/{any}',function(){
+    return view('welcome');
+})->where('any', '.*');;
