@@ -24,8 +24,8 @@ return new class extends Migration
             $table->decimal('opening_balance');
             $table->decimal('current_balance');
             $table->string('status')->default('Active'); //   ['in-Active', 'Active',]
-            $table->foreignId('currency_id')->references('id')->on('currencies')->nullable();
-            $table->foreignId('creator_id')->references('id')->on('users')->nullable();
+            $table->foreignId('currency_id')->nullable()->references('id')->on('currencies');
+            $table->foreignId('creator_id')->nullable()->references('id')->on('users');
             $table->timestamps();
             $table->softDeletes();
         });

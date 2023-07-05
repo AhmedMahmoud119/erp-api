@@ -33,7 +33,10 @@ class UserMySqlRepository implements UserRepositoryInterface
 
     public function findById($id)
     {
-        $user = $this->user::with('parent')->findOrFail($id);
+        $user = $this->user::with('parent','roles')->findOrFail($id);
+        $user->permissions = $user->getAllPermissions();
+
+
         return $user;
     }
 

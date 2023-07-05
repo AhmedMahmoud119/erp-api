@@ -15,9 +15,12 @@ class RoleMySqlRepository implements RoleRepositoryInterface
 
     public function findById(string $id)
     {
-        return $this->role::select('id', 'name', 'created_at')->with(['permissions' => function ($query) {
+        $role =  $this->role::select('id', 'name', 'created_at')->with(['permissions' => function ($query) {
             $query->select('id', 'name');
         }])->with('users')->findOrFail($id);
+        $role->permissions = $role->getAllPermissions();
+        return $role;
+
     }
 
     public function findByEmail(string $email)

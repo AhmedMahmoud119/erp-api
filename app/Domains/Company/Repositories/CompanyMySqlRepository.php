@@ -56,7 +56,7 @@ class CompanyMySqlRepository implements CompanyRepositoryInterface
         $company->update([
             'name' => $request->name ?? $company->name,
             'status' => $request->status ?? $company->status,
-            'tenant_id' => $request->tenant_id ?? $company->tenant_id,
+//            'tenant_id' => $request->tenant_id ?? $company->tenant_id,
         ]);
 
         return true;

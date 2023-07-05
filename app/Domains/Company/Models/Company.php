@@ -17,14 +17,14 @@ class Company extends Model
         'name',
         'status',
         'creator_id',
-        'tenant_id',
+//        'tenant_id',
     ];
     public function creator()
     {
         return $this->belongsTo(User::class,'creator_id');
     }
-    public function tenant()
-    {
-        return $this->belongsTo(Tenant::class,'tenant_id');
-    }
+//    public function tenant()
+//    {
+//        return $this->belongsTo(Tenant::class,'tenant_id');
+//    }
 }
