@@ -129,5 +129,15 @@
     "The to field is required": "حقل  الفتره الي مطلوب ",
     "The default is invalid": "الافتراضي غير صالح ",
     "the date must be valid date": "يجب ادخال تاريخ صحيح ",
-    "the date to must be greater than or equal date from ": "يجب ادخال فتره زمنيه صالحه"
+    "the date to must be greater than or equal date from ": "يجب ادخال فتره زمنيه صالحه",
+    "The group_type_id field is required": "حقل  نوع المجموعه مطلوب ",
+    "The group_type_id not exist": "نوع المجموعه غير موجود ",
+    "the balance  must be number": "الرصيد يجب ان يكون ارقام فقط ",
+    "The parent field is required": "حقل  الاب الي مطلوب ",
+    "The parent must be 0 or 1 only": "الاب يجب ان يكون 0 او 1 فقط  ",
+    "Can not Deleted because it belong to Group": "لا تستطيع حذف نوع المجموعه لانه ينتمي الي  مجموعه"
+
+
+
+
 }

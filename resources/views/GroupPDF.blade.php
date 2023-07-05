@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Bank Account PDF</title>
+    <title>Groups PDF</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
         @page {
@@ -42,9 +42,7 @@
     <tr>
         <th>Code</th>
         <th>Name</th>
-        <th>Status</th>
-        <th>opening_balance</th>
-        <th>current_balance</th>
+        <th>Group Type</th>
         <th>Created By</th>
         <th>Creation Date</th>
     </tr>
@@ -60,22 +58,18 @@
     <tr>
         <th>Code</th>
         <th>Name</th>
-        <th>Status</th>
-        <th>opening_balance</th>
-        <th>current_balance</th>
+        <th>Group Type</th>
         <th>Created By</th>
         <th>Creation Date</th>
     </tr>
-    @foreach($bankaccounts as $bankaccount)
+    @foreach($groups as $group)
 
         <tr>
-            <td>{{ $bankaccount->id }}</td>
-            <td>{{ $bankaccount->name }}</td>
-            <td>{{ $bankaccount->status }}</td>
-            <td>{{ $bankaccount->opening_balance }}</td>
-            <td>{{ $bankaccount->current_balance }}</td>
-            <td>{{ $bankaccount->creator->name??null }}</td>
-            <td>{{ $bankaccount->created_at }}</td>
+            <td>{{ $group->code }}</td>
+            <td>{{ $group->name }}</td>
+            <td>{{ $group->group_type->type_name??null}}</td>
+            <td>{{ $group->creator->name??null }}</td>
+            <td>{{ $group->created_at }}</td>
 
         </tr>
     @endforeach
