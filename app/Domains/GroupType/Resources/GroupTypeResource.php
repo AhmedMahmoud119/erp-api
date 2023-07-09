@@ -12,6 +12,7 @@ class GroupTypeResource extends JsonResource
         return [
             'id'=>$this->id,
             'type_name'=>$this->type_name,
+            'isFixed'=>$this->is_fixed,
             'code'=>$this->code,
             'creator'=>$this->creator->name??null,
 

@@ -71,11 +71,18 @@ class GroupTypeController extends Controller
 
 //        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionGroupType::edit_groupType->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $this->groupTypeService->update($id, $request);
+       if( $this->groupTypeService->update($id, $request))
+       {
+           return response()->json([
+               'message' => __('Updated Successfully'),
+               'status' => true,
+           ], 200);
+       }
         return response()->json([
-            'message' => __('Updated Successfully'),
-            'status' => true,
-        ], 200);
+            'message' => __('Can Not update this Group Type'),
+            'status' => false,
+        ], 402);
+
     }
  
 

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('type_name');
             $table->integer('code');
+            $table->string('is_fixed')->default('false');
             $table->foreignId('creator_id')->references('id')->on('users')->nullable();
             $table->timestamps();
             $table->softDeletes();

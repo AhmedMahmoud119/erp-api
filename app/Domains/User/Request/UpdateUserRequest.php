@@ -20,7 +20,7 @@ class UpdateUserRequest extends FormRequest
             'phone' => ['digits:11','starts_with:010,011,012,015','numeric',Rule::unique('users')->ignore(request()->id)],
             'email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,3}$/ix', Rule::unique('users')->ignore(request()->id)],
             'status' => ['required', Rule::in(['Disabled', 'Active' , 'Suspended'])],
-            'parent_id' => 'nullable|exists:users,id',
+            'parent_id' => ['nullable','exists:users,id',Rule::notIn([$this->route('id')])],
             'role_id' => 'required|exists:roles,id',
 
         ];
@@ -41,6 +41,7 @@ class UpdateUserRequest extends FormRequest
             'role_id.required' => __('The role_id field is required'),
             'role_id.exists' => __('The role_id not exist'),
             'parent_id.exists' => __('The parent_id not exist'),
+            'parent_id.notIn' => __('The parent_id is invalid'),
             'status.required' => __('The status field is required'),
 
         ];

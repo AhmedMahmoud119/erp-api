@@ -105,6 +105,7 @@
     "The role_id field is required": "حقل الوظيفه مطلوب",
     "The role_id not exist": "الوظيفه غير موجوده ",
     "The parent_id not exist": "المستخدم  غير موجوده ",
+    "The parent_id is invalid": "المستخدم  غير صحيح ",
     "The status field is required": "حقل الحاله مطلوب ",
     "The assigned_id field is required": "حقل المكلف  مطلوب ",
     "The assigned_id not exist": "هذا المكلف غير موجود  ",

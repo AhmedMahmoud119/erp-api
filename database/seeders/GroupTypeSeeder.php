@@ -19,22 +19,27 @@ class GroupTypeSeeder extends Seeder
         GroupType::create([
             'code' => '1000',
             'name' => 'Assets',
+            'is_fixed' => true,
         ]);
         GroupType::create([
             'code' => '2000',
             'name' => 'Liabilities',
+            'is_fixed' => true,
         ]);
         GroupType::create([
             'code' => '3000',
             'name' => 'Equity',
+            'is_fixed' => true,
         ]);
         GroupType::create([
             'code' => '4000',
             'name' => 'Revenue',
+            'is_fixed' => true,
         ]);
         GroupType::create([
             'code' => '5000',
             'name' => 'Expenses',
+            'is_fixed' => true,
         ]);
     }
 }

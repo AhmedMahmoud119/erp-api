@@ -38,7 +38,7 @@ class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
             ->when(request()->creator_id, function ($q) {
                 $q->where('creator_id', request()->creator_id);
             })->with('creator')
-            ->orderBy('type_name', 'asc')->get();
+            ->get();
     }
 
     public function findById(string $id): GroupType
@@ -51,6 +51,7 @@ class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
         $this->groupType::create([
             'type_name' => $request->type_name,
             'code' => $request->code,
+            'is_fixed' => false,
             'creator_id' => auth()->user()->id,
 
         ]);
@@ -62,7 +63,10 @@ class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
     {
 
        $groupType = $this->groupType::findOrFail($id);
-
+       if(  in_array($id,[1,2,3,4,5] ))
+       {
+           return false;
+       }
        $groupType->update([
            'type_name' => $request->type_name,
            'code' => $request->code,
