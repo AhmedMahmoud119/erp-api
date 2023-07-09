@@ -13,8 +13,8 @@ class CompanyResource extends JsonResource
             'id'=>$this->id,
             'name'=>$this->name,
             'status'=>$this->status,
-            'tenant_id'=>$this->tenant->id,
-            'tenant_name'=>$this->tenant->name,
+//            'tenant_id'=>$this->tenant->id,
+//            'tenant_name'=>$this->tenant->name,
             'creator'=>$this->creator->name,
 
         ];

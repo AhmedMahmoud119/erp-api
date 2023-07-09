@@ -67,8 +67,14 @@ class PermissionsTableSeeder extends Seeder
                     ];
                 },$permissions);
 
-                foreach ($permissionsMap as $permission)
-                    Permission::firstOrCreate($permission);
+                foreach ($permissionsMap as $permission){
+                    Permission::firstOrCreate([
+                        'name' => $permission['name'],
+                        'guard_name' => $permission['guard_name'],
+                        'permission_category_id' => $permission['permission_category_id'],
+                    ]);
+                }
+
             }
 
 

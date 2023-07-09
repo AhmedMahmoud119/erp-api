@@ -17,7 +17,7 @@ class StoreCompanyRequest extends FormRequest
         return [
             'name' => 'required|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
             'status' => ['required', Rule::in(['In-Active', 'Active'])],
-            'tenant_id' => 'required|exists:tenants,id',
+            'tenant_id' => 'nullable|exists:tenants,id',
         ];
     }
     public function messages()
@@ -27,7 +27,7 @@ class StoreCompanyRequest extends FormRequest
             'name.regex' => __('The name must only contain letters'),
             'status.required' => __('The status field is required'),
             'status.in' => __('The status is invalid'),
-            'tenant_id.required' => __('The tenant is required'),
+//            'tenant_id.required' => __('The tenant is required'),
             'tenant_id.exists' => __('The tenant not exist'),
 
         ];
