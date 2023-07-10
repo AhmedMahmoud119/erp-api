@@ -16,7 +16,7 @@ class UpdateGroupTypeRequest extends FormRequest
     public function rules(Request $request)
     {
         return [
-            'type_name' => 'required|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
+            'name' => 'required|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
 
 
 
@@ -26,8 +26,8 @@ class UpdateGroupTypeRequest extends FormRequest
     public function messages()
     {
         return [
-            'type_name.required' => __('The name field is required'),
-            'type_name.regex' => __('The name must only contain letters'),
+            'name.required' => __('The name field is required'),
+            'name.regex' => __('The name must only contain letters'),
         ];
 
     }

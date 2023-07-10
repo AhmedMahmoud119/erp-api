@@ -16,16 +16,16 @@ class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
     public function list()
     {
         return $this->groupType::when(request()->sort_by, function ($q) {
-            if (in_array(request()->sort_by, [ 'type_name','code','creator_id' ])) {
+            if (in_array(request()->sort_by, [ 'name','code','creator_id' ])) {
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
             }
         })->when(request()->search, function ($q) {
-            $q->where('type_name', 'like', '%' . request()->search . '%')
+            $q->where('name', 'like', '%' . request()->search . '%')
                 ->orwhere('code', 'like', '%' . request()->search . '%');
 
         })
-            ->when(request()->type_name, function ($q) {
-            $q->where('type_name', request()->type_name);
+            ->when(request()->name, function ($q) {
+            $q->where('name', request()->name);
               })->when(request()->name,function ($q){
             $q->where('code',request()->code );
         })
@@ -52,9 +52,9 @@ class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
             ->orderBy('id', 'DESC')
             ->first();
         $this->groupType::create([
-            'type_name' => $request->type_name,
+            'name' => $request->name,
             'code' => $groupType->code+1000,
-            'is_fixed' => false,
+            'is_fixed' => 0,
             'creator_id' => auth()->user()->id,
 
         ]);
@@ -71,7 +71,7 @@ class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
            return false;
        }
        $groupType->update([
-           'type_name' => $request->type_name,
+           'name' => $request->name,
         ]);
 
         return true;

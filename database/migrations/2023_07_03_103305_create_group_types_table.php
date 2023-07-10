@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('group_types', function (Blueprint $table) {
             $table->id();
-            $table->string('type_name');
+            $table->string('name');
             $table->integer('code');
             $table->string('is_fixed')->default('false');
             $table->foreignId('creator_id')->references('id')->on('users')->nullable();

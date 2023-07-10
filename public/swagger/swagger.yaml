@@ -1,0 +1,58 @@
+swagger: '2.0'
+info:
+  description: LPT APis
+  version: 1.0.0
+  title: LPT Frontend API's
+basePath: /api/
+tags:
+  - name: Group
+    description: Manage Group
+
+paths:
+  /group:
+    get:
+      tags:
+        - Group
+      summary: Manage Group
+      description: 'Manage Group with this API'
+      operationId: Group
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Bad request
+      security:
+        - api_key: [ ]
+    post:
+      tags:
+        - Group
+      summary: Create Group
+      description: 'Create Group with this API'
+      operationId: createGroup
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: name
+          type: string
+          required: true
+
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Bad request
+      security:
+        - api_key: []
+
+securityDefinitions:
+  api_key:
+    type: apiKey
+    name: Authorization
+    in: header

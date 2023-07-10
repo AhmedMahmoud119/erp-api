@@ -13,7 +13,7 @@ class GroupType extends Model
     use HasFactory,SoftDeletes;
 
     protected $fillable = [
-        'type_name',
+        'name',
         'code',
         'creator_id',
 
