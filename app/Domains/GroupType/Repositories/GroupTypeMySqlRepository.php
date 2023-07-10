@@ -48,9 +48,12 @@ class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
 
     public function store($request): bool
     {
+        $groupType=GroupType::select("code")
+            ->orderBy('id', 'DESC')
+            ->first();
         $this->groupType::create([
             'type_name' => $request->type_name,
-            'code' => $request->code,
+            'code' => $groupType->code+1000,
             'is_fixed' => false,
             'creator_id' => auth()->user()->id,
 
@@ -69,7 +72,6 @@ class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
        }
        $groupType->update([
            'type_name' => $request->type_name,
-           'code' => $request->code,
         ]);
 
         return true;
@@ -78,7 +80,8 @@ class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
     public function delete(string $id): bool
     {
         $groups=Group::where('group_type_id',$id)->get();
-        if($groups)
+
+        if($groups ||in_array($id,[1,2,3,4,5] ))
             return false;
         $this->groupType::findOrFail($id)->delete();
 

@@ -17,9 +17,7 @@ class Group extends Model
         'name',
         'group_type_id',
         'code',
-        'parent',
         'creator_id',
-
     ];
     public function creator()
     {

@@ -53,25 +53,7 @@ class GroupMySqlRepository implements GroupRepositoryInterface
     public function store($request)
     {
         $group_type=GroupType::findOrFail($request->group_type_id);
-        if($request->parent==1)
-        {
-            $groupParent=Group::select("code")->whereBetween('code', [$group_type->code,$group_type->code + 999])
-                ->where('parent','1')
-                ->orderBy('id', 'DESC')
-                ->first();
-            if($groupParent)
-            {
-                $code=$groupParent->code+100;
-            }
-            else
-            {
-                $code=$group_type->code+100;
-            }
-        }
-        else
-        {
-            $group=Group::select("code")->whereBetween('code', [$group_type->code,$group_type->code + 999])
-                ->where('parent','0')
+        $group=Group::select("code")->whereBetween('code', [$group_type->code,$group_type->code + 999])
                 ->orderBy('id', 'DESC')
                 ->first();
             if($group)
@@ -80,13 +62,11 @@ class GroupMySqlRepository implements GroupRepositoryInterface
             }
             else
             {
-                $code=$group_type->code;
+                $code=$group_type->code+1;
             }
-        }
 
         $this->group::create([
             'name' => $request->name,
-            'parent' => $request->parent,
             'group_type_id' => $request->group_type_id,
             'code' =>$code,
             'creator_id' => auth()->user()->id,

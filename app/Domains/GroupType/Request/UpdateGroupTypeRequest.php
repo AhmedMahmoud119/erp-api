@@ -17,7 +17,8 @@ class UpdateGroupTypeRequest extends FormRequest
     {
         return [
             'type_name' => 'required|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
-            'code' =>  ['required', 'integer', 'gt:5'],
+
+
 
 
         ];
@@ -27,10 +28,6 @@ class UpdateGroupTypeRequest extends FormRequest
         return [
             'type_name.required' => __('The name field is required'),
             'type_name.regex' => __('The name must only contain letters'),
-            'code.required' => __('The code field is required'),
-
-
-
         ];
 
     }
