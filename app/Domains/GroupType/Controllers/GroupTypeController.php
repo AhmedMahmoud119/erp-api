@@ -38,12 +38,12 @@ class GroupTypeController extends Controller
             return response()->json([
                 'message' => __('Deleted Successfully'),
                 'status' => true,
-            ], 200);
+            ], Response::HTTP_OK);
         }
         return response()->json([
             'message' => __('Can not Deleted because it belong to Group'),
             'status' => false,
-        ], 402);
+        ], Response::HTTP_UNPROCESSABLE_ENTITY);
 
     }
 
@@ -51,7 +51,7 @@ class GroupTypeController extends Controller
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionGroupType::view_groupTypes->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new GroupTypeResource($this->groupTypeService->findById($id));
+        return  GroupTypeResource::make($this->groupTypeService->findById($id));
     }
 
     public function create(StoreGroupTypeRequest $request)
@@ -63,7 +63,7 @@ class GroupTypeController extends Controller
         return response()->json([
             'message' => __('Created Successfully'),
             'status' => true,
-        ], 200);
+        ], Response::HTTP_OK);
     }
 
     public function update($id, UpdateGroupTypeRequest $request)
@@ -76,12 +76,12 @@ class GroupTypeController extends Controller
            return response()->json([
                'message' => __('Updated Successfully'),
                'status' => true,
-           ], 200);
+           ], Response::HTTP_OK);
        }
         return response()->json([
             'message' => __('Can Not update this Group Type'),
             'status' => false,
-        ], 402);
+        ], Response::HTTP_UNPROCESSABLE_ENTITY);
 
     }
  

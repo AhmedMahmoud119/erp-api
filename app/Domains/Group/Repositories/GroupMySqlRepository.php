@@ -33,17 +33,17 @@ class GroupMySqlRepository implements GroupRepositoryInterface
             })->when(request()->name,function ($q){
                 $q->where('name',request()->name );
             })
-                ->when(request()->from, function ($q) {
-                        $q->whereDate('created_at', '>=', request()->from);
-                })->when(request()->to, function ($q) {
-                        $q->whereDate('created_at', '<=', request()->to);
-                    })
+            ->when(request()->from, function ($q) {
+                $q->whereDate('created_at', '>=', request()->from);
+            })->when(request()->to, function ($q) {
+                $q->whereDate('created_at', '<=', request()->to);
+            })
 
-                    ->when(request()->creator_id, function ($q) {
-                        $q->where('creator_id', request()->creator_id);
-                    })->with('creator','group_type')
+            ->when(request()->creator_id, function ($q) {
+                $q->where('creator_id', request()->creator_id);
+            })->with('creator','group_type')
             ->paginate(request('limit', config('app.pagination_count'))) ;
-            }
+    }
 
     public function findById(string $id): Group
     {
@@ -53,17 +53,14 @@ class GroupMySqlRepository implements GroupRepositoryInterface
     public function store($request)
     {
         $group_type=GroupType::findOrFail($request->group_type_id);
-        $group=Group::select("code")->whereBetween('code', [$group_type->code,$group_type->code + 999])
-                ->orderBy('id', 'DESC')
-                ->first();
-            if($group)
-            {
-                $code=$group->code+1;
-            }
-            else
-            {
-                $code=$group_type->code+1;
-            }
+        $group=Group::select("code")->whereBetween('code', [$group_type->code*1000,$group_type->code*1000 + 999])
+            ->orderBy('id', 'DESC')
+            ->first();
+        $code=$group_type->code*1000+1;
+        if($group)
+        {
+            $code=$group->code+1;
+        }
 
         $this->group::create([
             'name' => $request->name,
@@ -82,7 +79,7 @@ class GroupMySqlRepository implements GroupRepositoryInterface
         $group = $this->group::findOrFail($id);
 
         $group->update([
-            'type_name' => $request->type_name,
+            'name' => $request->name,
         ]);
 
         return true;

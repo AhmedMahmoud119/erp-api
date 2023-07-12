@@ -13,14 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('group_types', function (Blueprint $table) {
+        Schema::create('currency_codes', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->integer('code');
-            $table->boolean('is_fixed')->default(false);
-            $table->foreignId('creator_id')->references('id')->on('users')->nullable();
+            $table->string('name')->nullable();
+            $table->string('code')->nullable();
+            $table->string('symbol')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('group_types');
+        Schema::dropIfExists('currency_codes');
     }
 };

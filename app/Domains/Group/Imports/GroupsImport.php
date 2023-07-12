@@ -37,5 +37,18 @@ class GroupsImport implements ToModel, WithValidation, WithHeadingRow
 
         ];
     }
+//    public function withValidator($validator)
+//    {
+//        $validator->after(function ($validator) {
+//            if ($this->somethingElseIsInvalid()) {
+//                $validator->errors()->add('field', 'Something is wrong with this field!');
+//            }
+//        });
+//
+//        // or...
+//
+//        $validator->sometimes('*.email', 'required', $this->someConditionalRequirement());
+//    }
+
 
 }

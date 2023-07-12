@@ -76,7 +76,7 @@ class CurrencyMySqlRepository implements CurrencyRepositoryInterface
     public function update(string $id, $request, $price): bool
     {
         $currency = $this->currency::findOrFail($id);
-        $code = DB::table('currency')->where('code', '=', $request->code)->first();
+        $code = DB::table('currency_codes')->where('code', '=', $request->code)->first();
         $default = $request->default;
         if ($default == '1') {
             Currency::where("id", "!=", $id)->update(["default" => 0]);
