@@ -55,7 +55,7 @@ class CurrencyMySqlRepository implements CurrencyRepositoryInterface
 
     public function store($request, $price): bool
     {
-        $code = DB::table('currency')->where('code', '=', $request->code)->first();
+        $code = DB::table('currency_codes')->where('code', '=', $request->code)->first();
         $currencies = Currency::get();
         $this->currency::create([
             'name'           => $request->name,
@@ -76,7 +76,7 @@ class CurrencyMySqlRepository implements CurrencyRepositoryInterface
     public function update(string $id, $request, $price): bool
     {
         $currency = $this->currency::findOrFail($id);
-        $code = DB::table('currency')->where('code', '=', $request->code)->first();
+        $code = DB::table('currency_codes')->where('code', '=', $request->code)->first();
         $default = $request->default;
         if ($default == '1') {
             Currency::where("id", "!=", $id)->update(["default" => 0]);

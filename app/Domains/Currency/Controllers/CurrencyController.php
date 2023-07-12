@@ -87,7 +87,7 @@ class CurrencyController extends Controller
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCurrency::get_codes->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return DB::table('currency')->get();
+        return DB::table('currency_codes')->get();
 
     }
 }

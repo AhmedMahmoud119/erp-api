@@ -35,3 +35,4 @@ Route::get('languages/list', function () {
 
     return response()->json($full_data);
 });
+

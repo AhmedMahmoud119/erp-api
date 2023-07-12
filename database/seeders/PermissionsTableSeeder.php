@@ -7,6 +7,8 @@ use App\Domains\Company\Models\EnumPermissionCompany;
 use App\Domains\Currency\Models\EnumPermissionCurrency;
 use App\Domains\Field\Models\EnumPermissionField;
 use App\Domains\Form\Models\EnumPermissionForm;
+use App\Domains\GroupType\Models\EnumPermissionGroupType;
+use App\Domains\Group\Models\EnumPermissionGroup;
 use App\Domains\Module\Models\Module;
 use App\Domains\Permission\Models\EnumPermission;
 use App\Domains\Permission\Models\EnumPermissionRole;
@@ -24,8 +26,7 @@ class PermissionsTableSeeder extends Seeder
 
     public function run()
     {
-
-        $modules = [
+        $modules=[
             'Setup' => [
                 'Role' => array_column(EnumPermissionRole::cases(), 'value'),
                 'Permission' => array_column(EnumPermission::cases(), 'value'),
@@ -35,14 +36,23 @@ class PermissionsTableSeeder extends Seeder
                 'Form' => array_column(EnumPermissionForm::cases(), 'value'),
                 'Company' => array_column(EnumPermissionCompany::cases(), 'value'),
             ],
-            'Accountant' => [
+            'Accounting' => [
 
                 'Currency' => array_column(EnumPermissionCurrency::cases(), 'value'),
                 'BankAccount' => array_column(EnumPermissionBankAccount::cases(), 'value'),
                 'Tax' => array_column(EnumPermissionTax::cases(), 'value'),
                 'RevisionHistory' => array_column(EnumPermissionRevisionHistory::cases(), 'value'),
-            ]
-        ];
+                'GroupType' => array_column(EnumPermissionGroupType::cases(), 'value'),
+                'Group' => array_column(EnumPermissionGroup::cases(), 'value'),
+
+
+            ],
+
+        $modules = [
+            ['name' => 'Setup'],
+            ['name' => 'Accountant'],
+        ]];
+        Module::insert($modules);
 
         foreach ($modules as $key => $module) {
             $moduleModel = Module::firstOrCreate([
