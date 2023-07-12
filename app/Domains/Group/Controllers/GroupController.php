@@ -26,14 +26,14 @@ class GroupController extends Controller
     public function list(FilterGroupRequest $request)
     {
 
-//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionGroup::view_groups->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionGroup::view_groups->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return  GroupResource::collection($this->groupService->list());
     }
 
     public function delete($id)
     {
-//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionGroup::delete_group->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionGroup::delete_group->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->groupService->delete($id);
         return response()->json([
@@ -44,7 +44,7 @@ class GroupController extends Controller
 
     public function findById($id)
     {
-//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionGroup::view_groups->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionGroup::view_groups->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new GroupResource($this->groupService->findById($id));
     }
@@ -52,7 +52,7 @@ class GroupController extends Controller
     public function create(StoreGroupRequest $request)
     {
 
-//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionGroup::create_group->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionGroup::create_group->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->groupService->create($request);
         return response()->json([
@@ -64,7 +64,7 @@ class GroupController extends Controller
     public function update($id, UpdateGroupRequest $request)
     {
 
-//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionGroup::edit_group->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionGroup::edit_group->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->groupService->update($id, $request);
         return response()->json([
@@ -75,19 +75,19 @@ class GroupController extends Controller
     public function generatePDF()
     {
 
-//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissiongroup::generatePDF_groups->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissiongroup::generatePDF_groups->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return $this->groupService->generatePDF();
     }
     public function export()
     {
-//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissiongroup::export_groups->value,'api'),Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissiongroup::export_groups->value,'api'),Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return $this->groupService->export();
     }
     public function import(ImportGroupRequest $request)
     {
-//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissiongroup::import_groups->value,'api'),Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissiongroup::import_groups->value,'api'),Response::HTTP_FORBIDDEN, '403 Forbidden');
 
          $this->groupService->import($request);
         return response()->json([
