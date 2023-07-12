@@ -129,6 +129,6 @@ class CurrencyCodesSeeder extends Seeder
             (111, 'Rials', 'YER', '﷼'),
             (112, 'Zimbabwe Dollars', 'ZWD', 'Z$'),
             (113, 'Rupees', 'INR', '₹');";
-       DB::statement($sql);
+        DB::statement($sql);
     }
 }
