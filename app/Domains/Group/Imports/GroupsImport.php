@@ -19,7 +19,6 @@ class GroupsImport implements ToModel, WithValidation, WithHeadingRow
         return new Group([
             'name' => $row['name'],
             'code' => $row['code'],
-            'parent' => $row['parent'],
             'group_type_id' => $row['group_type_id'],
             'creator_id' => auth()->user()->id,
             'created_at' =>now(),
@@ -30,12 +29,11 @@ class GroupsImport implements ToModel, WithValidation, WithHeadingRow
     {
         return [
 
-            'name' => 'required',
-            '*.name' => 'required',
+            'name' => 'required|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
+            '*.name' => 'required|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
             'code' => 'required',
             '*.code' => 'required',
-            'group_type_id' => 'required',
-            '*.group_type_id' => 'required',
+            'group_type_id' => 'required|exists:group_types,id',
 
         ];
     }

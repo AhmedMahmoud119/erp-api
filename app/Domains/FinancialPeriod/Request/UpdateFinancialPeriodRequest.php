@@ -13,7 +13,7 @@ class UpdateFinancialPeriodRequest extends FormRequest
         return true;
     }
 
-    public function rules(Request $request)
+    public function rules()
     {
         return [
             'financial_Year' => 'required',

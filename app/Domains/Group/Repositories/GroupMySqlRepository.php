@@ -42,7 +42,7 @@ class GroupMySqlRepository implements GroupRepositoryInterface
                     ->when(request()->creator_id, function ($q) {
                         $q->where('creator_id', request()->creator_id);
                     })->with('creator','group_type')
-                    ->orderBy('name', 'asc')->get();
+            ->paginate(request('limit', config('app.pagination_count'))) ;
             }
 
     public function findById(string $id): Group

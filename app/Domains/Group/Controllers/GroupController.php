@@ -89,7 +89,11 @@ class GroupController extends Controller
     {
 //        abort_if(!auth()->user()->hasPermissionTo(EnumPermissiongroup::import_groups->value,'api'),Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return $this->groupService->import($request);
+         $this->groupService->import($request);
+        return response()->json([
+            'message' => __('Created Successfully'),
+            'status' => true,
+        ], 200);
     }
  
 

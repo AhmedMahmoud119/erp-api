@@ -23,6 +23,6 @@ Route::group(['middleware' => 'auth:sanctum','prefix' => 'groupType'],function (
 
 });
 Route::get('/docs/swagger', function () {
-    return view('swagger.index');
+    return "hello";
 });
 
