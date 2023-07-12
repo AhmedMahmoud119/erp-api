@@ -6,7 +6,6 @@ use App\Domains\Tenant\Interfaces\TenantRepositoryInterface;
 use App\Domains\Tenant\Models\Tenant;
 use App\Domains\User\Models\User;
 use App\Jobs\CreateTenantJob;
-
 class TenantMySqlRepository implements TenantRepositoryInterface
 {
     public function __construct(private Tenant $tenant)
@@ -30,7 +29,7 @@ class TenantMySqlRepository implements TenantRepositoryInterface
         })->when(request()->industry_type, function ($q) {
             $q->where('industry_type', request()->industry_type);
         })->with('domains')->get();
-//            ->paginate(request('limit',config('app.pagination_count')));
+        //            ->paginate(request('limit',config('app.pagination_count')));
     }
 
     public function findById(string $id)
@@ -44,22 +43,22 @@ class TenantMySqlRepository implements TenantRepositoryInterface
     }
 
 
-    public function store($request):bool
+    public function store($request): bool
     {
-        $tenant = $this->tenant::create($request->except(['password', 'password_confirmation'])
-            +
-            [
-                'creator_id' => auth()->user()->id
-            ]
+        $tenant = $this->tenant::create(
+            $request->except(['password', 'password_confirmation'])
+                +
+                [
+                    'creator_id' => auth()->user()->id
+                ]
         );
         $tenant->domains()->create([
             'domain' => $request->domain,
         ]);
-
         return true;
     }
 
-    public function update(string $id, $request):bool
+    public function update(string $id, $request): bool
     {
         $tenant = $this->tenant::findOrFail($id);
         $tenant->update([
