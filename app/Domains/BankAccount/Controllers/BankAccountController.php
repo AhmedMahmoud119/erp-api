@@ -73,13 +73,13 @@ class BankAccountController extends Controller
     public function generatePDF()
     {
 
-//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::generatePDF_bankAccounts->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::generatePDF_bankAccounts->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return $this->bankAccountService->generatePDF();
     }
     public function export()
     {
-//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::export_bankAccounts->value,'api'),Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::export_bankAccounts->value,'api'),Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return $this->bankAccountService->export();
     }

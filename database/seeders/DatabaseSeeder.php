@@ -25,9 +25,10 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             PermissionsTableSeeder::class,
-            // TaxTableSeeder::class,
+            GroupTypeSeeder::class,
 //            FinancialPeriodSeeder::class,
             // TaxSeeder::class,
+            CurrencyCodesSeeder::class,
         ]);
 
         $user->roles()->sync([1]);

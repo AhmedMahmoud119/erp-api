@@ -21,7 +21,7 @@ class StoreBankAccountRequest extends FormRequest
 //            'account_type' => 'required',
 //            'chart_of_account' => 'required',
             'currency_id' => 'exists:currencies,id|nullable',
-            'opening_balance' => 'required|numeric',
+            'opening_balance' => 'required|numeric|gt:0',
             'authorized_by.*' => 'nullable|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
 
         ];
