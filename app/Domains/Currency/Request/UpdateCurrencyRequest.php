@@ -21,7 +21,7 @@ class UpdateCurrencyRequest extends FormRequest
             'code' => ['required','exists:currency,code'],
             'price_rate' => ['required', Rule::in(['Custom', 'Official'])],
             'backup_changes' => ['required_if:price_rate,Official' ,'nullable', Rule::in(['Custom', '12_pm_every_day', '12_am_every_day', '24_hours_per_day'])],
-            'price' => 'required_if:price_rate,Custom|numeric|nullable',
+            'price' => 'required_if:price_rate,Custom|numeric|nullable|gt:0',
             'from' => 'required_if:backup_changes,Custom|date|nullable',
             'to' => 'required_if:backup_changes,Custom|date|after_or_equal:date_from|nullable',
             'default' => [ Rule::in(['0','1'])],

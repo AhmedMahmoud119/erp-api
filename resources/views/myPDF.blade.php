@@ -74,7 +74,7 @@
             <td>{{ $bankaccount->status }}</td>
             <td>{{ $bankaccount->opening_balance }}</td>
             <td>{{ $bankaccount->current_balance }}</td>
-            <td>{{ $bankaccount->creator->name }}</td>
+            <td>{{ $bankaccount->creator->name??null }}</td>
             <td>{{ $bankaccount->created_at }}</td>
 
         </tr>

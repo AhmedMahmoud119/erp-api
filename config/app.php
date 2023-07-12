@@ -189,6 +189,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
+        L5Swagger\L5SwaggerServiceProvider::class,
 
 
 
@@ -220,6 +221,10 @@ return [
         App\Domains\BankAccount\Providers\BankAccountServiceProvider::class,
         App\Domains\FinancialPeriod\Providers\FinancialPeriodServiceProvider::class,
         App\Domains\RevisionHistory\Providers\RevisionHistoryServiceProvider::class,
+        App\Domains\GroupType\Providers\GroupTypeServiceProvider::class,
+        App\Domains\Group\Providers\GroupServiceProvider::class,
+
+
 
 
 

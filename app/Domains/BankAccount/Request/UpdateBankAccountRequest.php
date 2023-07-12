@@ -23,7 +23,8 @@ class UpdateBankAccountRequest extends FormRequest
 //            'chart_of_account' => 'required',
             'currency_id' => 'nullable|exists:currencies,id',
             'authorized_by.*' => 'nullable|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
-            'status'=>Rule::in('Active','In-Active')
+            'status'=>Rule::in('Active','In-Active'),
+            'current_balance'=>'gt:0',
 
 
         ];
