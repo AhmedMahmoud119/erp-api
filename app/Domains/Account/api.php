@@ -18,9 +18,9 @@ Route::group(['middleware' => 'auth:sanctum','prefix' => 'account'],function (){
     Route::get('/', [\App\Domains\Account\Controllers\AccountController::class, 'list']);
     Route::get('/{id}', [\App\Domains\Account\Controllers\AccountController::class, 'findById']);
     Route::delete('/{id}', [\App\Domains\Account\Controllers\AccountController::class, 'delete']);
+    Route::post('bulk-delete', [\App\Domains\Account\Controllers\AccountController::class, 'bulkDelete']);
     Route::post('/create', [\App\Domains\Account\Controllers\AccountController::class, 'create']);
     Route::post('/update/{id}', [\App\Domains\Account\Controllers\AccountController::class, 'update']);
-    Route::get('export/pdf', [\App\Domains\Account\Controllers\AccountController::class, 'generatePDF']);
-    Route::get('/export/cvs', [\App\Domains\Account\Controllers\AccountController::class, 'export']);
+    Route::post('/import', [\App\Domains\Account\Controllers\AccountController::class, 'import']);
 });
 

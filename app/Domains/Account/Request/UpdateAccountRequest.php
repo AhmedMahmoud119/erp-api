@@ -8,6 +8,7 @@ use \Illuminate\Validation\Rule;
 
 class UpdateAccountRequest extends FormRequest
 {
+
     public function authorize()
     {
         return true;
@@ -19,11 +20,15 @@ class UpdateAccountRequest extends FormRequest
 
         ];
     }
+
     public function messages()
     {
         return [
-
+            'name'            => 'required',
+            'group_id'        => 'required|exists:groups,id',
+            'opening_balance' => 'numeric',
+            'account_type'    => ['required', Rule::in(['Cr', 'Dr', 'Both'])],
+            'parent_id'       => 'nullable|exists:accounts,id',
         ];
-
     }
 }

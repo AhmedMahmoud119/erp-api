@@ -5,7 +5,8 @@ namespace App\Domains\Account\Controllers;
 
 use App\Domains\Account\Models\Account;
 use App\Domains\Account\Models\EnumPermissionAccount;
-use App\Domains\Account\Request\FilterAccountRequest;
+use App\Domains\Account\Request\ImportAccountRequest;
+use App\Domains\Account\Request\ListAccountRequest;
 use App\Domains\Account\Request\StoreAccountRequest;
 use App\Domains\Account\Request\UpdateAccountRequest;
 use App\Domains\Account\Resources\AccountResource;
@@ -21,7 +22,7 @@ class AccountController extends Controller
     {
     }
 
-    public function list(FilterAccountRequest $request)
+    public function list(ListAccountRequest $request)
     {
 
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionAccount::view_accounts->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -34,6 +35,17 @@ class AccountController extends Controller
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionAccount::delete_account->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->accountService->delete($id);
+        return response()->json([
+            'message' => __('Deleted Successfully'),
+            'status' => true,
+        ], 200);
+    }
+
+    public function bulkDelete()
+    {
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionAccount::delete_account->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $this->accountService->bulkDelete();
         return response()->json([
             'message' => __('Deleted Successfully'),
             'status' => true,
@@ -82,6 +94,17 @@ class AccountController extends Controller
 //        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionAccount::export_accounts->value,'api'),Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return $this->accountService->export();
+    }
+
+    public function import(ImportAccountRequest $request)
+    {
+//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionAccount::export_accounts->value,'api'),Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $this->accountService->import();
+
+        return response()->json([
+            'message' => __('messages.imported_successfully'),
+            'status' => true,
+        ], 200);
     }
 
 }

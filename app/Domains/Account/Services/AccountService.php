@@ -4,7 +4,9 @@ namespace App\Domains\Account\Services;
 
 
 use App\Domains\Account\Exports\AccountsExport;
+use App\Domains\Account\Imports\AccountsImport;
 use App\Domains\Account\Interfaces\AccountRepositoryInterface;
+use App\Domains\Group\Imports\GroupsImport;
 use App\Mail\SendPassword;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
@@ -28,6 +30,10 @@ class AccountService
     {
         return $this->accountRepository->delete($id);
     }
+    public function bulkDelete()
+    {
+        return $this->accountRepository->bulkDelete();
+    }
 
     public function create($request)
     {
@@ -40,6 +46,14 @@ class AccountService
 
         return $this->accountRepository->update($id,$request);
     }
+
+    public function import()
+    {
+        Excel::import(new AccountsImport, request()->file);
+
+        return true;
+    }
+
     public function generatePDF()
     {
         return $this->accountRepository->generatePDF();

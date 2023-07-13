@@ -15,7 +15,11 @@ class StoreAccountRequest extends FormRequest
     public function rules()
     {
         return [
-
+            'name'            => 'required',
+            'group_id'        => 'required|exists:groups,id',
+            'opening_balance' => 'numeric',
+            'account_type'    => ['required', Rule::in(['Cr', 'Dr', 'Both'])],
+            'parent_id'       => 'nullable|exists:accounts,id',
         ];
 
     }
