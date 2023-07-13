@@ -5,11 +5,6 @@ namespace App\Domains\Account\Repositories;
 use App\Domains\Account\Interfaces\AccountRepositoryInterface;
 use App\Domains\Account\Models\Account;
 use App\Domains\Group\Models\Group;
-use Illuminate\Support\Facades\Storage;
-
-// use PDF;
-use Barryvdh\DomPDF\Facade\Pdf;
-
 class AccountMySqlRepository implements AccountRepositoryInterface
 {
 

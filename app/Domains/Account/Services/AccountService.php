@@ -3,12 +3,8 @@
 namespace App\Domains\Account\Services;
 
 
-use App\Domains\Account\Exports\AccountsExport;
 use App\Domains\Account\Imports\AccountsImport;
 use App\Domains\Account\Interfaces\AccountRepositoryInterface;
-use App\Domains\Group\Imports\GroupsImport;
-use App\Mail\SendPassword;
-use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 
 class AccountService
@@ -54,18 +50,4 @@ class AccountService
         return true;
     }
 
-    public function generatePDF()
-    {
-        return $this->accountRepository->generatePDF();
-    }
-    public function export()
-    {
-        $filename = time() . '-accounts.csv';
-        $path = 'exports/accounts/' . $filename;
-        Excel::store(new AccountsExport(), $path, 'public');
-
-        return response()->json([
-            'file_path' => asset('storage/'.$path)
-        ]);
-    }
 }

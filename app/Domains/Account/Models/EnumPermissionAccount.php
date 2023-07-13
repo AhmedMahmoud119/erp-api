@@ -10,7 +10,6 @@ enum EnumPermissionAccount: string
     case edit_account = 'Edit Account';
     case delete_account = 'Delete Account';
     case view_accounts = 'View Accounts';
-    case generatePDF_accounts = 'Generate PDF Accounts';
-    case export_accounts = 'Export Accounts';
+    case import_accounts = 'Import Accounts';
 
 }

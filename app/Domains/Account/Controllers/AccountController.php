@@ -3,7 +3,6 @@
 namespace App\Domains\Account\Controllers;
 
 
-use App\Domains\Account\Models\Account;
 use App\Domains\Account\Models\EnumPermissionAccount;
 use App\Domains\Account\Request\ImportAccountRequest;
 use App\Domains\Account\Request\ListAccountRequest;
@@ -82,23 +81,10 @@ class AccountController extends Controller
             'status' => true,
         ], 200);
     }
-    public function generatePDF()
-    {
-
-//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionAccount::generatePDF_accounts->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return $this->accountService->generatePDF();
-    }
-    public function export()
-    {
-//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionAccount::export_accounts->value,'api'),Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return $this->accountService->export();
-    }
 
     public function import(ImportAccountRequest $request)
     {
-//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionAccount::export_accounts->value,'api'),Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionAccount::import_accounts->value,'api'),Response::HTTP_FORBIDDEN, '403 Forbidden');
         $this->accountService->import();
 
         return response()->json([

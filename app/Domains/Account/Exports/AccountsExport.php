@@ -3,7 +3,6 @@
 namespace App\Domains\Account\Exports;
 
 use App\Domains\Account\Models\Account;
-use App\Domains\Account\Resources\AccountResource;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
