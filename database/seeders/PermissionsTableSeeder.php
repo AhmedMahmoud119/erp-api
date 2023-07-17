@@ -39,8 +39,8 @@ class PermissionsTableSeeder extends Seeder
                 'Form' => array_column(EnumPermissionForm::cases(), 'value'),
                 'Company' => array_column(EnumPermissionCompany::cases(), 'value'),
             ],
-            'Accounting' => [
 
+            'Accounting' => [
                 'Currency' => array_column(EnumPermissionCurrency::cases(), 'value'),
                 'BankAccount' => array_column(EnumPermissionBankAccount::cases(), 'value'),
                 'Tax' => array_column(EnumPermissionTax::cases(), 'value'),
