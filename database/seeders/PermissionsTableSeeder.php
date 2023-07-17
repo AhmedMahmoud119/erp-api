@@ -50,40 +50,40 @@ class PermissionsTableSeeder extends Seeder
             ]
         ];
 
-        foreach ($modules as $key => $module){
+
+            ],
+
+        $modules = [
+            ['name' => 'Setup'],
+            ['name' => 'Accountant'],
+        ]];
+
+        foreach ($modules as $key => $module) {
             $moduleModel = Module::firstOrCreate([
                 'name' => $key
             ]);
 
-            foreach ($module as $permissionCategoryKey => $permissions){
+            foreach ($module as $permissionCategoryKey => $permissions) {
                 $permissionCategoryModel = $moduleModel->permissionCategories()->firstOrCreate([
                     'name' => $permissionCategoryKey
                 ]);
 
-                $permissionsMap = array_map(function($permission) use ($permissionCategoryModel) {
+                $permissionsMap = array_map(function ($permission) use ($permissionCategoryModel) {
                     return [
                         'name' => $permission,
                         'guard_name' => 'api',
                         'permission_category_id' => $permissionCategoryModel->id,
                     ];
-                },$permissions);
+                }, $permissions);
 
-                foreach ($permissionsMap as $permission){
-                    Permission::firstOrCreate([
-                        'name' => $permission['name'],
-                        'guard_name' => $permission['guard_name'],
-                        'permission_category_id' => $permission['permission_category_id'],
-                    ]);
-                }
-
+                foreach ($permissionsMap as $permission)
+                    Permission::firstOrCreate($permission);
             }
-
-
         }
 
-        Role::firstOrCreate(['name' => 'super-admin','guard_name'=>'api']);
+        Role::firstOrCreate(['name' => 'super-admin', 'guard_name' => 'api']);
         $admin_permissions = Permission::all();
-        Role::findOrFail(1)->permissions()->sync($admin_permissions->pluck('id'));// super admin
+        Role::findOrFail(1)->permissions()->sync($admin_permissions->pluck('id')); // super admin
 
         User::findOrFail(1)->roles()->sync(1); // super admin
 

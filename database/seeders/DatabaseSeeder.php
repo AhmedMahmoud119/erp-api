@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             GroupTypeSeeder::class,
 //            FinancialPeriodSeeder::class,
             // TaxSeeder::class,
+            CurrencyCodesSeeder::class,
         ]);
 
         $user->roles()->sync([1]);

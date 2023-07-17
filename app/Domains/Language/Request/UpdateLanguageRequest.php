@@ -12,7 +12,7 @@ class UpdateLanguageRequest extends FormRequest
         return true;
     }
 
-    public function rules(Request $request)
+    public function rules()
     {
         return [
             'key' => 'required',

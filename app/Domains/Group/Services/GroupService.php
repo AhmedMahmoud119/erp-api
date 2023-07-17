@@ -6,6 +6,8 @@ namespace App\Domains\Group\Services;
 use App\Domains\Group\Exports\GroupsExport;
 use App\Domains\Group\Imports\GroupsImport;
 use App\Domains\Group\Interfaces\GroupRepositoryInterface;
+use App\Domains\Group\Models\Group;
+use App\Domains\Group\Resources\GroupResource;
 use Maatwebsite\Excel\Facades\Excel;
 
 class GroupService
@@ -47,8 +49,8 @@ class GroupService
     {
         $filename = time() . '-groups.csv';
         $path = 'exports/groups/' . $filename;
+//        $groups = GroupResource::collection( Group::with('creator','group_type')->get());
         Excel::store(new GroupsExport(), $path, 'public');
-
         return response()->json([
             'file_path' => asset('storage/'.$path)
         ]);

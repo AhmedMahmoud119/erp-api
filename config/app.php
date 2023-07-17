@@ -189,7 +189,6 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
-        L5Swagger\L5SwaggerServiceProvider::class,
 
 
 

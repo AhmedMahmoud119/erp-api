@@ -38,7 +38,7 @@ class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
             ->when(request()->creator_id, function ($q) {
                 $q->where('creator_id', request()->creator_id);
             })->with('creator')
-            ->get();
+            ->paginate(request('limit', config('app.pagination_count')));
     }
 
     public function findById(string $id): GroupType
@@ -53,7 +53,7 @@ class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
             ->first();
         $this->groupType::create([
             'name' => $request->name,
-            'code' => $groupType->code+1000,
+            'code' => $groupType->code+1,
             'is_fixed' => 0,
             'creator_id' => auth()->user()->id,
 

@@ -14,11 +14,11 @@ class UpdateCurrencyRequest extends FormRequest
         return true;
     }
 
-    public function rules(Request $request)
+    public function rules()
     {
         return [
             'name' => 'required|regex:/^[a-zA-Z\s]*$/',
-            'code' => ['required','exists:currency,code'],
+            'code' => ['required','exists:currency_codes,code'],
             'price_rate' => ['required', Rule::in(['Custom', 'Official'])],
             'backup_changes' => ['required_if:price_rate,Official' ,'nullable', Rule::in(['Custom', '12_pm_every_day', '12_am_every_day', '24_hours_per_day'])],
             'price' => 'required_if:price_rate,Custom|numeric|nullable|gt:0',

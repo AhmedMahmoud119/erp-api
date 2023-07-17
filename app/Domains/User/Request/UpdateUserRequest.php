@@ -13,7 +13,7 @@ class UpdateUserRequest extends FormRequest
         return true;
     }
 
-    public function rules(Request $request)
+    public function rules()
     {
         return [
             'name' => 'required|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',

@@ -15,7 +15,7 @@ class GroupsExport implements FromCollection, WithMapping, WithHeadings, WithEve
 
     public function collection()
     {
-        return GroupResource::collection( Group::get());
+        return GroupResource::collection( Group::with('creator','group_type')->get());
 
     }
 
@@ -24,7 +24,7 @@ class GroupsExport implements FromCollection, WithMapping, WithHeadings, WithEve
         return [
             $data->id,
             $data->name,
-            $data->group_type->id??null,
+            $data->group_type->name??null,
             $data->creator->name??null,
             $data->created_at,
             $data->parent,

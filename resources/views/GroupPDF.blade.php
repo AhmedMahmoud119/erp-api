@@ -67,7 +67,7 @@
         <tr>
             <td>{{ $group->code }}</td>
             <td>{{ $group->name }}</td>
-            <td>{{ $group->group_type->type_name??null}}</td>
+            <td>{{ $group->group_type->name??null}}</td>
             <td>{{ $group->creator->name??null }}</td>
             <td>{{ $group->created_at }}</td>
 

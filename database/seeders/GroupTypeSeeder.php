@@ -17,31 +17,31 @@ class GroupTypeSeeder extends Seeder
     public function run()
     {
         GroupType::create([
-            'code' => '1000',
+            'code' => '1',
             'name' => 'Assets',
             'is_fixed' => 1,
             'creator_id'=>1
         ]);
         GroupType::create([
-            'code' => '2000',
+            'code' => '2',
             'name' => 'Liabilities',
             'is_fixed' => 1,
             'creator_id'=>1
         ]);
         GroupType::create([
-            'code' => '3000',
+            'code' => '3',
             'name' => 'Equity',
             'is_fixed' => 1,
             'creator_id'=>1
         ]);
         GroupType::create([
-            'code' => '4000',
+            'code' => '4',
             'name' => 'Revenue',
             'is_fixed' => 1,
             'creator_id'=>1
         ]);
         GroupType::create([
-            'code' => '5000',
+            'code' => '5',
             'name' => 'Expenses',
             'is_fixed' => 1,
             'creator_id'=>1
