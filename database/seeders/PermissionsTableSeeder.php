@@ -2,30 +2,32 @@
 
 namespace Database\Seeders;
 
+use App\Domains\Account\Models\EnumPermissionAccount;
 use App\Domains\BankAccount\Models\EnumPermissionBankAccount;
 use App\Domains\Company\Models\EnumPermissionCompany;
 use App\Domains\Currency\Models\EnumPermissionCurrency;
 use App\Domains\Field\Models\EnumPermissionField;
 use App\Domains\Form\Models\EnumPermissionForm;
-use App\Domains\GroupType\Models\EnumPermissionGroupType;
 use App\Domains\Group\Models\EnumPermissionGroup;
+use App\Domains\GroupType\Models\EnumPermissionGroupType;
 use App\Domains\Module\Models\Module;
 use App\Domains\Permission\Models\EnumPermission;
 use App\Domains\Permission\Models\EnumPermissionRole;
 use App\Domains\Permission\Models\EnumPermissionUser;
 use App\Domains\Permission\Models\Permission;
+use App\Domains\Permission\Models\PermissionCategory;
 use App\Domains\RevisionHistory\Models\EnumPermissionRevisionHistory;
-use App\Domains\Tenant\Models\EnumPermissionTenant;
-use App\Domains\User\Models\User;
 use App\Domains\Role\Models\Role;
 use App\Domains\Tax\Models\EnumPermissionTax;
+use App\Domains\Tenant\Models\EnumPermissionTenant;
+use App\Domains\User\Models\User;
 use Illuminate\Database\Seeder;
 
 class PermissionsTableSeeder extends Seeder
 {
-
     public function run()
     {
+
         $modules=[
             'Setup' => [
                 'Role' => array_column(EnumPermissionRole::cases(), 'value'),
@@ -44,6 +46,9 @@ class PermissionsTableSeeder extends Seeder
                 'RevisionHistory' => array_column(EnumPermissionRevisionHistory::cases(), 'value'),
                 'GroupType' => array_column(EnumPermissionGroupType::cases(), 'value'),
                 'Group' => array_column(EnumPermissionGroup::cases(), 'value'),
+                'Account' => array_column(EnumPermissionAccount::cases(), 'value'),
+            ]
+        ];
 
 
             ],
@@ -52,7 +57,6 @@ class PermissionsTableSeeder extends Seeder
             ['name' => 'Setup'],
             ['name' => 'Accountant'],
         ]];
-        Module::insert($modules);
 
         foreach ($modules as $key => $module) {
             $moduleModel = Module::firstOrCreate([
@@ -82,6 +86,7 @@ class PermissionsTableSeeder extends Seeder
         Role::findOrFail(1)->permissions()->sync($admin_permissions->pluck('id')); // super admin
 
         User::findOrFail(1)->roles()->sync(1); // super admin
+
 
     }
 }
