@@ -55,6 +55,7 @@
     'cant_delete_field_with_response' => 'Cant delete Field with response',
     'can_not_delete_because_the_role_assigned_to_users' => 'Can Not Delete because the Role assigned to users',
     'key_not_found' => 'Key not found',
+    'imported_successfully' => 'Imported Successfully',
 
 );
 
