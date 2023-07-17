@@ -79,10 +79,12 @@ class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
 
     public function delete(string $id): bool
     {
-        $groups=Group::where('group_type_id',$id)->get();
+        $groups = Group::where('group_type_id',$id)->count();
 
-        if($groups ||in_array($id,[1,2,3,4,5] ))
+        if($groups > 0 || in_array($id,[1,2,3,4,5] )){
             return false;
+        }
+
         $this->groupType::findOrFail($id)->delete();
 
         return true;
