@@ -28,6 +28,7 @@ class PermissionsTableSeeder extends Seeder
     public function run()
     {
 
+
         $modules=[
             'Setup' => [
                 'Role' => array_column(EnumPermissionRole::cases(), 'value'),
@@ -48,15 +49,10 @@ class PermissionsTableSeeder extends Seeder
                 'Group' => array_column(EnumPermissionGroup::cases(), 'value'),
                 'Account' => array_column(EnumPermissionAccount::cases(), 'value'),
             ]
+
         ];
 
 
-            ],
-
-        $modules = [
-            ['name' => 'Setup'],
-            ['name' => 'Accountant'],
-        ]];
 
         foreach ($modules as $key => $module) {
             $moduleModel = Module::firstOrCreate([
