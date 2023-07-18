@@ -222,6 +222,7 @@ return [
         App\Domains\RevisionHistory\Providers\RevisionHistoryServiceProvider::class,
         App\Domains\GroupType\Providers\GroupTypeServiceProvider::class,
         App\Domains\Group\Providers\GroupServiceProvider::class,
+        App\Domains\Account\Providers\AccountServiceProvider::class,
 
 
 

@@ -2,13 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Domains\Account\Models\EnumPermissionAccount;
 use App\Domains\BankAccount\Models\EnumPermissionBankAccount;
 use App\Domains\Company\Models\EnumPermissionCompany;
 use App\Domains\Currency\Models\EnumPermissionCurrency;
 use App\Domains\Field\Models\EnumPermissionField;
 use App\Domains\Form\Models\EnumPermissionForm;
-use App\Domains\GroupType\Models\EnumPermissionGroupType;
 use App\Domains\Group\Models\EnumPermissionGroup;
+use App\Domains\GroupType\Models\EnumPermissionGroupType;
 use App\Domains\Module\Models\Module;
 use App\Domains\Permission\Models\EnumPermission;
 use App\Domains\Permission\Models\EnumPermissionRole;
@@ -26,6 +27,8 @@ class PermissionsTableSeeder extends Seeder
 {
     public function run()
     {
+
+
         $modules=[
             'Setup' => [
                 'Role' => array_column(EnumPermissionRole::cases(), 'value'),
@@ -36,68 +39,42 @@ class PermissionsTableSeeder extends Seeder
                 'Form' => array_column(EnumPermissionForm::cases(), 'value'),
                 'Company' => array_column(EnumPermissionCompany::cases(), 'value'),
             ],
-            'Accounting' => [
 
+            'Accounting' => [
                 'Currency' => array_column(EnumPermissionCurrency::cases(), 'value'),
                 'BankAccount' => array_column(EnumPermissionBankAccount::cases(), 'value'),
                 'Tax' => array_column(EnumPermissionTax::cases(), 'value'),
                 'RevisionHistory' => array_column(EnumPermissionRevisionHistory::cases(), 'value'),
                 'GroupType' => array_column(EnumPermissionGroupType::cases(), 'value'),
                 'Group' => array_column(EnumPermissionGroup::cases(), 'value'),
+                'Account' => array_column(EnumPermissionAccount::cases(), 'value'),
+            ]
 
-
-            ],
-
-        $modules = [
-            ['name' => 'Setup'],
-            ['name' => 'Accountant'],
-        ]];
-        Module::insert($modules);
-
-        $setup = [
-            //setup
-            ['name' => 'Role', 'module_id' => 1],
-            ['name' => 'Permission', 'module_id' => 1],
-            ['name' => 'User', 'module_id' => 1],
-            ['name' => 'Tenant', 'module_id' => 1],
-            ['name' => 'Field', 'module_id' => 1],
-            ['name' => 'Form', 'module_id' => 1],
-            ['name' => 'Company', 'module_id' => 1],
-
-            //Accountant
-
-            ['name' => 'Currency', 'module_id' => 2],
-            ['name' => 'BankAccount', 'module_id' => 2],
-            ['name' => 'Tax', 'module_id' => 2],
-            ['name' => 'RevisionHistory', 'module_id' => 2],
-        ];
-        PermissionCategory::insert($setup);
-
-        $EnumPermissions = [
-            array_column(EnumPermissionRole::cases(), 'value'),
-            array_column(EnumPermission::cases(), 'value'),
-            array_column(EnumPermissionUser::cases(), 'value'),
-            array_column(EnumPermissionTenant::cases(), 'value'),
-            array_column(EnumPermissionField::cases(), 'value'),
-            array_column(EnumPermissionForm::cases(), 'value'),
-            array_column(EnumPermissionCompany::cases(), 'value'),
-            array_column(EnumPermissionCurrency::cases(), 'value'),
-            array_column(EnumPermissionBankAccount::cases(), 'value'),
-            array_column(EnumPermissionTax::cases(), 'value'),
-            array_column(EnumPermissionRevisionHistory::cases(), 'value'),
         ];
 
-        foreach ($EnumPermissions as $key => $EnumPermission) {
-            $permissions = array_map(function ($permission) use ($key) {
-                $d = explode(' ', $permission);
 
-                return [
-                    'name' => $permission,
-                    'guard_name' => 'api',
-                    'permission_category_id' => $key + 1,
-                ];
-            }, $EnumPermission);
-            Permission::insert($permissions);
+
+        foreach ($modules as $key => $module) {
+            $moduleModel = Module::firstOrCreate([
+                'name' => $key
+            ]);
+
+            foreach ($module as $permissionCategoryKey => $permissions) {
+                $permissionCategoryModel = $moduleModel->permissionCategories()->firstOrCreate([
+                    'name' => $permissionCategoryKey
+                ]);
+
+                $permissionsMap = array_map(function ($permission) use ($permissionCategoryModel) {
+                    return [
+                        'name' => $permission,
+                        'guard_name' => 'api',
+                        'permission_category_id' => $permissionCategoryModel->id,
+                    ];
+                }, $permissions);
+
+                foreach ($permissionsMap as $permission)
+                    Permission::firstOrCreate($permission);
+            }
         }
 
         Role::firstOrCreate(['name' => 'super-admin', 'guard_name' => 'api']);
@@ -105,6 +82,7 @@ class PermissionsTableSeeder extends Seeder
         Role::findOrFail(1)->permissions()->sync($admin_permissions->pluck('id')); // super admin
 
         User::findOrFail(1)->roles()->sync(1); // super admin
+
 
     }
 }

@@ -57,7 +57,7 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
             ->when(request()->creator_id, function ($q) {
                 $q->where('creator_id', request()->creator_id);
             })->with('creator', 'currency')
-            ->orderBy('name', 'asc')->get();
+            ->orderBy('name', 'asc')->paginate(request('limit',config('app.pagination_count')));
     }
 
     public function findById(string $id): BankAccount

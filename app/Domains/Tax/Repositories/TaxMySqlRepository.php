@@ -39,7 +39,7 @@ class TaxMySqlRepository implements TaxRepositoryInterface
             }
             $q->orderBy('id', 'asc');
         })
-            ->with('creator')->get();
+            ->with('creator')->paginate(request('limit',config('app.pagination_count')));
     }
 
     public function store($request): bool
