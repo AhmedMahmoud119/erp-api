@@ -18,7 +18,7 @@ class StoreAccountRequest extends FormRequest
             'name'            => 'required',
             'group_id'        => 'required|exists:groups,id',
             'opening_balance' => 'numeric',
-            'account_type'    => ['required', Rule::in(['Cr', 'Dr', 'Both'])],
+            'account_type'    => ['required', Rule::in(['Debit', 'Credit', 'both'])],
             'parent_id'       => 'nullable|exists:accounts,id',
         ];
 
