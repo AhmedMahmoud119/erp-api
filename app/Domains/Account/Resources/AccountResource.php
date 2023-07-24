@@ -14,7 +14,10 @@ class AccountResource extends JsonResource
             'code'            => $this->code,
             'name'            => $this->name,
             'group'           => $this->group->name??'',
+            'group_id'           => $this->group->id??'',
+
             'parent'          => $this->parent->name??'',
+            'parent_id'          => $this->parent->id??'',
             'opening_balance' => $this->opening_balance,
             'account_type'    => $this->account_type,
         ];

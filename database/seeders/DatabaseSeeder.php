@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $user=User::firstOrCreate(['email' => 'admin@admin.com'], [
+        $user = User::firstOrCreate(['email' => 'admin@admin.com'], [
             'name' => 'super-admin',
             'email' => 'admin@admin.com',
             'password' => Hash::make('123456'),
@@ -25,10 +25,10 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             PermissionsTableSeeder::class,
-           GroupTypeSeeder::class,
-//            FinancialPeriodSeeder::class,
+            GroupTypeSeeder::class,
+            //            FinancialPeriodSeeder::class,
             // TaxSeeder::class,
-           CurrencyCodesSeeder::class,
+            CurrencyCodesSeeder::class,
         ]);
 
         $user->roles()->sync([1]);
