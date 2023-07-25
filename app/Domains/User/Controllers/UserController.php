@@ -29,7 +29,7 @@ class UserController extends Controller
 
 
     public function list() {
-        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionUser::view_users->value,'api'),Response::HTTP_FORBIDDEN, '403 Forbidden');
+    abort_if(!auth()->user()->hasPermissionTo(EnumPermissionUser::view_users->value,'api'),Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return UserResource::collection($this->userService->list());
     }
@@ -98,7 +98,7 @@ class UserController extends Controller
                'status' => true,
                'message' => __('Successfully logged in'),
                'token' => $user->createToken("API TOKEN", ['remember'])->plainTextToken,
-              'user'=>  UserResource::make($user)
+              'data'=>  UserResource::make($user)
            ], 200);
         
        }

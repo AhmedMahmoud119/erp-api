@@ -34,8 +34,6 @@ class UserMySqlRepository implements UserRepositoryInterface
     {
         $user = $this->user::with('parent','roles')->findOrFail($id);
         $user->permissions = $user->getAllPermissions();
-
-
         return $user;
     }
 
