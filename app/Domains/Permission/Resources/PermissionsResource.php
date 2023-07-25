@@ -18,7 +18,6 @@ class PermissionsResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'label' => __($this->name),
-            'checked' => false
         ];
     }
 }

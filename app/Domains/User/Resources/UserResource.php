@@ -22,11 +22,11 @@ class UserResource extends JsonResource
             'role' =>  $this->whenLoaded('roles',
                 [
                     'name' => $this->roles->first()->name ?? '',
-                    'id' => $this->roles->first()->id??''
+                    'id' => $this->roles->first()->id??'',
+                    'permissions' => $this->whenLoaded('permissions',
+                        PermissionsResource::collection($this->permissions)),
                 ]),
 
-            'permissions' => $this->whenLoaded('permissions',
-                PermissionsResource::collection($this->permissions)),
 
         ];
     }
