@@ -26,7 +26,7 @@ class AccountMySqlRepository implements AccountRepositoryInterface
             $q->whereDate('created_at','>=',request()->from_date);
         })->when(request()->to_date, function ($q, $v) {
             $q->whereDate('created_at','<=',request()->to_date);
-        })->get();
+        })->paginate(request('limit',config('app.pagination_count')));
     }
 
     public function findById(string $id): Account
