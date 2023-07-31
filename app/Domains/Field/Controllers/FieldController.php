@@ -20,7 +20,6 @@ class FieldController extends Controller
 
     public function list()
     {
-
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionField::view_fields->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         return FieldTypeResource::collection($this->fieldService->list());
     }
