@@ -10,4 +10,6 @@ enum EnumPermissionJournalEntry: string
     case edit_journalEntry = 'Edit Journal Entry';
     case delete_journalEntry = 'Delete Journal Entry';
     case view_journalEntries = 'View Journal Entry';
+    case import_journalEntry = 'Import Journal Entry';
+    case export_journalEntry = 'Export Journal Entry';
 }

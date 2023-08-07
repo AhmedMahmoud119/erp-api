@@ -3,6 +3,7 @@
 namespace App\Domains\JournalEntry\Interfaces;
 
 use App\Domains\JournalEntry\Models\JournalEntry;
+use App\Domains\JournalEntry\Request\ImportJournalEntryRequest;
 use App\Domains\JournalEntry\Request\StoreJournalEntryRequest;
 use App\Domains\JournalEntry\Request\UpdateJournalEntryRequest;
 
@@ -13,4 +14,5 @@ interface JournalEntryRepositoryInterface
     public function store(StoreJournalEntryRequest $request): bool;
     public function update(string $id, UpdateJournalEntryRequest $request): bool;
     public function delete(string $id): bool;
+    public function importJournalEntryDetails(string $id, ImportJournalEntryRequest $request): bool;
 }

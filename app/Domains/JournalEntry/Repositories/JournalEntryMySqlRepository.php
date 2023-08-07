@@ -50,7 +50,7 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
         $entry = $this->journalEntry::create($data + [
             'creator_id' => auth()->user()->id,
         ]);
-        $accounts = collect($data->accounts)->map(
+        $accounts = collect($data['accounts'])->map(
             fn ($detail) =>
             [
                 'account_id' => $detail['account_id'],
@@ -69,13 +69,14 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
     public function update(string $id, $request): bool
     {
         $journalEntry = $this->journalEntry::findOrFail($id);
+        $data = $request->only('title', 'description', 'entry_no', 'date', 'accounts');
         $journalEntry->update([
-            'title' => $request->title,
-            'description' => $request->description,
-            'entry_no' => $request->entry_no,
-            'date' => $request->date,
+            'title' => $data['title'],
+            'description' => $data['description'],
+            'entry_no' => $data['entry_no'],
+            'date' => $data['date'],
         ]);
-        collect($request->accounts)->map(function ($q) use ($id) {
+        collect($data['accounts'])->map(function ($q) use ($id) {
             $this->journalEntryDetail::updateOrCreate(
                 [
                     'id' => $q['id'] ?? null
@@ -98,6 +99,25 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
     {
         $this->journalEntry::findOrFail($id)?->delete();
         $this->journalEntryDetail::where('journal_entry_id', $id)->delete();
+        return true;
+    }
+
+    public function importJournalEntryDetails(string $id, $request): bool
+    {
+        $journalEntry = $this->journalEntry::findOrFail($id);
+        $accounts = collect($request->accounts)->map(
+            fn ($detail) =>
+            [
+                'account_id' => $detail['account_id'],
+                'debit' => $detail['debit'],
+                'credit' => $detail['credit'],
+                'journal_entry_id' => $journalEntry->id,
+                'tax_id' => $detail['tax_id'] ?? null,
+                'description' => $detail['description'] ?? '',
+                'created_at' => now(),
+            ]
+        )->toArray();
+        $this->journalEntryDetail::insert($accounts);
         return true;
     }
 }

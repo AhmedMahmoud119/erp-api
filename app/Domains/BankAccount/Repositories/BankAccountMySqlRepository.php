@@ -27,19 +27,8 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
                 ->orwhere('opening_balance', 'like', '%' . request()->search . '%')
                 ->orwhere('account_number', 'like', '%' . request()->search . '%')
                 ->orwhere('account_type', 'like', '%' . request()->search . '%');
-
         })->when(request()->name, function ($q) {
             $q->where('name', request()->name);
-        })->when(request()->search,function ($q)
-        {
-            $q->where('name','like','%' . request()->search . '%')
-                ->orwhere('currency_id','like','%' . request()->search . '%')
-                ->orwhere('opening_balance','like','%' . request()->search . '%')
-                ->orwhere('account_number','like','%' . request()->search . '%')
-                ->orwhere('account_type','like','%' . request()->search . '%');
-
-        })  ->when(request()->name,function ($q){
-            $q->where('name',request()->name );
         })
             ->when(request()->from, function ($q) {
                 $q->whereDate('created_at', '>=', request()->from);
@@ -57,7 +46,7 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
             ->when(request()->creator_id, function ($q) {
                 $q->where('creator_id', request()->creator_id);
             })->with('creator', 'currency')
-            ->orderBy('name', 'asc')->paginate(request('limit',config('app.pagination_count')));
+            ->orderBy('name', 'asc')->paginate(request('limit', config('app.pagination_count')));
     }
 
     public function findById(string $id): BankAccount
@@ -78,10 +67,7 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
             'current_balance' => $request->opening_balance,
             'authorized_by' => $request->authorized_by,
             'creator_id' => auth()->user()->id,
-
         ]);
-
-
         return true;
     }
 
@@ -133,6 +119,5 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
         return response()->json([
             'file_path' => asset('storage/exports/bankAccounts/' . $fileName)
         ]);
-
     }
 }
