@@ -2,6 +2,7 @@
 
 namespace App\Domains\JournalEntry\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -35,5 +36,13 @@ class JournalEntry extends Model
     public function getTotalCreditAttribute(): float
     {
         return $this->details->sum('credit');
+    }
+    public function getDifferenceAttribute(): float
+    {
+        return $this->total_debit - $this->total_credit;
+    }
+    public function setDateAttribute($value)
+    {
+        $this->attributes['date'] = Carbon::parse($value)->format('Y-m-d');
     }
 }

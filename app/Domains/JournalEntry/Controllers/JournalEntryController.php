@@ -3,7 +3,7 @@
 namespace App\Domains\JournalEntry\Controllers;
 
 use App\Domains\JournalEntry\Models\EnumPermissionJournalEntry;
-use App\Domains\JournalEntry\Request\ImportJournalEntryRequest;
+use App\Domains\JournalEntry\Request\ImportJournalEntryDetailsRequest;
 use App\Domains\JournalEntry\Request\StoreJournalEntryRequest;
 use App\Domains\JournalEntry\Request\UpdateJournalEntryRequest;
 use App\Domains\JournalEntry\Resources\JournalEntryResource;
@@ -44,6 +44,7 @@ class JournalEntryController extends Controller
 
     public function create(StoreJournalEntryRequest $request)
     {
+
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::create_journalEntry->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->journalEntryService->create($request);
@@ -64,11 +65,11 @@ class JournalEntryController extends Controller
         ], Response::HTTP_OK);
     }
 
-    public function importJournalEntryDetails($id, ImportJournalEntryRequest $request)
+    public function importJournalEntryDetails($id, ImportJournalEntryDetailsRequest $request)
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::import_journalEntry->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $this->journalEntryService->importJournalEntryDetails($id, $request);
+        $this->journalEntryService->importJournalEntryDetailsFromFile($id, $request);
         return response()->json([
             'message' => __('Imported Successfully'),
             'status' => true,

@@ -5,7 +5,9 @@ namespace App\Domains\JournalEntry\Repositories;
 use App\Domains\JournalEntry\Interfaces\JournalEntryRepositoryInterface;
 use App\Domains\JournalEntry\Models\JournalEntry;
 use App\Domains\JournalEntry\Models\JournalEntryDetail;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
+use Maatwebsite\Excel\Facades\Excel;
 
 class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
 {
@@ -102,22 +104,11 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
         return true;
     }
 
-    public function importJournalEntryDetails(string $id, $request): bool
+    public function importJournalEntryDetailsFromFile(string $id, $request): bool
     {
         $journalEntry = $this->journalEntry::findOrFail($id);
-        $accounts = collect($request->accounts)->map(
-            fn ($detail) =>
-            [
-                'account_id' => $detail['account_id'],
-                'debit' => $detail['debit'],
-                'credit' => $detail['credit'],
-                'journal_entry_id' => $journalEntry->id,
-                'tax_id' => $detail['tax_id'] ?? null,
-                'description' => $detail['description'] ?? '',
-                'created_at' => now(),
-            ]
-        )->toArray();
-        $this->journalEntryDetail::insert($accounts);
+        $data = $request->only('accounts');
+        Excel::import(new JournalEntryDetailsImport($journalEntry), request()->file_input);
         return true;
     }
 }

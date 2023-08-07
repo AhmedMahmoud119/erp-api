@@ -4,7 +4,7 @@ namespace App\Domains\JournalEntry\Request;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ImportJournalEntryRequest extends FormRequest
+class ImportJournalEntryDetailsRequest extends FormRequest
 {
 
     public function authorize()

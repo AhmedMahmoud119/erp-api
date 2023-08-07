@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('entry_no');
-            $table->timestamp('date');
+            $table->date('date');
             $table->text('description');
             $table->foreignId('creator_id')->constrained('users');
             $table->timestamps();

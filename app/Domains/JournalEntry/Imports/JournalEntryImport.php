@@ -11,7 +11,7 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
 
-class JournalEntryImport implements ToModel, WithValidation, WithHeadingRow
+class JournalEntryDetailsImport implements ToModel, WithValidation, WithHeadingRow
 {
 
     use Importable;
@@ -26,6 +26,7 @@ class JournalEntryImport implements ToModel, WithValidation, WithHeadingRow
             'tax_id'           => $row['tax_id'],
             'description'      => $row['description'],
             'journal_entry_id' => $row['journal_entry_id'],
+            'date'            => $row['date'],
         ]);
     }
 
