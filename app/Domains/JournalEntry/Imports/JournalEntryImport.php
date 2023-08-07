@@ -16,34 +16,28 @@ class JournalEntryImport implements ToModel, WithValidation, WithHeadingRow
 
     use Importable;
 
+
     public function model(array $row)
     {
-
-        $entry =  new JournalEntry([
-            'title'       => $row['title'],
-            'entry_no'    => $row['entry_no'],
-            'date'        => $row['date'],
-            'description' => $row['description'],
+        return new JournalEntryDetail([
+            'account_id'       => $row['account_id'],
+            'debit'            => $row['debit'],
+            'credit'           => $row['credit'],
+            'tax_id'           => $row['tax_id'],
+            'description'      => $row['description'],
+            'journal_entry_id' => $row['journal_entry_id'],
         ]);
-        $details =  collect($row['accounts'])->map(
-            fn ($detail) =>
-            [
-                'account_id' => $detail['account_id'],
-                'debit'      => $detail['debit'],
-                'credit'     => $detail['credit'],
-                'tax_id'     => $detail['tax_id'] ?? null,
-            ]
-        )->toArray();
     }
 
     public function rules(): array
     {
         return [
-            'account_name'        => 'required',
-            'account_group_code'  => 'required|exists:groups,code',
-            'opening_balance'     => 'numeric',
-            'account_type'        => ['required', Rule::in(['Cr', 'Dr', 'Both'])],
-            'account_parent_code' => 'nullable|exists:accounts,code',
+            'account_id'       => ['required', 'exists:accounts,id'],
+            'debit'            => ['required_without:credit', 'numeric'],
+            'credit'           => ['required_without:debit', 'numeric'],
+            'description'      => ['nullable', 'string', 'max:255'],
+            'tax_id'           => ['nullable', 'exists:taxes,id'],
+            'journal_entry_id' => ['required', 'exists:journal_entries,id'],
         ];
     }
 }

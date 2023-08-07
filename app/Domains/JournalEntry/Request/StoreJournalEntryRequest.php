@@ -4,7 +4,6 @@ namespace App\Domains\JournalEntry\Request;
 
 use App\Domains\Tax\Models\Tax;
 use Illuminate\Foundation\Http\FormRequest;
-use \Illuminate\Validation\Rule;
 
 class StoreJournalEntryRequest extends FormRequest
 {

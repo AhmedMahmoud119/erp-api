@@ -35,4 +35,8 @@ class JournalEntryService
     {
         return $this->JournalEntryRepository->update($id, $request);
     }
+    public function importJournalEntryDetails($id, $request)
+    {
+        return $this->JournalEntryRepository->importJournalEntryDetails($id, $request);
+    }
 }
