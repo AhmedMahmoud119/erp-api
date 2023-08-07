@@ -18,6 +18,10 @@ class JournalEntryResource extends JsonResource
             'description' => $this->description,
             'creator' => UserResource::make($this->whenLoaded('creator')),
             'details' => JournalEntryDetailsResource::collection($this->whenLoaded('details')),
+            'total_debit' => $this->total_debit,
+            'total_credit' => $this->total_credit,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

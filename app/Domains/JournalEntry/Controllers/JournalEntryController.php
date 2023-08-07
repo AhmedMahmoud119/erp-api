@@ -31,14 +31,14 @@ class JournalEntryController extends Controller
         return response()->json([
             'message' => __('Deleted Successfully'),
             'status' => true,
-        ], 200);
+        ], Response::HTTP_OK);
     }
 
     public function findById($id)
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::view_journalEntries->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new JournalEntryResource($this->journalEntryService->findById($id));
+        return  JournalEntryResource::make($this->journalEntryService->findById($id));
     }
 
     public function create(StoreJournalEntryRequest $request)
@@ -49,7 +49,7 @@ class JournalEntryController extends Controller
         return response()->json([
             'message' => __('Created Successfully'),
             'status' => true,
-        ], 200);
+        ], Response::HTTP_CREATED);
     }
 
     public function update($id, UpdateJournalEntryRequest $request)
@@ -60,6 +60,6 @@ class JournalEntryController extends Controller
         return response()->json([
             'message' => __('Updated Successfully'),
             'status' => true,
-        ], 200);
+        ], Response::HTTP_OK);
     }
 }

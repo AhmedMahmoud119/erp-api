@@ -28,8 +28,12 @@ class JournalEntry extends Model
     {
         return $this->hasMany(JournalEntryDetail::class, 'journal_entry_id');
     }
-    public function getTotalAmountAttribute()
+    public function getTotalDebitAttribute(): float
     {
-        return $this->details->sum('debit') - $this->details->sum('credit');
+        return $this->details->sum('debit');
+    }
+    public function getTotalCreditAttribute(): float
+    {
+        return $this->details->sum('credit');
     }
 }

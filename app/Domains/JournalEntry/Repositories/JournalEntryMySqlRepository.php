@@ -39,18 +39,18 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
                 }
                 return $q;
             })
-            
+            ->with(['details'])
             ->paginate(request('limit', config('app.pagination_count')));
     }
 
     public function store($request): bool
     {
 
-        $data = $request->only('title', 'description', 'entry_no', 'date');
+        $data = $request->only('title', 'description', 'entry_no', 'date', 'accounts');
         $entry = $this->journalEntry::create($data + [
-            'creator_id' => auth()->user()->id
+            'creator_id' => auth()->user()->id,
         ]);
-        $accounts = collect($request->accounts)->map(
+        $accounts = collect($data->accounts)->map(
             fn ($detail) =>
             [
                 'account_id' => $detail['account_id'],
