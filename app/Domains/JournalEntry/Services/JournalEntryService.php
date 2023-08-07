@@ -10,8 +10,7 @@ use Illuminate\Support\Facades\Mail;
 class JournalEntryService
 {
     public function __construct(private JournalEntryRepositoryInterface $JournalEntryRepository)
-    {
-    }
+    { }
 
     public function list()
     {
@@ -32,8 +31,8 @@ class JournalEntryService
         return $this->JournalEntryRepository->store($request);
     }
 
-    public function update($id,$request)
+    public function update($id, $request)
     {
-        return $this->JournalEntryRepository->update($id,$request);
+        return $this->JournalEntryRepository->update($id, $request);
     }
 }

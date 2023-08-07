@@ -19,10 +19,9 @@ return new class extends Migration
             $table->string('entry_no');
             $table->timestamp('date');
             $table->text('description');
-            $table->foreignId('account_id')->constrained();
-            $table->float('debit');
-            $table->float('credit');
+            $table->foreignId('creator_id')->constrained('users');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

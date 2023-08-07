@@ -23,11 +23,6 @@ class RoleMySqlRepository implements RoleRepositoryInterface
 
     }
 
-    public function findByEmail(string $email)
-    {
-        // TODO: Implement findByEmail() method.
-    }
-
     public function list()
     {
 

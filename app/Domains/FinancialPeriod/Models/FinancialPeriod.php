@@ -2,7 +2,6 @@
 
 namespace App\Domains\FinancialPeriod\Models;
 
-use App\Domains\Tenant\Models\Tenant;
 use App\Domains\User\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
