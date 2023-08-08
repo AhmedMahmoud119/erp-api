@@ -205,8 +205,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\TelescopeServiceProvider::class,
-        \App\Domains\Tenant\Providers\TenancyServiceProvider::class,
 
+        \App\Domains\Tenant\Providers\TenancyServiceProvider::class,
         App\Domains\User\Providers\UserServiceProvider::class,
         App\Domains\Permission\Providers\PermissionServiceProvider::class,
         App\Domains\Role\Providers\RoleServiceProvider::class,

@@ -11,5 +11,6 @@ enum EnumPermissionAccount: string
     case delete_account = 'Delete Account';
     case view_accounts = 'View Accounts';
     case import_accounts = 'Import Accounts';
+    case view_chart_of_accounts = 'View Chart Account';
 
 }
