@@ -2,6 +2,8 @@
 
 namespace App\Domains\JournalEntry\Controllers;
 
+use App\Domains\JournalEntry\Exports\JournalEntriesExport;
+use App\Domains\JournalEntry\Imports\JournalEntriesImport;
 use App\Domains\JournalEntry\Models\EnumPermissionJournalEntry;
 use App\Domains\JournalEntry\Request\ImportJournalEntryDetailsRequest;
 use App\Domains\JournalEntry\Request\StoreJournalEntryRequest;
@@ -9,6 +11,7 @@ use App\Domains\JournalEntry\Request\UpdateJournalEntryRequest;
 use App\Domains\JournalEntry\Resources\JournalEntryResource;
 use App\Domains\JournalEntry\Services\JournalEntryService;
 use App\Http\Controllers\Controller;
+use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\Response;
 
 class JournalEntryController extends Controller
@@ -71,16 +74,33 @@ class JournalEntryController extends Controller
 
         $this->journalEntryService->importJournalEntryDetailsFromFile($id, $request);
         return response()->json([
-            'message' => __('Imported Successfully'),
+            'message' => __('We are processing your request, you will receive an email once completed.'),
             'status' => true,
         ], Response::HTTP_OK);
     }
     public function exportJournalEntryDetailsToFile($id)
     {
-        // abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::export_journalEntry->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::export_journalEntry->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $this->journalEntryService->exportJournalEntryDetailsToFile($id);
         return response()->json([
-            'message' => __('Exported Successfully'),
+            'message' => __('We are processing your request, you will receive an email once completed.'),
+            'status' => true,
+        ], Response::HTTP_OK);
+    }
+    public function exportJournalEntries()
+    {
+        // abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::export_journalEntry->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $this->journalEntryService->exportJournalEntries();
+        return response()->json([
+            'message' => __('We are processing your request, you will receive an email once completed.'),
+            'status' => true,
+        ], Response::HTTP_OK);
+    }
+    public function importJournalEntries()
+    {
+        (new JournalEntriesImport)->queue(request()->file('file'));
+        return response()->json([
+            'message' => __('Imported Successfully'),
             'status' => true,
         ], Response::HTTP_OK);
     }

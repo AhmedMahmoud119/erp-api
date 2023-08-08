@@ -2,6 +2,7 @@
 
 namespace App\Domains\JournalEntry\Models;
 
+use App\Domains\User\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

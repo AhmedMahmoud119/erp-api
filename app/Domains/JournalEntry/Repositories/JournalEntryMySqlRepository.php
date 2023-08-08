@@ -2,6 +2,7 @@
 
 namespace App\Domains\JournalEntry\Repositories;
 
+use App\Domains\JournalEntry\Exports\JournalEntriesExport;
 use App\Domains\JournalEntry\Exports\JournalEntryDetailsExport;
 use App\Domains\JournalEntry\Imports\JournalEntryDetailsImport;
 use App\Domains\JournalEntry\Interfaces\JournalEntryRepositoryInterface;
@@ -116,9 +117,17 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
     {
         $entry = $this->journalEntry::findOrFail($id);
         $fileName = 'journal_entry_details_' . $entry->entry_no . '_' . Carbon::now()->format('YmdHis') . '.xlsx';
-        
+
         (new JournalEntryDetailsExport($id))->queue($fileName)->chain([
             logger('Exported Journal Entry Details')
+        ]);
+        return true;
+    }
+    public function exportJournalEntries()
+    {
+        $fileName = 'journal_entries_' . Carbon::now()->format('YmdHis') . '.xlsx';
+        (new JournalEntriesExport())->queue($fileName)->chain([
+            logger('Exported Journal Entries')
         ]);
         return true;
     }
