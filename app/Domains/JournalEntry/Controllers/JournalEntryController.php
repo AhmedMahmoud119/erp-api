@@ -65,13 +65,22 @@ class JournalEntryController extends Controller
         ], Response::HTTP_OK);
     }
 
-    public function importJournalEntryDetails($id, ImportJournalEntryDetailsRequest $request)
+    public function importJournalEntryDetailsFromFile($id, ImportJournalEntryDetailsRequest $request)
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::import_journalEntry->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->journalEntryService->importJournalEntryDetailsFromFile($id, $request);
         return response()->json([
             'message' => __('Imported Successfully'),
+            'status' => true,
+        ], Response::HTTP_OK);
+    }
+    public function exportJournalEntryDetailsToFile($id)
+    {
+        // abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::export_journalEntry->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $this->journalEntryService->exportJournalEntryDetailsToFile($id);
+        return response()->json([
+            'message' => __('Exported Successfully'),
             'status' => true,
         ], Response::HTTP_OK);
     }

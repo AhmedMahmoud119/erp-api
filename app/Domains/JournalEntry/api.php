@@ -21,4 +21,6 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'journal-entries'], fu
     Route::delete('/{id}', [JournalEntryController::class, 'delete']);
     Route::post('/create', [JournalEntryController::class, 'create']);
     Route::post('/update/{id}', [JournalEntryController::class, 'update']);
+    Route::post('/{id}/import', [JournalEntryController::class, 'importJournalEntryDetailsFromFile']);
 });
+Route::get('journal-entries/{id}/export', [JournalEntryController::class, 'exportJournalEntryDetailsToFile']);

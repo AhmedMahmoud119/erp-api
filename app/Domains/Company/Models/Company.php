@@ -11,20 +11,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Company extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name',
         'status',
         'creator_id',
-//        'tenant_id',
+        'tenant_id',
     ];
     public function creator()
     {
-        return $this->belongsTo(User::class,'creator_id');
+        return $this->belongsTo(User::class, 'creator_id');
     }
-//    public function tenant()
-//    {
-//        return $this->belongsTo(Tenant::class,'tenant_id');
-//    }
+    public function tenant()
+    {
+        return $this->belongsTo(Tenant::class, 'tenant_id');
+    }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Domains\JournalEntry\Repositories;
 
+use App\Domains\JournalEntry\Exports\JournalEntryDetailsExport;
+use App\Domains\JournalEntry\Imports\JournalEntryDetailsImport;
 use App\Domains\JournalEntry\Interfaces\JournalEntryRepositoryInterface;
 use App\Domains\JournalEntry\Models\JournalEntry;
 use App\Domains\JournalEntry\Models\JournalEntryDetail;
@@ -106,9 +108,18 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
 
     public function importJournalEntryDetailsFromFile(string $id, $request): bool
     {
-        $journalEntry = $this->journalEntry::findOrFail($id);
-        $data = $request->only('accounts');
-        Excel::import(new JournalEntryDetailsImport($journalEntry), request()->file_input);
+        Excel::import(new JournalEntryDetailsImport($id), $request->file('file'));
+        return true;
+    }
+
+    public function exportJournalEntryDetailsToFile(string $id)
+    {
+        $entry = $this->journalEntry::findOrFail($id);
+        $fileName = 'journal_entry_details_' . $entry->entry_no . '_' . Carbon::now()->format('YmdHis') . '.xlsx';
+        
+        (new JournalEntryDetailsExport($id))->queue($fileName)->chain([
+            logger('Exported Journal Entry Details')
+        ]);
         return true;
     }
 }

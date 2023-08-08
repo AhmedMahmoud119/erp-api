@@ -39,4 +39,8 @@ class JournalEntryService
     {
         return $this->JournalEntryRepository->importJournalEntryDetailsFromFile($id, $request);
     }
+    public function exportJournalEntryDetailsToFile($id)
+    {
+        return $this->JournalEntryRepository->exportJournalEntryDetailsToFile($id);
+    }
 }
