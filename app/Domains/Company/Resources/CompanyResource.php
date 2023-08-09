@@ -3,6 +3,7 @@
 namespace App\Domains\Company\Resources;
 
 use App\Domains\Tenant\Resources\TenantResource;
+use App\Domains\User\Resources\UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CompanyResource extends JsonResource
@@ -14,8 +15,8 @@ class CompanyResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'status' => $this->status,
-            'tenant' => TenantResource::make($this->whenLoaded('tenant')),
             'creator' => $this->creator->name,
+            'user' => UserResource::make($this->whenLoaded('user'))->only(['id', 'name']),
         ];
     }
 }

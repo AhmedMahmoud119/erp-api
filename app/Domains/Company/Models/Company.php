@@ -18,6 +18,8 @@ class Company extends Model
         'status',
         'creator_id',
         'tenant_id',
+        'user_id',
+        'description'
     ];
     public function creator()
     {
@@ -26,5 +28,13 @@ class Company extends Model
     public function tenant()
     {
         return $this->belongsTo(Tenant::class, 'tenant_id');
+    }
+    public function modules()
+    {
+        return $this->hasMany(Module::class, 'company_id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
