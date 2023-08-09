@@ -17,7 +17,7 @@ class GroupResource extends JsonResource
             'group_type_name'=>$this->group_type->name??null,
             'creator'=>$this->creator->name??null,
             'created_at'=>$this->created_at->format('Y-m-d'),
-
-        ];
+            'updated_at'=>$this->updated_at->format('Y-m-d'),
+        ];  
     }
 }

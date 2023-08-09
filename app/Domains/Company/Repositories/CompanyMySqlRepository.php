@@ -25,8 +25,6 @@ class CompanyMySqlRepository implements CompanyRepositoryInterface
     {
         return $this->company::when(request()->tenant_id, function ($q) {
             $q->where('tenant_id', request()->tenant_id);
-        })->when(request()->company_id, function ($q) {
-            $q->where('id', request()->company_id);
         })->when(request()->name, function ($q) {
             $q->where('name', request()->name);
         })->when(request()->user_id, function ($q) {
@@ -37,14 +35,25 @@ class CompanyMySqlRepository implements CompanyRepositoryInterface
             $q->whereDate('created_at', '>=', request()->date_from);
         })->when(request()->date_to, function ($q) {
             $q->whereDate('created_at', '<=', request()->date_to);
-        })->with('tenant', 'user', 'creator')
+        })
+            ->when(request()->sort_by, function ($q) {
+                if (in_array(request()->sort_by, ['name', 'status', 'user_id', 'creator_id', 'tenant_id'])) {
+                    $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
+                }
+            })->with('tenant', 'user', 'creator')
+
             ->paginate(request('limit', config('app.pagination_count')));
     }
 
     public function store($request): bool
     {
-        $this->company::create($request->except(['password', 'password_confirmation']) + [
-            'creator_id' => auth()->user()->id
+        $this->company::create([
+            'name' => $request->name,
+            'status' => $request->status,
+            'user_id' => $request->user_id,
+            'description' => $request->description,
+            'tenant_id' => $request->tenant_id,
+            'creator_id' => auth()->user()->id,
         ]);
         return true;
     }

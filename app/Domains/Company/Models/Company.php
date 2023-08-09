@@ -2,10 +2,13 @@
 
 namespace App\Domains\Company\Models;
 
+use App\Domains\Module\Models\Module;
 use App\Domains\Tenant\Models\Tenant;
 use App\Domains\User\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
@@ -29,9 +32,9 @@ class Company extends Model
     {
         return $this->belongsTo(Tenant::class, 'tenant_id');
     }
-    public function modules()
+    public function modules(): MorphToMany
     {
-        return $this->hasMany(Module::class, 'company_id');
+        return $this->morphToMany(Module::class, 'moduleables');
     }
     public function user()
     {

@@ -23,10 +23,10 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
             $q->orderBy('name', 'asc');
         })->when(request()->search, function ($q) {
             $q->where('name', 'like', '%' . request()->search . '%')
-                ->orwhere('currency_id', 'like', '%' . request()->search . '%')
-                ->orwhere('opening_balance', 'like', '%' . request()->search . '%')
-                ->orwhere('account_number', 'like', '%' . request()->search . '%')
-                ->orwhere('account_type', 'like', '%' . request()->search . '%');
+                ->orWhere('currency_id', 'like', '%' . request()->search . '%')
+                ->orWhere('opening_balance', 'like', '%' . request()->search . '%')
+                ->orWhere('account_number', 'like', '%' . request()->search . '%')
+                ->orWhere('account_type', 'like', '%' . request()->search . '%');
         })->when(request()->name, function ($q) {
             $q->where('name', request()->name);
         })
@@ -46,7 +46,7 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
             ->when(request()->creator_id, function ($q) {
                 $q->where('creator_id', request()->creator_id);
             })->with('creator', 'currency')
-            ->orderBy('name', 'asc')->paginate(request('limit', config('app.pagination_count')));
+            ->paginate(request('limit', config('app.pagination_count')));
     }
 
     public function findById(string $id): BankAccount

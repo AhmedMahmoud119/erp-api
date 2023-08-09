@@ -18,6 +18,8 @@ class CompanyResource extends JsonResource
             'creator' => $this->creator->name,
             'user' => UserResource::make($this->whenLoaded('user'))->only(['id', 'name']),
             'description' => $this->description,
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
+            'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
         ];
     }
 }

@@ -2,11 +2,13 @@
 
 namespace App\Domains\Module\Models;
 
+use App\Domains\Company\Models\Company;
 use App\Domains\Form\Models\FormModule;
 use App\Domains\Permission\Models\PermissionCategory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
@@ -18,7 +20,6 @@ class Module extends Model
     {
         return $this->hasMany(PermissionCategory::class, 'module_id');
     }
-
     public function forms(): BelongsToMany
     {
         return $this->belongsToMany(FormModule::class, 'form_modules', 'module_id', 'form_id');
@@ -26,5 +27,10 @@ class Module extends Model
     public function taxes(): BelongsToMany
     {
         return $this->belongsToMany(Tax::class, 'tax_modules');
+    }
+
+    public function company(): MorphToMany
+    {
+        return $this->morphedByMany(Company::class, 'moduleables');
     }
 }

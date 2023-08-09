@@ -22,7 +22,8 @@ return new class extends Migration
             $table->foreign('creator_id')->references('id')->on('users');
             $table->string('tenant_id')->nullable();
             $table->foreign('tenant_id')->references('id')->on('tenants');
-            $table->foreign('user_id')->constraints();
+            $table->unsignedBigInteger('user_id')->nullable();
+            // $table->foreignId('user_id')->constrained('users');
             $table->text('description')->nullable();
             $table->timestamps();
             $table->softDeletes();

@@ -21,18 +21,45 @@ class UserMySqlRepository implements UserRepositoryInterface
     }
     public function list()
     {
+        //         name
+        // email
+        // phone
+        // creator_id
+        // parent_id
+        // status
         return  $this->user::when(
             request()->search,
             function ($q) {
                 $q->where('name', 'like', '%' . request()->search . '%')
-                    ->orwhere('category', 'like', '%' . request()->search . '%');
+                    ->orWhere('email', 'like', '%' . request()->search . '%')
+                    ->orWhere('phone', 'like', '%' . request()->search . '%');
             }
-        )->with('roles')->paginate(request('limit', config('app.pagination_count')));
+        )->when(
+            request()->status,
+            function ($q) {
+                $q->where('status', request()->status);
+            }
+        )->when(
+            request()->parent_id,
+            function ($q) {
+                $q->where('parent_id', request()->parent_id);
+            }
+        )->when(
+            request()->creator_id,
+            function ($q) {
+                $q->where('creator_id', request()->creator_id);
+            }
+        )->when(request()->sort_by, function ($q) {
+            if (in_array(request()->sort_by, ['id', 'name', 'email', 'phone', 'creator_id', 'parent_id', 'status', 'created_at'])) {
+                $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
+            }
+            $q->orderBy('name', 'asc');
+        })->with('parent', 'roles')->paginate(request('limit', config('app.pagination_count')));
     }
 
     public function findById($id)
     {
-        $user = $this->user::with('parent','roles')->findOrFail($id);
+        $user = $this->user::with('parent', 'roles')->findOrFail($id);
         $user->permissions = $user->getAllPermissions();
         return $user;
     }
@@ -46,7 +73,7 @@ class UserMySqlRepository implements UserRepositoryInterface
     public function store($request): bool
     {
         $password = Str::random(10);
-        $user = $this->user::create($request->except('password') + ['creator_id' => auth()->user()->id, 'password' => $password,'status' => $request->status]);
+        $user = $this->user::create($request->except('password') + ['creator_id' => auth()->user()->id, 'password' => $password, 'status' => $request->status]);
         $user->roles()->sync($request->role_id);
         $subject = "Your Password For Your Email";
         $email = $request->email;
@@ -114,7 +141,8 @@ class UserMySqlRepository implements UserRepositoryInterface
         });
         return true;
     }
-    public function me(){
+    public function me()
+    {
         $user = auth()->user();
         $user->load('roles');
         $user->permissions = $user->getAllPermissions();
