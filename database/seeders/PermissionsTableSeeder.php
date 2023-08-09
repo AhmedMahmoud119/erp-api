@@ -7,6 +7,7 @@ use App\Domains\BankAccount\Models\EnumPermissionBankAccount;
 use App\Domains\Company\Models\EnumPermissionCompany;
 use App\Domains\Currency\Models\EnumPermissionCurrency;
 use App\Domains\Field\Models\EnumPermissionField;
+use App\Domains\FinancialPeriod\Models\EnumPermissionFinancialPeriod;
 use App\Domains\Form\Models\EnumPermissionForm;
 use App\Domains\Group\Models\EnumPermissionGroup;
 use App\Domains\GroupType\Models\EnumPermissionGroupType;
@@ -30,7 +31,7 @@ class PermissionsTableSeeder extends Seeder
     {
 
 
-        $modules=[
+        $modules = [
             'Setup' => [
                 'Role' => array_column(EnumPermissionRole::cases(), 'value'),
                 'Permission' => array_column(EnumPermission::cases(), 'value'),
@@ -49,7 +50,8 @@ class PermissionsTableSeeder extends Seeder
                 'GroupType' => array_column(EnumPermissionGroupType::cases(), 'value'),
                 'Group' => array_column(EnumPermissionGroup::cases(), 'value'),
                 'Account' => array_column(EnumPermissionAccount::cases(), 'value'),
-                'JournalEntry'=>array_column(EnumPermissionJournalEntry::cases(),'value'),
+                'JournalEntry' => array_column(EnumPermissionJournalEntry::cases(), 'value'),
+                'FinancialPeriod' => array_column(EnumPermissionFinancialPeriod::cases(), 'value'),
             ]
 
         ];

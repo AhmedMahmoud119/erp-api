@@ -22,23 +22,25 @@ class GroupMySqlRepository implements GroupRepositoryInterface
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
             }
         })->when(request()->search, function ($q) {
-            $q->where('name', 'like', '%' . request()->search . '%')->orwhere('code', 'like',
-                    '%' . request()->search . '%');
-
-        })->when(request()->type_name, function ($q) {
-                $q->where('group_type_id', request()->group_type_id);
-            })->when(request()->code, function ($q) {
-                $q->where('code', request()->code);
-
-            })->when(request()->name, function ($q) {
-                $q->where('name', request()->name);
-            })->when(request()->from, function ($q) {
-                $q->whereDate('created_at', '>=', request()->from);
-            })->when(request()->to, function ($q) {
-                $q->whereDate('created_at', '<=', request()->to);
-            })->when(request()->creator_id, function ($q) {
-                $q->where('creator_id', request()->creator_id);
-            })->with('creator', 'group_type')->paginate(request('limit', config('app.pagination_count')));
+            $q->where('name', 'like', '%' . request()->search . '%')->orWhere(
+                'code',
+                'like',
+                '%' . request()->search . '%'
+            );
+        })->when(request()->group_type_id, function ($q) {
+            $q->where('group_type_id', request()->group_type_id);
+        })->when(request()->code, function ($q) {
+            $q->where('code', request()->code);
+        })->when(request()->name, function ($q) {
+            $q->where('name', request()->name);
+        })->when(request()->from, function ($q) {
+            $q->whereDate('created_at', '>=', request()->from);
+        })->when(request()->to, function ($q) {
+            $q->whereDate('created_at', '<=', request()->to);
+        })->when(request()->creator_id, function ($q) {
+            $q->where('creator_id', request()->creator_id);
+        })
+            ->with('creator', 'group_type')->paginate(request('limit', config('app.pagination_count')));
     }
 
     public function findById(string $id): Group
@@ -49,8 +51,10 @@ class GroupMySqlRepository implements GroupRepositoryInterface
     public function store($request)
     {
         $group_type = GroupType::findOrFail($request->group_type_id);
-        $group = Group::select("code")->whereBetween('code',
-            [$group_type->code * 1000, $group_type->code * 1000 + 999])->orderBy('id', 'DESC')->first();
+        $group = Group::select("code")->whereBetween(
+            'code',
+            [$group_type->code * 1000, $group_type->code * 1000 + 999]
+        )->orderBy('id', 'DESC')->first();
         $code = $group_type->code * 1000 + 1;
         if ($group) {
             $code = $group->code + 1;
@@ -71,8 +75,10 @@ class GroupMySqlRepository implements GroupRepositoryInterface
     {
 
         $group_type = GroupType::findOrFail($request->group_type_id);
-        $group = Group::select("code")->whereBetween('code',
-            [$group_type->code * 1000, $group_type->code * 1000 + 999])->orderBy('id', 'DESC')->first();
+        $group = Group::select("code")->whereBetween(
+            'code',
+            [$group_type->code * 1000, $group_type->code * 1000 + 999]
+        )->orderBy('id', 'DESC')->first();
         $code = $group_type->code * 1000 + 1;
         if ($group) {
             $code = $group->code + 1;
@@ -113,7 +119,5 @@ class GroupMySqlRepository implements GroupRepositoryInterface
         return response()->json([
             'file_path' => asset('storage/exports/groups/' . $fileName),
         ]);
-
     }
-
 }

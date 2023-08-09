@@ -2,10 +2,16 @@
 
 namespace App\Domains\JournalEntry\Repositories;
 
+use App\Domains\JournalEntry\Exports\JournalEntriesExport;
+use App\Domains\JournalEntry\Exports\JournalEntryDetailsExport;
+use App\Domains\JournalEntry\Imports\JournalEntriesImport;
+use App\Domains\JournalEntry\Imports\JournalEntryDetailsImport;
 use App\Domains\JournalEntry\Interfaces\JournalEntryRepositoryInterface;
 use App\Domains\JournalEntry\Models\JournalEntry;
 use App\Domains\JournalEntry\Models\JournalEntryDetail;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
+use Maatwebsite\Excel\Facades\Excel;
 
 class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
 {
@@ -28,10 +34,10 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
                 ->orWhere('entry_no', request()->search);
         })->when(request()->creator_id, function ($q) {
             $q->where('creator_id', request()->creator_id);
-        })->when(request()->date_from, function ($q) {
-            $q->whereDate('created_at', '>=', request()->date_from);
-        })->when(request()->date_to, function ($q) {
-            $q->whereDate('created_at', '<=', request()->date_to);
+        })->when(request()->from, function ($q) {
+            $q->whereDate('created_at', '>=', request()->from);
+        })->when(request()->to, function ($q) {
+            $q->whereDate('created_at', '<=', request()->to);
         })
             ->when(request()->sort, function ($q) {
                 if (in_array(request()->sort, ['title', 'entry_no', 'date', 'created_at', 'updated_at', 'creator_id'])) {
@@ -102,22 +108,33 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
         return true;
     }
 
-    public function importJournalEntryDetails(string $id, $request): bool
+    public function importJournalEntryDetailsFromFile(string $id, $request): bool
     {
-        $journalEntry = $this->journalEntry::findOrFail($id);
-        $accounts = collect($request->accounts)->map(
-            fn ($detail) =>
-            [
-                'account_id' => $detail['account_id'],
-                'debit' => $detail['debit'],
-                'credit' => $detail['credit'],
-                'journal_entry_id' => $journalEntry->id,
-                'tax_id' => $detail['tax_id'] ?? null,
-                'description' => $detail['description'] ?? '',
-                'created_at' => now(),
-            ]
-        )->toArray();
-        $this->journalEntryDetail::insert($accounts);
+        Excel::import(new JournalEntryDetailsImport($id), $request->file('file'));
+        return true;
+    }
+
+    public function exportJournalEntryDetailsToFile(string $id)
+    {
+        $entry = $this->journalEntry::findOrFail($id);
+        $fileName = 'journal_entry_details_' . $entry->entry_no . '_' . Carbon::now()->format('YmdHis') . '.xlsx';
+
+        (new JournalEntryDetailsExport($id))->queue($fileName)->chain([
+            logger('Exported Journal Entry Details')
+        ]);
+        return true;
+    }
+    public function exportJournalEntries()
+    {
+        $fileName = 'journal_entries_' . Carbon::now()->format('YmdHis') . '.xlsx';
+        (new JournalEntriesExport())->queue($fileName)->chain([
+            logger('Exported Journal Entries')
+        ]);
+        return true;
+    }
+    public function importJournalEntries()
+    {
+        (new JournalEntriesImport)->queue(request()->file('file'));
         return true;
     }
 }

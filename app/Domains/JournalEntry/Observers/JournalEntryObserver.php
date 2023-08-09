@@ -20,35 +20,35 @@ class JournalEntryObserver
         //
     }
 
-    public function updating(JournalEntry $journalEntry)
-    {
-        $changes = [];
-        foreach ($journalEntry->getDirty() as $key => $value) {
-            $original = $journalEntry->getOriginal($key);
-            $changes['old'][$key] = $original;
-            $changes['new'][$key] = $value;
-        }
+    // public function updating(JournalEntry $journalEntry)
+    // {
+    //     $changes = [];
+    //     foreach ($journalEntry->getDirty() as $key => $value) {
+    //         $original = $journalEntry->getOriginal($key);
+    //         $changes['old'][$key] = $original;
+    //         $changes['new'][$key] = $value;
+    //     }
 
 
-        app(RevisionHistoryService::class)->create(
-            request(),
-            'App\Domains\JournalEntry\Models\JournalEntry',
-            $changes
-        );
-    }
+    //     app(RevisionHistoryService::class)->create(
+    //         request(),
+    //         'App\Domains\JournalEntry\Models\JournalEntry',
+    //         $changes
+    //     );
+    // }
 
-    public function updated(JournalEntry $journalEntry)
-    {
-    }
+    // public function updated(JournalEntry $journalEntry)
+    // {
+    // }
 
-    public function deleting(JournalEntry $journalEntry)
-    {
-        app(RevisionHistoryService::class)->create(
-            request(),
-            'App\Domains\JournalEntry\Models\JournalEntry',
-            'Row ' . $journalEntry->id . ' Deleted'
-        );
-    }
+    // public function deleting(JournalEntry $journalEntry)
+    // {
+    //     app(RevisionHistoryService::class)->create(
+    //         request(),
+    //         'App\Domains\JournalEntry\Models\JournalEntry',
+    //         'Row ' . $journalEntry->id . ' Deleted'
+    //     );
+    // }
 
     /**
      * Handle the JournalEntry "deleted" event.
