@@ -15,7 +15,7 @@ class CompanyMySqlRepository implements CompanyRepositoryInterface
     public function findById(string $id): Company
     {
         $company =  $this->company::findOrFail($id);
-        $company->load('tenant', 'user', 'creator');
+        $company->load('tenant', 'user', 'creator', 'modules');
         return $company;
     }
 
@@ -40,7 +40,13 @@ class CompanyMySqlRepository implements CompanyRepositoryInterface
                 if (in_array(request()->sort_by, ['name', 'status', 'user_id', 'creator_id', 'tenant_id'])) {
                     $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
                 }
-            })->with('tenant', 'user', 'creator')
+            })
+            ->when(request()->modules, function ($q) {
+                $q->whereHas('modules', function ($q) {
+                    $q->whereIn('modules.id', request()->modules);
+                });
+            })
+            ->with('tenant', 'user', 'creator', 'modules')
 
             ->paginate(request('limit', config('app.pagination_count')));
     }
@@ -54,7 +60,7 @@ class CompanyMySqlRepository implements CompanyRepositoryInterface
             'description' => $request->description,
             'tenant_id' => $request->tenant_id,
             'creator_id' => auth()->user()->id,
-        ]);
+        ])->modules()->sync($request->modules);
         return true;
     }
 
