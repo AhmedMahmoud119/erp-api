@@ -17,6 +17,7 @@ class CompanyResource extends JsonResource
             'status' => $this->status,
             'creator' => $this->creator->name,
             'user' => UserResource::make($this->whenLoaded('user'))->only(['id', 'name']),
+            'description' => $this->description,
         ];
     }
 }
