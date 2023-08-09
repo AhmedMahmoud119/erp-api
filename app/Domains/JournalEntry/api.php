@@ -1,5 +1,6 @@
 <?php
 
+use App\Domains\JournalEntry\Controllers\JournalEntryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,10 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => 'auth:sanctum','prefix' => 'company'],function (){
-    Route::get('/', [\App\Domains\Company\Controllers\CompanyController::class, 'list']);
-    Route::get('/{id}', [\App\Domains\Company\Controllers\CompanyController::class, 'findById']);
-    Route::delete('/{id}', [\App\Domains\Company\Controllers\CompanyController::class, 'delete']);
-    Route::post('/create', [\App\Domains\Company\Controllers\CompanyController::class, 'create']);
-    Route::post('/update/{id}', [\App\Domains\Company\Controllers\CompanyController::class, 'update']);
+Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'journal-entries'], function () {
+    Route::get('/', [JournalEntryController::class, 'list']);
+    Route::get('/{id}', [JournalEntryController::class, 'findById']);
+    Route::delete('/{id}', [JournalEntryController::class, 'delete']);
+    Route::post('/create', [JournalEntryController::class, 'create']);
+    Route::post('/update/{id}', [JournalEntryController::class, 'update']);
+    Route::post('/{id}/import', [JournalEntryController::class, 'importJournalEntryDetailsFromFile']);
+    Route::get('/{id}/export', [JournalEntryController::class, 'exportJournalEntryDetailsToFile']);
+    Route::post('/import', [JournalEntryController::class, 'importJournalEntries']);
+    Route::get('/export', [JournalEntryController::class, 'exportJournalEntries']);
 });

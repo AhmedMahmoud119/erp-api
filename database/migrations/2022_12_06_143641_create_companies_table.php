@@ -18,18 +18,14 @@ return new class extends Migration
 
             $table->string('name');
             $table->string('status')->default('In-Active'); // In-Active   , Active
-
-
             $table->unsignedBigInteger('creator_id')->nullable();
             $table->foreign('creator_id')->references('id')->on('users');
-
             $table->string('tenant_id')->nullable();
             $table->foreign('tenant_id')->references('id')->on('tenants');
-
-
+            $table->foreign('user_id')->constraints();
+            $table->text('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
-
         });
     }
 

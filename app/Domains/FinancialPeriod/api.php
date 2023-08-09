@@ -18,6 +18,6 @@ Route::group(['middleware' => 'auth:sanctum','prefix' => 'financialPeriod'],func
     Route::get('/', [\App\Domains\FinancialPeriod\Controllers\FinancialPeriodController::class, 'list']);
     Route::get('/{id}', [\App\Domains\FinancialPeriod\Controllers\FinancialPeriodController::class, 'findById']);
     Route::delete('/{id}', [\App\Domains\FinancialPeriod\Controllers\FinancialPeriodController::class, 'delete']);
-    Route::post('/create', [\App\Domains\FinancialPeriod\Controllers\FinancialPeriodController::class, 'create']);
+    Route::post('/create', [\App\Domains\FinancialPeriod\Controllers\FinancialPeriodController::class, 'store']);
     Route::post('/update/{id}', [\App\Domains\FinancialPeriod\Controllers\FinancialPeriodController::class, 'update']);
 });

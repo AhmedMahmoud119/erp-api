@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Domains\Account\Request;
+namespace App\Domains\JournalEntry\Request;
 
 use Illuminate\Foundation\Http\FormRequest;
-use \Illuminate\Validation\Rule;
 
-class ImportAccountRequest extends FormRequest
+class ImportJournalEntryDetailsRequest extends FormRequest
 {
 
     public function authorize()
