@@ -17,4 +17,5 @@ interface JournalEntryRepositoryInterface
     public function importJournalEntryDetailsFromFile(string $id, ImportJournalEntryDetailsRequest $request): bool;
     public function exportJournalEntryDetailsToFile(string $id);
     public function exportJournalEntries();
+    public function importJournalEntries();
 }

@@ -47,4 +47,7 @@ class JournalEntryService
     {
         return $this->JournalEntryRepository->exportJournalEntries();
     }
+    public function importJournalEntries(){
+        return $this->JournalEntryRepository->importJournalEntries();
+    }
 }

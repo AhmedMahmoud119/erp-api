@@ -20,32 +20,22 @@ class FinancialPeriodController extends Controller
 
     public function list()
     {
-        // abort_if(!auth()->user()->hasPermissionTo(EnumPermissionFinancialPeriod::view_financialPeriods->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionFinancialPeriod::view_financialPeriods->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return  FinancialPeriodResource::collection($this->financialPeriod->list());
     }
 
-    public function delete($id)
-    {
-        // abort_if(!auth()->user()->hasPermissionTo(EnumPermissionFinancialPeriod::delete_financialPeriod->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $this->financialPeriod->delete($id);
-        return response()->json([
-            'message' => __('messages.deleted_successfully'),
-            'status' => true,
-        ], 200);
-    }
 
     public function findById($id)
     {
-        // abort_if(!auth()->user()->hasPermissionTo(EnumPermissionFinancialPeriod::view_financialPeriods->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionFinancialPeriod::view_financialPeriods->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new FinancialPeriodResource($this->financialPeriod->findById($id));
+        return  FinancialPeriodResource::make($this->financialPeriod->findById($id));
     }
 
-    public function create(StoreFinancialPeriodRequest $request)
+    public function store(StoreFinancialPeriodRequest $request)
     {
-        // abort_if(!auth()->user()->hasPermissionTo(EnumPermissionFinancialPeriod::create_financialPeriod->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionFinancialPeriod::create_financialPeriod->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->financialPeriod->create($request);
         return response()->json([
@@ -56,7 +46,7 @@ class FinancialPeriodController extends Controller
 
     public function update($id, UpdateFinancialPeriodRequest $request)
     {
-        // abort_if(!auth()->user()->hasPermissionTo(EnumPermissionFinancialPeriod::edit_financialPeriod->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionFinancialPeriod::edit_financialPeriod->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->financialPeriod->update($id, $request);
         return response()->json([
@@ -64,4 +54,15 @@ class FinancialPeriodController extends Controller
             'status' => true,
         ], 200);
     }
+    public function delete($id)
+    {
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionFinancialPeriod::delete_financialPeriod->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $this->financialPeriod->delete($id);
+        return response()->json([
+            'message' => __('messages.deleted_successfully'),
+            'status' => true,
+        ], 200);
+    }
+
 }

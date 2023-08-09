@@ -4,6 +4,7 @@ namespace App\Domains\JournalEntry\Repositories;
 
 use App\Domains\JournalEntry\Exports\JournalEntriesExport;
 use App\Domains\JournalEntry\Exports\JournalEntryDetailsExport;
+use App\Domains\JournalEntry\Imports\JournalEntriesImport;
 use App\Domains\JournalEntry\Imports\JournalEntryDetailsImport;
 use App\Domains\JournalEntry\Interfaces\JournalEntryRepositoryInterface;
 use App\Domains\JournalEntry\Models\JournalEntry;
@@ -129,6 +130,11 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
         (new JournalEntriesExport())->queue($fileName)->chain([
             logger('Exported Journal Entries')
         ]);
+        return true;
+    }
+    public function importJournalEntries()
+    {
+        (new JournalEntriesImport)->queue(request()->file('file'));
         return true;
     }
 }

@@ -89,7 +89,7 @@ class JournalEntryController extends Controller
     }
     public function exportJournalEntries()
     {
-        // abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::export_journalEntry->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::export_journalEntry->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $this->journalEntryService->exportJournalEntries();
         return response()->json([
             'message' => __('We are processing your request, you will receive an email once completed.'),
@@ -98,7 +98,8 @@ class JournalEntryController extends Controller
     }
     public function importJournalEntries()
     {
-        (new JournalEntriesImport)->queue(request()->file('file'));
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::import_journalEntry->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $this->journalEntryService->importJournalEntries();
         return response()->json([
             'message' => __('Imported Successfully'),
             'status' => true,
