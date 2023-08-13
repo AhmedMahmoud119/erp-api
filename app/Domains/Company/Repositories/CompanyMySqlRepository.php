@@ -31,23 +31,21 @@ class CompanyMySqlRepository implements CompanyRepositoryInterface
             $q->where('user_id', request()->user_id);
         })->when(request()->creator_id, function ($q) {
             $q->where('creator_id', request()->creator_id);
-        })->when(request()->date_from, function ($q) {
-            $q->whereDate('created_at', '>=', request()->date_from);
-        })->when(request()->date_to, function ($q) {
-            $q->whereDate('created_at', '<=', request()->date_to);
-        })
-            ->when(request()->sort_by, function ($q) {
-                if (in_array(request()->sort_by, ['name', 'status', 'user_id', 'creator_id', 'tenant_id'])) {
-                    $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
-                }
-            })
-            ->when(request()->modules, function ($q) {
-                $q->whereHas('modules', function ($q) {
-                    $q->whereIn('modules.id', request()->modules);
-                });
-            })
-            ->with('tenant', 'user', 'creator', 'modules')
-
+        })->when(request()->from, function ($q) {
+            $q->whereDate('created_at', '>=', request()->from);
+        })->when(request()->status, function ($q) {
+            $q->where('status', request()->status);
+        })->when(request()->to, function ($q) {
+            $q->whereDate('created_at', '<=', request()->to);
+        })->when(request()->modules, function ($q) {
+            $q->whereHas('modules', function ($q) {
+                $q->whereIn('modules.id', request()->modules);
+            });
+        })->when(request()->sort_by, function ($q) {
+            if (in_array(request()->sort_by, ['name', 'status', 'user_id', 'creator_id', 'tenant_id'])) {
+                $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
+            }
+        })->with('tenant', 'user', 'creator', 'modules')
             ->paginate(request('limit', config('app.pagination_count')));
     }
 
