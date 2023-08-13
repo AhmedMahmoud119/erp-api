@@ -42,9 +42,10 @@ class CompanyMySqlRepository implements CompanyRepositoryInterface
                 $q->whereIn('modules.id', request()->modules);
             });
         })->when(request()->sort_by, function ($q) {
-            if (in_array(request()->sort_by, ['name', 'status', 'user_id', 'creator_id', 'tenant_id'])) {
+            if (in_array(request()->sort_by, ['name', 'status', 'user_id', 'creator_id', 'tenant_id','created_at'])) {
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
             }
+            return $q;
         })->with('tenant', 'user', 'creator', 'modules')
             ->paginate(request('limit', config('app.pagination_count')));
     }
