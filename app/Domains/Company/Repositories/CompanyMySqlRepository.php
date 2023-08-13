@@ -27,6 +27,8 @@ class CompanyMySqlRepository implements CompanyRepositoryInterface
             $q->where('tenant_id', request()->tenant_id);
         })->when(request()->name, function ($q) {
             $q->where('name', request()->name);
+        })->when('search', function ($q) {
+            $q->where('name', 'like', '%' . request()->search . '%');
         })->when(request()->user_id, function ($q) {
             $q->where('user_id', request()->user_id);
         })->when(request()->creator_id, function ($q) {
@@ -42,7 +44,7 @@ class CompanyMySqlRepository implements CompanyRepositoryInterface
                 $q->whereIn('modules.id', request()->modules);
             });
         })->when(request()->sort_by, function ($q) {
-            if (in_array(request()->sort_by, ['name', 'status', 'user_id', 'creator_id', 'tenant_id','created_at'])) {
+            if (in_array(request()->sort_by, ['name', 'status', 'user_id', 'creator_id', 'tenant_id', 'created_at'])) {
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
             }
             return $q;
