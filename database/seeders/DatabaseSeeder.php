@@ -24,15 +24,15 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call([
-//            PermissionsTableSeeder::class,
+            PermissionsTableSeeder::class,
             GroupTypeSeeder::class,
+            TaxSeeder::class,
             // CompanySeeder::class,
-            
-            //            FinancialPeriodSeeder::class,
-            // TaxSeeder::class,
-//            CurrencyCodesSeeder::class,
+
+            FinancialPeriodSeeder::class,
+            CurrencyCodesSeeder::class,
         ]);
 
-//        $user->roles()->sync([1]);
+        //        $user->roles()->sync([1]);
     }
 }
