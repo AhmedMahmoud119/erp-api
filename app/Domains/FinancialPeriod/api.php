@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => 'auth:sanctum','prefix' => 'financialPeriod'],function (){
+Route::group(['middleware' => 'auth:sanctum','prefix' => 'financial-periods'],function (){
     Route::get('/', [\App\Domains\FinancialPeriod\Controllers\FinancialPeriodController::class, 'list']);
     Route::get('/{id}', [\App\Domains\FinancialPeriod\Controllers\FinancialPeriodController::class, 'findById']);
     Route::delete('/{id}', [\App\Domains\FinancialPeriod\Controllers\FinancialPeriodController::class, 'delete']);

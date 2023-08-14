@@ -26,6 +26,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             PermissionsTableSeeder::class,
             GroupTypeSeeder::class,
+            // CompanySeeder::class,
+            
             //            FinancialPeriodSeeder::class,
             // TaxSeeder::class,
             CurrencyCodesSeeder::class,
