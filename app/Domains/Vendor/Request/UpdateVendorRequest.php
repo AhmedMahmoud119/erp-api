@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Domains\Company\Request;
+namespace App\Domains\Vendor\Request;
 
 use Illuminate\Foundation\Http\FormRequest;
 use \Illuminate\Validation\Rule;
 
-class StoreCompanyRequest extends FormRequest
+class UpdateVendorRequest extends FormRequest
 {
     public function authorize()
     {
@@ -15,15 +15,14 @@ class StoreCompanyRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
-            'status' => ['required', Rule::in(['In-Active', 'Active'])],
-            'tenant_id' => 'nullable|exists:tenants,id',
-            'user_id' => 'nullable|exists:users,id',
-            'modules' => 'nullable|array',
-            'modules.*' => 'exists:modules,id',
+            'name'              => 'required|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
+            'contact'           => 'required',
+            'email'             => 'required|email',
+            'currency_id'       => 'required|exists:currencies,id',
+            'address_id'        => 'required',
+            'parent_account_id' => 'required|exists:accounts,id',
         ];
     }
-
     public function messages()
     {
         return [
@@ -34,7 +33,7 @@ class StoreCompanyRequest extends FormRequest
             'tenant_id.exists' => __('The tenant not exist'),
             'user_id.exists' => __('The user not exist'),
             'modules.*.exists' => __('The module not exist'),
-
+            'modules.*.required' => __('The module is required'),
         ];
     }
 }

@@ -14,10 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => 'auth:sanctum','prefix' => 'company'],function (){
-    Route::get('/', [\App\Domains\Company\Controllers\VendorController::class, 'list']);
-    Route::get('/{id}', [\App\Domains\Company\Controllers\VendorController::class, 'findById']);
-    Route::delete('/{id}', [\App\Domains\Company\Controllers\VendorController::class, 'delete']);
-    Route::post('/create', [\App\Domains\Company\Controllers\VendorController::class, 'create']);
-    Route::post('/update/{id}', [\App\Domains\Company\Controllers\VendorController::class, 'update']);
+Route::group(['middleware' => 'auth:sanctum','prefix' => 'vendor'],function (){
+    Route::get('/', [\App\Domains\Vendor\Controllers\VendorController::class, 'list']);
+    Route::get('/{id}', [\App\Domains\Vendor\Controllers\VendorController::class, 'findById']);
+    Route::delete('/{id}', [\App\Domains\Vendor\Controllers\VendorController::class, 'delete']);
+    Route::post('/create', [\App\Domains\Vendor\Controllers\VendorController::class, 'create']);
+    Route::post('/update/{id}', [\App\Domains\Vendor\Controllers\VendorController::class, 'update']);
 });

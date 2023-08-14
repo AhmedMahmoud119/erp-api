@@ -6,7 +6,6 @@ namespace App\Domains\Vendor\Providers;
 
 use App\Domains\Vendor\Interfaces\VendorRepositoryInterface;
 use App\Domains\Vendor\Repositories\VendorMySqlRepository;
-use App\Domains\Vendor\Repositories\ModuleMySqlRepository;
 use Illuminate\Support\ServiceProvider;
 
 class VendorServiceProvider extends ServiceProvider
