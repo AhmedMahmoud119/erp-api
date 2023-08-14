@@ -20,7 +20,9 @@ class TenantController extends Controller
 
     public function list(FilterTenantRequest $request)
     {
-
+        if(tenant('id')){
+            return false;
+        }
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionTenant::view_tenants->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return TenantResource::collection($this->tenantService->list());
@@ -28,6 +30,9 @@ class TenantController extends Controller
 
     public function delete($id)
     {
+        if(tenant('id')){
+            return false;
+        }
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionTenant::delete_tenant->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->tenantService->delete($id);
@@ -39,6 +44,9 @@ class TenantController extends Controller
 
     public function findById($id)
     {
+        if(tenant('id')){
+            return false;
+        }
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionTenant::view_tenants->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new TenantResource($this->tenantService->findById($id));
@@ -47,6 +55,9 @@ class TenantController extends Controller
 
     public function create(StoreTenantRequest $request)
     {
+        if(tenant('id')){
+            return false;
+        }
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionTenant::create_tenant->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->tenantService->create($request);
@@ -58,6 +69,9 @@ class TenantController extends Controller
 
     public function update($id, UpdateTenantRequest $request)
     {
+        if(tenant('id')){
+            return false;
+        }
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionTenant::edit_tenant->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->tenantService->update($id, $request);
