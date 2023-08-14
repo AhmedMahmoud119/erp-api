@@ -29,14 +29,12 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->configureRateLimiting();
-            foreach ($this->centralDomains() as $domain) {
-            $this->routes(function () use($domain){
-                Route::middleware('api')
-                    ->domain($domain)
-                    ->prefix('api')
-                    ->group($this->domainRoutes());
-            });
-        }
+
+        $this->routes(function () {
+            Route::middleware('api')
+                ->prefix('api')
+                ->group($this->domainRoutes());
+        });
     }
 
     /**
