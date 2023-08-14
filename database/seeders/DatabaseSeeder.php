@@ -3,6 +3,10 @@
 namespace Database\Seeders;
 
 use App\Domains\User\Models\User;
+use Database\Seeders\AddressesTableSeeder;
+use Database\Seeders\citiesTableSeeder;
+use Database\Seeders\countriesTableSeeder;
+use Database\Seeders\statesTableSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Database\Seeders\TaxSeeder;
@@ -32,5 +36,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
 //        $user->roles()->sync([1]);
+        $this->call(countriesTableSeeder::class);
+        $this->call(statesTableSeeder::class);
+        $this->call(citiesTableSeeder::class);
+        $this->call(AddressesTableSeeder::class);
     }
 }
