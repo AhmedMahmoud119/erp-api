@@ -19,8 +19,11 @@ class StoreCompanyRequest extends FormRequest
             'status' => ['required', Rule::in(['In-Active', 'Active'])],
             'tenant_id' => 'nullable|exists:tenants,id',
             'user_id' => 'nullable|exists:users,id',
+            'modules' => 'nullable|array',
+            'modules.*' => 'exists:modules,id',
         ];
     }
+
     public function messages()
     {
         return [
@@ -28,10 +31,10 @@ class StoreCompanyRequest extends FormRequest
             'name.regex' => __('The name must only contain letters'),
             'status.required' => __('The status field is required'),
             'status.in' => __('The status is invalid'),
-//            'tenant_id.required' => __('The tenant is required'),
             'tenant_id.exists' => __('The tenant not exist'),
             'user_id.exists' => __('The user not exist'),
-        ];
+            'modules.*.exists' => __('The module not exist'),
 
+        ];
     }
 }

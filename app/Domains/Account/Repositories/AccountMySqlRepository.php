@@ -5,6 +5,7 @@ namespace App\Domains\Account\Repositories;
 use App\Domains\Account\Interfaces\AccountRepositoryInterface;
 use App\Domains\Account\Models\Account;
 use App\Domains\Group\Models\Group;
+
 class AccountMySqlRepository implements AccountRepositoryInterface
 {
 
@@ -14,19 +15,23 @@ class AccountMySqlRepository implements AccountRepositoryInterface
 
     public function list()
     {
-        return $this->account::when(request()->sort_column, function ($q, $v) {
-            $q->orderBy(request()->sort_column, request()->sort_type ?? 'asc');
-        })->when(request()->name, function ($q, $v) {
-            $q->where('name','like', '%'.request()->name.'%');
+        return $this->account::when(request()->name, function ($q, $v) {
+            $q->where('name', 'like', '%' . request()->name . '%');
         })->when(request()->group_id, function ($q, $v) {
-            $q->where('group_id',request()->group_id);
+            $q->where('group_id', request()->group_id);
         })->when(request()->creator_id, function ($q, $v) {
-            $q->where('creator_id',request()->creator_id);
+            $q->where('creator_id', request()->creator_id);
         })->when(request()->from_date, function ($q, $v) {
-            $q->whereDate('created_at','>=',request()->from_date);
+            $q->whereDate('created_at', '>=', request()->from_date);
         })->when(request()->to_date, function ($q, $v) {
-            $q->whereDate('created_at','<=',request()->to_date);
-        })->paginate(request('limit',config('app.pagination_count')));
+            $q->whereDate('created_at', '<=', request()->to_date);
+        })->when(request()->sort_by, function ($q, $v) {
+            if (in_array(request()->sort_by, ['name', 'code', 'created_at', 'updated_at'])) {
+                return    $q->orderBy(request()->sort_by, request()->sort_type ?? 'asc');
+            }
+            return $q;
+        })
+            ->paginate(request('limit', config('app.pagination_count')));
     }
 
     public function findById(string $id): Account
@@ -43,9 +48,9 @@ class AccountMySqlRepository implements AccountRepositoryInterface
         $code = str_pad($lastAccountCode, 8, '0', STR_PAD_LEFT);
 
         $this->account::create($request->all() + [
-                'code'       => $code,
-                'creator_id' => auth()->user()->id,
-            ]);
+            'code'       => $code,
+            'creator_id' => auth()->user()->id,
+        ]);
 
         return true;
     }
@@ -66,9 +71,8 @@ class AccountMySqlRepository implements AccountRepositoryInterface
     }
     public function bulkDelete(): bool
     {
-        $this->account::whereIn('id',request()->ids??[])->delete();
+        $this->account::whereIn('id', request()->ids ?? [])->delete();
 
         return true;
     }
-
 }

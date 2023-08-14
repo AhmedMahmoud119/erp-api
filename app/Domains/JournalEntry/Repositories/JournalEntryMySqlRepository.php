@@ -34,10 +34,10 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
                 ->orWhere('entry_no', request()->search);
         })->when(request()->creator_id, function ($q) {
             $q->where('creator_id', request()->creator_id);
-        })->when(request()->date_from, function ($q) {
-            $q->whereDate('created_at', '>=', request()->date_from);
-        })->when(request()->date_to, function ($q) {
-            $q->whereDate('created_at', '<=', request()->date_to);
+        })->when(request()->from, function ($q) {
+            $q->whereDate('created_at', '>=', request()->from);
+        })->when(request()->to, function ($q) {
+            $q->whereDate('created_at', '<=', request()->to);
         })
             ->when(request()->sort, function ($q) {
                 if (in_array(request()->sort, ['title', 'entry_no', 'date', 'created_at', 'updated_at', 'creator_id'])) {

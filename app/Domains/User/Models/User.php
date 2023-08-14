@@ -73,11 +73,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(User::class, 'parent_id');
     }
-
-
-//    public function getRoleAttribute() {
-//        return $this->roles()->first();
-//    }
-//
-
 }

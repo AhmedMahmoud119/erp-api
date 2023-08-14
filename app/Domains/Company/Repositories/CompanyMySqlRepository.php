@@ -15,7 +15,7 @@ class CompanyMySqlRepository implements CompanyRepositoryInterface
     public function findById(string $id): Company
     {
         $company =  $this->company::findOrFail($id);
-        $company->load('tenant', 'user', 'creator');
+        $company->load('tenant', 'user', 'creator', 'modules');
         return $company;
     }
 
@@ -25,27 +25,43 @@ class CompanyMySqlRepository implements CompanyRepositoryInterface
     {
         return $this->company::when(request()->tenant_id, function ($q) {
             $q->where('tenant_id', request()->tenant_id);
-        })->when(request()->company_id, function ($q) {
-            $q->where('id', request()->company_id);
         })->when(request()->name, function ($q) {
             $q->where('name', request()->name);
+        })->when('search', function ($q) {
+            $q->where('name', 'like', '%' . request()->search . '%');
         })->when(request()->user_id, function ($q) {
             $q->where('user_id', request()->user_id);
         })->when(request()->creator_id, function ($q) {
             $q->where('creator_id', request()->creator_id);
-        })->when(request()->date_from, function ($q) {
-            $q->whereDate('created_at', '>=', request()->date_from);
-        })->when(request()->date_to, function ($q) {
-            $q->whereDate('created_at', '<=', request()->date_to);
-        })->with('tenant', 'user', 'creator')
+        })->when(request()->from, function ($q) {
+            $q->whereDate('created_at', '>=', request()->from);
+        })->when(request()->status, function ($q) {
+            $q->where('status', request()->status);
+        })->when(request()->to, function ($q) {
+            $q->whereDate('created_at', '<=', request()->to);
+        })->when(request()->modules, function ($q) {
+            $q->whereHas('modules', function ($q) {
+                $q->whereIn('modules.id', request()->modules);
+            });
+        })->when(request()->sort_by, function ($q) {
+            if (in_array(request()->sort_by, ['name', 'status', 'user_id', 'creator_id', 'tenant_id', 'created_at'])) {
+                $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
+            }
+            return $q;
+        })->with('tenant', 'user', 'creator', 'modules')
             ->paginate(request('limit', config('app.pagination_count')));
     }
 
     public function store($request): bool
     {
-        $this->company::create($request->except(['password', 'password_confirmation']) + [
-            'creator_id' => auth()->user()->id
-        ]);
+        $this->company::create([
+            'name' => $request->name,
+            'status' => $request->status,
+            'user_id' => $request->user_id,
+            'description' => $request->description,
+            'tenant_id' => $request->tenant_id,
+            'creator_id' => auth()->user()->id,
+        ])->modules()->sync($request->modules);
         return true;
     }
 

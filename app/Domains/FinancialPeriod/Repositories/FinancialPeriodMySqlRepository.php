@@ -29,8 +29,8 @@ class FinancialPeriodMySqlRepository implements FinancialPeriodRepositoryInterfa
         })->when(request()->date_from || request()->date_to, function ($q) {
             $q->whereBetween('created_at', [request()->date_from, request()->date_to]);
         })->when(request()->sort_by, function ($q) {
-            if (in_array(request()->order_by, ['start', 'end', 'title', 'status', 'created_at', 'id', 'creator_id'])) {
-                $q->orderBy(request()->order_by, request()->sort_by === 'asc' ? 'asc' : 'desc');
+            if (in_array(request()->sort_by, ['start', 'end', 'title', 'status', 'created_at', 'id', 'creator_id'])) {
+                $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
             }
             $q->orderBy('id', 'asc');
         })
