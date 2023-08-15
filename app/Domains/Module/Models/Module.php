@@ -24,9 +24,9 @@ class Module extends Model
     {
         return $this->belongsToMany(FormModule::class, 'form_modules', 'module_id', 'form_id');
     }
-    public function taxes(): BelongsToMany
+    public function taxes(): MorphToMany
     {
-        return $this->belongsToMany(Tax::class, 'tax_modules');
+        return $this->morphedByMany(Tax::class, 'moduleables');
     }
 
     public function company(): MorphToMany

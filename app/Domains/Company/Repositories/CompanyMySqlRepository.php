@@ -4,6 +4,7 @@ namespace App\Domains\Company\Repositories;
 
 use App\Domains\Company\Interfaces\CompanyRepositoryInterface;
 use App\Domains\Company\Models\Company;
+use App\Domains\Module\Models\Moduleables;
 use Illuminate\Database\Eloquent\Collection;
 
 class CompanyMySqlRepository implements CompanyRepositoryInterface
@@ -75,8 +76,17 @@ class CompanyMySqlRepository implements CompanyRepositoryInterface
             'description' => $request->description ?? $company->description,
             'tenant_id' => $request->tenant_id ?? $company->tenant_id,
         ]);
+        // add modules to company 
+        Moduleables::where('moduleables_id', $id)->where('moduleables_type', 'App\Domains\Company\Models\Company')->delete();
+        $modules = collect($request->modules)->map(function ($module) use ($id) {
+            return [
+                'moduleables_id' => $id,
+                'moduleables_type' => Company::class,
+                'module_id' => $module,
+            ];
+        });
+        Moduleables::insert($modules->toArray());
 
-        $company->modules()->sync($request->modules);
 
         return true;
     }
@@ -86,9 +96,5 @@ class CompanyMySqlRepository implements CompanyRepositoryInterface
         $this->company::findOrFail($id)?->delete();
         return true;
     }
-    public function detachModule(string $id, string $moduleId): bool
-    {
-        $this->company::findOrFail($id)->modules()->detach($moduleId);
-        return true;
-    }
+
 }

@@ -4,6 +4,7 @@ namespace App\Domains\Company\Interfaces;
 
 use App\Domains\Company\Models\Company;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 
 interface CompanyRepositoryInterface
 {
@@ -12,5 +13,4 @@ interface CompanyRepositoryInterface
     public function store($request):bool;
     public function update(string $id, $request):bool;
     public function delete(string $id): bool;
-    public function detachModule(string $id, string $module_id): bool;
 }
