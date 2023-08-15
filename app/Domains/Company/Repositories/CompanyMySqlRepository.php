@@ -76,12 +76,19 @@ class CompanyMySqlRepository implements CompanyRepositoryInterface
             'tenant_id' => $request->tenant_id ?? $company->tenant_id,
         ]);
 
+        $company->modules()->sync($request->modules);
+
         return true;
     }
 
     public function delete(string $id): bool
     {
         $this->company::findOrFail($id)?->delete();
+        return true;
+    }
+    public function detachModule(string $id, string $moduleId): bool
+    {
+        $this->company::findOrFail($id)->modules()->detach($moduleId);
         return true;
     }
 }

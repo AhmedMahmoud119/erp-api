@@ -36,4 +36,8 @@ class CompanyService
     {
         return $this->companyRepository->update($id,$request);
     }
+    public function detachModule($id,$request)
+    {
+        return $this->companyRepository->detachModule($id,$request);
+    }
 }

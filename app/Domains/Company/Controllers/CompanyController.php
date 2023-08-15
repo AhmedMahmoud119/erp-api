@@ -64,4 +64,14 @@ class CompanyController extends Controller
             'status' => true,
         ], 200);
     }
+    public function detachModule($id, $moduleId)
+    {
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCompany::edit_company->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $this->companyService->detachModule($id, $moduleId);
+        return response()->json([
+            'message' =>  __('Updated Successfully'),
+            'status' => true,
+        ], 200);
+    }
 }
