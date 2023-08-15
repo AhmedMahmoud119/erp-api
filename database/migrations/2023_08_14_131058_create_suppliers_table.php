@@ -20,10 +20,11 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('contact');
 
-            $table->foreign('parent')->nullable()->references('id')->on('suppliers')->onDelete('cascade');
-            $table->foreign('address_id')->nullable()->references('id')->on('addresses')->onDelete('cascade');
+            $table->foreignId('parent')->nullable()->references('id')->on('accounts')->onDelete('cascade');
+            $table->foreignId('address_id')->nullable()->references('id')->on('addresses')->onDelete('cascade');
             $table->foreignId('currency_id')->nullable()->references('id')->on('currencies');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

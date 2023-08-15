@@ -13,10 +13,9 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
 Route::group(['middleware' => 'auth:sanctum','prefix' => 'supplier'],function (){
     Route::get('/', [SupplierController::class, 'list']);
-    Route::delete('/{id}', [SupplierController::class, 'delete']);
+    Route::delete('/{id}',[SupplierController::class, 'delete']);
     Route::post('/create', [SupplierController::class, 'create']);
     Route::post('/update/{id}', [SupplierController::class, 'update']);
 });

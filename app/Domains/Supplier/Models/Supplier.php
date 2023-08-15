@@ -14,6 +14,8 @@ class Supplier extends Model
         'name',
         'email',
         'contact',
+        'code',
+        'parent',
         'currency_id',
         'address_id',
     ];
@@ -21,8 +23,12 @@ class Supplier extends Model
     {
         return $this->hasMany(Address::class);
     }
+    public function parent()
+    {
+        return $this->hasOne(Account::class,'parent');
+    }
     public function currency()
     {
-        return $this->hasOne(Currency::class);
+        return $this->hasMany(Currency::class);
     }
 }
