@@ -19,11 +19,12 @@ return new class extends Migration
             $table->string('code');
             $table->string('contact');
             $table->string('email');
-            $table->string('address_id');
+            $table->foreignId('address_id')->references('id')->on('addresses');
             $table->foreignId('currency_id')->references('id')->on('currencies');
             $table->foreignId('parent_account_id')->references('id')->on('accounts');
             $table->foreignId('creator_id')->nullable()
                 ->references('id')->on('users');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

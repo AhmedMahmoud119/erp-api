@@ -5,6 +5,7 @@ namespace App\Domains\Vendor\Models;
 use App\Domains\Account\Models\Account;
 use App\Domains\Currency\Models\Currency;
 use App\Domains\User\Models\User;
+use App\Domains\Vendor\Resources\AddressResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -24,7 +25,7 @@ class Vendor extends Model
         'address_id',
         'creator_id',
     ];
-    public function parentAccount()
+    public function account()
     {
         return $this->belongsTo(Account::class, 'parent_account_id');
     }
@@ -37,5 +38,10 @@ class Vendor extends Model
     public function creator()
     {
         return $this->belongsTo(User::class, 'creator_id');
+    }
+
+    public function address()
+    {
+        return $this->belongsTo(Address::class);
     }
 }

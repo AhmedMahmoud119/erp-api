@@ -4,8 +4,10 @@ namespace App\Domains\Vendor\Repositories;
 
 use App\Domains\Account\Services\AccountService;
 use App\Domains\Vendor\Interfaces\VendorRepositoryInterface;
+use App\Domains\Vendor\Models\Address;
 use App\Domains\Vendor\Models\Vendor;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 class VendorMySqlRepository implements VendorRepositoryInterface
 {
@@ -35,16 +37,26 @@ class VendorMySqlRepository implements VendorRepositoryInterface
 
     public function store($request): bool
     {
+        $address = Address::create([
+            'address'    => $request->address,
+            'phone'      => $request->address_phone,
+            'name'       => $request->address_name,
+            'zip_code'   => $request->zip_code,
+            'state_id'   => $request->state_id,
+            'city_id'    => $request->city_id,
+            'country_id' => $request->country_id,
+        ]);
+
         $account = app(AccountService::class)->findById($request->parent_account_id);
-        $vendorMaxId = $this->vendor::max('id')??0;
+        $vendorMaxId = $this->vendor::max('id') ?? 0;
         $this->vendor::create([
-            'code'              => ($vendorMaxId+1).$account->code,
+            'code'              => $account->code . ($vendorMaxId + 1),
             'name'              => $request->name,
             'contact'           => $request->contact,
             'email'             => $request->email,
             'currency_id'       => $request->currency_id,
             'parent_account_id' => $request->parent_account_id,
-            'address_id'        => $request->address_id,
+            'address_id'        => $address->id,
             'creator_id'        => auth()->user()->id,
         ]);
 
@@ -55,17 +67,27 @@ class VendorMySqlRepository implements VendorRepositoryInterface
     {
         $vendor = $this->vendor::findOrFail($id);
 
+        Address::find($vendor->address_id)->update([
+            'address'    => $request->address,
+            'phone'      => $request->address_phone,
+            'name'       => $request->address_name,
+            'zip_code'   => $request->zip_code,
+            'state_id'   => $request->state_id,
+            'city_id'    => $request->city_id,
+            'country_id' => $request->country_id,
+        ]);
+
         $account = app(AccountService::class)->findById($request->parent_account_id);
-        $vendorMaxId = $this->vendor::max('id')??0;
+        $vendorMaxId = $this->vendor::max('id') ?? 0;
 
         $vendor->update([
-            'code'              => ($vendorMaxId+1) . $account->code,
+            'code'              => $account->code . ($vendorMaxId + 1),
             'name'              => $request->name,
             'contact'           => $request->contact,
             'email'             => $request->email,
             'currency_id'       => $request->currency_id,
             'parent_account_id' => $request->parent_account_id,
-            'address_id'        => $request->address_id,
+            'creator_id'        => auth()->user()->id,
         ]);
 
         return true;

@@ -23,6 +23,8 @@ return new class extends Migration
             $table->foreignId('state_id')->references('id')->on('states');
             $table->foreignId('city_id')->references('id')->on('cities');
             $table->foreignId('country_id')->references('id')->on('countries');
+            $table->softDeletes();
+
             $table->timestamps();
         });
     }
