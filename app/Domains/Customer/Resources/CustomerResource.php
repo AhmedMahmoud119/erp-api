@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Domains\Vendor\Resources;
+namespace App\Domains\Customer\Resources;
 
-use App\Domains\Module\Resources\ModuleResource;
-use App\Domains\Tenant\Resources\TenantResource;
-use App\Domains\User\Resources\UserResource;
+use App\Domains\Vendor\Resources\AddressResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class VendorResource extends JsonResource
+class CustomerResource extends JsonResource
 {
 
     public function toArray($request)

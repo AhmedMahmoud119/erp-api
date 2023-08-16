@@ -1,30 +1,30 @@
 <?php
 
-namespace App\Domains\Vendor\Repositories;
+namespace App\Domains\Customer\Repositories;
 
 use App\Domains\Account\Services\AccountService;
-use App\Domains\Vendor\Interfaces\VendorRepositoryInterface;
+use App\Domains\Customer\Interfaces\CustomerRepositoryInterface;
 use App\Domains\Vendor\Models\Address;
-use App\Domains\Vendor\Models\Vendor;
+use App\Domains\Customer\Models\Customer;
 
-class VendorMySqlRepository implements VendorRepositoryInterface
+class CustomerMySqlRepository implements CustomerRepositoryInterface
 {
 
-    public function __construct(private Vendor $vendor)
+    public function __construct(private Customer $customer)
     {
     }
 
-    public function findById(string $id): Vendor
+    public function findById(string $id): Customer
     {
-        $vendor = $this->vendor::findOrFail($id);
-        $vendor->load('creator');
+        $customer = $this->customer::findOrFail($id);
+        $customer->load('creator');
 
-        return $vendor;
+        return $customer;
     }
 
     public function list()
     {
-        return $this->vendor::when(request()->creator_id, function ($q) {
+        return $this->customer::when(request()->creator_id, function ($q) {
             $q->where('creator_id', request()->creator_id);
         })->when(request()->from, function ($q) {
             $q->whereDate('created_at', '>=', request()->from);
@@ -44,7 +44,6 @@ class VendorMySqlRepository implements VendorRepositoryInterface
             'city_id'    => $request->city_id,
             'country_id' => $request->country_id,
         ]);
-
         if ( ! $request->is_same_shipping_address) {
             $billingAddress = Address::create([
                 'address'    => $request->billing_address,
@@ -56,20 +55,18 @@ class VendorMySqlRepository implements VendorRepositoryInterface
                 'country_id' => $request->billing_country_id,
             ]);
         }
-
-
         $account = app(AccountService::class)->findById($request->parent_account_id);
-        $vendorMaxId = $this->vendor::max('id') ?? 0;
-        $this->vendor::create([
-            'code'               => $account->code . ($vendorMaxId + 1),
-            'name'               => $request->name,
-            'contact'            => $request->contact,
-            'email'              => $request->email,
-            'currency_id'        => $request->currency_id,
-            'parent_account_id'  => $request->parent_account_id,
-            'address_id'         => $address->id,
+        $customerMaxId = $this->customer::max('id') ?? 0;
+        $this->customer::create([
+            'code'              => $account->code . ($customerMaxId + 1),
+            'name'              => $request->name,
+            'contact'           => $request->contact,
+            'email'             => $request->email,
+            'currency_id'       => $request->currency_id,
+            'parent_account_id' => $request->parent_account_id,
+            'address_id'        => $address->id,
             'billing_address_id' => $billingAddress->id ?? $address->id,
-            'creator_id'         => auth()->user()->id,
+            'creator_id'        => auth()->user()->id,
         ]);
 
         return true;
@@ -77,9 +74,9 @@ class VendorMySqlRepository implements VendorRepositoryInterface
 
     public function update(string $id, $request): bool
     {
-        $vendor = $this->vendor::findOrFail($id);
+        $customer = $this->customer::findOrFail($id);
 
-        Address::find($vendor->address_id)->update([
+        Address::find($customer->address_id)->update([
             'address'    => $request->address,
             'phone'      => $request->address_phone,
             'name'       => $request->address_name,
@@ -88,7 +85,7 @@ class VendorMySqlRepository implements VendorRepositoryInterface
             'city_id'    => $request->city_id,
             'country_id' => $request->country_id,
         ]);
-        if ( ! $request->is_same_shipping_address && $vendor->billing_address_id == $vendor->address_id) {
+        if ( ! $request->is_same_shipping_address && $customer->billing_address_id == $customer->address_id) {
             $billingAddress = Address::create([
                 'address'    => $request->billing_address,
                 'phone'      => $request->billing_address_phone,
@@ -98,8 +95,8 @@ class VendorMySqlRepository implements VendorRepositoryInterface
                 'city_id'    => $request->billing_city_id,
                 'country_id' => $request->billing_country_id,
             ]);
-        } else if ( ! $request->is_same_shipping_address && $vendor->billing_address_id != $vendor->address_id) {
-            $billingAddress = Address::find($vendor->billing_address_id);
+        } else if ( ! $request->is_same_shipping_address && $customer->billing_address_id != $customer->address_id) {
+            $billingAddress = Address::find($customer->billing_address_id);
             $billingAddress->update([
                 'address'    => $request->billing_address,
                 'phone'      => $request->billing_address_phone,
@@ -111,17 +108,17 @@ class VendorMySqlRepository implements VendorRepositoryInterface
             ]);
         }
         $account = app(AccountService::class)->findById($request->parent_account_id);
-        $vendorMaxId = $this->vendor::max('id') ?? 0;
+        $customerMaxId = $this->customer::max('id') ?? 0;
 
-        $vendor->update([
-            'code'               => $account->code . ($vendorMaxId + 1),
-            'name'               => $request->name,
-            'contact'            => $request->contact,
-            'email'              => $request->email,
-            'currency_id'        => $request->currency_id,
-            'parent_account_id'  => $request->parent_account_id,
-            'billing_address_id' => $request->is_same_shipping_address ? $vendor->address_id : $billingAddress->id,
-            'creator_id'         => auth()->user()->id,
+        $customer->update([
+            'code'              => $account->code . ($customerMaxId + 1),
+            'name'              => $request->name,
+            'contact'           => $request->contact,
+            'email'             => $request->email,
+            'currency_id'       => $request->currency_id,
+            'parent_account_id' => $request->parent_account_id,
+            'billing_address_id' => $request->is_same_shipping_address ? $customer->address_id : $billingAddress->id,
+            'creator_id'        => auth()->user()->id,
         ]);
 
         return true;
@@ -129,7 +126,7 @@ class VendorMySqlRepository implements VendorRepositoryInterface
 
     public function delete(string $id): bool
     {
-        $this->vendor::findOrFail($id)?->delete();
+        $this->customer::findOrFail($id)?->delete();
 
         return true;
     }
