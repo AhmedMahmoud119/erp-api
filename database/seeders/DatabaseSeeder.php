@@ -7,6 +7,7 @@ use Database\Seeders\AddressesTableSeeder;
 use Database\Seeders\citiesTableSeeder;
 use Database\Seeders\countriesTableSeeder;
 use Database\Seeders\statesTableSeeder;
+use Database\Seeders\UnitTypesTableSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Database\Seeders\TaxSeeder;
@@ -30,15 +31,16 @@ class DatabaseSeeder extends Seeder
         $this->call([
             PermissionsTableSeeder::class,
             GroupTypeSeeder::class,
-            //            FinancialPeriodSeeder::class,
-            // TaxSeeder::class,
-//            CurrencyCodesSeeder::class,
+            //FinancialPeriodSeeder::class,
+            //TaxSeeder::class,
+            //CurrencyCodesSeeder::class,
+            countriesTableSeeder::class,
+            statesTableSeeder::class,
+            citiesTableSeeder::class,
+            AddressesTableSeeder::class,
+            UnitTypesTableSeeder::class,
         ]);
 
-//        $user->roles()->sync([1]);
-        $this->call(countriesTableSeeder::class);
-        $this->call(statesTableSeeder::class);
-        $this->call(citiesTableSeeder::class);
-        $this->call(AddressesTableSeeder::class);
+        //$user->roles()->sync([1]);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Domains\UnitType\Controllers\UnitTypeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,5 +13,9 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::group(['middleware' => 'auth:sanctum','prefix' => 'supplier'],function (){
+Route::group(['middleware' => 'auth:sanctum','prefix' => 'unit-type'],function (){
+    Route::get('/', [UnitTypeController::class, 'list']);
+    Route::delete('/{id}',[UnitTypeController::class, 'delete']);
+    Route::post('/create', [UnitTypeController::class, 'create']);
+    Route::post('/update/{id}', [UnitTypeController::class, 'update']);
 });
