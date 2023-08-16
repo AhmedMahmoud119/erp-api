@@ -62,4 +62,9 @@ class RouteServiceProvider extends ServiceProvider
 
         return array_map(fn($directory) => app_path("Domains/$directory/api.php"), $directories);
     }
+
+    protected function centralDomains(): array
+    {
+        return config('tenancy.central_domains', []);
+    }
 }

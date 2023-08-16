@@ -26,11 +26,13 @@ class DatabaseSeeder extends Seeder
         $this->call([
             PermissionsTableSeeder::class,
             GroupTypeSeeder::class,
-            //            FinancialPeriodSeeder::class,
-            // TaxSeeder::class,
+            TaxSeeder::class,
+            // CompanySeeder::class,
+
+            FinancialPeriodSeeder::class,
             CurrencyCodesSeeder::class,
         ]);
 
-        $user->roles()->sync([1]);
+        //        $user->roles()->sync([1]);
     }
 }

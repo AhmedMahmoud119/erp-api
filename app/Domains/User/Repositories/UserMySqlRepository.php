@@ -21,12 +21,6 @@ class UserMySqlRepository implements UserRepositoryInterface
     }
     public function list()
     {
-        //         name
-        // email
-        // phone
-        // creator_id
-        // parent_id
-        // status
         return  $this->user::when(
             request()->search,
             function ($q) {

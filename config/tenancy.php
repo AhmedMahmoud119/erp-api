@@ -21,6 +21,7 @@ return [
         '127.0.0.1',
         'localhost',
         'uktratest.com',
+        'thekeyeg.com',
     ],
 
     /**
@@ -53,7 +54,7 @@ return [
          * Tenant database names are created like this:
          * prefix + tenant_id + suffix.
          */
-        'prefix' => 'uktrates_tenant',
+        'prefix' => 'thekeyeg_tenant',
         'suffix' => '',
 
         /**

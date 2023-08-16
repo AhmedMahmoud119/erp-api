@@ -36,4 +36,5 @@ class CompanyService
     {
         return $this->companyRepository->update($id,$request);
     }
+
 }
