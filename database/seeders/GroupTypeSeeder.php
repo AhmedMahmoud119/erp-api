@@ -3,8 +3,9 @@
 namespace Database\Seeders;
 
 use App\Domains\GroupType\Models\GroupType;
-use Database\Factories\GroupTypeFactory;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Database\Factories\AccountFactory;
+use Database\Factories\GroupFactory;
+
 use Illuminate\Database\Seeder;
 
 class GroupTypeSeeder extends Seeder
@@ -46,5 +47,7 @@ class GroupTypeSeeder extends Seeder
             'is_fixed' => 1,
             'creator_id'=>1
         ]);
+        GroupFactory::new()->count(10)->create();
+        AccountFactory::new()->count(10)->create();
     }
 }

@@ -30,15 +30,21 @@ class DatabaseSeeder extends Seeder
         $this->call([
             PermissionsTableSeeder::class,
             GroupTypeSeeder::class,
-            //            FinancialPeriodSeeder::class,
-            // TaxSeeder::class,
-//            CurrencyCodesSeeder::class,
+            TaxSeeder::class,
+            // CompanySeeder::class,
+
+            FinancialPeriodSeeder::class,
+            CurrencyCodesSeeder::class,
+            countriesTableSeeder::class,
+            statesTableSeeder::class,
+            citiesTableSeeder::class,
+            AddressesTableSeeder::class
         ]);
 
-//        $user->roles()->sync([1]);
-        $this->call(countriesTableSeeder::class);
-        $this->call(statesTableSeeder::class);
-        $this->call(citiesTableSeeder::class);
-        $this->call(AddressesTableSeeder::class);
+        //        $user->roles()->sync([1]);
+        // $this->call(countriesTableSeeder::class);
+        // $this->call(statesTableSeeder::class);
+        // $this->call(citiesTableSeeder::class);
+        // $this->call(AddressesTableSeeder::class);
     }
 }

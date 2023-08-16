@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Domains\Company\Models\Company;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,6 +15,7 @@ class CompanyFactory extends Factory
      *
      * @return array<string, mixed>
      */
+    protected $model = Company::class;
     public function definition()
     {
         return [

@@ -20,4 +20,5 @@ Route::group(['middleware' => 'auth:sanctum','prefix' => 'company'],function (){
     Route::delete('/{id}', [\App\Domains\Company\Controllers\CompanyController::class, 'delete']);
     Route::post('/create', [\App\Domains\Company\Controllers\CompanyController::class, 'create']);
     Route::post('/update/{id}', [\App\Domains\Company\Controllers\CompanyController::class, 'update']);
+    Route::post('/{id}/detach/{moduleId}', [\App\Domains\Company\Controllers\CompanyController::class, 'detachModule']);
 });

@@ -7,12 +7,13 @@ use App\Domains\Tenant\Models\Tenant;
 use App\Domains\User\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 class Tax extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -23,12 +24,11 @@ class Tax extends Model
 
     public function creator()
     {
-        return $this->belongsTo(User::class,'creator_id');
+        return $this->belongsTo(User::class, 'creator_id');
     }
 
-    public function modules()
+    public function modules(): MorphToMany
     {
-        return $this->belongsToMany(Module::class,'tax_modules');
+        return $this->morphToMany(Module::class, 'moduleables');
     }
-
 }

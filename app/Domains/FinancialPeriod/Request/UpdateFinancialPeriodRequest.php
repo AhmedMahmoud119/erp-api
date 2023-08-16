@@ -17,8 +17,8 @@ class UpdateFinancialPeriodRequest extends FormRequest
     {
         return [
             'title' => [
-                Rule::unique('financial_periods', 'title')->ignore($this->financial_period),
                 'required',
+                Rule::unique('financial_periods')->ignore($this->id),
             ],
             'start' => 'required|date|before:end',
             'end' => 'required|date|after:start',
