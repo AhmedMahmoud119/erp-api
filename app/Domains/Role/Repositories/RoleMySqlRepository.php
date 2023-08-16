@@ -46,6 +46,7 @@ class RoleMySqlRepository implements RoleRepositoryInterface
                 if (in_array(request()->sort_by, ['name', 'created_at'])) {
                     $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
                 }
+                return $q;
             })
             ->with(['permissions' => function ($query) {
                 $query->select('id', 'name');
