@@ -4,6 +4,7 @@ namespace App\Domains\Company\Interfaces;
 
 use App\Domains\Company\Models\Company;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 
 interface CompanyRepositoryInterface
 {

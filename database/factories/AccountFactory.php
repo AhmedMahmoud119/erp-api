@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\=Account>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Domains\Account\Models\Account>
  */
 class AccountFactory extends Factory
 {
@@ -14,6 +14,7 @@ class AccountFactory extends Factory
      *
      * @return array<string, mixed>
      */
+    protected $model = \App\Domains\Account\Models\Account::class;
     public function definition()
     {
         return [

@@ -2,6 +2,7 @@
 
 namespace App\Domains\Tax\Repositories;
 
+use App\Domains\Module\Models\Moduleables;
 use App\Domains\Tax\Interfaces\TaxRepositoryInterface;
 use App\Domains\Tax\Models\Tax;
 use Illuminate\Database\Eloquent\Collection;
@@ -64,8 +65,16 @@ class TaxMySqlRepository implements TaxRepositoryInterface
             'name' => $request->name ?? $tax->name,
             'percentage' => $request->percentage ?? $tax->percentage,
         ]);
-        $modules = $request->modules;
-        $tax->modules()->sync($modules);
+        Moduleables::where('moduleables_id', $id)->where('moduleables_type', Tax::class)->delete();
+        $modules = collect($request->modules)->map(function ($module) use($id) {
+            return [
+                'moduleables_id' => $id,
+                'moduleables_type' => Tax::class,
+                'module_id' => $module,
+            ];
+        });
+        Moduleables::insert($modules->toArray());
+        
         return true;
     }
 

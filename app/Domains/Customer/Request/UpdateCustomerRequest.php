@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Domains\Vendor\Request;
+namespace App\Domains\Customer\Request;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreVendorRequest extends FormRequest
+class UpdateCustomerRequest extends FormRequest
 {
-
     public function authorize()
     {
         return true;
@@ -34,7 +33,6 @@ class StoreVendorRequest extends FormRequest
             'billing_zip_code'   => 'required_if:is_same_shipping_address,=,0',
         ];
     }
-
     public function messages()
     {
         return [
@@ -43,7 +41,7 @@ class StoreVendorRequest extends FormRequest
             'contact.required'           => __('The contact field is required'),
             'email.required'             => __('The email field is required'),
             'currency_id.required'       => __('The currency field is required'),
-            'address_id.required'        => __('The address field is required'),
+            'address.required'        => __('The address field is required'),
             'parent_account_id.required' => __('The parent account field is required'),
 
         ];
