@@ -2,6 +2,7 @@
 
 namespace App\Domains\Group\Models;
 
+use App\Domains\Account\Models\Account;
 use App\Domains\GroupType\Models\GroupType;
 use App\Domains\User\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,6 +27,11 @@ class Group extends Model
     public function group_type()
     {
         return $this->belongsTo(GroupType::class,'group_type_id');
+    }
+
+    public function accounts()
+    {
+        return $this->hasMany(Account::class);
     }
 
 
