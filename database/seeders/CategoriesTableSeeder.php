@@ -1,0 +1,42 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Domains\Category\Models\Category;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+
+class CategoriesTableSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        $rootCategory = Category::create([
+            'code' => 1,
+            'name' => 'Root Category',
+            'creator_id' => 1,
+            'description' => 'This is the root category.',
+        ]);
+
+        // Create child categories under the root category
+        Category::create([
+            'code' => 2,
+            'name' => 'Child Category 1',
+            'creator_id' => 1,
+            'description' => 'This is a child category.',
+            'parent' => $rootCategory->id,
+        ]);
+
+        Category::create([
+            'code' => 3,
+            'name' => 'Child Category 2',
+            'creator_id' => 1,
+            'description' => 'This is another child category.',
+            'parent' => $rootCategory->id,
+        ]);
+    }
+}
