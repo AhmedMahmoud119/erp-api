@@ -19,10 +19,12 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'journal-entries'], fu
     Route::get('/', [JournalEntryController::class, 'list']);
     Route::post('/import', [JournalEntryController::class, 'importJournalEntries']);
     Route::get('/export', [JournalEntryController::class, 'exportJournalEntries']);
+    Route::get('/balance-sheet/list', [JournalEntryController::class, 'balanceSheet']);
     Route::get('/{id}', [JournalEntryController::class, 'findById']);
     Route::delete('/{id}', [JournalEntryController::class, 'delete']);
     Route::post('/create', [JournalEntryController::class, 'create']);
     Route::post('/update/{id}', [JournalEntryController::class, 'update']);
     Route::post('/{id}/import', [JournalEntryController::class, 'importJournalEntryDetailsFromFile']);
     Route::get('/{id}/export', [JournalEntryController::class, 'exportJournalEntryDetailsToFile']);
+
 });
