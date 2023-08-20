@@ -41,13 +41,12 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
         })->when(request()->to, function ($q) {
             $q->whereDate('created_at', '<=', request()->to);
         })->when(request()->sort, function ($q) {
-                if (in_array(request()->sort,
-                    ['title', 'entry_no', 'date', 'created_at', 'updated_at', 'creator_id'])) {
-                    $q->orderBy(request()->sort, request()->order);
-                }
-
-                return $q;
-            })->with(['details'])->paginate(request('limit', config('app.pagination_count')));
+            if (in_array(request()->sort, ['title', 'entry_no', 'date', 'created_at', 'updated_at', 'creator_id'])) {
+                $q->orderBy(request()->sort, request()->order);
+            }
+            return $q;
+        })->with(['details'])
+            ->paginate(request('limit', config('app.pagination_count')));
     }
 
     public function store($request): bool
@@ -55,9 +54,9 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
 
         $data = $request->only('title', 'description', 'entry_no', 'date', 'accounts');
         $entry = $this->journalEntry::create($data + [
-                'creator_id' => auth()->user()->id,
-            ]);
-        $accounts = collect($data['accounts'])->map(fn($detail) => [
+            'creator_id' => auth()->user()->id,
+        ]);
+        $accounts = collect($data['accounts'])->map(fn ($detail) => [
             'account_id'       => $detail['account_id'],
             'debit'            => $detail['debit'],
             'credit'           => $detail['credit'],
@@ -83,15 +82,15 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
         ]);
         collect($data['accounts'])->map(function ($q) use ($id) {
             $this->journalEntryDetail::updateOrCreate([
-                    'id' => $q['id'] ?? null,
-                ], [
-                    'account_id'       => $q['account_id'],
-                    'debit'            => $q['debit'],
-                    'credit'           => $q['credit'],
-                    'tax_id'           => $q['tax_id'] ?? null,
-                    'description'      => $q['description'] ?? '',
-                    'journal_entry_id' => $id,
-                ]);
+                'id' => $q['id'] ?? null,
+            ], [
+                'account_id'       => $q['account_id'],
+                'debit'            => $q['debit'],
+                'credit'           => $q['credit'],
+                'tax_id'           => $q['tax_id'] ?? null,
+                'description'      => $q['description'] ?? '',
+                'journal_entry_id' => $id,
+            ]);
         })->toArray();
 
         return true;
@@ -144,14 +143,14 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
     public function balanceSheet()
     {
         $groups = GroupType::with('groups.accounts.journalEntryDetail.journalEntry')
-        ->whereHas('groups.accounts.journalEntryDetail.journalEntry', function($q){
-            $q->when(request()->from,function ($q){
+            ->whereHas('groups.accounts.journalEntryDetail.journalEntry', function ($q) {
+                $q->when(request()->from, function ($q) {
 
-                $q->whereDate('date','>=',request()->from);
-            })->when(request()->to,function ($q){
-                $q->whereDate('date','<=',request()->to);
-            });
-        })->get();
+                    $q->whereDate('date', '>=', request()->from);
+                })->when(request()->to, function ($q) {
+                    $q->whereDate('date', '<=', request()->to);
+                });
+            })->get();
 
         return $groups;
     }
