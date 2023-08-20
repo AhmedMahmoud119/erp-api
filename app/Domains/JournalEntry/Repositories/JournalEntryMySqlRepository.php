@@ -11,7 +11,6 @@ use App\Domains\JournalEntry\Interfaces\JournalEntryRepositoryInterface;
 use App\Domains\JournalEntry\Models\JournalEntry;
 use App\Domains\JournalEntry\Models\JournalEntryDetail;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Maatwebsite\Excel\Facades\Excel;
 
 class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
@@ -44,9 +43,9 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
             if (in_array(request()->sort, ['title', 'entry_no', 'date', 'created_at', 'updated_at', 'creator_id'])) {
                 $q->orderBy(request()->sort, request()->order);
             }
-
             return $q;
         })->with(['details'])->paginate(request('limit', config('app.pagination_count')));
+
     }
 
     public function store($request): bool
@@ -54,9 +53,9 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
 
         $data = $request->only('title', 'description', 'entry_no', 'date', 'accounts');
         $entry = $this->journalEntry::create($data + [
-                'creator_id' => auth()->user()->id,
-            ]);
-        $accounts = collect($data['accounts'])->map(fn($detail) => [
+            'creator_id' => auth()->user()->id,
+        ]);
+        $accounts = collect($data['accounts'])->map(fn ($detail) => [
             'account_id'       => $detail['account_id'],
             'debit'            => $detail['debit'],
             'credit'           => $detail['credit'],
@@ -142,11 +141,13 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
 
     public function balanceSheet()
     {
+
         $groups = GroupType::whereIn('code', [
             1,
             2,
             3,
-        ])->with('groups.accounts.journalEntryDetail.journalEntry')->whereHas('groups.accounts.journalEntryDetail.journalEntry',
+        ])->with('groups.accounts.journalEntryDetail.journalEntry')
+        ->whereHas('groups.accounts.journalEntryDetail.journalEntry',
             function ($q) {
                 $q->when(request()->from, function ($q) {
                     $q->whereDate('date', '>=', request()->from);
@@ -163,7 +164,8 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
         $groups = GroupType::whereIn('code', [
             4,
             5,
-        ])->with('groups.accounts.journalEntryDetail.journalEntry')->whereHas('groups.accounts.journalEntryDetail.journalEntry',
+        ])->with('groups.accounts.journalEntryDetail.journalEntry')
+            ->whereHas('groups.accounts.journalEntryDetail.journalEntry',
             function ($q) {
                 $q->when(request()->from, function ($q) {
                     $q->whereDate('date', '>=', request()->from);
