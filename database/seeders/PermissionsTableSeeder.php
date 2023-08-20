@@ -19,6 +19,7 @@ use App\Domains\Permission\Models\EnumPermissionRole;
 use App\Domains\Permission\Models\EnumPermissionUser;
 use App\Domains\Permission\Models\Permission;
 use App\Domains\Permission\Models\PermissionCategory;
+use App\Domains\Product\Models\EnumPermissionProduct;
 use App\Domains\RevisionHistory\Models\EnumPermissionRevisionHistory;
 use App\Domains\Role\Models\Role;
 use App\Domains\Tax\Models\EnumPermissionTax;
@@ -57,6 +58,7 @@ class PermissionsTableSeeder extends Seeder
                 'FinancialPeriod' => array_column(EnumPermissionFinancialPeriod::cases(), 'value'),
                 'Vendor'          => array_column(EnumPermissionVendor::cases(), 'value'),
                 'Customer'        => array_column(EnumPermissionCustomer::cases(), 'value'),
+                'Product'        => array_column(EnumPermissionProduct::cases(), 'value'),
             ],
 
         ];

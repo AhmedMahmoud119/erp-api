@@ -1,0 +1,51 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('products', function (Blueprint $table) {
+            $table->id();
+            $table->string('code');
+            $table->string('name',150);
+            $table->text('description');
+            $table->integer('quantity');
+            $table->unsignedInteger('opening_stock');
+            $table->unsignedDecimal('selling_prirce', $precision = 10, $scale = 2);
+            $table->unsignedDecimal('purchase_prirce', $precision = 10, $scale = 2);
+
+            // $table->string('image')->nullable();
+            // $table->string('matrial')->nullable();
+            // $table->string('size')->nullable();
+            // $table->unsignedDecimal('height', $precision = 6, $scale = 2)->nullable();
+            // $table->unsignedDecimal('width', $precision = 6, $scale = 2)->nullable();
+            // $table->unsignedDecimal('length', $precision = 6, $scale = 2)->nullable();
+
+            $table->foreignId('category_id')->references('id')->on('categories');
+            $table->foreignId('taxes_id')->references('id')->on('taxes');
+            $table->foreignId('unit_id')->references('id')->on('units');
+            $table->foreignId('creator_id')->references('id')->on('users');
+            $table->softDeletes();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('products');
+    }
+};
