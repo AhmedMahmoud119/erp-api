@@ -16,19 +16,18 @@ class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
     public function list()
     {
         return $this->groupType::when(request()->sort_by, function ($q) {
-            if (in_array(request()->sort_by, [ 'name','code','creator_id' ])) {
+            if (in_array(request()->sort_by, ['name', 'code', 'creator_id'])) {
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
             }
         })->when(request()->search, function ($q) {
             $q->where('name', 'like', '%' . request()->search . '%')
                 ->orwhere('code', 'like', '%' . request()->search . '%');
-
         })
             ->when(request()->name, function ($q) {
-            $q->where('name', request()->name);
-              })->when(request()->name,function ($q){
-            $q->where('code',request()->code );
-        })
+                $q->where('name', request()->name);
+            })->when(request()->code, function ($q) {
+                $q->where('code', request()->code);
+            })
             ->when(request()->from, function ($q) {
                 $q->whereDate('created_at', '>=', request()->from);
             })->when(request()->to, function ($q) {
@@ -48,12 +47,12 @@ class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
 
     public function store($request): bool
     {
-        $groupType=GroupType::select("code")
+        $groupType = GroupType::select("code")
             ->orderBy('id', 'DESC')
             ->first();
         $this->groupType::create([
             'name' => $request->name,
-            'code' => $groupType->code+1,
+            'code' => $groupType->code + 1,
             'is_fixed' => 0,
             'creator_id' => auth()->user()->id,
 
@@ -65,13 +64,12 @@ class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
     public function update(string $id, $request): bool
     {
 
-       $groupType = $this->groupType::findOrFail($id);
-       if(  in_array($id,[1,2,3,4,5] ))
-       {
-           return false;
-       }
-       $groupType->update([
-           'name' => $request->name,
+        $groupType = $this->groupType::findOrFail($id);
+        if (in_array($id, [1, 2, 3, 4, 5])) {
+            return false;
+        }
+        $groupType->update([
+            'name' => $request->name,
         ]);
 
         return true;
@@ -79,9 +77,9 @@ class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
 
     public function delete(string $id): bool
     {
-        $groups = Group::where('group_type_id',$id)->count();
+        $groups = Group::where('group_type_id', $id)->count();
 
-        if($groups > 0 || in_array($id,[1,2,3,4,5] )){
+        if ($groups > 0 || in_array($id, [1, 2, 3, 4, 5])) {
             return false;
         }
 
@@ -89,7 +87,4 @@ class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
 
         return true;
     }
-
-
-
 }

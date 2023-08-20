@@ -26,8 +26,7 @@ return new class extends Migration
 
             $table->string('account_type')->nullable();
 
-            $table->foreignId('creator_id')->nullable()
-                ->references('id')->on('users');
+            $table->foreignId('creator_id')->constrained();
 
             $table->timestamps();
 

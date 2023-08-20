@@ -3,6 +3,10 @@
 namespace Database\Seeders;
 
 use App\Domains\User\Models\User;
+use Database\Seeders\AddressesTableSeeder;
+use Database\Seeders\citiesTableSeeder;
+use Database\Seeders\countriesTableSeeder;
+use Database\Seeders\statesTableSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Database\Seeders\TaxSeeder;
@@ -17,7 +21,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $user=User::firstOrCreate(['email' => 'admin@admin.com'], [
+        $user = User::firstOrCreate(['email' => 'admin@admin.com'], [
             'name' => 'super-admin',
             'email' => 'admin@admin.com',
             'password' => Hash::make('123456'),
@@ -25,12 +29,22 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             PermissionsTableSeeder::class,
-           GroupTypeSeeder::class,
-//            FinancialPeriodSeeder::class,
-            // TaxSeeder::class,
-           CurrencyCodesSeeder::class,
+            GroupTypeSeeder::class,
+            TaxSeeder::class,
+            // CompanySeeder::class,
+
+            FinancialPeriodSeeder::class,
+            CurrencyCodesSeeder::class,
+            countriesTableSeeder::class,
+            statesTableSeeder::class,
+            citiesTableSeeder::class,
+            AddressesTableSeeder::class
         ]);
 
-        $user->roles()->sync([1]);
+        //        $user->roles()->sync([1]);
+        // $this->call(countriesTableSeeder::class);
+        // $this->call(statesTableSeeder::class);
+        // $this->call(citiesTableSeeder::class);
+        // $this->call(AddressesTableSeeder::class);
     }
 }

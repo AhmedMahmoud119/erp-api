@@ -22,7 +22,6 @@ class TaxFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'code' => fake()->unique(),
             'percentage' => fake()->numberBetween(1,100),
             'created_at' => now(),
             'creator_id' => User::inRandomOrder()->first(),

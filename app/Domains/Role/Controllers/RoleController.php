@@ -21,9 +21,7 @@ class RoleController extends Controller
 
     public function list()
     {
-        // return 'good';
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionRole::view_roles->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        // return 'good';
         return RolePermissionsResource::collection($this->roleService->list());
     }
 
@@ -45,7 +43,6 @@ class RoleController extends Controller
             'status' => false,
 
         ], 402);
-
     }
 
     public function findById($id)
@@ -69,10 +66,9 @@ class RoleController extends Controller
 
     public function update($id, UpdateRoleRequest $request)
     {
-        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionRole::update_role->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionRole::edit_role->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        if($this->roleService->update($id, $request))
-        {
+        if ($this->roleService->update($id, $request)) {
             return response()->json([
                 'message' => __('Updated Successfully'),
                 'status' => true,
@@ -84,7 +80,5 @@ class RoleController extends Controller
             'status' => false,
 
         ], 402);
-
-
     }
 }

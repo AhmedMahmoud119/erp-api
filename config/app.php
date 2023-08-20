@@ -205,8 +205,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\TelescopeServiceProvider::class,
-        \App\Domains\Tenant\Providers\TenancyServiceProvider::class,
 
+        \App\Domains\Tenant\Providers\TenancyServiceProvider::class,
         App\Domains\User\Providers\UserServiceProvider::class,
         App\Domains\Permission\Providers\PermissionServiceProvider::class,
         App\Domains\Role\Providers\RoleServiceProvider::class,
@@ -223,6 +223,9 @@ return [
         App\Domains\GroupType\Providers\GroupTypeServiceProvider::class,
         App\Domains\Group\Providers\GroupServiceProvider::class,
         App\Domains\Account\Providers\AccountServiceProvider::class,
+        App\Domains\JournalEntry\Providers\JournalEntryServiceProvider::class,
+        App\Domains\Vendor\Providers\VendorServiceProvider::class,
+        App\Domains\Customer\Providers\CustomerServiceProvider::class,
 
 
 

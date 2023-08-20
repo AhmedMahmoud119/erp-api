@@ -6,6 +6,7 @@ use App\Domains\Tenant\Interfaces\TenantRepositoryInterface;
 use App\Domains\Tenant\Models\Tenant;
 use App\Domains\User\Models\User;
 use App\Jobs\CreateTenantJob;
+
 class TenantMySqlRepository implements TenantRepositoryInterface
 {
     public function __construct(private Tenant $tenant)
@@ -22,13 +23,22 @@ class TenantMySqlRepository implements TenantRepositoryInterface
             $q->where('assigned_id', request()->assigned_id);
         })->when(request()->creator_id, function ($q) {
             $q->where('creator_id', request()->creator_id);
-        })->when(request()->date_from, function ($q) {
-            $q->whereDate('created_at', '>=', request()->date_from);
-        })->when(request()->date_to, function ($q) {
-            $q->whereDate('created_at', '<=', request()->date_to);
+        })->when(request()->from, function ($q) {
+            $q->whereDate('created_at', '>=', request()->from);
+        })->when(request()->to, function ($q) {
+            $q->whereDate('created_at', '<=', request()->to);
         })->when(request()->industry_type, function ($q) {
             $q->where('industry_type', request()->industry_type);
-        })->with('domains')->paginate(request('limit',config('app.pagination_count')));
+        })->when(request()->status, function ($q) {
+            $q->where('status', request()->status);
+        })->when(request()->plan, function ($q) {
+            $q->where('plan', request()->plan);
+        })->when(request()->search, function ($q) {
+            $q->where('name', 'like', '%' . request()->search . '%')
+                ->orWhere('email', 'like', '%' . request()->search . '%')
+                ->orWhere('phone', 'like', '%' . request()->search . '%')
+                ->orWhere('name', 'like', '%' . request()->search . '%');
+        })->with('domains')->paginate(request('limit', config('app.pagination_count')));
     }
 
     public function findById(string $id)

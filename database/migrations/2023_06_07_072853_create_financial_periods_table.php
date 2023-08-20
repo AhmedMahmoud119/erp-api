@@ -15,14 +15,11 @@ return new class extends Migration
     {
         Schema::create('financial_periods', function (Blueprint $table) {
             $table->id();
-            $table->string('financial_Year');
-            $table->boolean('status');
-            $table->date('financial_Year_Start');
-            $table->date('financial_Year_End');
-
-            $table->unsignedBigInteger('creator_id');
-            $table->foreign('creator_id')->references('id')->on('users');
-
+            $table->string('title');
+            $table->enum('status', ['open', 'closed'])->default('closed');
+            $table->date('start');
+            $table->date('end');
+            $table->foreignId('creator_id')->constrained('users');
             $table->timestamps();
             $table->softDeletes();
         });
