@@ -227,6 +227,7 @@ return [
         App\Domains\Vendor\Providers\VendorServiceProvider::class,
         App\Domains\Customer\Providers\CustomerServiceProvider::class,
         App\Domains\Product\Providers\ProductServiceProvider::class,
+        App\Domains\Category\Providers\CategoryServiceProvider::class,
 
 
 
