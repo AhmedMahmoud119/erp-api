@@ -7,6 +7,7 @@ use Database\Seeders\AddressesTableSeeder;
 use Database\Seeders\citiesTableSeeder;
 use Database\Seeders\countriesTableSeeder;
 use Database\Seeders\statesTableSeeder;
+use Database\Seeders\UnitTypesTableSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Database\Seeders\TaxSeeder;
@@ -38,7 +39,9 @@ class DatabaseSeeder extends Seeder
             countriesTableSeeder::class,
             statesTableSeeder::class,
             citiesTableSeeder::class,
-            AddressesTableSeeder::class
+            AddressesTableSeeder::class,
+            UnitTypesTableSeeder::class,
+          
         ]);
 
         //        $user->roles()->sync([1]);
