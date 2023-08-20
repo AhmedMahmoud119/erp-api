@@ -38,7 +38,6 @@ class TenantMySqlRepository implements TenantRepositoryInterface
                 ->orWhere('email', 'like', '%' . request()->search . '%')
                 ->orWhere('phone', 'like', '%' . request()->search . '%')
                 ->orWhere('name', 'like', '%' . request()->search . '%')
-                ->orWhere('id', 'like', '%' . request()->search . '%');
         })->with('domains')->paginate(request('limit', config('app.pagination_count')));
     }
 
