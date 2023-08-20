@@ -53,4 +53,7 @@ class JournalEntryService
     public function balanceSheet(){
         return $this->JournalEntryRepository->balanceSheet();
     }
+    public function profitLoss(){
+        return $this->JournalEntryRepository->profitLoss();
+    }
 }
