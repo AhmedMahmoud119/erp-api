@@ -38,14 +38,12 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
             $q->whereDate('created_at', '>=', request()->from);
         })->when(request()->to, function ($q) {
             $q->whereDate('created_at', '<=', request()->to);
-        })
-            ->when(request()->sort, function ($q) {
-                if (in_array(request()->sort, ['title', 'entry_no', 'date', 'created_at', 'updated_at', 'creator_id'])) {
-                    $q->orderBy(request()->sort, request()->order);
-                }
-                return $q;
-            })
-            ->with(['details'])
+        })->when(request()->sort, function ($q) {
+            if (in_array(request()->sort, ['title', 'entry_no', 'date', 'created_at', 'updated_at', 'creator_id'])) {
+                $q->orderBy(request()->sort, request()->order);
+            }
+            return $q;
+        })->with(['details'])
             ->paginate(request('limit', config('app.pagination_count')));
     }
 
