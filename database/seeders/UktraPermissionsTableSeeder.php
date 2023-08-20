@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Domains\Account\Models\EnumPermissionAccount;
 use App\Domains\BankAccount\Models\EnumPermissionBankAccount;
-use App\Domains\Company\Models\EnumPermissionCompany;
+use App\Domains\Company\Models\EnumPermissionVendor;
 use App\Domains\Currency\Models\EnumPermissionCurrency;
 use App\Domains\Field\Models\EnumPermissionField;
 use App\Domains\Form\Models\EnumPermissionForm;
