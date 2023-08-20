@@ -22,12 +22,12 @@ class ProductController extends Controller
     {
         // abort_if(!auth()->user()->hasPermissionTo(EnumPermissionProduct::view_products->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return  ProductResource::collection($this->productService->list());
+        return ProductResource::collection($this->productService->list());
     }
 
     public function delete($id)
     {
-        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionProduct::delete_product->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        // abort_if(!auth()->user()->hasPermissionTo(EnumPermissionProduct::delete_product->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->productService->delete($id);
         return response()->json([
@@ -38,7 +38,7 @@ class ProductController extends Controller
 
     public function findById($id)
     {
-        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionProduct::view_products->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        // abort_if(!auth()->user()->hasPermissionTo(EnumPermissionProduct::view_products->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new ProductResource($this->productService->findById($id));
     }
@@ -56,7 +56,7 @@ class ProductController extends Controller
 
     public function update($id, UpdateProductRequest $request)
     {
-        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionProduct::edit_product->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        // abort_if(!auth()->user()->hasPermissionTo(EnumPermissionProduct::edit_product->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->productService->update($id, $request);
         return response()->json([

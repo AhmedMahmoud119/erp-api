@@ -2,19 +2,21 @@
 
 namespace App\Domains\Product\Models;
 
+use App\Domains\Product\Models\Spec;
 use App\Domains\Tax\Models\Tax;
+use App\Domains\UnitType\Models\UnitType;
 use App\Domains\User\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use PhpOffice\PhpSpreadsheet\Calculation\Category;
-
+use App\Domains\Category\Models\Category;
 
 class Product extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
+        'code',
         'name',
         'description',
         'quantity',
@@ -25,13 +27,6 @@ class Product extends Model
         'category_id',
         'taxes_id',
         'unit_id',
-        //  In case of expanding should splite into specs
-        // 'image',
-        // 'height',
-        // 'width',
-        // 'length',
-        // 'size',
-        // 'matrial',
     ];
     public function creator()
     {
@@ -48,10 +43,11 @@ class Product extends Model
     }
     public function unit()
     {
-        return $this->belongsTo(Unit::class, 'unit_id');
+        return $this->belongsTo(UnitType::class, 'unit_id');
     }
     public function specs()
     {
-        return $this->belongsToMany(Specs::class, 'product_specs');
+        return $this->belongsToMany(Spec::class, 'product_specs')->withPivot('value')->withTimestamps();
+        ;
     }
 }

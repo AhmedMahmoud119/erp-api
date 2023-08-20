@@ -33,8 +33,8 @@ class ProductService
         return $this->productRepository->store($request);
     }
 
-    public function update($id,$request)
+    public function update($id, $request)
     {
-        return $this->productRepository->update($id,$request);
+        return $this->productRepository->update($id, $request);
     }
 }

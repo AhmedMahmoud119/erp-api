@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('product_specs', function (Blueprint $table) {
             $table->id();
+            $table->string('value');
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
             $table->foreignId('spec_id')->constrained('specs')->onDelete('cascade');
             $table->softDeletes();

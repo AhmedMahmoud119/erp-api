@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use PhpOffice\PhpSpreadsheet\Calculation\Category;
 
 
-class Product extends Model
+class Spec extends Model
 {
     use HasFactory, SoftDeletes;
 

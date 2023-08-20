@@ -2,14 +2,16 @@
 
 namespace Database\Seeders;
 
+use App\Domains\Product\Models\Product;
+use App\Domains\Product\Models\Spec;
 use App\Domains\Tax\Models\Tax;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Domains\UnitType\Models\UnitType;
 use Illuminate\Database\Seeder;
 use DB;
 use App\Domains\User\Models\User;
 use App\Domains\Category\Models\Category;
 
-class productsTableSeeder extends Seeder
+class ProductsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -21,32 +23,49 @@ class productsTableSeeder extends Seeder
         $category = Category::first();
         $tax = Tax::first();
         $creator = User::first();
-        $unit = Unit::first();
+        $unit = UnitType::first();
+
+
+        $specs = [
+            [
+                'id' => '1',
+                'name' => 'length',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'id' => '2',
+                'name' => 'width',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        ];
+        Spec::insert($specs);
 
         $product = [
             [
                 'code' => 'P001',
-                'name' =>'Product A',
-                'description'=>'Product A description',
-                'quantity'=>'30',
-                'opening_stock'=>'100',
-                'selling_prirce'=>'12.12',
-                'purchase_prirce'=>'13.00',
+                'name' => 'Product A',
+                'description' => 'Product A description',
+                'quantity' => 30,
+                'opening_stock' => 100,
+                'selling_prirce' => 12.12,
+                'purchase_prirce' => 13.00,
                 'category_id' => $category->id,
                 'taxes_id' => $tax->id,
-                'unit_id' => $unit->id ?? $unit->id , 1,
+                'unit_id' => $unit->id,
                 'creator_id' => $creator->id,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
                 'code' => 'P001',
-                'name' =>'Product B',
-                'description'=>'Product B description',
-                'quantity'=>'30',
-                'opening_stock'=>'100',
-                'selling_prirce'=>'12.12',
-                'purchase_prirce'=>'13.00',
+                'name' => 'Product B',
+                'description' => 'Product B description',
+                'quantity' => 30,
+                'opening_stock' => 100,
+                'selling_prirce' => 12.12,
+                'purchase_prirce' => 13.00,
                 'category_id' => $category->id,
                 'taxes_id' => $tax->id,
                 'unit_id' => $unit->id,
@@ -66,9 +85,13 @@ class productsTableSeeder extends Seeder
                 'taxes_id' => $tax->id,
                 'unit_id' => $unit->id,
                 'creator_id' => $creator->id,
-                ]
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
         ];
 
-        DB::table('products')->insert($product[]);
+        Product::insert($product);
+
+
     }
 }

@@ -11,7 +11,7 @@ class ProductMySqlRepository implements ProductRepositoryInterface
     public function __construct(private Product $product)
     {
     }
-    public function findById(string $id):Product
+    public function findById(string $id): Product
     {
         return $this->product::findOrFail($id);
     }
@@ -28,11 +28,22 @@ class ProductMySqlRepository implements ProductRepositoryInterface
                 return $q->where('creator_id', request()->creator_id);
             })
             ->when(request()->sort_by, function ($q) {
-                if (in_array(request()->sort_by, ['name', 'purchase_prirce','selling_prirce', 'creator_id'])) {
+                if (in_array(request()->sort_by, ['name', 'purchase_prirce', 'selling_prirce', 'creator_id'])) {
                     $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
                 }
-            })
-            ->with('creator','specs')
+            })->with(
+                [
+                    'category' => function ($query) {
+                        $query->select('id', 'name');
+                    },
+                    'unit' => function ($query) {
+                        $query->select('id', 'name');
+                    },
+                    'creator',
+                    'taxes',
+                    'specs'
+                ]
+            )
             ->orderBy('name')->paginate(request('limit', config('app.pagination_count')));
 
     }
@@ -42,12 +53,17 @@ class ProductMySqlRepository implements ProductRepositoryInterface
         $product = $this->product::create($request->validated() + [
             'creator_id' => auth()->user()->id,
         ]);
-        $product->specs()->Sync($request->specs);
-       return true;
+        $product->specs()->sync($request->specs);
+        return true;
     }
 
     public function update(string $id, $request): bool
     {
+        $product = $this->product::findOrFail($id);
+        $product->update($request->validated() + [
+            'creator_id' => auth()->user()->id,
+        ]);
+        $product->specs()->sync($request->specs);
         return true;
     }
 

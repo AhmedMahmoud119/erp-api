@@ -32,7 +32,7 @@ return new class extends Migration
 
             $table->foreignId('category_id')->references('id')->on('categories');
             $table->foreignId('taxes_id')->references('id')->on('taxes');
-            $table->foreignId('unit_id')->references('id')->on('units');
+            $table->foreignId('unit_id')->references('id')->on('unit_types');
             $table->foreignId('creator_id')->references('id')->on('users');
             $table->softDeletes();
             $table->timestamps();
