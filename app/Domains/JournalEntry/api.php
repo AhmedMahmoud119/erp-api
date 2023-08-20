@@ -27,4 +27,6 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'journal-entries'], fu
     Route::post('/{id}/import', [JournalEntryController::class, 'importJournalEntryDetailsFromFile']);
     Route::get('/{id}/export', [JournalEntryController::class, 'exportJournalEntryDetailsToFile']);
 
+    Route::get('/balance-sheet/list', [JournalEntryController::class, 'balanceSheet']);
+    Route::get('/profit-loss/list', [JournalEntryController::class, 'profitLoss']);
 });
