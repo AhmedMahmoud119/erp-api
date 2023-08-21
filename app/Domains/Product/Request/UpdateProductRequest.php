@@ -14,6 +14,7 @@ class UpdateProductRequest extends FormRequest
 
     public function rules()
     {
+        $productID = $this->route('id');
 
         return [
             'code' => 'required|regex:/^[a-zA-Z0-9\-\,\.\s]+$/',
@@ -27,7 +28,13 @@ class UpdateProductRequest extends FormRequest
             'category_id' => 'required|exists:categories,id',
             'taxes_id' => 'required|exists:taxes,id',
             'unit_id' => 'required|exists:unit_types,id',
-            'specs.*.spec_id' => 'required|exists:specs,id',
+            'specs.*.spec_id' => [
+                'required',
+                Rule::exists('product_specs', 'spec_id')
+                    ->where(function ($query) use ($productID) {
+                        $query->where('product_id', $productID);
+                    }),
+            ],
         ];
     }
     public function withValidator($validator)
