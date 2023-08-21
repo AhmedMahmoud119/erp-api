@@ -23,7 +23,9 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
     public function findById(string $id): JournalEntry
     {
         $entry = $this->journalEntry::findOrFail($id);
-        $entry->load(['details']);
+        $entry->load(['details'=>function($q){
+            $q->with(['account','tax']);
+        }]);
 
         return $entry;
     }

@@ -15,16 +15,17 @@ class AccountMySqlRepository implements AccountRepositoryInterface
 
     public function list()
     {
-        return $this->account::when(request()->name, function ($q, $v) {
-            $q->where('name', 'like', '%' . request()->name . '%');
+        return $this->account::when(request()->search, function ($q, $v) {
+            $q->where('name', 'like', '%' . request()->search . '%')
+                ->orWhere('code', 'like', '%' . request()->code . '%');
         })->when(request()->group_id, function ($q, $v) {
             $q->where('group_id', request()->group_id);
         })->when(request()->creator_id, function ($q, $v) {
             $q->where('creator_id', request()->creator_id);
-        })->when(request()->from_date, function ($q, $v) {
-            $q->whereDate('created_at', '>=', request()->from_date);
-        })->when(request()->to_date, function ($q, $v) {
-            $q->whereDate('created_at', '<=', request()->to_date);
+        })->when(request()->from, function ($q, $v) {
+            $q->whereDate('created_at', '>=', request()->from);
+        })->when(request()->to, function ($q, $v) {
+            $q->whereDate('created_at', '<=', request()->to);
         })->when(request()->sort_by, function ($q, $v) {
             if (in_array(request()->sort_by, ['name', 'code', 'created_at', 'updated_at'])) {
                 return    $q->orderBy(request()->sort_by, request()->sort_type ?? 'asc');
