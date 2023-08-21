@@ -1,7 +1,10 @@
 <?php
 
 use App\Domains\Product\Controllers\ProductController;
+use App\Domains\Product\Models\Product;
+use App\Domains\Product\Models\Spec;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\Console\Helper\Helper;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +16,10 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::group(['middleware' => 'auth:sanctum','prefix' => 'product'],function (){
+Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'product'], function () {
     Route::get('/', [ProductController::class, 'list']);
     Route::get('/{id}', [ProductController::class, 'findById']);
-    Route::delete('/{id}',[ProductController::class, 'delete']);
+    Route::delete('/{id}', [ProductController::class, 'delete']);
     Route::post('/create', [ProductController::class, 'create']);
     Route::post('/update/{id}', [ProductController::class, 'update']);
 });

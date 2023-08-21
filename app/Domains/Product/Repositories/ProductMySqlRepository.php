@@ -4,6 +4,7 @@ namespace App\Domains\Product\Repositories;
 
 use App\Domains\Product\Interfaces\ProductRepositoryInterface;
 use App\Domains\Product\Models\Product;
+use App\Domains\Product\Models\Spec;
 use Illuminate\Database\Eloquent\Collection;
 
 class ProductMySqlRepository implements ProductRepositoryInterface
@@ -48,12 +49,21 @@ class ProductMySqlRepository implements ProductRepositoryInterface
 
     }
 
+
     public function store($request): bool
     {
         $product = $this->product::create($request->validated() + [
             'creator_id' => auth()->user()->id,
         ]);
-        $product->specs()->sync($request->specs);
+        foreach ($request->specs as $key => $value) {
+            $spec_id = Spec::where('name', $value['name'])->pluck('id')->first();
+            if ($spec_id) {
+                $product->specs()->attach($spec_id, ['value' => $value['value']]);
+            } else {
+                $spec = Spec::create(['name' => $value['name']]);
+                $product->specs()->attach($spec->id, ['value' => $value['value']]);
+            }
+        }
         return true;
     }
 
@@ -63,7 +73,15 @@ class ProductMySqlRepository implements ProductRepositoryInterface
         $product->update($request->validated() + [
             'creator_id' => auth()->user()->id,
         ]);
-        $product->specs()->sync($request->specs);
+        foreach ($request->specs as $key => $value) {
+            $spec_id = Spec::where('name', $value['name'])->pluck('id')->first();
+            if ($spec_id) {
+                $product->specs()->attach($spec_id, ['value' => $value['value']]);
+            } else {
+                $spec = Spec::create(['name' => $value['name']]);
+                $product->specs()->attach($spec->id, ['value' => $value['value']]);
+            }
+        }
         return true;
     }
 
