@@ -2,6 +2,7 @@
 
 namespace App\Domains\JournalEntry\Repositories;
 
+use App\Domains\Account\Models\Account;
 use App\Domains\GroupType\Models\GroupType;
 use App\Domains\JournalEntry\Exports\JournalEntriesExport;
 use App\Domains\JournalEntry\Exports\JournalEntryDetailsExport;
@@ -166,6 +167,20 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
             5,
         ])->with('groups.accounts.journalEntryDetail.journalEntry')
             ->whereHas('groups.accounts.journalEntryDetail.journalEntry',
+            function ($q) {
+                $q->when(request()->from, function ($q) {
+                    $q->whereDate('date', '>=', request()->from);
+                })->when(request()->to, function ($q) {
+                    $q->whereDate('date', '<=', request()->to);
+                });
+            })->get();
+
+        return $groups;
+    }
+    public function trialBalanceSheet()
+    {
+        $groups = Account::with('journalEntryDetail.journalEntry')
+            ->whereHas('journalEntryDetail.journalEntry',
             function ($q) {
                 $q->when(request()->from, function ($q) {
                     $q->whereDate('date', '>=', request()->from);
