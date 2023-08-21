@@ -17,9 +17,9 @@ class UpdateJournalEntryRequest extends FormRequest
             'date' => ['required', 'date'],
             'description' => ['required', 'string'],
             'details' => ['required', 'array'],
-            'details.*.account_id' => ['required', 'exists:details,id'],
-            'details.*.debit' => ['required_without:details.*.credit', 'numeric'],
-            'details.*.credit' => ['required_without:details.*.debit', 'numeric'],
+            'details.*.account_id' => ['required', 'exists:accounts,id'],
+            'details.*.debit' => ['required_without:accounts.*.credit', 'numeric'],
+            'details.*.credit' => ['required_without:accounts.*.debit', 'numeric'],
             'details.*.description' => ['nullable', 'string', 'max:255'],
             'details.*.tax_id' => ['nullable', 'exists:taxes,id'],
         ];
