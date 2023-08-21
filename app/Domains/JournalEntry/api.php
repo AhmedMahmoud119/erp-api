@@ -29,4 +29,5 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'journal-entries'], fu
 
     Route::get('/balance-sheet/list', [JournalEntryController::class, 'balanceSheet']);
     Route::get('/profit-loss/list', [JournalEntryController::class, 'profitLoss']);
+    Route::get('/trial-balance/list', [JournalEntryController::class, 'balanceSheet']);
 });

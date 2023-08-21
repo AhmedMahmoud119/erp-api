@@ -14,6 +14,10 @@ class GroupsBalanceSheetResource extends JsonResource
             'id'       => $this->id,
             'name'     => $this->name,
             'accounts' => AccountsBalanceSheetResource::collection($this->accounts),
+            'total'  => $this->accounts->sum('opening_balance'
+                ) + $this->accounts->pluck('journalEntryDetail')->flatten()->sum('credit')
+                - $this->accounts->pluck('journalEntryDetail')->flatten()->sum('debit'),
+
         ];
     }
 }
