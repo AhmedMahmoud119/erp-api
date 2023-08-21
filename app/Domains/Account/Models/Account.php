@@ -4,9 +4,11 @@ namespace App\Domains\Account\Models;
 
 use App\Domains\Currency\Models\Currency;
 use App\Domains\Group\Models\Group;
+use App\Domains\JournalEntry\Models\JournalEntryDetail;
 use App\Domains\User\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 //use Spatie\Translatable\HasTranslations;
 
@@ -31,6 +33,11 @@ class Account extends Model
 
     public function parent(){
         return $this->belongsTo(Account::class);
+    }
+
+    public function journalEntryDetail(): HasMany
+    {
+        return $this->hasMany(JournalEntryDetail::class, 'account_id');
     }
 
 }
