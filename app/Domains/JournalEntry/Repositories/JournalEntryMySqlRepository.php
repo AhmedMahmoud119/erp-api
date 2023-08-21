@@ -53,11 +53,11 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
     public function store($request): bool
     {
 
-        $data = $request->only('title', 'description', 'entry_no', 'date', 'accounts');
+        $data = $request->only('title', 'description', 'entry_no', 'date', 'details');
         $entry = $this->journalEntry::create($data + [
             'creator_id' => auth()->user()->id,
         ]);
-        $accounts = collect($data['accounts'])->map(fn ($detail) => [
+        $details = collect($data['details'])->map(fn ($detail) => [
             'account_id'       => $detail['account_id'],
             'debit'            => $detail['debit'],
             'credit'           => $detail['credit'],
@@ -66,7 +66,7 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
             'description'      => $detail['description'] ?? '',
             'created_at'       => now(),
         ])->toArray();
-        $this->journalEntryDetail::insert($accounts);
+        $this->journalEntryDetail::insert($details);
 
         return true;
     }
@@ -74,14 +74,14 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
     public function update(string $id, $request): bool
     {
         $journalEntry = $this->journalEntry::findOrFail($id);
-        $data = $request->only('title', 'description', 'entry_no', 'date', 'accounts');
+        $data = $request->only('title', 'description', 'entry_no', 'date', 'details');
         $journalEntry->update([
             'title'       => $data['title'],
             'description' => $data['description'],
             'entry_no'    => $data['entry_no'],
             'date'        => $data['date'],
         ]);
-        collect($data['accounts'])->map(function ($q) use ($id) {
+        collect($data['details'])->map(function ($q) use ($id) {
             $this->journalEntryDetail::updateOrCreate([
                 'id' => $q['id'] ?? null,
             ], [
