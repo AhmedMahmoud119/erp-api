@@ -3,6 +3,7 @@
 use App\Domains\Product\Controllers\ProductController;
 use App\Domains\Product\Models\Product;
 use App\Domains\Product\Models\Spec;
+use App\Domains\Product\Request\UpdateProductRequest;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\Console\Helper\Helper;
 
@@ -21,5 +22,5 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'product'], function (
     Route::get('/{id}', [ProductController::class, 'findById']);
     Route::delete('/{id}', [ProductController::class, 'delete']);
     Route::post('/create', [ProductController::class, 'create']);
-    Route::post('/update/{id}', [ProductController::class, 'update']);
+    Route::post('/update/{id}',[ProductController::class, 'update']);
 });

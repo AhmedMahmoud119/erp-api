@@ -27,6 +27,9 @@ class StoreProductRequest extends FormRequest
             'category_id' => 'required|exists:categories,id',
             'taxes_id' => 'required|exists:taxes,id',
             'unit_id' => 'required|exists:unit_types,id',
+            'specs' => 'required|array',
+            'specs.*.name' => 'required',
+            'specs.*.value' => 'required',
         ];
     }
 
@@ -38,6 +41,7 @@ class StoreProductRequest extends FormRequest
             'taxes_id.required' => __('taxes field is required'),
             'unit_id.required' => __('units field is required'),
             'decimal' => __('The field must be decimal and in format 00.00'),
+            'specs.required' => __('Add at least on product specification'),
         ];
     }
 }

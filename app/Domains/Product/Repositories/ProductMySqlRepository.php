@@ -52,35 +52,41 @@ class ProductMySqlRepository implements ProductRepositoryInterface
 
     public function store($request): bool
     {
-        $product = $this->product::create($request->validated() + [
+        $productData = [];
+        $productData = $request->validated();
+        $specsData = $productData['specs'];
+        unset($productData['specs']);
+
+        $product = $this->product::create($productData + [
             'creator_id' => auth()->user()->id,
         ]);
-        foreach ($request->specs as $key => $value) {
-            $spec_id = Spec::where('name', $value['name'])->pluck('id')->first();
-            if ($spec_id) {
-                $product->specs()->attach($spec_id, ['value' => $value['value']]);
-            } else {
-                $spec = Spec::create(['name' => $value['name']]);
-                $product->specs()->attach($spec->id, ['value' => $value['value']]);
-            }
+
+        foreach ($specsData as $specData) {
+            $specName = $specData['name'];
+            $specValue = $specData['value'];
+            $specId = Spec::firstOrCreate(['name' => $specName])->id;
+            $product->specs()->attach($specId, ['value' => $specValue]);
         }
         return true;
     }
 
     public function update(string $id, $request): bool
     {
+        $productData = [];
+        $productData = $request->validated();
+        $specsData = $productData['specs'];
+        unset($productData['specs']);
+
         $product = $this->product::findOrFail($id);
-        $product->update($request->validated() + [
+        $product->update($productData + [
             'creator_id' => auth()->user()->id,
         ]);
-        foreach ($request->specs as $key => $value) {
-            $spec_id = Spec::where('name', $value['name'])->pluck('id')->first();
-            if ($spec_id) {
-                $product->specs()->attach($spec_id, ['value' => $value['value']]);
-            } else {
-                $spec = Spec::create(['name' => $value['name']]);
-                $product->specs()->attach($spec->id, ['value' => $value['value']]);
-            }
+
+        foreach ($specsData as $specData) {
+            $specName = $specData['name'];
+            $specValue = $specData['value'];
+            $specId = Spec::firstOrCreate(['name' => $specName])->id;
+            $product->specs()->attach($specId, ['value' => $specValue]);
         }
         return true;
     }
