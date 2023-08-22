@@ -44,6 +44,7 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
             if (in_array(request()->sort, ['title', 'entry_no', 'date', 'created_at', 'updated_at', 'creator_id'])) {
                 $q->orderBy(request()->sort, request()->order);
             }
+
             return $q;
         })->with(['details'])->paginate(request('limit', config('app.pagination_count')));
 
@@ -54,9 +55,9 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
 
         $data = $request->only('title', 'description', 'entry_no', 'date', 'accounts');
         $entry = $this->journalEntry::create($data + [
-            'creator_id' => auth()->user()->id,
-        ]);
-        $accounts = collect($data['accounts'])->map(fn ($detail) => [
+                'creator_id' => auth()->user()->id,
+            ]);
+        $accounts = collect($data['accounts'])->map(fn($detail) => [
             'account_id'       => $detail['account_id'],
             'debit'            => $detail['debit'],
             'credit'           => $detail['credit'],
@@ -143,21 +144,36 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
     public function balanceSheet()
     {
 
-        $groups = GroupType::whereIn('code', [
-            1,
-            2,
-            3,
-        ])->with('groups.accounts.journalEntryDetail.journalEntry')
-        ->whereHas('groups.accounts.journalEntryDetail.journalEntry',
+        $assets = GroupType::where('code',
+            1)->with('groups.accounts.journalEntryDetail.journalEntry')->whereHas('groups.accounts.journalEntryDetail.journalEntry',
             function ($q) {
                 $q->when(request()->from, function ($q) {
                     $q->whereDate('date', '>=', request()->from);
                 })->when(request()->to, function ($q) {
                     $q->whereDate('date', '<=', request()->to);
                 });
-            })->get();
+            })->first();
+        $liabilities = GroupType::where('code',
+            2)->with('groups.accounts.journalEntryDetail.journalEntry')->whereHas('groups.accounts.journalEntryDetail.journalEntry',
+            function ($q) {
+                $q->when(request()->from, function ($q) {
+                    $q->whereDate('date', '>=', request()->from);
+                })->when(request()->to, function ($q) {
+                    $q->whereDate('date', '<=', request()->to);
+                });
+            })->first();
 
-        return $groups;
+        $equity = GroupType::where('code',
+            3)->with('groups.accounts.journalEntryDetail.journalEntry')->whereHas('groups.accounts.journalEntryDetail.journalEntry',
+            function ($q) {
+                $q->when(request()->from, function ($q) {
+                    $q->whereDate('date', '>=', request()->from);
+                })->when(request()->to, function ($q) {
+                    $q->whereDate('date', '<=', request()->to);
+                });
+            })->first();
+
+        return collect(['assets' => $assets, 'liabilities' => $liabilities, 'equity' => $equity]);
     }
 
     public function profitLoss()
@@ -165,8 +181,7 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
         $groups = GroupType::whereIn('code', [
             4,
             5,
-        ])->with('groups.accounts.journalEntryDetail.journalEntry')
-            ->whereHas('groups.accounts.journalEntryDetail.journalEntry',
+        ])->with('groups.accounts.journalEntryDetail.journalEntry')->whereHas('groups.accounts.journalEntryDetail.journalEntry',
             function ($q) {
                 $q->when(request()->from, function ($q) {
                     $q->whereDate('date', '>=', request()->from);
@@ -177,10 +192,10 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
 
         return $groups;
     }
+
     public function trialBalanceSheet()
     {
-        $groups = Account::with('journalEntryDetail.journalEntry')
-            ->whereHas('journalEntryDetail.journalEntry',
+        $groups = Account::with('journalEntryDetail.journalEntry')->whereHas('journalEntryDetail.journalEntry',
             function ($q) {
                 $q->when(request()->from, function ($q) {
                     $q->whereDate('date', '>=', request()->from);
