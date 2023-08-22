@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('contact');
 
-            $table->foreignId('parent')->nullable()->references('id')->on('accounts')->onDelete('cascade');
+            $table->foreignId('parent_id')->nullable()->references('id')->on('accounts')->onDelete('cascade');
             $table->foreignId('address_id')->nullable()->references('id')->on('addresses')->onDelete('cascade');
             $table->foreignId('currency_id')->nullable()->references('id')->on('currencies');
             $table->timestamps();

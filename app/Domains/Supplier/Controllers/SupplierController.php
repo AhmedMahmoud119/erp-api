@@ -20,7 +20,7 @@ class SupplierController extends Controller
 
     public function list()
     {
-        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionSupplier::view_supplier->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionSupplier::view_suppliers->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return  SupplierResource::collection($this->supplierService->list());
     }
@@ -38,7 +38,7 @@ class SupplierController extends Controller
 
     public function create(StoreSupplierRequest $request)
     {
-        // abort_if(!auth()->user()->hasPermissionTo(EnumPermissionSupplier::create_supplier->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionSupplier::create_supplier->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->supplierService->create($request);
         return response()->json([
@@ -63,6 +63,6 @@ class SupplierController extends Controller
                 'message' => __('Supplier information updated successfully!'),
                 'status' => true,
             ], 200);
-        
+
     }
 }

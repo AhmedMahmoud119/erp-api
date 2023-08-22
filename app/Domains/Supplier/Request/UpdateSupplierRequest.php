@@ -23,7 +23,7 @@ class UpdateSupplierRequest extends FormRequest
             'city_id' => 'required|exists:cities,id',
             'state_id' => 'required|exists:states,id',
             'country_id' => 'required|exists:countries,id',
-            'parent' => 'required|numeric|exists:accounts,id',
+            'parent_id' => 'required|numeric|exists:accounts,id',
         ];
     }
     public function messages()

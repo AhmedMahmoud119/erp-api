@@ -16,8 +16,8 @@ class SupplierResource extends JsonResource
             'code'=> $this->code,
             'contact'=> $this->contact,
             'parent'=> $this->parent,
-            'currency_id'=> $this->currency_id,
-            'address_id'=> $this->address_id,
+            'currency'=> $this->currency,
+            'address'=> $this->address,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
         ];
