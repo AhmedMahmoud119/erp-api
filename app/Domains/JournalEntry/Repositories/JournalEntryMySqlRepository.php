@@ -2,6 +2,7 @@
 
 namespace App\Domains\JournalEntry\Repositories;
 
+use App\Domains\Account\Models\Account;
 use App\Domains\GroupType\Models\GroupType;
 use App\Domains\JournalEntry\Exports\JournalEntriesExport;
 use App\Domains\JournalEntry\Exports\JournalEntryDetailsExport;
@@ -45,6 +46,7 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
             if (in_array(request()->sort_by, ['title', 'entry_no', 'date', 'created_at', 'updated_at', 'creator_id'])) {
                 $q->orderBy(request()->sort_by, request()->sort_type );
             }
+
             return $q;
         })->with(['details'])->paginate(request('limit', config('app.pagination_count')));
 
@@ -144,12 +146,44 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
     public function balanceSheet()
     {
 
+        $assets = GroupType::where('code',
+            1)->with('groups.accounts.journalEntryDetail.journalEntry')->whereHas('groups.accounts.journalEntryDetail.journalEntry',
+            function ($q) {
+                $q->when(request()->from, function ($q) {
+                    $q->whereDate('date', '>=', request()->from);
+                })->when(request()->to, function ($q) {
+                    $q->whereDate('date', '<=', request()->to);
+                });
+            })->first();
+        $liabilities = GroupType::where('code',
+            2)->with('groups.accounts.journalEntryDetail.journalEntry')->whereHas('groups.accounts.journalEntryDetail.journalEntry',
+            function ($q) {
+                $q->when(request()->from, function ($q) {
+                    $q->whereDate('date', '>=', request()->from);
+                })->when(request()->to, function ($q) {
+                    $q->whereDate('date', '<=', request()->to);
+                });
+            })->first();
+
+        $equity = GroupType::where('code',
+            3)->with('groups.accounts.journalEntryDetail.journalEntry')->whereHas('groups.accounts.journalEntryDetail.journalEntry',
+            function ($q) {
+                $q->when(request()->from, function ($q) {
+                    $q->whereDate('date', '>=', request()->from);
+                })->when(request()->to, function ($q) {
+                    $q->whereDate('date', '<=', request()->to);
+                });
+            })->first();
+
+        return collect(['assets' => $assets, 'liabilities' => $liabilities, 'equity' => $equity]);
+    }
+
+    public function profitLoss()
+    {
         $groups = GroupType::whereIn('code', [
-            1,
-            2,
-            3,
-        ])->with('groups.accounts.journalEntryDetail.journalEntry')
-        ->whereHas('groups.accounts.journalEntryDetail.journalEntry',
+            4,
+            5,
+        ])->with('groups.accounts.journalEntryDetail.journalEntry')->whereHas('groups.accounts.journalEntryDetail.journalEntry',
             function ($q) {
                 $q->when(request()->from, function ($q) {
                     $q->whereDate('date', '>=', request()->from);
@@ -161,13 +195,9 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
         return $groups;
     }
 
-    public function profitLoss()
+    public function trialBalanceSheet()
     {
-        $groups = GroupType::whereIn('code', [
-            4,
-            5,
-        ])->with('groups.accounts.journalEntryDetail.journalEntry')
-            ->whereHas('groups.accounts.journalEntryDetail.journalEntry',
+        $groups = Account::with('journalEntryDetail.journalEntry')->whereHas('journalEntryDetail.journalEntry',
             function ($q) {
                 $q->when(request()->from, function ($q) {
                     $q->whereDate('date', '>=', request()->from);
