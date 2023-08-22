@@ -33,8 +33,7 @@ class FinancialPeriodMySqlRepository implements FinancialPeriodRepositoryInterfa
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
             }
             $q->orderBy('id', 'asc');
-        })
-            ->with('creator')
+        })->with('creator')
             ->paginate(request('limit', config('app.pagination_count')));
     }
 
