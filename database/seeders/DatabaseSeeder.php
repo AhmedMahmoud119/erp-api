@@ -4,9 +4,9 @@ namespace Database\Seeders;
 
 use App\Domains\User\Models\User;
 use Database\Seeders\AddressesTableSeeder;
-use Database\Seeders\citiesTableSeeder;
-use Database\Seeders\countriesTableSeeder;
-use Database\Seeders\statesTableSeeder;
+use Database\Seeders\CitiesTableSeeder;
+use Database\Seeders\CountriesTableSeeder;
+use Database\Seeders\StatesTableSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Database\Seeders\TaxSeeder;
@@ -31,13 +31,13 @@ class DatabaseSeeder extends Seeder
             PermissionsTableSeeder::class,
             GroupTypeSeeder::class,
             TaxSeeder::class,
-            // CompanySeeder::class,
+                // CompanySeeder::class,
 
             FinancialPeriodSeeder::class,
             CurrencyCodesSeeder::class,
-            countriesTableSeeder::class,
-            statesTableSeeder::class,
-            citiesTableSeeder::class,
+            CountriesTableSeeder::class,
+            StatesTableSeeder::class,
+            CitiesTableSeeder::class,
             AddressesTableSeeder::class
         ]);
 

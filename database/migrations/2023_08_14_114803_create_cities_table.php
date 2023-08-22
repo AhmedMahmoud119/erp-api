@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('cities', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->foreignId('state_id')->references('id')->on('states');
+            $table->foreignId('country_id')->references('id')->on('countries');
             $table->softDeletes();
             $table->timestamps();
         });
