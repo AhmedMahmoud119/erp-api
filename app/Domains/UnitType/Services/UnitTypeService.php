@@ -16,6 +16,10 @@ class UnitTypeService
     {
         return $this->unitTypeRepository->list();
     }
+    public function findById($id)
+    {
+        return $this->unitTypeRepository->findById($id);
+    }
 
     public function delete($id)
     {

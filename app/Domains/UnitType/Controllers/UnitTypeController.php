@@ -23,7 +23,13 @@ class UnitTypeController extends Controller
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionUnitType::view_unit_type->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return  UnitTypeResource::collection($this->unitTypeService->list());
+        return UnitTypeResource::collection($this->unitTypeService->list());
+    }
+    public function findById($id)
+    {
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionUnitType::view_unit_type->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return new UnitTypeResource($this->unitTypeService->findById($id));
     }
 
     public function delete($id)
