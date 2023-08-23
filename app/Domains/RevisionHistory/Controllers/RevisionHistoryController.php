@@ -42,6 +42,12 @@ class RevisionHistoryController extends Controller
 
         return new RevisionHistoryResource($this->revisionHistoryService->findById($id));
     }
+    public function findByModel($model,$id)
+    {
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionRevisionHistory::view_revisionHistories->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return RevisionHistoryResource::collection($this->revisionHistoryService->findByModel($model,$id));
+    }
 
     public function create(StoreRevisionHistoryRequest $request)
     {
@@ -53,7 +59,7 @@ class RevisionHistoryController extends Controller
             'status' => true,
         ], 200);
     }
-
+  
 //    public function update($id, UpdateRevisionHistoryRequest $request)
 //    {
 //        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionRevisionHistory::edit_revisionHistory->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');

@@ -29,6 +29,10 @@ class RevisionHistoryService
     {
         return $this->revisionHistoryRepository->store($request,$model,$changes);
     }
+    public function findByModel($model,$id)
+    {
+        return $this->revisionHistoryRepository->findByModel($model,$id);
+    }
 
 //    public function update($id,$request)
 //    {
