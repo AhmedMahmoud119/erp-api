@@ -21,29 +21,29 @@ class StoreJournalEntryRequest extends FormRequest
             'entry_no'               => ['required', 'numeric'],
             'date'                   => ['required', 'date'],
             'description'            => ['required', 'string'],
-            'accounts'               => ['required', 'array'],
-            'accounts.*.account_id'  => ['required', 'exists:accounts,id'],
-            'accounts.*.debit'       => ['required_without:accounts.*.credit', 'numeric'],
-            'accounts.*.credit'      => ['required_without:accounts.*.debit', 'numeric'],
-            'accounts.*.description' => ['nullable', 'string', 'max:255'],
-            'accounts.*.tax_id'      => ['nullable', 'exists:taxes,id'],
+            'details'               => ['required', 'array'],
+            'details.*.account_id'  => ['required', 'exists:accounts,id'],
+            'details.*.debit'       => ['required_without:accounts.*.credit', 'numeric'],
+            'details.*.credit'      => ['required_without:accounts.*.debit', 'numeric'],
+            'details.*.description' => ['nullable', 'string', 'max:255'],
+            'details.*.tax_id'      => ['nullable', 'exists:taxes,id'],
         ];
     }
 
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
-            $accounts = collect($this->accounts)->map(fn($detail) => [
+            $details = collect($this->details)->map(fn($detail) => [
                 'account_id' => $detail['account_id'],
                 'debit'      => $detail['debit'],
                 'credit'     => $detail['credit'],
                 'tax_id'     => $detail['tax_id'] ?? null,
             ])->toArray();
-            $unique = collect($accounts)->unique('account_id');
-            if ($unique->count() != count($accounts)) {
-                $validator->errors()->add('accounts', __('validation.unique'));
+            $unique = collect($details)->unique('account_id');
+            if ($unique->count() != count($details)) {
+                $validator->errors()->add('details', __('validation.unique'));
             }
-            $accounts = collect($accounts)->map(function ($account) {
+            $details = collect($details)->map(function ($account) {
                 $tax = Tax::find($account['tax_id']);
                 if ($tax) {
                     $account['debit'] = $account['debit'] + ($account['debit'] * $tax->percentage) / 100;
@@ -52,10 +52,10 @@ class StoreJournalEntryRequest extends FormRequest
 
                 return $account;
             });
-            $debit = $accounts->sum('debit');
-            $credit = $accounts->sum('credit');
+            $debit = $details->sum('debit');
+            $credit = $details->sum('credit');
             if ($debit != $credit) {
-                $validator->errors()->add('accounts', __('validation.not_equal'));
+                $validator->errors()->add('details', __('validation.not_equal'));
             }
         });
     }
@@ -67,17 +67,17 @@ class StoreJournalEntryRequest extends FormRequest
             'entry_no'                           => __('validation.required'),
             'date'                               => __('validation.required'),
             'description'                        => __('validation.required'),
-            'accounts.required'                  => __('validation.required'),
-            'accounts.*.account_id.required'     => __('validation.required'),
-            'accounts.*.account_id.exists'       => __('validation.exists'),
-            'accounts.*.debit.required_without'  => __('validation.required_without'),
-            'accounts.*.credit.required_without' => __('validation.required_without'),
-            'accounts.*.debit.numeric'           => __('validation.numeric'),
-            'accounts.*.credit.numeric'          => __('validation.numeric'),
-            'accounts.*.description.string'      => __('validation.string'),
-            'accounts.*.description.max'         => __('validation.max'),
-            'accounts.*.tax_id.exists'           => __('validation.exists'),
-            'accounts.*.tax_id.numeric'          => __('validation.numeric'),
+            'details.required'                  => __('validation.required'),
+            'details.*.account_id.required'     => __('validation.required'),
+            'details.*.account_id.exists'       => __('validation.exists'),
+            'details.*.debit.required_without'  => __('validation.required_without'),
+            'details.*.credit.required_without' => __('validation.required_without'),
+            'details.*.debit.numeric'           => __('validation.numeric'),
+            'details.*.credit.numeric'          => __('validation.numeric'),
+            'details.*.description.string'      => __('validation.string'),
+            'details.*.description.max'         => __('validation.max'),
+            'details.*.tax_id.exists'           => __('validation.exists'),
+            'details.*.tax_id.numeric'          => __('validation.numeric'),
 
         ];
     }

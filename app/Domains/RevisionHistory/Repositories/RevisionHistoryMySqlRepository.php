@@ -17,11 +17,11 @@ class RevisionHistoryMySqlRepository implements RevisionHistoryRepositoryInterfa
     {
         return $this->revisionHistory::findOrFail($id);
     }
-
-    public function findByEmail(string $email)
+    public function findByModel(string $model,string $id): Collection
     {
-        // TODO: Implement findByEmail() method.
+        return $this->revisionHistory::where('revision_historyable_type', $model)->where('revision_historyable_id', $id)->get();
     }
+
 
     public function list()
     {

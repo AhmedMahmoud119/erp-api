@@ -26,15 +26,14 @@ class FinancialPeriodMySqlRepository implements FinancialPeriodRepositoryInterfa
             $q->where('title', 'like', '%' . request()->search . '%');
         })->when(request()->creator_id, function ($q) {
             $q->where('creator_id', request()->creator_id);
-        })->when(request()->date_from || request()->date_to, function ($q) {
-            $q->whereBetween('created_at', [request()->date_from, request()->date_to]);
+        })->when(request()->from || request()->to, function ($q) {
+            $q->whereBetween('created_at', [request()->from, request()->to]);
         })->when(request()->sort_by, function ($q) {
             if (in_array(request()->sort_by, ['start', 'end', 'title', 'status', 'created_at', 'id', 'creator_id'])) {
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
             }
             $q->orderBy('id', 'asc');
-        })
-            ->with('creator')
+        })->with('creator')
             ->paginate(request('limit', config('app.pagination_count')));
     }
 

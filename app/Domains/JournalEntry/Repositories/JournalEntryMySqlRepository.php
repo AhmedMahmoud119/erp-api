@@ -24,7 +24,9 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
     public function findById(string $id): JournalEntry
     {
         $entry = $this->journalEntry::findOrFail($id);
-        $entry->load(['details']);
+        $entry->load(['details'=>function($q){
+            $q->with(['account','tax']);
+        }]);
 
         return $entry;
     }
@@ -40,9 +42,9 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
             $q->whereDate('created_at', '>=', request()->from);
         })->when(request()->to, function ($q) {
             $q->whereDate('created_at', '<=', request()->to);
-        })->when(request()->sort, function ($q) {
-            if (in_array(request()->sort, ['title', 'entry_no', 'date', 'created_at', 'updated_at', 'creator_id'])) {
-                $q->orderBy(request()->sort, request()->order);
+        })->when(request()->sort_by, function ($q) {
+            if (in_array(request()->sort_by, ['title', 'entry_no', 'date', 'created_at', 'updated_at', 'creator_id'])) {
+                $q->orderBy(request()->sort_by, request()->sort_type );
             }
 
             return $q;
@@ -53,11 +55,11 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
     public function store($request): bool
     {
 
-        $data = $request->only('title', 'description', 'entry_no', 'date', 'accounts');
+        $data = $request->only('title', 'description', 'entry_no', 'date', 'details');
         $entry = $this->journalEntry::create($data + [
-                'creator_id' => auth()->user()->id,
-            ]);
-        $accounts = collect($data['accounts'])->map(fn($detail) => [
+            'creator_id' => auth()->user()->id,
+        ]);
+        $details = collect($data['details'])->map(fn ($detail) => [
             'account_id'       => $detail['account_id'],
             'debit'            => $detail['debit'],
             'credit'           => $detail['credit'],
@@ -66,7 +68,7 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
             'description'      => $detail['description'] ?? '',
             'created_at'       => now(),
         ])->toArray();
-        $this->journalEntryDetail::insert($accounts);
+        $this->journalEntryDetail::insert($details);
 
         return true;
     }
@@ -74,14 +76,14 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
     public function update(string $id, $request): bool
     {
         $journalEntry = $this->journalEntry::findOrFail($id);
-        $data = $request->only('title', 'description', 'entry_no', 'date', 'accounts');
+        $data = $request->only('title', 'description', 'entry_no', 'date', 'details');
         $journalEntry->update([
             'title'       => $data['title'],
             'description' => $data['description'],
             'entry_no'    => $data['entry_no'],
             'date'        => $data['date'],
         ]);
-        collect($data['accounts'])->map(function ($q) use ($id) {
+        collect($data['details'])->map(function ($q) use ($id) {
             $this->journalEntryDetail::updateOrCreate([
                 'id' => $q['id'] ?? null,
             ], [

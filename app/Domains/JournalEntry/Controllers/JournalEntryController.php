@@ -111,7 +111,7 @@ class JournalEntryController extends Controller
 
     public function balanceSheet()
     {
-//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::balance_sheet->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::view_balance_sheet->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new CollectionBalanceSheetResource($this->journalEntryService->balanceSheet());
     }
