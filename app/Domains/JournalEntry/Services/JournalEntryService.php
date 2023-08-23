@@ -50,4 +50,13 @@ class JournalEntryService
     public function importJournalEntries(){
         return $this->JournalEntryRepository->importJournalEntries();
     }
+    public function balanceSheet(){
+        return $this->JournalEntryRepository->balanceSheet();
+    }
+    public function trialBalanceSheet(){
+        return $this->JournalEntryRepository->trialBalanceSheet();
+    }
+    public function profitLoss(){
+        return $this->JournalEntryRepository->profitLoss();
+    }
 }

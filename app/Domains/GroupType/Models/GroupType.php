@@ -2,6 +2,7 @@
 
 namespace App\Domains\GroupType\Models;
 
+use App\Domains\Group\Models\Group;
 use App\Domains\User\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,6 +22,11 @@ class GroupType extends Model
     public function creator()
     {
         return $this->belongsTo(User::class,'creator_id');
+    }
+
+    public function groups()
+    {
+        return $this->hasMany(Group::class);
     }
 
 
