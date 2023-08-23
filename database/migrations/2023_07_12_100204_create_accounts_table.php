@@ -26,8 +26,8 @@ return new class extends Migration
 
             $table->string('account_type')->nullable();
 
-            $table->foreignId('creator_id')->nullable()
-                ->references('id')->on('users');
+            $table->unsignedBigInteger('creator_id')->nullable();
+            // $table->foreignId('creator_id')->constrained('users');
 
             $table->timestamps();
 

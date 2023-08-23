@@ -226,7 +226,7 @@ return [
         App\Domains\JournalEntry\Providers\JournalEntryServiceProvider::class,
         App\Domains\Vendor\Providers\VendorServiceProvider::class,
         App\Domains\UnitType\Providers\UnitTypeServiceProvider::class,
-
+        App\Domains\Customer\Providers\CustomerServiceProvider::class,
 
 
 

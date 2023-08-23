@@ -16,11 +16,6 @@ class TaxSeeder extends Seeder
      */
     public function run()
     {
-        Tax::create([
-            'code' => '2214',
-            'name' => 'tax 10%',
-            'percentage' => '10%',
-            'creator_id' => '1',
-        ]);
+        TaxFactory::new()->count(10)->create();
     }
 }

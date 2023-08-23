@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Domains\Vendor\Models;
+namespace App\Domains\Customer\Models;
 
 use App\Domains\Account\Models\Account;
 use App\Domains\Currency\Models\Currency;
 use App\Domains\User\Models\User;
-use App\Domains\Vendor\Resources\AddressResource;
+use App\Domains\Vendor\Models\Address;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class Vendor extends Model
+class Customer extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -45,6 +45,7 @@ class Vendor extends Model
     {
         return $this->belongsTo(Address::class);
     }
+
     public function billingAddress()
     {
         return $this->belongsTo(Address::class,'billing_address_id');

@@ -64,4 +64,5 @@ class CompanyController extends Controller
             'status' => true,
         ], 200);
     }
+
 }

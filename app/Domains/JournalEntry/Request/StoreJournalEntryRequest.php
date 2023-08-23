@@ -39,6 +39,10 @@ class StoreJournalEntryRequest extends FormRequest
                     'tax_id' => $detail['tax_id'] ?? null,
                 ]
             )->toArray();
+            $unique = collect($accounts)->unique('account_id');
+            if ($unique->count() != count($accounts)) {
+                $validator->errors()->add('accounts', __('validation.unique'));
+            }
             $accounts = collect($accounts)->map(function ($account) {
                 $tax = Tax::find($account['tax_id']);
                 if ($tax) {
