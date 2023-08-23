@@ -15,6 +15,7 @@ use App\Domains\Group\Models\EnumPermissionGroup;
 use App\Domains\GroupType\Models\EnumPermissionGroupType;
 use App\Domains\JournalEntry\Models\EnumPermissionJournalEntry;
 use App\Domains\Module\Models\Module;
+use App\Domains\Pack\Models\EnumPermissionPack;
 use App\Domains\Permission\Models\EnumPermission;
 use App\Domains\Permission\Models\EnumPermissionRole;
 use App\Domains\Permission\Models\EnumPermissionUser;
@@ -63,6 +64,7 @@ class PermissionsTableSeeder extends Seeder
                 'Customer'        => array_column(EnumPermissionCustomer::cases(), 'value'),
                 'Product'        => array_column(EnumPermissionProduct::cases(), 'value'),
                 'Category'        => array_column(EnumPermissionCategory::cases(), 'value'),
+                'Pack'        => array_column(EnumPermissionPack::cases(), 'value'),
             ],
 
         ];
