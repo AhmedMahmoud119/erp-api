@@ -224,10 +224,10 @@ return [
         App\Domains\Group\Providers\GroupServiceProvider::class,
         App\Domains\Account\Providers\AccountServiceProvider::class,
         App\Domains\JournalEntry\Providers\JournalEntryServiceProvider::class,
+        App\Domains\Supplier\Providers\SupplierServiceProvider::class,
         App\Domains\Vendor\Providers\VendorServiceProvider::class,
         App\Domains\UnitType\Providers\UnitTypeServiceProvider::class,
         App\Domains\Customer\Providers\CustomerServiceProvider::class,
-
 
 
 
