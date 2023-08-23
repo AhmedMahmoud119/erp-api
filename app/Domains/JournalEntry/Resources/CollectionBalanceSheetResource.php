@@ -18,9 +18,7 @@ class CollectionBalanceSheetResource extends JsonResource
                 $this['assets']?->groups?->pluck('accounts')->flatten()->pluck('journalEntryDetail')->flatten()->sum('credit') -
                 $this['assets']?->groups?->pluck('accounts')->flatten()->pluck('journalEntryDetail')->flatten()->sum('debit')
                 +$this['liabilities']?->groups?->pluck('accounts')->flatten()->sum('opening_balance') +
-                $this['liabilities']?->groups?->pluck('accounts')->flatten()->pluck('journalEntryDetail')->flatten()->sum('credit') -
-                $this['liabilities']?->groups?->pluck('accounts')->flatten()->pluck('journalEntryDetail')->flatten()->sum('debit')
-            ,
+                $this['liabilities']?->groups?->pluck('accounts')->flatten()->pluck('journalEntryDetail')->flatten()->sum('credit') - $this['liabilities']?->groups?->pluck('accounts')->flatten()->pluck('journalEntryDetail')->flatten()->sum('debit') ,
             'equity' => new BalanceSheetResource($this['equity']),
         ];
     }

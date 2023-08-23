@@ -27,11 +27,27 @@ class AccountMySqlRepository implements AccountRepositoryInterface
         })->when(request()->to, function ($q, $v) {
             $q->whereDate('created_at', '<=', request()->to);
         })->when(request()->sort_by, function ($q, $v) {
-            if (in_array(request()->sort_by, ['name', 'code', 'created_at', 'updated_at'])) {
-                return    $q->orderBy(request()->sort_by, request()->sort_type ?? 'asc');
+            if (in_array(request()->sort_by, ['name', 'code', 'created_at', 'updated_at', 'opening_balance', 'account_type', 'group_id', 'creator_id', 'parent_id'])) {
+                if (request()->sort_by == 'group_id') {
+                    $q->whereHas('group', function ($q) {
+                        $q->orderBy('name', request()->sort_type);
+                    });
+                } elseif (request()->sort_by == 'creator_id') {
+                    $q->whereHas('creator', function ($q) {
+                        $q->orderBy('name', request()->sort_type);
+                    });
+                } elseif (request()->sort_by == 'parent_id') {
+                    $q->whereHas('parent', function ($q) {
+                        $q->orderBy('name', request()->sort_type);
+                    });
+                } else {
+
+                    $q->orderBy(request()->sort_by, request()->sort_type);
+                }
             }
             return $q;
         })
+            ->with(['group', 'creator', 'parent_id'])
             ->paginate(request('limit', config('app.pagination_count')));
     }
 
