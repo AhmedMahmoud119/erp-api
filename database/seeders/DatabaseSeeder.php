@@ -4,8 +4,11 @@ namespace Database\Seeders;
 
 use App\Domains\User\Models\User;
 use Database\Seeders\AddressesTableSeeder;
+use Database\Seeders\CategoriesTableSeeder;
 use Database\Seeders\citiesTableSeeder;
 use Database\Seeders\countriesTableSeeder;
+use Database\Seeders\PacksTableSeeder;
+use Database\Seeders\ProductsTableSeeder;
 use Database\Seeders\statesTableSeeder;
 use Database\Seeders\UnitTypesTableSeeder;
 use Illuminate\Database\Seeder;
@@ -41,13 +44,13 @@ class DatabaseSeeder extends Seeder
             citiesTableSeeder::class,
             AddressesTableSeeder::class,
             UnitTypesTableSeeder::class,
-          
+            CategoriesTableSeeder::class,
+            ProductsTableSeeder::class,
+            PacksTableSeeder::class,
+
         ]);
 
         //        $user->roles()->sync([1]);
-        // $this->call(countriesTableSeeder::class);
-        // $this->call(statesTableSeeder::class);
-        // $this->call(citiesTableSeeder::class);
-        // $this->call(AddressesTableSeeder::class);
+       
     }
 }

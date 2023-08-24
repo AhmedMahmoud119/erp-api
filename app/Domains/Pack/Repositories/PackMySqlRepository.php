@@ -41,17 +41,24 @@ class PackMySqlRepository implements PackRepositoryInterface
             'creator_id' => auth()->user()->id
         ]);
 
-        $pack->products()->attach($request->products);
+        $pack->products()->sync($request->products);
         return true;
     }
 
     public function update(string $id, $request): bool
     {
+        $pack = $this->pack::findOrFail($id);
+        $pack->update($request->validated() + [
+            'creator_id' => auth()->user()->id
+        ]);
+        $pack->products()->sync($request->products);
         return true;
     }
 
     public function delete(string $id): bool
     {
+        $this->pack::findOrFail($id)?->delete();
+
         return true;
     }
 }

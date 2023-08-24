@@ -25,7 +25,7 @@ class PackController extends Controller
     }
     public function findById($id)
     {
-        // abort_if(!auth()->user()->hasPermissionTo(EnumPermissionPack::view_packs->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionPack::view_packs->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new PackResource($this->packService->findById($id));
     }

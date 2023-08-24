@@ -23,10 +23,11 @@ class PackResource extends JsonResource
                 'length' => $this->length,
                 'height' => $this->height,
             ],
-
-            'selling_prirce' => $this->selling_prirce,
-            'purchase_prirce' => $this->purchase_prirce,
-            'retail_prirce' => $this->retail_prirce,
+            'price' => [
+                'selling_prirce' => $this->selling_prirce,
+                'purchase_prirce' => $this->purchase_prirce,
+                'retail_prirce' => $this->retail_prirce,
+            ],
 
             'products' => $this->products,
             'creator' => $this->creator,
