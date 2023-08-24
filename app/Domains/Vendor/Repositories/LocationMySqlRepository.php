@@ -24,7 +24,7 @@ class LocationMySqlRepository implements LocationRepositoryInterface
             $q->whereDate('created_at', '>=', request()->from);
         })->when(request()->to, function ($q) {
             $q->whereDate('created_at', '<=', request()->to);
-        })->paginate(request('limit', config('app.pagination_count')));
+        })->with('states')->paginate(request('limit', config('app.pagination_count')));
     }
     public function listCities()
     {
@@ -37,7 +37,7 @@ class LocationMySqlRepository implements LocationRepositoryInterface
             $q->whereDate('created_at', '>=', request()->from);
         })->when(request()->to, function ($q) {
             $q->whereDate('created_at', '<=', request()->to);
-        })->with(['state', 'country'])->paginate(request('limit', config('app.pagination_count')));
+        })->paginate(request('limit', config('app.pagination_count')));
     }
     public function listStates()
     {
@@ -50,25 +50,25 @@ class LocationMySqlRepository implements LocationRepositoryInterface
             $q->whereDate('created_at', '>=', request()->from);
         })->when(request()->to, function ($q) {
             $q->whereDate('created_at', '<=', request()->to);
-        })->with('country')->paginate(request('limit', config('app.pagination_count')));
+        })->with('cities')->paginate(request('limit', config('app.pagination_count')));
     }
-    public function findCityById($id):City
+    public function findCityById($id): City
     {
         $city = $this->city::findOrFail($id);
-        $city->load(['state', 'country']);
 
         return $city;
     }
-    public function findStateById($id):State
+    public function findStateById($id): State
     {
         $state = $this->state::findOrFail($id);
-        $state->load(['country']);
+        $state->load('cities');
 
         return $state;
     }
-    public function findCountryById($id):Country
+    public function findCountryById($id): Country
     {
         $country = $this->country::findOrFail($id);
+        $country->load('states');
         return $country;
     }
 
