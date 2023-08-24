@@ -6,7 +6,7 @@ use DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class countriesTableSeeder extends Seeder
+class CountriesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -24,6 +24,6 @@ class countriesTableSeeder extends Seeder
                 'id' => 2,
                 'name' => 'Saudi Arabia',
             ],
-        ]);    
+        ]);
     }
 }
