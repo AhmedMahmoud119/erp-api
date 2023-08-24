@@ -52,23 +52,35 @@ class JournalEntryController extends Controller
     {
 
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::create_journalEntry->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $this->journalEntryService->create($request);
-        return response()->json([
-            'message' => __('Created Successfully'),
-            'status' => true,
-        ], Response::HTTP_CREATED);
+        try {
+            $this->journalEntryService->create($request);
+            return response()->json([
+                'message' => __('Created Successfully'),
+                'status' => true,
+            ], Response::HTTP_CREATED);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'status' => false,
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     public function update($id, UpdateJournalEntryRequest $request)
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::edit_journalEntry->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $this->journalEntryService->update($id, $request);
-        return response()->json([
-            'message' => __('Updated Successfully'),
-            'status' => true,
-        ], Response::HTTP_OK);
+        try {
+            $this->journalEntryService->update($id, $request);
+            return response()->json([
+                'message' => __('Updated Successfully'),
+                'status' => true,
+            ], Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'status' => false,
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     public function importJournalEntryDetailsFromFile($id, ImportJournalEntryDetailsRequest $request)
