@@ -59,7 +59,7 @@ class RevisionHistoryController extends Controller
             'status' => true,
         ], 200);
     }
-
+  
 //    public function update($id, UpdateRevisionHistoryRequest $request)
 //    {
 //        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionRevisionHistory::edit_revisionHistory->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
