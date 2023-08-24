@@ -99,7 +99,7 @@ class JournalEntryController extends Controller
             'status' => true,
         ], Response::HTTP_OK);
     }
-    public function importJournalEntries()
+    public function importJournalEntries(ImportJournalEntryDetailsRequest $request)
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::import_journalEntry->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $this->journalEntryService->importJournalEntries();
@@ -118,13 +118,13 @@ class JournalEntryController extends Controller
 
     public function trialBalanceSheet()
     {
-//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::balance_sheet->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        //        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::balance_sheet->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new TrialBalanceSheetResource($this->journalEntryService->trialBalanceSheet());
     }
     public function profitLoss()
     {
-//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::balance_sheet->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        //        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::balance_sheet->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new ProfitLossGroupsResource($this->journalEntryService->profitLoss());
     }
