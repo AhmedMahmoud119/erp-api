@@ -38,7 +38,12 @@ class TenantMySqlRepository implements TenantRepositoryInterface
                 ->orWhere('email', 'like', '%' . request()->search . '%')
                 ->orWhere('phone', 'like', '%' . request()->search . '%')
                 ->orWhere('name', 'like', '%' . request()->search . '%');
-        })->with('domains')->paginate(request('limit', config('app.pagination_count')));
+        })->when(request()->sort_by, function ($q) {
+            if (in_array(request()->sort_by, ['name', 'email', 'phone', 'domain', 'status', 'industry_type', 'assigned_id', 'plan', 'created_at', 'updated_at'])) {
+                $q->orderBy(request()->sort_by, request()->sort_type == 'desc' ? 'desc' : 'asc');
+            }
+        })
+            ->with('domains')->paginate(request('limit', config('app.pagination_count')));
     }
 
     public function findById(string $id)
