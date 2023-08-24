@@ -10,6 +10,10 @@ class CategoryMySqlRepository implements CategoryRepositoryInterface
     public function __construct(private Category $category)
     {
     }
+    public function findById(string $id): Category
+    {
+        return $this->category::findOrFail($id);
+    }
     public function list()
     {
         return Category::when(request()->search, function ($q) {
@@ -33,15 +37,7 @@ class CategoryMySqlRepository implements CategoryRepositoryInterface
 
     public function store($request): bool
     {
-        $category = Category::select('id')->orderBy('id','DESC')->first();
-        $code = 0;
-        if ($category->id){
-            $code = $category->id;
-        }
-
-        $this->category::create(
-            $request->validated() + [
-                'code' => $code + 1,
+        $this->category::create($request->validated() + [
                 'creator_id' => auth()->user()->id,
         ]);
         return true;
@@ -62,4 +58,5 @@ class CategoryMySqlRepository implements CategoryRepositoryInterface
 
         return true;
     }
+
 }

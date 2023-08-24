@@ -21,8 +21,9 @@ class Product extends Model
         'description',
         'quantity',
         'opening_stock',
-        'selling_prirce',
-        'purchase_prirce',
+        'selling_price',
+        'purchase_price',
+        
         'creator_id',
         'category_id',
         'taxes_id',

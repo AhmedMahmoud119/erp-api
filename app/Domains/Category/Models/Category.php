@@ -13,7 +13,6 @@ class Category extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'code',
         'name',
         'description',
         'creator_id',
@@ -30,7 +29,7 @@ class Category extends Model
 
     public function childrens()
     {
-        return $this->hasMany(Category::class, 'parent');
+        return $this->hasMany(Category::class, 'parent_id');
     }
 
 }
