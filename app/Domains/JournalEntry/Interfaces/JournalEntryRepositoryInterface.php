@@ -18,4 +18,5 @@ interface JournalEntryRepositoryInterface
     public function exportJournalEntryDetailsToFile(string $id);
     public function exportJournalEntries();
     public function importJournalEntries();
+    public function balanceSheet();
 }
