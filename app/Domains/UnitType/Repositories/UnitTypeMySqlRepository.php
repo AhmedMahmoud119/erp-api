@@ -54,7 +54,7 @@ class UnitTypeMySqlRepository implements UnitTypeRepositoryInterface
 
     public function delete(string $id): bool
     {
-        $this->unitType::findOrFail($id)->delete();
+        $this->unitType::findOrFail($id)?->delete();
 
         return true;
     }
