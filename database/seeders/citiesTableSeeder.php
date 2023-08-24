@@ -6,7 +6,7 @@ use DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class citiesTableSeeder extends Seeder
+class CitiesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -45,7 +45,11 @@ class citiesTableSeeder extends Seeder
 
         $citiesData = [];
         foreach ($CairoCities as $city) {
-            $citiesData[] = ['name' => $city];
+            $citiesData[] = [
+                'name' => $city,
+                'state_id' => 1,
+                'country_id' => 1
+            ];
         }
 
         DB::table('cities')->insert($citiesData);
