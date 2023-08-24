@@ -31,9 +31,6 @@ class TaxMySqlRepository implements TaxRepositoryInterface
             $q->whereDate('created_at', '>=', request()->from);
         })->when(request()->to, function ($q) {
             $q->whereDate('created_at', '<=', request()->to);
-        })
-            ->when(request()->created_at, function ($q) {
-            $q->whereBetween('created_at', [request()->date_from, request()->date_to]);
         })->when(request()->sort_by, function ($q) {
             if (in_array(request()->sort_by, ['percentage',  'name', 'created_at'])) {
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
