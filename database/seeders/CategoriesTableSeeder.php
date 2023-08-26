@@ -16,7 +16,6 @@ class CategoriesTableSeeder extends Seeder
     public function run()
     {
         $rootCategory = Category::create([
-            'code' => 1,
             'name' => 'Root Category',
             'creator_id' => 1,
             'description' => 'This is the root category.',
@@ -24,7 +23,6 @@ class CategoriesTableSeeder extends Seeder
 
         // Create child categories under the root category
         Category::create([
-            'code' => 2,
             'name' => 'Child Category 1',
             'creator_id' => 1,
             'description' => 'This is a child category.',
@@ -32,7 +30,6 @@ class CategoriesTableSeeder extends Seeder
         ]);
 
         Category::create([
-            'code' => 3,
             'name' => 'Child Category 2',
             'creator_id' => 1,
             'description' => 'This is another child category.',
