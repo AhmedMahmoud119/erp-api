@@ -33,15 +33,8 @@ class CategoryMySqlRepository implements CategoryRepositoryInterface
 
     public function store($request): bool
     {
-        $category = Category::select('id')->orderBy('id','DESC')->first();
-        $code = 0;
-        if ($category->id){
-            $code = $category->id;
-        }
-
         $this->category::create(
             $request->validated() + [
-                'code' => $code + 1,
                 'creator_id' => auth()->user()->id,
         ]);
         return true;
