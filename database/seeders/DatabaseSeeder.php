@@ -6,11 +6,12 @@ use App\Domains\User\Models\User;
 use Database\Seeders\AddressesTableSeeder;
 use Database\Seeders\CitiesTableSeeder;
 use Database\Seeders\CountriesTableSeeder;
+use Database\Seeders\FinancialPeriodSeeder;
 use Database\Seeders\StatesTableSeeder;
+use Database\Seeders\TaxSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Database\Seeders\TaxSeeder;
-use Database\Seeders\FinancialPeriodSeeder;
+use Database\Seeders\UnitTypesTableSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -31,14 +32,15 @@ class DatabaseSeeder extends Seeder
             PermissionsTableSeeder::class,
             GroupTypeSeeder::class,
             TaxSeeder::class,
-                // CompanySeeder::class,
+            // CompanySeeder::class,
 
             FinancialPeriodSeeder::class,
             CurrencyCodesSeeder::class,
             CountriesTableSeeder::class,
             StatesTableSeeder::class,
             CitiesTableSeeder::class,
-            AddressesTableSeeder::class
+            AddressesTableSeeder::class,
+            UnitTypesTableSeeder::class,
         ]);
 
         //        $user->roles()->sync([1]);
