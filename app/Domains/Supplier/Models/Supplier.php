@@ -18,7 +18,7 @@ class Supplier extends Model
         'email',
         'contact',
         'code',
-        'parent_id',
+        'parent_account_id',
         'currency_id',
         'address_id',
     ];
@@ -26,9 +26,9 @@ class Supplier extends Model
     {
         return $this->belongsTo(Address::class);
     }
-    public function parent()
+    public function account()
     {
-        return $this->belongsTo(Account::class,'parent_id');
+        return $this->belongsTo(Account::class,'parent_account_id');
     }
     public function currency()
     {
