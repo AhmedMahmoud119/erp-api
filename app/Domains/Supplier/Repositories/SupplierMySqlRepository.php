@@ -29,7 +29,7 @@ class SupplierMySqlRepository implements SupplierRepositoryInterface
                     $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
                 }
             })
-            ->with(['address', 'parent', 'currency'])
+            ->with(['address', 'account', 'currency'])
             ->orderBy('name')->paginate(request('limit', config('app.pagination_count')));
     }
 
@@ -45,7 +45,7 @@ class SupplierMySqlRepository implements SupplierRepositoryInterface
             'country_id' => $request->country_id,
         ]);
 
-        $accountCode = Account::find($request->parent, 'code');
+        $accountCode = Account::find($request->parent_account_id);
         $spplierMaxId = $this->supplier::max('id') ?? 0;
         $data = [
             'code' => $accountCode->code . ($spplierMaxId + 1),
@@ -53,7 +53,7 @@ class SupplierMySqlRepository implements SupplierRepositoryInterface
             'email' => $request->email,
             'contact' => $request->contact,
             'address_id' => $address->id,
-            'parent' => $request->parent,
+            'parent_account_id' => $request->parent_account_id,
             'currency_id' => $request->currency_id,
         ];
         $this->supplier::create($data);
@@ -76,14 +76,14 @@ class SupplierMySqlRepository implements SupplierRepositoryInterface
             'country_id' => $request->country_id,
         ]);
 
-        $accountCode = Account::find($request->parent, 'code');
+        $accountCode = Account::find($request->parent_account_id);
         $spplierId = $id;
         $data = [
             'code' => $accountCode->code . ($spplierId),
             'name' => $request->name,
             'email' => $request->email,
             'contact' => $request->contact,
-            'parent' => $request->parent,
+            'parent_account_id' => $request->parent_account_id,
             'currency_id' => $request->currency_id,
         ];
         $supplier->update($data);
