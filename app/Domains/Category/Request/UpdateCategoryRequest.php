@@ -17,7 +17,7 @@ class UpdateCategoryRequest extends FormRequest
         return [
             'name' => 'required|regex:/^[a-zA-Z0-9گچپژیلفقهكيىموي ء-ي\-\p{P}\s]*$/|max:50',
             'description' => 'max:200',
-            'parent' => 'nullable|exists:categories,id',
+            'parent_id' => 'nullable|exists:categories,id',
         ];
     }
 

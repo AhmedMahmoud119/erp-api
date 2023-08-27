@@ -22,6 +22,9 @@ class CategoryMySqlRepository implements CategoryRepositoryInterface
             ->when(request()->creator_id, function ($q) {
                 return $q->where('creator_id', request()->creator_id);
             })
+            ->when(request()->parent_id, function ($q) {
+                return $q->where('parent_id', request()->parent_id);
+            })
             ->when(request()->sort_by, function ($q) {
                 if (in_array(request()->sort_by, ['name', 'created_at', 'creator_id'])) {
                     $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
