@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 Route::group(['middleware' => 'auth:sanctum','prefix' => 'unit-type'],function (){
     Route::get('/', [UnitTypeController::class, 'list']);
+    Route::get('/{id}',[UnitTypeController::class, 'findById']);
     Route::delete('/{id}',[UnitTypeController::class, 'delete']);
     Route::post('/create', [UnitTypeController::class, 'create']);
     Route::post('/update/{id}', [UnitTypeController::class, 'update']);

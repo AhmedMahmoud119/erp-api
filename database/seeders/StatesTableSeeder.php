@@ -6,7 +6,7 @@ use DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class statesTableSeeder extends Seeder
+class StatesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -40,7 +40,7 @@ class statesTableSeeder extends Seeder
 
         $statesData = [];
         foreach ($egyptStates as $state) {
-            $statesData[] = ['name' => $state];
+            $statesData[] = ['name' => $state, 'country_id' => 1];
         }
 
         DB::table('states')->insert($statesData);

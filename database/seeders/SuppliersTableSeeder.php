@@ -39,7 +39,7 @@ class SuppliersTableSeeder extends Seeder
             'name' => 'supplier',
             'email' => 'supplier@gmail.com',
             'contact' => '233-333-212',
-            'parent_id' => $acccount,
+            'parent_account_id' => $acccount,
             'currency_id' => $currency,
             'address_id' => $address,
         ]);
@@ -47,7 +47,7 @@ class SuppliersTableSeeder extends Seeder
             'name' => 'Another Supplier',
             'email' => 'another_supplier@example.com',
             'contact' => '444-555-666',
-            'parent_id' => $acccount,
+            'parent_account_id' => $acccount,
             'currency_id' => $currency,
             'address_id' => $address,
         ]);

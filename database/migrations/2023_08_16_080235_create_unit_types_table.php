@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('unit_types', function (Blueprint $table) {
             $table->id();
-            $table->integer("code");
+//            $table->integer("code");
             $table->string("name",100);
             $table->string("description",255)->nullable();
             $table->foreignId('creator_id')->constrained('users');

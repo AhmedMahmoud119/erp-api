@@ -47,7 +47,7 @@ class AccountMySqlRepository implements AccountRepositoryInterface
             }
             return $q;
         })
-            ->with(['group', 'creator', 'parent_id'])
+            ->with(['group', 'creator', 'parent'])
             ->paginate(request('limit', config('app.pagination_count')));
     }
 
