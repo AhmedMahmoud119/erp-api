@@ -8,6 +8,7 @@ use Database\Seeders\CategoriesTableSeeder;
 use Database\Seeders\citiesTableSeeder;
 use Database\Seeders\countriesTableSeeder;
 use Database\Seeders\statesTableSeeder;
+use Database\Seeders\StockTableSeeder;
 use Database\Seeders\UnitTypesTableSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -44,6 +45,8 @@ class DatabaseSeeder extends Seeder
             UnitTypesTableSeeder::class,
             CategoriesTableSeeder::class,
             ProductsTableSeeder::class,
+            StockTableSeeder::class,
+
         ]);
 
     }

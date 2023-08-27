@@ -23,6 +23,7 @@ use App\Domains\Permission\Models\PermissionCategory;
 use App\Domains\Product\Models\EnumPermissionProduct;
 use App\Domains\RevisionHistory\Models\EnumPermissionRevisionHistory;
 use App\Domains\Role\Models\Role;
+use App\Domains\Stock\Models\EnumPermissionStock;
 use App\Domains\Supplier\Models\EnumPermissionSupplier;
 use App\Domains\Tax\Models\EnumPermissionTax;
 use App\Domains\Tenant\Models\EnumPermissionTenant;
@@ -59,12 +60,12 @@ class PermissionsTableSeeder extends Seeder
                 'JournalEntry' => array_column(EnumPermissionJournalEntry::cases(), 'value'),
                 'FinancialPeriod' => array_column(EnumPermissionFinancialPeriod::cases(), 'value'),
                 'UnitType' => array_column(EnumPermissionUnitType::cases(), 'value'),
-                'Product'        => array_column(EnumPermissionProduct::cases(), 'value'),
-                'Category'        => array_column(EnumPermissionCategory::cases(), 'value'),
-            ],
+                'Product' => array_column(EnumPermissionProduct::cases(), 'value'),
+                'Category' => array_column(EnumPermissionCategory::cases(), 'value'),
                 'Vendor' => array_column(EnumPermissionVendor::cases(), 'value'),
                 'Supplier' => array_column(EnumPermissionSupplier::cases(), 'value'),
-                'Customer'        => array_column(EnumPermissionCustomer::cases(), 'value'),
+                'Customer' => array_column(EnumPermissionCustomer::cases(), 'value'),
+                'Stock' => array_column(EnumPermissionStock::cases(), 'value'),
             ]
         ];
 
