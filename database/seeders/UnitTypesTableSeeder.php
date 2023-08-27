@@ -11,13 +11,11 @@ class UnitTypesTableSeeder extends Seeder
     {
         $unitTypesData = [
             [
-                'code' => 1,
                 'name' => 'Type A',
                 'description' => 'Description for Type A',
                 'creator_id' => 1,
             ],
             [
-                'code' => 2,
                 'name' => 'Type B',
                 'description' => 'Description for Type B',
                 'creator_id' => 1,
