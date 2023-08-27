@@ -13,4 +13,6 @@ enum EnumPermissionJournalEntry: string
     case import_journalEntry = 'Import Journal Entry';
     case export_journalEntry = 'Export Journal Entry';
     case view_balance_sheet = 'View Balance Sheet';
+    case view_trial_balance_sheet = 'View Trial Balance Sheet';
+    case view_profit_loss = 'View Profit Loss';
 }

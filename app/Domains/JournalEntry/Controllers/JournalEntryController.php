@@ -130,13 +130,13 @@ class JournalEntryController extends Controller
 
     public function trialBalanceSheet()
     {
-        //        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::balance_sheet->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::view_trial_balance_sheet->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new TrialBalanceSheetResource($this->journalEntryService->trialBalanceSheet());
     }
     public function profitLoss()
     {
-        //        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::balance_sheet->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::view_profit_loss->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new ProfitLossGroupsResource($this->journalEntryService->profitLoss());
     }
