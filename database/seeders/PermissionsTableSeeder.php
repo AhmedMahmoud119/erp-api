@@ -62,14 +62,14 @@ class PermissionsTableSeeder extends Seeder
                 'JournalEntry' => array_column(EnumPermissionJournalEntry::cases(), 'value'),
                 'FinancialPeriod' => array_column(EnumPermissionFinancialPeriod::cases(), 'value'),
                 'UnitType' => array_column(EnumPermissionUnitType::cases(), 'value'),
-                'Product' => array_column(EnumPermissionProduct::cases(), 'value'),
-                'Stock' => array_column(EnumPermissionStock::cases(), 'value'),
                 'Vendor' => array_column(EnumPermissionVendor::cases(), 'value'),
                 'Supplier' => array_column(EnumPermissionSupplier::cases(), 'value'),
                 'Customer'        => array_column(EnumPermissionCustomer::cases(), 'value'),
                 'Location' => array_column(EnumPermissionLocation::cases(), 'value'),
                 'Category'        => array_column(EnumPermissionCategory::cases(), 'value'),
                 'Warehouse' => array_column(EnumPermissionWarehouse::cases(), 'value'),
+                'Product' => array_column(EnumPermissionProduct::cases(), 'value'),
+                'Stock' => array_column(EnumPermissionStock::cases(), 'value'),
             ]
 
         ];

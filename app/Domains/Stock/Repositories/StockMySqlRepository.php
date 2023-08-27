@@ -13,7 +13,9 @@ class StockMySqlRepository implements StockRepositoryInterface
     }
     public function findById(string $id): Stock
     {
-        return $this->stock::findOrFail($id);
+        $stock = $this->stock::findOrFail($id);
+        $stock->load(['creator', 'product', 'warehouse']);
+        return $stock;
     }
     public function list()
     {
@@ -25,7 +27,7 @@ class StockMySqlRepository implements StockRepositoryInterface
                     $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
                 }
             })
-            ->with(['creator', 'product'])
+            ->with(['creator', 'product', 'warehouse'])
             ->orderBy('quantity')->paginate(request('limit', config('app.pagination_count')));
     }
 
@@ -41,7 +43,6 @@ class StockMySqlRepository implements StockRepositoryInterface
 
     public function update(string $id, $request): bool
     {
-
         return true;
     }
 

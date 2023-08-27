@@ -4,6 +4,7 @@ namespace App\Domains\Stock\Models;
 
 use App\Domains\Product\Models\Product;
 use App\Domains\User\Models\User;
+use App\Domains\Warehouse\Models\Warehouse;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -30,9 +31,9 @@ class Stock extends Model
     {
         return $this->hasOne(Product::class, 'id', 'product_id');
     }
-    // public function warehouse()
-    // {
-    //     return $this->belongsTo(Warehouse::class, 'warehouse_id');
-    // }
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class, 'warehouse_id');
+    }
 
 }

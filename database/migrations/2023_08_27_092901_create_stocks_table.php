@@ -17,11 +17,11 @@ return new class extends Migration {
             $table->integer('quantity');
             $table->date('opening_stock');
             $table->unsignedDecimal('selling_price', 10, 2)->nullable();
-            $table->unsignedDecimal('purchase_price', 10, 2)->nullable();
+            $table->unsignedDecimal('purchasing_price', 10, 2)->nullable();
 
             $table->foreignId('product_id')->references('id')->on('products');
-            $table->string('warehouse_id');
-            // $table->foreignId('warehouse_id')->references('id')->on('warehouses');
+            $table->foreignId('warehouse_id')->references('id')->on('warehouses');
+            $table->foreignId('creator_id')->references('id')->on('users');
             $table->softDeletes();
             $table->timestamps();
         });

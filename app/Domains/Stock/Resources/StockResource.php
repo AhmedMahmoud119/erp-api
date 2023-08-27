@@ -17,6 +17,7 @@ class StockResource extends JsonResource
             'selling_price' => $this->selling_price,
             'creator' => $this->creator,
             'product' => $this->product,
+            'warehouse' => $this->warehouse,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
         ];

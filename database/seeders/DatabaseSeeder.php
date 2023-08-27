@@ -5,12 +5,12 @@ namespace Database\Seeders;
 use App\Domains\User\Models\User;
 use Database\Seeders\AddressesTableSeeder;
 use Database\Seeders\CategoriesTableSeeder;
-use Database\Seeders\CitiesTableSeeder;
-use Database\Seeders\CountriesTableSeeder;
-use Database\Seeders\FinancialPeriodSeeder;
-use Database\Seeders\StatesTableSeeder;
-use Database\Seeders\StockTableSeeder;
-use Database\Seeders\TaxSeeder;
+use Database\Seeders\citiesTableSeeder;
+use Database\Seeders\countriesTableSeeder;
+use Database\Seeders\ProductsTableSeeder;
+use Database\Seeders\statesTableSeeder;
+use Database\Seeders\StocksTableSeeder;
+use Database\Seeders\UnitTypesTableSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -42,6 +42,9 @@ class DatabaseSeeder extends Seeder
             CitiesTableSeeder::class,
             AddressesTableSeeder::class,
             UnitTypesTableSeeder::class,
+            CategoriesTableSeeder::class,
+            ProductsTableSeeder::class,
+            StocksTableSeeder::class,
 
         ]);
 
