@@ -29,6 +29,7 @@ use App\Domains\UnitType\Models\EnumPermissionUnitType;
 use App\Domains\User\Models\User;
 use App\Domains\Vendor\Models\EnumPermissionLocation;
 use App\Domains\Vendor\Models\EnumPermissionVendor;
+use App\Domains\Warehouse\Models\EnumPermissionWarehouse;
 use Illuminate\Database\Seeder;
 
 class PermissionsTableSeeder extends Seeder
@@ -64,6 +65,7 @@ class PermissionsTableSeeder extends Seeder
                 'Customer'        => array_column(EnumPermissionCustomer::cases(), 'value'),
                 'Location' => array_column(EnumPermissionLocation::cases(), 'value'),
                 'Category'        => array_column(EnumPermissionCategory::cases(), 'value'),
+                'Warehouse' => array_column(EnumPermissionWarehouse::cases(), 'value'),
             ]
 
         ];
