@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Domains\Account\Models\EnumPermissionAccount;
 use App\Domains\BankAccount\Models\EnumPermissionBankAccount;
+use App\Domains\Category\Models\EnumPermissionCategory;
 use App\Domains\Company\Models\EnumPermissionCompany;
 use App\Domains\Currency\Models\EnumPermissionCurrency;
 use App\Domains\Customer\Models\EnumPermissionCustomer;
@@ -24,7 +25,9 @@ use App\Domains\Role\Models\Role;
 use App\Domains\Supplier\Models\EnumPermissionSupplier;
 use App\Domains\Tax\Models\EnumPermissionTax;
 use App\Domains\Tenant\Models\EnumPermissionTenant;
+use App\Domains\UnitType\Models\EnumPermissionUnitType;
 use App\Domains\User\Models\User;
+use App\Domains\Vendor\Models\EnumPermissionLocation;
 use App\Domains\Vendor\Models\EnumPermissionVendor;
 use Illuminate\Database\Seeder;
 
@@ -55,9 +58,12 @@ class PermissionsTableSeeder extends Seeder
                 'Account' => array_column(EnumPermissionAccount::cases(), 'value'),
                 'JournalEntry' => array_column(EnumPermissionJournalEntry::cases(), 'value'),
                 'FinancialPeriod' => array_column(EnumPermissionFinancialPeriod::cases(), 'value'),
+                'UnitType' => array_column(EnumPermissionUnitType::cases(), 'value'),
                 'Vendor' => array_column(EnumPermissionVendor::cases(), 'value'),
                 'Supplier' => array_column(EnumPermissionSupplier::cases(), 'value'),
                 'Customer'        => array_column(EnumPermissionCustomer::cases(), 'value'),
+                'Location' => array_column(EnumPermissionLocation::cases(), 'value'),
+                'Category'        => array_column(EnumPermissionCategory::cases(), 'value'),
             ]
 
         ];
