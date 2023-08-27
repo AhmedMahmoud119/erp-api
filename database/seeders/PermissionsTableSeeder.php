@@ -15,6 +15,8 @@ use App\Domains\Group\Models\EnumPermissionGroup;
 use App\Domains\GroupType\Models\EnumPermissionGroupType;
 use App\Domains\JournalEntry\Models\EnumPermissionJournalEntry;
 use App\Domains\Module\Models\Module;
+use App\Domains\PaymentType\Models\EnumPermissionPaydmentType;
+use App\Domains\PaymentType\Models\EnumPermissionPaymentType;
 use App\Domains\Permission\Models\EnumPermission;
 use App\Domains\Permission\Models\EnumPermissionRole;
 use App\Domains\Permission\Models\EnumPermissionUser;
@@ -66,6 +68,7 @@ class PermissionsTableSeeder extends Seeder
                 'Location' => array_column(EnumPermissionLocation::cases(), 'value'),
                 'Category'        => array_column(EnumPermissionCategory::cases(), 'value'),
                 'Warehouse' => array_column(EnumPermissionWarehouse::cases(), 'value'),
+                'PaymentType' => array_column(EnumPermissionPaymentType::cases(), 'value'),
             ]
 
         ];
