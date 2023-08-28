@@ -52,7 +52,6 @@ class ProductMySqlRepository implements ProductRepositoryInterface
 
     public function store($request): bool
     {
-        $productData = [];
         $productData = $request->validated();
         $specsData = $productData['specs'];
         unset($productData['specs']);
@@ -61,18 +60,19 @@ class ProductMySqlRepository implements ProductRepositoryInterface
             'creator_id' => auth()->user()->id,
         ]);
 
+        $specIds = [];
         foreach ($specsData as $specData) {
             $specName = $specData['name'];
             $specValue = $specData['value'];
             $specId = Spec::firstOrCreate(['name' => $specName])->id;
-            $product->specs()->attach($specId, ['value' => $specValue]);
+            $specIds[$specId] = ['value'=>$specValue];
         }
+        $product->specs()->sync($specIds);
         return true;
     }
 
     public function update(string $id, $request): bool
     {
-        $productData = [];
         $productData = $request->validated();
         $specsData = $productData['specs'];
         unset($productData['specs']);
@@ -81,13 +81,14 @@ class ProductMySqlRepository implements ProductRepositoryInterface
         $product->update($productData + [
             'creator_id' => auth()->user()->id,
         ]);
-
+        $specIds = [];
         foreach ($specsData as $specData) {
             $specName = $specData['name'];
             $specValue = $specData['value'];
             $specId = Spec::firstOrCreate(['name' => $specName])->id;
-            $product->specs()->attach($specId, ['value' => $specValue]);
+            $specIds[$specId] = ['value'=>$specValue];
         }
+        $product->specs()->sync($specIds);
         return true;
     }
 
