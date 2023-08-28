@@ -230,6 +230,8 @@ return [
         App\Domains\UnitType\Providers\UnitTypeServiceProvider::class,
         App\Domains\Customer\Providers\CustomerServiceProvider::class,
         App\Domains\Category\Providers\CategoryServiceProvider::class,
+        App\Domains\Product\Providers\ProductServiceProvider::class,
+        App\Domains\Stock\Providers\StockServiceProvider::class,
         App\Domains\PaymentType\Providers\PaymentTypeServiceProvider::class,
 
 

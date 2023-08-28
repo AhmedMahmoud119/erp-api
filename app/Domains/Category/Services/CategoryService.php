@@ -12,6 +12,9 @@ class CategoryService
     public function __construct(private CategoryRepositoryInterface $categoryRepository)
     {
     }
+    public function findById($id){
+        return $this->categoryRepository->findById($id);
+    }
 
     public function list()
     {

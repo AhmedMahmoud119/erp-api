@@ -26,14 +26,14 @@ class CategoriesTableSeeder extends Seeder
             'name' => 'Child Category 1',
             'creator_id' => 1,
             'description' => 'This is a child category.',
-            'parent' => $rootCategory->id,
+            'parent_id' => $rootCategory->id,
         ]);
 
         Category::create([
             'name' => 'Child Category 2',
             'creator_id' => 1,
             'description' => 'This is another child category.',
-            'parent' => $rootCategory->id,
+            'parent_id' => $rootCategory->id,
         ]);
     }
 }

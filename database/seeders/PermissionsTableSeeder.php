@@ -15,7 +15,6 @@ use App\Domains\Group\Models\EnumPermissionGroup;
 use App\Domains\GroupType\Models\EnumPermissionGroupType;
 use App\Domains\JournalEntry\Models\EnumPermissionJournalEntry;
 use App\Domains\Module\Models\Module;
-use App\Domains\PaymentType\Models\EnumPermissionPaydmentType;
 use App\Domains\PaymentType\Models\EnumPermissionPaymentType;
 use App\Domains\Permission\Models\EnumPermission;
 use App\Domains\Permission\Models\EnumPermissionRole;
@@ -33,6 +32,9 @@ use App\Domains\Vendor\Models\EnumPermissionLocation;
 use App\Domains\Vendor\Models\EnumPermissionVendor;
 use App\Domains\Warehouse\Models\EnumPermissionWarehouse;
 use Illuminate\Database\Seeder;
+use App\Domains\PaymentType\Models\EnumPermissionPaydmentType;
+use App\Domains\Product\Models\EnumPermissionProduct;
+use App\Domains\Stock\Models\EnumPermissionStock;
 
 class PermissionsTableSeeder extends Seeder
 {
@@ -69,6 +71,8 @@ class PermissionsTableSeeder extends Seeder
                 'Category'        => array_column(EnumPermissionCategory::cases(), 'value'),
                 'Warehouse' => array_column(EnumPermissionWarehouse::cases(), 'value'),
                 'PaymentType' => array_column(EnumPermissionPaymentType::cases(), 'value'),
+                'Product' => array_column(EnumPermissionProduct::cases(), 'value'),
+                'Stock' => array_column(EnumPermissionStock::cases(), 'value'),
             ]
 
         ];

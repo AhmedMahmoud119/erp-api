@@ -4,14 +4,15 @@ namespace Database\Seeders;
 
 use App\Domains\User\Models\User;
 use Database\Seeders\AddressesTableSeeder;
-use Database\Seeders\CitiesTableSeeder;
-use Database\Seeders\CountriesTableSeeder;
-use Database\Seeders\FinancialPeriodSeeder;
-use Database\Seeders\StatesTableSeeder;
-use Database\Seeders\TaxSeeder;
+use Database\Seeders\CategoriesTableSeeder;
+use Database\Seeders\citiesTableSeeder;
+use Database\Seeders\countriesTableSeeder;
+use Database\Seeders\ProductsTableSeeder;
+use Database\Seeders\statesTableSeeder;
+use Database\Seeders\StocksTableSeeder;
+use Database\Seeders\UnitTypesTableSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Database\Seeders\UnitTypesTableSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -32,7 +33,7 @@ class DatabaseSeeder extends Seeder
             PermissionsTableSeeder::class,
             GroupTypeSeeder::class,
             TaxSeeder::class,
-            // CompanySeeder::class,
+                // CompanySeeder::class,
 
             FinancialPeriodSeeder::class,
             CurrencyCodesSeeder::class,
@@ -41,12 +42,11 @@ class DatabaseSeeder extends Seeder
             CitiesTableSeeder::class,
             AddressesTableSeeder::class,
             UnitTypesTableSeeder::class,
+            CategoriesTableSeeder::class,
+            ProductsTableSeeder::class,
+            StocksTableSeeder::class,
+
         ]);
 
-        //        $user->roles()->sync([1]);
-        // $this->call(countriesTableSeeder::class);
-        // $this->call(statesTableSeeder::class);
-        // $this->call(citiesTableSeeder::class);
-        // $this->call(AddressesTableSeeder::class);
     }
 }
