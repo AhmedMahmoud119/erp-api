@@ -23,7 +23,7 @@ class Product extends Model
         'opening_stock',
         'selling_price',
         'purchase_price',
-        
+
         'creator_id',
         'category_id',
         'taxes_id',
@@ -49,6 +49,5 @@ class Product extends Model
     public function specs()
     {
         return $this->belongsToMany(Spec::class, 'product_specs')->withPivot('value')->withTimestamps();
-        ;
     }
 }
