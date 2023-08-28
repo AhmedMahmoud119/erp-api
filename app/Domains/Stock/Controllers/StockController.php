@@ -27,7 +27,7 @@ class StockController extends Controller
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionStock::view_stocks->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return  StockResource::collection($this->stockService->list());
+        return StockResource::collection($this->stockService->list());
     }
 
     public function delete($id)

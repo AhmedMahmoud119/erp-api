@@ -16,8 +16,8 @@ return new class extends Migration {
             $table->id();
             $table->integer('quantity');
             $table->date('opening_stock');
-            $table->unsignedDecimal('selling_price', 10, 2)->nullable();
-            $table->unsignedDecimal('purchasing_price', 10, 2)->nullable();
+            $table->unsignedDecimal('selling_price', 10, 2);
+            $table->unsignedDecimal('purchasing_price', 10, 2);
 
             $table->foreignId('product_id')->references('id')->on('products');
             $table->foreignId('warehouse_id')->references('id')->on('warehouses');

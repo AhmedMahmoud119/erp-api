@@ -21,20 +21,28 @@ class StockMySqlRepository implements StockRepositoryInterface
     {
         return Stock::when(request()->creator_id, function ($q) {
             return $q->where('creator_id', request()->creator_id);
-        })
-            ->when(request()->sort_by, function ($q) {
-                if (in_array(request()->sort_by, ['quantity', 'created_at', 'creator_id'])) {
-                    $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
-                }
-            })
-            ->with(['creator', 'product', 'warehouse'])
+        })->when(request()->selling_price_from, function ($q) {
+            $q->where('selling_price', '>=', request()->selling_price_from);
+        })->when(request()->selling_price_to, function ($q) {
+            $q->where('selling_price', '<=', request()->selling_price_to);
+        })->when(request()->purchasing_price_from, function ($q) {
+            $q->where('purchasing_price', '>=', request()->purchasing_price_from);
+        })->when(request()->purchasing_price_to, function ($q) {
+            $q->where('purchasing_price', '<=', request()->purchasing_price_to);
+        })->when(request()->from, function ($q) {
+            $q->whereDate('created_at', '>=', request()->from);
+        })->when(request()->to, function ($q) {
+            $q->whereDate('created_at', '<=', request()->to);
+        })->when(request()->sort_by, function ($q) {
+            if (in_array(request()->sort_by, ['quantity', 'selling_price', 'purchasing_price', 'created_at', 'creator_id'])) {
+                $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
+            }
+        })->with(['creator', 'product', 'warehouse'])
             ->orderBy('quantity')->paginate(request('limit', config('app.pagination_count')));
     }
 
     public function store($request): bool
     {
-        $product = Product::findOrFail($request->product_id);
-
         $this->stock::create($request->validated() + [
             'creator_id' => auth()->user()->id,
         ]);
@@ -43,6 +51,10 @@ class StockMySqlRepository implements StockRepositoryInterface
 
     public function update(string $id, $request): bool
     {
+        $stock = $this->stock::findOrFail($id);
+        $stock->update($request->validated() + [
+            'creator_id' => auth()->user()->id,
+        ]);
         return true;
     }
 

@@ -8,6 +8,7 @@ use \Illuminate\Validation\Rule;
 
 class StoreStockRequest extends FormRequest
 {
+    protected $product;
     public function authorize()
     {
         return true;
@@ -17,40 +18,26 @@ class StoreStockRequest extends FormRequest
     {
 
         return [
-            'quantity' => 'required|numeric|min:0',
+            'quantity' => 'required|numeric|min:1',
             'opening_stock' => 'required|date',
             'product_id' => 'required|exists:products,id',
             'warehouse_id' => 'required|exists:warehouses,id',
-            'selling_price' => 'nullable|numeric|min:1',
-            'purchasing_price' => 'nullable|numeric|min:1',
+            'purchasing_price' => 'required|numeric|min:1',
+            'selling_price' => 'required|numeric|min:1',
         ];
     }
-
-    public function withValidator($validator)
-    {
-        $validator->after(function ($validator) {
-            $productId = $this->input('product_id');
-            $product = Product::find($productId);
-
-            // case will never be happen => the product fields dosen't nullable
-            if (!$product || empty($product->selling_price)) {
-                $validator->errors()->add('selling_price', 'The product selling price must be inserted.');
-            } else if (empty($product->purchase_price)) {
-                $validator->errors()->add('purchasing_price', 'The product purchase price must be inserted.');
-            }
-        });
-    }
-
 
 
     public function messages()
     {
         return [
-            'name.regex' => __('The name contain invalid letters.'),
+            'min' => __("The field must be one or more ."),
             'opening_stock.date' => __('The opening stock field must be in Date format.'),
-            'name.required' => __('The name field is required.'),
-            'product_id.required' => __("Its mandatory to choose specific product."),
+            'opening_stock.required' => __('The opening stock field is required.'),
+            'product_id.required' => __("It's mandatory to choose specific product."),
+            'warehouse_id.required' => __("It's mandatory to choose specific warehouse."),
             'product_id.exists' => __("The product you selected doesn't exist."),
+            'warehouse_id.exists' => __("The warehouse you selected doesn't exist."),
 
         ];
     }
