@@ -14,7 +14,10 @@ class ProductMySqlRepository implements ProductRepositoryInterface
     }
     public function findById(string $id): Product
     {
-        return $this->product::findOrFail($id);
+        $product =  $this->product::findOrFail($id);
+        $product->load( 'creator', 'category', 'taxes', 'unit', 'specs' );
+        return $product;
+
     }
     public function list()
     {

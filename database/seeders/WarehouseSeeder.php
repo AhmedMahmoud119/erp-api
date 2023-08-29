@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use DB;
+use Database\Factories\WarehouseFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class CountriesTableSeeder extends Seeder
+class WarehouseSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,13 +15,6 @@ class CountriesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('countries')->insert([
-            [
-                'name' => 'Egypt',
-            ],
-            [
-                'name' => 'Saudi Arabia',
-            ],
-        ]);
+        WarehouseFactory::times(100)->create();
     }
 }
