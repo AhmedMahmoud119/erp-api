@@ -41,10 +41,13 @@ class DatabaseSeeder extends Seeder
             StatesTableSeeder::class,
             CitiesTableSeeder::class,
             AddressesTableSeeder::class,
+            AddressSeeder::class,
             UnitTypesTableSeeder::class,
             CategoriesTableSeeder::class,
             ProductsTableSeeder::class,
+            WarehouseSeeder::class,
             StocksTableSeeder::class,
+            
 
         ]);
 

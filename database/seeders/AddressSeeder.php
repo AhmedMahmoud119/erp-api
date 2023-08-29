@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use DB;
+use Database\Factories\AddressFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class CountriesTableSeeder extends Seeder
+class AddressSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,13 +15,6 @@ class CountriesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('countries')->insert([
-            [
-                'name' => 'Egypt',
-            ],
-            [
-                'name' => 'Saudi Arabia',
-            ],
-        ]);
+        AddressFactory::times(10)->create();
     }
 }
