@@ -96,6 +96,17 @@ class PurchaseMySqlRepository implements PurchaseRepositoryInterface
         ]);
         $purchase->products()->sync($data['products']);
         $purchase->taxes()->sync($data['taxes']);
+        if ($request->supplier_id) {
+            $supplier = Supplier::find($request->supplier_id);
+            $supplier->purchase()->save($purchase);
+        }elseif ($request->vendor_id){
+            $vendor = Vendor::find($request->vendor_id);
+            $vendor->purchase()->save($purchase);
+        }elseif ($request->customer_id){
+            $customer = Customer::find($request->customer_id);
+            $customer->purchase()->save($purchase);
+        }
+
         return true;
     }
 
