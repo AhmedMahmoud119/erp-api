@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Domains\SupplierPurchase\Request;
+namespace App\Domains\Purchase\Request;
 
 use Illuminate\Foundation\Http\FormRequest;
-use \Illuminate\Validation\Rule;
 
-class StoreSupplierPurchaseRequest extends FormRequest
+class UpdatePurchaseRequest extends FormRequest
 {
-    protected $product;
     public function authorize()
     {
         return true;
     }
+
 
     public function rules()
     {

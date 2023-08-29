@@ -17,7 +17,11 @@ return new class extends Migration {
             $table->string('invoice_number');
             $table->date('date');
             $table->unsignedDecimal('total');
-            $table->foreignId('supplier_id')->constrained('suppliers')->onDelete('cascade');
+//            $table->foreignId('supplier_id')->constrained('suppliers')->onDelete('cascade');
+
+            $table->foreignId('purchasable_id');
+            $table->string('purchasable_type');
+
             $table->foreignId('stock_id')->constrained('stocks')->onDelete('cascade');
             $table->foreignId('creator_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();

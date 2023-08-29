@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Domains\SupplierPurchase\Resources;
+namespace App\Domains\Purchase\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SupplierPurchaseResource extends JsonResource
+class PurchaseResource extends JsonResource
 {
 
     public function toArray($request)
@@ -19,7 +19,7 @@ class SupplierPurchaseResource extends JsonResource
             'creator' => $this->creator,
             'products' => $this->products,
             'stock' => $this->stock,
-            'supplier' => $this->supplier,
+            'purchasable' => $this->purchasable,
             'taxes' => $this->taxes,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),

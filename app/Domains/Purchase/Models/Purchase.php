@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Domains\SupplierPurchase\Models;
+namespace App\Domains\Purchase\Models;
 
 use App\Domains\Product\Models\Product;
 use App\Domains\Stock\Models\Stock;
-use App\Domains\Supplier\Models\Supplier;
 use App\Domains\Tax\Models\Tax;
 use App\Domains\User\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
-class SupplierPurchase extends Model
+class Purchase extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -24,7 +24,6 @@ class SupplierPurchase extends Model
         'invoice_number',
         'creator_id',
         'stock_id',
-        'supplier_id',
     ];
     protected $table = 'purchases';
     public function creator()
@@ -43,9 +42,9 @@ class SupplierPurchase extends Model
     {
         return $this->belongsTo(Stock::class);
     }
-    public function supplier()
+    public function purchasable(): MorphTo
     {
-        return $this->belongsTo(Supplier::class);
+        return $this->morphTo();
     }
 
 }
