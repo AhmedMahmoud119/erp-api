@@ -20,9 +20,9 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('zip_code');
 
-            $table->foreignId('state_id')->references('id')->on('states');
-            $table->foreignId('city_id')->references('id')->on('cities');
-            $table->foreignId('country_id')->references('id')->on('countries');
+            $table->foreignId('state_id')->references('id')->on('states')->nullable();
+            $table->foreignId('city_id')->references('id')->on('cities')->nullable();
+            $table->foreignId('country_id')->references('id')->on('countries')->nullable();
             $table->softDeletes();
 
             $table->timestamps();

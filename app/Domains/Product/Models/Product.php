@@ -48,6 +48,6 @@ class Product extends Model
     }
     public function specs()
     {
-        return $this->belongsToMany(Spec::class, 'product_specs')->withPivot('value')->withTimestamps();
+        return $this->belongsToMany(Spec::class, 'product_specs')->withPivot('value');
     }
 }

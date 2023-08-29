@@ -20,6 +20,6 @@ class Spec extends Model
 
     public function Products()
     {
-        return $this->belongsToMany(Product::class, 'product_specs');
+        return $this->belongsToMany(Product::class, 'product_specs')->withPivotValue('value');
     }
 }
