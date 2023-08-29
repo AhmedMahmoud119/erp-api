@@ -233,7 +233,7 @@ return [
         App\Domains\Product\Providers\ProductServiceProvider::class,
         App\Domains\Stock\Providers\StockServiceProvider::class,
         App\Domains\PaymentType\Providers\PaymentTypeServiceProvider::class,
-        App\Domains\SupplierPurchase\Providers\SupplierPurchaseServiceProvider::class,
+        App\Domains\Purchase\Providers\PurchaseServiceProvider::class,
         App\Domains\Pack\Providers\PackServiceProvider::class,
 
 

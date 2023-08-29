@@ -29,7 +29,7 @@ class PurchaseMySqlRepository implements PurchaseRepositoryInterface
             if (in_array(request()->sort_by, ['quantity', 'selling_price', 'purchasing_price', 'created_at', 'creator_id'])) {
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
             }
-        })->with(['supplier', 'products', 'stock', 'creator', 'taxes'])
+        })->with(['products', 'stock', 'creator', 'taxes'])
             ->orderBy('date')->paginate(request('limit', config('app.pagination_count')));
     }
 
