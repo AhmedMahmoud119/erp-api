@@ -28,7 +28,7 @@ class PackMySqlRepository implements PackRepositoryInterface
                 return $q->where('creator_id', request()->creator_id);
             })
             ->when(request()->sort_by, function ($q) {
-                if (in_array(request()->sort_by, ['name', 'quantity', 'purchase_price', 'selling_price', 'creator_id'])) {
+                if (in_array(request()->sort_by, ['name', 'quantity', 'price', 'creator_id'])) {
                     $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
                 }
             })->with(['creator', 'products'])

@@ -17,16 +17,11 @@ class Pack extends Model
         'description',
         'matrial',
         'quantity',
-
-        'retail_prirce',
-        'selling_price',
-        'purchase_price',
-
+        'price',
         'weight',
         'width',
         'length',
         'height',
-
         'creator_id',
     ];
     public function creator()

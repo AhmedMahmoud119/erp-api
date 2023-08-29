@@ -16,19 +16,13 @@ class PackResource extends JsonResource
             'description' => $this->description,
             'quantity' => $this->quantity,
             'material' => $this->material,
-            'weight' => $this->weight,
-
+            'price' => $this->price,
             'dimensions' => [
                 'width' => $this->width,
                 'length' => $this->length,
                 'height' => $this->height,
+                'weight' => $this->weight,
             ],
-            'price' => [
-                'selling_prirce' => $this->selling_prirce,
-                'purchase_prirce' => $this->purchase_prirce,
-                'retail_prirce' => $this->retail_prirce,
-            ],
-
             'products' => $this->products,
             'creator' => $this->creator,
 
