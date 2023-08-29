@@ -21,12 +21,12 @@ class StorePackRequest extends FormRequest
             'material' => 'required|max:200',
             'quantity' => 'required|numeric|min:1',
 
-            'price' => 'required|decimal:2|min:0',
+            'price' => 'required|numeric|min:0',
 
-            'weight' => 'required|decimal:2|min:0',
-            'width' => 'required|decimal:2|min:0',
-            'length' => 'required|decimal:2|min:0',
-            'height' => 'required|decimal:2|min:0',
+            'weight' => 'required|numeric|min:0',
+            'width' => 'required|numeric|min:0',
+            'length' => 'required|numeric|min:0',
+            'height' => 'required|numeric|min:0',
 
             'products' => 'required|array',
             'products.*' => 'required|numeric|exists:products,id',
