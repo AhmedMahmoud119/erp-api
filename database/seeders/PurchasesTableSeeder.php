@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Domains\Product\Models\Product;
 use App\Domains\Stock\Models\Stock;
 use App\Domains\Supplier\Models\Supplier;
-use App\Domains\SupplierPurchase\Models\SupplierPurchase;
+use App\Domains\Purchase\Models\Purchase;
 use App\Domains\User\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -41,7 +41,7 @@ class PurchasesTableSeeder extends Seeder
             ['tax_id' => 1],
             ['tax_id' => 6],
         ];
-        $purchase = SupplierPurchase::create($data);
+        $purchase = Purchase::create($data);
         $purchase->products()->sync($products);
         $purchase->taxes()->sync($taxes);
     }
