@@ -10,6 +10,10 @@ class CategoryMySqlRepository implements CategoryRepositoryInterface
     public function __construct(private Category $category)
     {
     }
+    public function findById(string $id): Category
+    {
+        return $this->category::findOrFail($id);
+    }
     public function list()
     {
         return Category::when(request()->search, function ($q) {
@@ -58,4 +62,5 @@ class CategoryMySqlRepository implements CategoryRepositoryInterface
 
         return true;
     }
+
 }

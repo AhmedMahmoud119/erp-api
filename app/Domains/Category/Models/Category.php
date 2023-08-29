@@ -16,7 +16,7 @@ class Category extends Model
         'name',
         'description',
         'creator_id',
-        'parent',
+        'parent_id',
     ];
     public function creator()
     {
@@ -24,12 +24,12 @@ class Category extends Model
     }
     public function parent()
     {
-        return $this->belongsTo(Category::class, 'parent');
+        return $this->belongsTo(Category::class, 'parent_id');
     }
 
     public function childrens()
     {
-        return $this->hasMany(Category::class, 'parent');
+        return $this->hasMany(Category::class, 'parent_id');
     }
 
 }

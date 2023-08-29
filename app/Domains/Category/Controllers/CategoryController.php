@@ -17,6 +17,11 @@ class CategoryController extends Controller
     public function __construct(private CategoryService $categoryService)
     {
     }
+    public function findById($id)
+    {
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCategory::view_categories->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        return new CategoryResource($this->categoryService->findById($id));
+    }
 
     public function list()
     {

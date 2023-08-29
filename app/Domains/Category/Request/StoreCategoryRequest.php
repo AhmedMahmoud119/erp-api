@@ -26,7 +26,7 @@ class StoreCategoryRequest extends FormRequest
         return [
             'name.regex' => __('The name contain invalid letters'),
             'name.required' => __('The name field is required'),
-            'parent.exists' => __('The parent not exist'),
+            'parent_id.exists' => __('The parent not exist'),
 
         ];
     }
