@@ -30,7 +30,7 @@ class UpdatePackRequest extends FormRequest
             'height' => 'required|decimal:2|min:0',
 
             'products' => 'required|array',
-            'products.*.product_id' => 'required|numeric|exists:products,id',
+            'products.*' => 'required|numeric|exists:products,id',
 
         ];
     }

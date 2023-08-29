@@ -16,8 +16,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth:sanctum','prefix' => 'revision-history'],function (){
     Route::get('/', [\App\Domains\RevisionHistory\Controllers\RevisionHistoryController::class, 'list']);
-    Route::get('/{id}', [\App\Domains\RevisionHistory\Controllers\RevisionHistoryController::class, 'findById']);
-//    Route::delete('/{id}', [\App\Domains\RevisionHistory\Controllers\RevisionHistoryController::class, 'delete']);
     Route::post('/create', [\App\Domains\RevisionHistory\Controllers\RevisionHistoryController::class, 'create']);
+    Route::get('/{model}/model/{id}', [\App\Domains\RevisionHistory\Controllers\RevisionHistoryController::class, 'findByModel']);
+    Route::get('/{id}', [\App\Domains\RevisionHistory\Controllers\RevisionHistoryController::class, 'findById']);
+
+
+//    Route::delete('/{id}', [\App\Domains\RevisionHistory\Controllers\RevisionHistoryController::class, 'delete']);
 //    Route::post('/update/{id}', [\App\Domains\RevisionHistory\Controllers\RevisionHistoryController::class, 'update']);
 });

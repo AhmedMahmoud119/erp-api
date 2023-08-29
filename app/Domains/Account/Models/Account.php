@@ -40,4 +40,7 @@ class Account extends Model
         return $this->hasMany(JournalEntryDetail::class, 'account_id');
     }
 
+    public function creator(){
+        return $this->belongsTo(User::class);
+    }
 }

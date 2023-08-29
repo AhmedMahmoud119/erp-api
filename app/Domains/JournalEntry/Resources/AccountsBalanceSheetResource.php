@@ -15,7 +15,7 @@ class AccountsBalanceSheetResource extends JsonResource
             'id'      => $this->id,
             'code'    => $this->code,
             'name'    => $this->name,
-            'balance' => $this->opening_balance + $this->journalEntryDetail->sum('credit') - $this->journalEntryDetail->sum('debit'),
+            'total' => $this->opening_balance + $this->journalEntryDetail->sum('credit') - $this->journalEntryDetail->sum('debit'),
 //            'opening_balance' => $this->opening_balance,
 //            'journalEntryDetailBalanceCredit' => $this->journalEntryDetail->sum('credit'),
 //            'journalEntryDetailBalanceDebit' => $this->journalEntryDetail->sum('debit'),
