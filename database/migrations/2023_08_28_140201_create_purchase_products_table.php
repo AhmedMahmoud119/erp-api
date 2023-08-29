@@ -16,8 +16,8 @@ return new class extends Migration {
             $table->id();
             $table->integer('quantity');
             $table->decimal('discount', 8, 2);
-            $table->foreignId('purchase_id')->references('purchases')->on('id')->onDelete('cascade');
-            $table->foreignId('product_id')->references('products')->on('id')->onDelete('cascade');
+            $table->foreignId('purchase_id')->constrained('purchases')->onDelete('cascade');
+            $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
             $table->timestamps();
         });
     }

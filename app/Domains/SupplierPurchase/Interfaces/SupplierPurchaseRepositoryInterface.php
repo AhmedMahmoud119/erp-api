@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Domains\SupplierPurchase\Interfaces;
+use App\Domains\SupplierPurchase\Models\SupplierPurchase;
 
 
 

@@ -3,7 +3,9 @@
 namespace App\Domains\SupplierPurchase\Models;
 
 use App\Domains\Product\Models\Product;
+use App\Domains\Stock\Models\Stock;
 use App\Domains\Supplier\Models\Supplier;
+use App\Domains\Tax\Models\Tax;
 use App\Domains\User\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -31,7 +33,11 @@ class SupplierPurchase extends Model
     }
     public function products()
     {
-        return $this->hasMany(Product::class);
+        return $this->belongsToMany(Product::class, 'purchase_products', 'purchase_id', 'product_id')->withPivot('quantity', 'discount')->withTimestamps();
+    }
+    public function taxes()
+    {
+        return $this->belongsToMany(Tax::class, 'purchase_taxes', 'purchase_id', 'tax_id')->withTimestamps();
     }
     public function stock()
     {

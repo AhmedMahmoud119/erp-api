@@ -44,7 +44,6 @@ class SupplierPurchaseController extends Controller
     public function create(StoreSupplierPurchaseRequest $request)
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionSupplierPurchase::create_supplierPurchase->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         $this->supplierPurchaseService->create($request);
         return response()->json([
             'message' => __('Purchase created successfully!'),

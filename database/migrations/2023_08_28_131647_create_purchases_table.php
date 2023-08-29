@@ -16,12 +16,10 @@ return new class extends Migration {
             $table->id();
             $table->string('invoice_number');
             $table->date('date');
-            $table->unsignedDecimal('quntity');
             $table->unsignedDecimal('total');
-            $table->unsignedDecimal('discount');
-            $table->foreignId('supplier_id')->references('suppliers')->on('id')->onDelete('cascade');
-            $table->foreignId('stock_id')->references('stocks')->on('id')->onDelete('cascade');
-            $table->foreignId('creator_id')->references('id')->on('users');
+            $table->foreignId('supplier_id')->constrained('suppliers')->onDelete('cascade');
+            $table->foreignId('stock_id')->constrained('stocks')->onDelete('cascade');
+            $table->foreignId('creator_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });
