@@ -18,7 +18,7 @@ class PurchaseMySqlRepository implements PurchaseRepositoryInterface
     public function findById(string $id): Purchase
     {
         $purchase = $this->purchase::findOrFail($id);
-        $purchase->load(['products', 'stock', 'creator', 'taxes']);
+        $purchase->load(['products', 'stock', 'creator', 'taxes', 'purchasable']);
         return $purchase;
     }
     public function list()
@@ -29,7 +29,7 @@ class PurchaseMySqlRepository implements PurchaseRepositoryInterface
             if (in_array(request()->sort_by, ['quantity', 'selling_price', 'purchasing_price', 'created_at', 'creator_id'])) {
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
             }
-        })->with(['products', 'stock', 'creator', 'taxes'])
+        })->with(['products', 'stock', 'creator', 'taxes', 'purchasable'])
             ->orderBy('date')->paginate(request('limit', config('app.pagination_count')));
     }
 
