@@ -24,7 +24,7 @@ class AccountFactory extends Factory
             'group_id' => $this->faker->numberBetween(1, 10),
             'account_type' => $this->faker->randomElement(['debit', 'credit', 'both']),
             'opening_balance' => $this->faker->numberBetween(1000, 9999),
-            'parent_id' => null
+            'parent_id' => null,
         ];
     }
 }

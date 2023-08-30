@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('code');
             $table->string('name');
+            $table->string('icon')->nullable();
             $table->foreignId('group_id')->references('id')->on('groups');
 
             $table->foreignId('parent_id')->nullable()

@@ -60,6 +60,7 @@ class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
             'code' => $groupType->code + 1,
             'is_fixed' => 0,
             'creator_id' => auth()->user()->id,
+            'icon' => $request->icon,
 
         ]);
 
