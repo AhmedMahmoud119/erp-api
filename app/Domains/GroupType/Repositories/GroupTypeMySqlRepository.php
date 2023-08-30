@@ -5,6 +5,7 @@ namespace App\Domains\GroupType\Repositories;
 use App\Domains\Group\Models\Group;
 use App\Domains\GroupType\Interfaces\GroupTypeRepositoryInterface;
 use App\Domains\GroupType\Models\GroupType;
+use FontLib\TrueType\Collection;
 use Illuminate\Support\Facades\Storage;
 
 class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
@@ -38,6 +39,10 @@ class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
                 $q->where('creator_id', request()->creator_id);
             })->with('creator')
             ->paginate(request('limit', config('app.pagination_count')));
+    }
+    public function getTreeView()
+    {
+        return $this->groupType::with(['groups.accounts.children', 'creator'])->get();
     }
 
     public function findById(string $id): GroupType

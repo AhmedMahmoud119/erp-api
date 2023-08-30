@@ -8,6 +8,7 @@ use App\Domains\JournalEntry\Models\JournalEntryDetail;
 use App\Domains\User\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 //use Spatie\Translatable\HasTranslations;
@@ -15,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Account extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'code',
@@ -27,11 +28,13 @@ class Account extends Model
         'creator_id',
     ];
 
-    public function group(){
+    public function group()
+    {
         return $this->belongsTo(Group::class);
     }
 
-    public function parent(){
+    public function parent()
+    {
         return $this->belongsTo(Account::class);
     }
 
@@ -40,7 +43,12 @@ class Account extends Model
         return $this->hasMany(JournalEntryDetail::class, 'account_id');
     }
 
-    public function creator(){
+    public function creator()
+    {
         return $this->belongsTo(User::class);
+    }
+    public function children(): HasMany
+    {
+        return $this->hasMany(Account::class, 'parent_id');
     }
 }

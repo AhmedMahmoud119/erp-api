@@ -43,6 +43,7 @@ class GroupMySqlRepository implements GroupRepositoryInterface
             ->with('creator', 'group_type')->paginate(request('limit', config('app.pagination_count')));
     }
 
+
     public function findById(string $id): Group
     {
         return $this->group::findOrFail($id);

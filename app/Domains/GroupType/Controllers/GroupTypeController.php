@@ -28,13 +28,18 @@ class GroupTypeController extends Controller
 
         return  GroupTypeResource::collection($this->groupTypeService->list());
     }
+    public function getTreeView()
+    {
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionGroupType::view_groupTypes->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return  GroupTypeResource::collection($this->groupTypeService->getTreeView());
+    }
 
     public function delete($id)
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionGroupType::delete_groupType->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        if($this->groupTypeService->delete($id))
-        {
+        if ($this->groupTypeService->delete($id)) {
             return response()->json([
                 'message' => __('Deleted Successfully'),
                 'status' => true,
@@ -44,7 +49,6 @@ class GroupTypeController extends Controller
             'message' => __('Can not Deleted because it belong to Group'),
             'status' => false,
         ], Response::HTTP_UNPROCESSABLE_ENTITY);
-
     }
 
     public function findById($id)
@@ -71,19 +75,15 @@ class GroupTypeController extends Controller
 
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionGroupType::edit_groupType->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-       if( $this->groupTypeService->update($id, $request))
-       {
-           return response()->json([
-               'message' => __('Updated Successfully'),
-               'status' => true,
-           ], Response::HTTP_OK);
-       }
+        if ($this->groupTypeService->update($id, $request)) {
+            return response()->json([
+                'message' => __('Updated Successfully'),
+                'status' => true,
+            ], Response::HTTP_OK);
+        }
         return response()->json([
             'message' => __('Can Not update this Group Type'),
             'status' => false,
         ], Response::HTTP_UNPROCESSABLE_ENTITY);
-
     }
- 
-
 }
