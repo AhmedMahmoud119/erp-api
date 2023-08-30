@@ -16,7 +16,7 @@ class StoreGroupTypeRequest extends FormRequest
     {
         return [
             'name' => 'required|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
-
+            'icon' => 'nullable',
         ];
 
     }
