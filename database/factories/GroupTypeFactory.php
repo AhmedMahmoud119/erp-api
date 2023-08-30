@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Domains\User\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,7 +20,7 @@ class GroupTypeFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'code' =>  $this->faker->numberBetween(1000, 9999),
-            'creator_id' => $this->faker->name(),
+            'creator_id' => User::inRandomOrder()->first()->id,
         ];
     }
 }

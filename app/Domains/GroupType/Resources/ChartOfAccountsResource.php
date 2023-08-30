@@ -13,8 +13,8 @@ class ChartOfAccountsResource extends JsonResource
         return [
             'id' => $this->id,
             'label' => $this->name,
-            'children' => ChartOfAccountsResource::collection($this->whenLoaded('children')),
             'icon' => $this->icon,
+            'children' => ChartOfAccountsResource::collection($this->whenLoaded('children')),
         ];
     }
 }

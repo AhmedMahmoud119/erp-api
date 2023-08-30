@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Domains\Account\Models\Account;
+use App\Domains\Group\Models\Group;
+use App\Domains\User\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,8 +23,8 @@ class AccountFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'code' => $this->faker->numberBetween(1000, 9999),
-            'creator_id' => $this->faker->numberBetween(1, 10),
-            'group_id' => $this->faker->numberBetween(1, 10),
+            'creator_id' => User::inRandomOrder()->first()->id,
+            'group_id' => Group::inRandomOrder()->first()->id,
             'account_type' => $this->faker->randomElement(['debit', 'credit', 'both']),
             'opening_balance' => $this->faker->numberBetween(1000, 9999),
             'parent_id' => null,

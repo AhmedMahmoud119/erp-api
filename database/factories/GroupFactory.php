@@ -21,9 +21,9 @@ class GroupFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'group_type_id' => $this->faker->numberBetween(1, GroupType::all()->count()),
+            'group_type_id' => $this->faker->numberBetween(1, GroupType::count()),
             'code' => $this->faker->numberBetween(1000, 9999),
-            'creator_id' =>  User::first()->id,
+            'creator_id' =>  User::inRandomOrder()->first()->id,
         ];
     }
 }
