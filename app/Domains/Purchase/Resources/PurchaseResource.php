@@ -20,7 +20,7 @@ class PurchaseResource extends JsonResource
             'products'       => $this->products,
             'stock'          => $this->stock,
             'purchasable'    => $this->purchasable,
-            'taxes'          => $this->taxes,
+//            'taxes'          => $this->taxes,
             'created_at'     => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at'     => $this->updated_at->format('Y-m-d H:i:s'),
         ];

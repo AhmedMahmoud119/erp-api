@@ -17,7 +17,7 @@ class GroupType extends Model
         'name',
         'code',
         'creator_id',
-
+        'icon'
     ];
     public function creator()
     {

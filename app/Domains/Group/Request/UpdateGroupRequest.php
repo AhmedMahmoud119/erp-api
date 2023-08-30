@@ -19,6 +19,7 @@ class UpdateGroupRequest extends FormRequest
         return [
             'name'          => 'required|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
             'group_type_id' => 'required|exists:group_types,id',
+            'icon'          => 'nullable',
         ];
     }
 
