@@ -33,7 +33,6 @@ class UpdateJournalEntryRequest extends FormRequest
                     'account_id' => $detail['account_id'],
                     'debit' => $detail['debit'],
                     'credit' => $detail['credit'],
-                    'tax_id' => $detail['tax_id'] ?? null,
                 ]
             )->toArray();
             
@@ -41,14 +40,7 @@ class UpdateJournalEntryRequest extends FormRequest
             if ($unique->count() != count($details)) {
                 $validator->errors()->add('details', __('validation.unique'));
             }
-            $details = collect($details)->map(function ($account) {
-                $tax = Tax::find($account['tax_id']);
-                if ($tax) {
-                    $account['debit'] = $account['debit'] + ($account['debit'] * $tax->percentage) / 100;
-                    $account['credit'] = $account['credit'] + ($account['credit'] * $tax->percentage) / 100;
-                }
-                return $account;
-            });
+            $details = collect($details);
             $debit = $details->sum('debit');
             $credit = $details->sum('credit');
             if ($debit != $credit) {

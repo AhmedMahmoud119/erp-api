@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth:sanctum','prefix' => 'groupType'],function (){
     Route::get('/', [\App\Domains\GroupType\Controllers\GroupTypeController::class, 'list']);
+    Route::get('/treeview', [\App\Domains\GroupType\Controllers\GroupTypeController::class, 'getTreeView']);
     Route::get('/{id}', [\App\Domains\GroupType\Controllers\GroupTypeController::class, 'findById']);
     Route::delete('/{id}', [\App\Domains\GroupType\Controllers\GroupTypeController::class, 'delete']);
     Route::post('/create', [\App\Domains\GroupType\Controllers\GroupTypeController::class, 'create']);

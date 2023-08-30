@@ -27,7 +27,7 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
     {
         $entry = $this->journalEntry::findOrFail($id);
         $entry->load(['details' => function ($q) {
-            $q->with(['account', 'tax']);
+            $q->with(['account']);
         }]);
 
         return $entry;
@@ -48,8 +48,6 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
             if (in_array(request()->sort_by, ['title', 'entry_no', 'date', 'created_at', 'updated_at', 'creator_id'])) {
                 $q->orderBy(request()->sort_by, request()->sort_type);
             }
-
-            return $q;
         })->with(['details'])->paginate(request('limit', config('app.pagination_count')));
     }
 
@@ -68,7 +66,6 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
                 'debit'            => $detail['debit'],
                 'credit'           => $detail['credit'],
                 'journal_entry_id' => $entry->id,
-                'tax_id'           => $detail['tax_id'] ?? null,
                 'description'      => $detail['description'] ?? '',
                 'created_at'       => now(),
             ])->toArray();
@@ -99,7 +96,6 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
                 ], [
                     'debit'            => $q['debit'],
                     'credit'           => $q['credit'],
-                    'tax_id'           => $q['tax_id'] ?? null,
                     'description'      => $q['description'] ?? '',
                     'journal_entry_id' => $id,
                 ]);
@@ -119,6 +115,7 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
 
         return true;
     }
+
 
     public function importJournalEntryDetailsFromFile(string $id, $request): bool
     {
