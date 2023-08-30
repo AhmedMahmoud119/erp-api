@@ -40,7 +40,7 @@ class PurchaseMySqlRepository implements PurchaseRepositoryInterface
 
     public function store($request): bool
     {
-        $data = $request->all();
+        $data = $request->validated();
         $subtotal = 0;
         // Calc total price for each product after its discount
         foreach ($data['products'] as $productData) {
@@ -79,7 +79,7 @@ class PurchaseMySqlRepository implements PurchaseRepositoryInterface
     public function update(string $id, $request): bool
     {
         $purchase = $this->purchase::findOrFail($id);
-        $data = $request->all();
+        $data = $request->validated();
         $subtotal = 0;
         foreach ($data['products'] as $productData) {
             $product = Product::find($productData['product_id']);
