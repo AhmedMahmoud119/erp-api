@@ -34,6 +34,7 @@ use App\Domains\Warehouse\Models\EnumPermissionWarehouse;
 use Illuminate\Database\Seeder;
 use App\Domains\Product\Models\EnumPermissionProduct;
 use App\Domains\Stock\Models\EnumPermissionStock;
+use App\Domains\Pack\Models\EnumPermissionPack;
 
 class PermissionsTableSeeder extends Seeder
 {
@@ -73,6 +74,7 @@ class PermissionsTableSeeder extends Seeder
                 'PaymentType'     => array_column(EnumPermissionPaymentType::cases(), 'value'),
                 'Product'         => array_column(EnumPermissionProduct::cases(), 'value'),
                 'Stock'           => array_column(EnumPermissionStock::cases(), 'value'),
+                'Pack'        => array_column(EnumPermissionPack::cases(), 'value'),
             ],
 
         ];

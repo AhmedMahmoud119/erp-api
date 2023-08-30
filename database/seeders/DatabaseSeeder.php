@@ -13,6 +13,7 @@ use Database\Seeders\StocksTableSeeder;
 use Database\Seeders\UnitTypesTableSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Database\Seeders\PacksTableSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -33,7 +34,7 @@ class DatabaseSeeder extends Seeder
             PermissionsTableSeeder::class,
             GroupTypeSeeder::class,
             TaxSeeder::class,
-                // CompanySeeder::class,
+            // CompanySeeder::class,
 
             FinancialPeriodSeeder::class,
             CurrencyCodesSeeder::class,
@@ -47,7 +48,7 @@ class DatabaseSeeder extends Seeder
             ProductsTableSeeder::class,
             WarehouseSeeder::class,
             StocksTableSeeder::class,
-            
+            PacksTableSeeder::class,
 
         ]);
 
