@@ -35,5 +35,11 @@ class Group extends Model
         return $this->hasMany(Account::class);
     }
 
+    public function children()
+    {
+        return $this->hasMany(Account::class)->with('children');
+    }
+
+
 
 }
