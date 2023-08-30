@@ -17,7 +17,8 @@ class GroupResource extends JsonResource
             'group_type_id' => $this->group_type->id ?? null,
             'group_type_name' => $this->group_type->name ?? null,
             'creator' => $this->creator->name ?? null,
-            'accounts' => AccountResource::collection($this->whenLoaded('accounts')),
+            'children' => AccountResource::collection($this->whenLoaded('accounts')),
+            'icon' => $this->icon,
             'created_at' => $this->created_at->format('Y-m-d'),
             'updated_at' => $this->updated_at->format('Y-m-d'),
         ];

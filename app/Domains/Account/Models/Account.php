@@ -26,6 +26,7 @@ class Account extends Model
         'opening_balance',
         'account_type',
         'creator_id',
+        'icon'
     ];
 
     public function group()

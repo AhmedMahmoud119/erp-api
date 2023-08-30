@@ -16,7 +16,8 @@ class GroupTypeResource extends JsonResource
             'isFixed' => $this->is_fixed,
             'code' => $this->code,
             'creator' => $this->creator->name ?? null,
-            'groups' => GroupResource::collection($this->whenLoaded('groups')),
+            'children' => GroupResource::collection($this->whenLoaded('groups')),
+            'icon' => $this->icon,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
         ];
