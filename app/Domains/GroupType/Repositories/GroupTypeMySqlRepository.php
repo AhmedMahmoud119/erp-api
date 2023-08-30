@@ -42,7 +42,7 @@ class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
     }
     public function getTreeView()
     {
-        return $this->groupType::with(['groups.accounts.children', 'creator'])->get();
+        return $this->groupType::with(['children.children.children'])->get();
     }
 
     public function findById(string $id): GroupType

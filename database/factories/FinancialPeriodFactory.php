@@ -24,7 +24,7 @@ class FinancialPeriodFactory extends Factory
             'start' => fake()->date(),
             'end' => fake()->date(),
             'created_at' => now(),
-            'creator_id' => User::inRandomOrder()->first(),
+            'creator_id' => User::inRandomOrder()->first()->id,
         ];
     }
 }

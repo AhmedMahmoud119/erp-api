@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Domains\Vendor\Models\Country;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,7 +19,7 @@ class StateFactory extends Factory
     {
         return [
             'name'  => $this->faker->state(),
-            'country_id' => $this->faker->numberBetween(1, 10)
+            'country_id' => Country::inRandomOrder()->first()->id,
         ];
     }
 }

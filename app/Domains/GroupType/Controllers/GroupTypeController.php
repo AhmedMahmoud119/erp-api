@@ -8,6 +8,7 @@ use App\Domains\GroupType\Models\EnumPermissionGroupType;
 use App\Domains\GroupType\Request\FilterGroupTypeRequest;
 use App\Domains\GroupType\Request\StoreGroupTypeRequest;
 use App\Domains\GroupType\Request\UpdateGroupTypeRequest;
+use App\Domains\GroupType\Resources\ChartOfAccountsResource;
 use App\Domains\GroupType\Resources\GroupTypeResource;
 use App\Domains\GroupType\Services\GroupTypeService;
 use App\Http\Controllers\Controller;
@@ -32,7 +33,7 @@ class GroupTypeController extends Controller
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionGroupType::view_groupTypes->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return  GroupTypeResource::collection($this->groupTypeService->getTreeView());
+        return  ChartOfAccountsResource::collection($this->groupTypeService->getTreeView());
     }
 
     public function delete($id)
