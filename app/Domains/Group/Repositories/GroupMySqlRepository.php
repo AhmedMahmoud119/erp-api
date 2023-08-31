@@ -97,9 +97,13 @@ class GroupMySqlRepository implements GroupRepositoryInterface
 
     public function delete(string $id): bool
     {
-        $this->group::findOrFail($id)->delete();
-
-        return true;
+        $group = $this->group::findOrFail($id);
+        if ($group->accounts->isEmpty()) {
+            $group->delete();
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public function generatePDF()
