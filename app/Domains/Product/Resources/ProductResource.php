@@ -28,6 +28,9 @@ class ProductResource extends JsonResource
             'tax' => TaxResource::make($this->whenLoaded('taxes')),
             'unit' => UnitTypeResource::make($this->whenLoaded('unit')),
             'specs' => SpecResource::collection($this->whenLoaded('specs')),
+            'tax_id'=> $this->tax_id,
+            'unit_id'=> $this->unit_id,
+            'category_id'=> $this->category_id,
             'created_at' => $this->created_at->format('Y-m-d'),
             'updated_at' => $this->updated_at->format('Y-m-d'),
         ];

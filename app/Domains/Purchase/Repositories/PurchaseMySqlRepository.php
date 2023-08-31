@@ -18,24 +18,29 @@ class PurchaseMySqlRepository implements PurchaseRepositoryInterface
     public function findById(string $id): Purchase
     {
         $purchase = $this->purchase::findOrFail($id);
-        $purchase->load(['products', 'stock', 'creator', 'taxes', 'purchasable']);
+        $purchase->load(['products', 'stock', 'creator', /*'taxes',*/ 'purchasable']);
         return $purchase;
     }
     public function list()
     {
         return Purchase::when(request()->creator_id, function ($q) {
             return $q->where('creator_id', request()->creator_id);
-        })->when(request()->sort_by, function ($q) {
+        })
+        ->when(request()->sort_by, function ($q) {
             if (in_array(request()->sort_by, ['quantity', 'selling_price', 'purchasing_price', 'created_at', 'creator_id'])) {
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
             }
-        })->with(['products', 'stock', 'creator', 'taxes', 'purchasable'])
+        })
+        ->when(request()->type, function ($q) {
+            return $q->where('purchasable_type','like', '%'.request()->type.'%');
+        })
+        ->with(['products', 'stock', 'creator', /*'taxes',*/ 'purchasable'])
             ->orderBy('date')->paginate(request('limit', config('app.pagination_count')));
     }
 
     public function store($request): bool
     {
-        $data = $request->all();
+        $data = $request->validated();
         $subtotal = 0;
         // Calc total price for each product after its discount
         foreach ($data['products'] as $productData) {
@@ -44,20 +49,20 @@ class PurchaseMySqlRepository implements PurchaseRepositoryInterface
             $product_price = $product->selling_price - $discountValue;
             $subtotal += $productData['quantity'] * $product_price;
         }
-        $taxes = [];
-        foreach ($data['taxes'] as $taxData) {
-            $taxes[] = $taxData['tax_id'];
-        }
-        $taxAmount = Tax::whereIn('id', $taxes)->sum('percentage');
-        $totalTax = $subtotal * $taxAmount / 100;
-        $totalAmount = $subtotal + $totalTax;
+//        $taxes = [];
+//        foreach ($data['taxes'] as $taxData) {
+//            $taxes[] = $taxData['tax_id'];
+//        }
+//        $taxAmount = Tax::whereIn('id', $taxes)->sum('percentage');
+//        $totalTax = $subtotal * $taxAmount / 100;
+        $totalAmount = $subtotal /*+ $totalTax*/;
 
         $purchase = $this->purchase::create($request->validated() + [
             'creator_id' => auth()->user()->id,
             'total' => $totalAmount,
         ]);
         $purchase->products()->sync($data['products']);
-        $purchase->taxes()->sync($data['taxes']);
+//        $purchase->taxes()->sync($data['taxes']);
         if ($request->supplier_id) {
             $supplier = Supplier::find($request->supplier_id);
             $supplier->purchase()->save($purchase);
@@ -74,7 +79,7 @@ class PurchaseMySqlRepository implements PurchaseRepositoryInterface
     public function update(string $id, $request): bool
     {
         $purchase = $this->purchase::findOrFail($id);
-        $data = $request->all();
+        $data = $request->validated();
         $subtotal = 0;
         foreach ($data['products'] as $productData) {
             $product = Product::find($productData['product_id']);
@@ -82,20 +87,20 @@ class PurchaseMySqlRepository implements PurchaseRepositoryInterface
             $product_price = $product->selling_price - $discountValue;
             $subtotal += $productData['quantity'] * $product_price;
         }
-        $taxes = [];
-        foreach ($data['taxes'] as $taxData) {
-            $taxes[] = $taxData['tax_id'];
-        }
-        $taxAmount = Tax::whereIn('id', $taxes)->sum('percentage');
-        $totalTax = $subtotal * $taxAmount / 100;
-        $totalAmount = $subtotal + $totalTax;
+//        $taxes = [];
+//        foreach ($data['taxes'] as $taxData) {
+//            $taxes[] = $taxData['tax_id'];
+//        }
+//        $taxAmount = Tax::whereIn('id', $taxes)->sum('percentage');
+//        $totalTax = $subtotal * $taxAmount / 100;
+        $totalAmount = $subtotal /*+ $totalTax */;
 
         $purchase->update($request->validated() + [
             'creator_id' => auth()->user()->id,
             'total' => $totalAmount,
         ]);
         $purchase->products()->sync($data['products']);
-        $purchase->taxes()->sync($data['taxes']);
+//        $purchase->taxes()->sync($data['taxes']);
         if ($request->supplier_id) {
             $supplier = Supplier::find($request->supplier_id);
             $supplier->purchase()->save($purchase);

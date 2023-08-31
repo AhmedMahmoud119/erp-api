@@ -32,12 +32,13 @@ class Purchase extends Model
     }
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'purchase_products', 'purchase_id', 'product_id')->withPivot('quantity', 'discount')->withTimestamps();
+        return $this->belongsToMany(Product::class, 'purchase_products', 'purchase_id', 'product_id')
+            ->withPivot('quantity', 'discount')->withTimestamps();
     }
-    public function taxes()
-    {
-        return $this->belongsToMany(Tax::class, 'purchase_taxes', 'purchase_id', 'tax_id')->withTimestamps();
-    }
+//    public function taxes()
+//    {
+//        return $this->belongsToMany(Tax::class, 'purchase_taxes', 'purchase_id', 'tax_id')->withTimestamps();
+//    }
     public function stock()
     {
         return $this->belongsTo(Stock::class);

@@ -19,6 +19,7 @@ class Group extends Model
         'group_type_id',
         'code',
         'creator_id',
+        'icon'
     ];
     public function creator()
     {
@@ -33,6 +34,12 @@ class Group extends Model
     {
         return $this->hasMany(Account::class);
     }
+
+    public function children()
+    {
+        return $this->hasMany(Account::class)->with('children');
+    }
+
 
 
 }

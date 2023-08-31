@@ -20,6 +20,7 @@ class StoreAccountRequest extends FormRequest
             'opening_balance' => 'numeric',
             'account_type'    => ['required', Rule::in(['debit', 'credit', 'both'])],
             'parent_id'       => 'nullable|exists:accounts,id',
+            'icon'            => 'nullable',
         ];
 
     }

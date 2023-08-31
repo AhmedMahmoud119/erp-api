@@ -11,17 +11,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class GroupType extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name',
         'code',
         'creator_id',
-
+        'icon'
     ];
     public function creator()
     {
-        return $this->belongsTo(User::class,'creator_id');
+        return $this->belongsTo(User::class, 'creator_id');
     }
 
     public function groups()
@@ -29,5 +29,8 @@ class GroupType extends Model
         return $this->hasMany(Group::class);
     }
 
-
+    public function children()
+    {
+        return $this->hasMany(Group::class)->with('children');
+    }
 }
