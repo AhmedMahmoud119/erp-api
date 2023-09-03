@@ -87,7 +87,6 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
             $journalEntry->update([
                 'title'       => $data['title'],
                 'description' => $data['description'],
-                'entry_no'    => $data['entry_no'],
                 'date'        => $data['date'],
             ]);
             collect($data['details'])->map(function ($q) use ($id) {

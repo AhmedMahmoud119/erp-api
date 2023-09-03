@@ -22,7 +22,6 @@ class TaxController extends Controller
     public function list(FilterTaxRequest $request)
     {
         // abort_if(!auth()->user()->hasPermissionTo(EnumPermissionTax::view_taxes->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
         return  TaxResource::collection($this->taxService->list());
     }
 
