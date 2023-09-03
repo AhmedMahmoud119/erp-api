@@ -67,16 +67,8 @@ class CustomerTest extends TestCase
         $this->seed(DatabaseSeeder::class);
         $creator = User::first();
         $this->actingAs($creator);
-
         CustomerFactory::times(5)->create(['name' => 'customer']);
-        $queryParams = [
-            'creator_id' => $creator->id,
-            'from' => Carbon::now()->subDays(7)->toDateString(),
-            'to' => Carbon::now()->toDateString(),
-            'limit' => 10,
-        ];
-
-        $response = $this->get('/api/customer/', $queryParams);
+        $response = $this->get('/api/customer/');
         $this->assertCount(5, Customer::all());
         $response->assertStatus(200);
         $response->assertJsonStructure([
