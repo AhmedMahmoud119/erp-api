@@ -10,6 +10,7 @@ use App\Domains\Vendor\Models\City;
 use App\Domains\Vendor\Models\Country;
 use App\Domains\Vendor\Models\State;
 use App\Domains\Vendor\Models\Vendor;
+use Carbon\Carbon;
 use Database\Factories\CurrencyFactory;
 use Database\Factories\UserFactory;
 use Database\Factories\VendorFactory;
@@ -91,25 +92,22 @@ class VendorTest extends TestCase
         $response->assertJsonFragment(['name' => 'vendor']);
 
     }
-    // public function test_customer_fillter()
-    // {
-    //     $this->withExceptionHandling();
-    //     $this->seed(DatabaseSeeder::class);
-    //     $creator = User::first()->id;
-    //     CustomerFactory::times(2)->create(['creator_id' => $creator, 'created_at' => Carbon::now()->subDays(3)]);
-    //     CustomerFactory::times(9)->create(['creator_id' => null]);
-    //     $queryParams = [
-    //         'creator_id' => $creator,
-    //         'from' => Carbon::now()->subDays(4)->toDateString(),
-    //         'to' => Carbon::now()->toDateString(),
-    //         'limit' => 10,
-    //     ];
+    public function test_vendor_fillter()
+    {
+        VendorFactory::times(2)->create(['creator_id' => $this->user->id, 'created_at' => Carbon::now()->subDays(3)]);
+        VendorFactory::times(9)->create(['creator_id' => null]);
+        $queryParams = [
+            'creator_id' => $this->user,
+            'from' => Carbon::now()->subDays(4)->toDateString(),
+            'to' => Carbon::now()->toDateString(),
+            'limit' => 10,
+        ];
 
-    //     $response = $this->get('/api/customer/', $queryParams);
-    //     $this->assertCount(11, Customer::all());
-    //     $response->assertStatus(200);
-    //     $response->assertJsonFragment(['creator_id' => $creator]);
-    // }
+        $response = $this->get('/api/vendor/', $queryParams);
+        $this->assertCount(11, Vendor::all());
+        $response->assertStatus(200);
+        $response->assertJsonFragment(['creator_id' => $this->user->id]);
+    }
     public function test_can_delete_vendor(): void
     {
         VendorFactory::times(1)->create(['name' => 'customer']);
