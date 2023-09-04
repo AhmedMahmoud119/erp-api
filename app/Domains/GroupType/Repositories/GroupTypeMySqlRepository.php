@@ -88,7 +88,7 @@ class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
         $groupType = $this->groupType::findOrFail($id);
         if ($groups > 0 || in_array($id, [1, 2, 3, 4, 5])) {
             return false;
-        }elseif ($groupType->isEmpty()){
+        }elseif ($groupType->groups->isEmpty()){
             $groupType->delete();
             return false;
         }
