@@ -97,7 +97,7 @@ class VendorTest extends TestCase
         VendorFactory::times(2)->create(['creator_id' => $this->user->id, 'created_at' => Carbon::now()->subDays(3)]);
         VendorFactory::times(9)->create(['creator_id' => null]);
         $queryParams = [
-            'creator_id' => $this->user,
+            'creator_id' => $this->user->id,
             'from' => Carbon::now()->subDays(4)->toDateString(),
             'to' => Carbon::now()->toDateString(),
             'limit' => 10,
@@ -123,7 +123,6 @@ class VendorTest extends TestCase
         $currency = Currency::first();
         VendorFactory::times(1)->create();
         $vendor = Vendor::first();
-
         $updatedData = [
             'name' => $this->faker->name(),
             'code' => $this->faker->numberBetween(1, 2023),
@@ -141,7 +140,6 @@ class VendorTest extends TestCase
             'billing_address_id' => Address::first()->id,
             'parent_account_id' => Account::first()->id,
         ];
-        ;
         $response = $this->postJson('/api/vendor/update/' . $vendor->id, $updatedData);
         $response->assertStatus(200);
         $response->assertSee('Updated Successfully');
