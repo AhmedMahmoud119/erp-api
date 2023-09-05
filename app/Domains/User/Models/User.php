@@ -79,7 +79,7 @@ class User extends Authenticatable
     }
     public function descendants()
     {
-        return $this->children()->with('descendants'); //hasMany(User::class, 'parent_id', 'id');
+        return $this->children()->with('descendants'); 
     }
 
 

@@ -30,11 +30,21 @@ class UpdateCategoryRequest extends FormRequest
         $validator->after(function ($validator) {
             $parentId = $this->input('parent_id');
             $category = Category::find($this->route('id'));
-            $descendantIds = $category->descendants->pluck('id');
-            if (in_array($parentId, $descendantIds->toArray())) {
-                $validator->errors()->add('parent_id', 'The selected parent category cannot be one of its descendants.');
+            $category->load('descendants');
+            $descendantIDs = $this->gitDescendantIds($category);
+            if (in_array($parentId, $descendantIDs)) {
+                $validator->errors()->add('parent_id', 'The selected parent category cannot be one of its childs.');
             }
         });
+    }
+    protected function gitDescendantIds($category)
+    {
+        $descendantIDs = [];
+        foreach ($category->descendants as $descendant) {
+            $descendantIDs[] = $descendant->id;
+            $descendantIDs = array_merge($descendantIDs, $this->gitDescendantIds($descendant));
+        }
+        return $descendantIDs;
     }
 
     public function messages()
