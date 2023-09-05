@@ -18,6 +18,7 @@ use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Testing\Fluent\AssertableJson;
+use Maatwebsite\Excel\Concerns\ToArray;
 use Tests\TestCase;
 
 class SupplierTest extends TestCase
@@ -59,10 +60,11 @@ class SupplierTest extends TestCase
 
     public function test_can_list_all_suppliers()
     {
-        SupplierFactory::times(5)->create(['name' => 'supplier']);
+        $supplier = SupplierFactory::times(5)->create(['name' => 'supplier']);
         $response = $this->get('/api/supplier/');
         $this->assertCount(5, Supplier::all());
         $response->assertStatus(200);
+
         $response->assertJsonStructure([
             'data' => [
                 '*' => [
@@ -164,11 +166,11 @@ class SupplierTest extends TestCase
         ];
         $updateResponse = $this->postJson('/api/supplier/update/' . $supplier->id, $requestData);
         $updateResponse->assertStatus(422);
-        $updateResponse->assertJsonValidationErrors($DataToValidate, 'errors');
+        $updateResponse->assertJsonValidationErrors($DataToValidate);
 
         $createResponse = $this->postJson('/api/supplier/create/', $requestData);
         $createResponse->assertStatus(422);
-        $createResponse->assertJsonValidationErrors($DataToValidate, 'errors');
+        $createResponse->assertJsonValidationErrors($DataToValidate);
     }
     public function test_supplier_pagination()
     {
