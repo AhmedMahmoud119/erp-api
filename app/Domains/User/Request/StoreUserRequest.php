@@ -23,7 +23,6 @@ class StoreUserRequest extends FormRequest
             'parent_id' => [
                 'nullable',
                 'exists:users,id',
-                'different:id',
             ]
         ];
 

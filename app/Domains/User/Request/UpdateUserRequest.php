@@ -35,11 +35,21 @@ class UpdateUserRequest extends FormRequest
         $validator->after(function ($validator) {
             $parentId = $this->input('parent_id');
             $user = User::find($this->route('id'));
-            $descendantIds = $user->descendants->pluck('id');
-            if (in_array($parentId, $descendantIds->toArray())) {
+            $user->load('descendants');
+            $descendantIDs = $this->gitDescendantIds($user);
+            if (in_array($parentId, $descendantIDs)) {
                 $validator->errors()->add('parent_id', 'The selected parent user cannot be one of its childs.');
             }
         });
+    }
+    protected function gitDescendantIds($user)
+    {
+        $descendantIDs = [];
+        foreach ($user->descendants as $descendant) {
+            $descendantIDs[] = $descendant->id;
+            $descendantIDs = array_merge($descendantIDs, $this->gitDescendantIds($descendant));
+        }
+        return $descendantIDs;
     }
     public function messages()
     {
