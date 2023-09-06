@@ -22,6 +22,8 @@ Route::group(['middleware' => 'auth:sanctum','prefix' => 'bankAccount'],function
     Route::post('/update/{id}', [\App\Domains\BankAccount\Controllers\BankAccountController::class, 'update']);
     Route::get('export/pdf', [\App\Domains\BankAccount\Controllers\BankAccountController::class, 'generatePDF']);
     Route::get('/export/cvs', [\App\Domains\BankAccount\Controllers\BankAccountController::class, 'export']);
+    Route::get('/example/download', [\App\Domains\BankAccount\Controllers\BankAccountController::class, 'exampleDownload']);
+    Route::post('/import/csv', [\App\Domains\BankAccount\Controllers\BankAccountController::class, 'import']);
 
 });
 
