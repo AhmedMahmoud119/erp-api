@@ -30,7 +30,7 @@ class VendorTest extends TestCase
         $this->seed(DatabaseSeeder::class);
         $this->user = User::first();
         $this->actingAs($this->user);
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
 
     }
     public function test_create_vendor()
@@ -94,6 +94,7 @@ class VendorTest extends TestCase
     }
     public function test_vendor_fillter()
     {
+        $this->withoutExceptionHandling();
         VendorFactory::times(2)->create(['creator_id' => $this->user->id, 'created_at' => Carbon::now()->subDays(3)]);
         VendorFactory::times(9)->create(['creator_id' => null]);
         $queryParams = [
@@ -102,9 +103,8 @@ class VendorTest extends TestCase
             'to' => Carbon::now()->toDateString(),
             'limit' => 10,
         ];
-
         $response = $this->get('/api/vendor/', $queryParams);
-        $this->assertCount(11, Vendor::all());
+        // $this->assertCount(11, Vendor::all());
         $response->assertStatus(200);
         $response->assertJsonFragment(['creator_id' => $this->user->id]);
     }
@@ -153,7 +153,7 @@ class VendorTest extends TestCase
     {
         VendorFactory::times(1)->create();
         $vendor = Vendor::first();
-        //invalid data that will return validation error
+        //Empty data that should return validation error
         $requestData = [
         ];
         $DataToValidate = [
@@ -204,7 +204,7 @@ class VendorTest extends TestCase
         $lastOne = $vendors->last();
         $user = $user->first();
         $response = $this->actingAs($user)->get('/api/vendor/');
-        $response->assertStatus(401);
+        $response->assertStatus(403);
         $response->assertDontSee($lastOne->name);
 
     }

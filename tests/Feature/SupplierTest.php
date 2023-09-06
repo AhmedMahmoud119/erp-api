@@ -31,7 +31,7 @@ class SupplierTest extends TestCase
         $this->seed(DatabaseSeeder::class);
         $this->user = User::first();
         $this->actingAs($this->user);
-        $this->withoutExceptionHandling();
+        // $this->withoutExceptionHandling();
     }
     public function test_create_supplier()
     {
@@ -145,7 +145,7 @@ class SupplierTest extends TestCase
 
         $requestData = [
             //invalid contact number
-            'contact' => '25230123',
+            'contact' => '',
             //not valid email
             'email' => 'testexample.com',
             //not valid email
