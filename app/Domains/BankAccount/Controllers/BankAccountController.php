@@ -83,12 +83,17 @@ class BankAccountController extends Controller
 
         return $this->bankAccountService->export();
     }
-    public function exampleDownload()
+
+    public function models()
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::export_bankAccounts->value,'api'),Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        $models = [
+            'bank account' => asset('examples/bank-account.csv')
+        ];
+
         return response()->json([
-            'url' => asset('examples/bank-account.csv'),
+            'models' => $models,
             'status' => true,
         ], 200);
     }
