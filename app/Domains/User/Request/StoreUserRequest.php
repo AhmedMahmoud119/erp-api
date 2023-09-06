@@ -19,8 +19,11 @@ class StoreUserRequest extends FormRequest
             'phone' => 'unique:users|digits:11|starts_with:010,011,012,015|numeric',
             'email' => 'required|regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,3}$/ix|unique:users',
             'role_id' => 'required|exists:roles,id',
-            'parent_id' => 'nullable|exists:users,id',
-            'status' => ['required', Rule::in(['Disabled', 'Active' , 'Suspended'])],
+            'status' => ['required', Rule::in(['Disabled', 'Active', 'Suspended'])],
+            'parent_id' => [
+                'nullable',
+                'exists:users,id',
+            ]
         ];
 
     }
