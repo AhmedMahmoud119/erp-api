@@ -110,7 +110,7 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
 
     public function generatePDF()
     {
-        $bankaccounts = BankAccount::with('creator')->get();
+        $bankaccounts = $this->list();
 
 
         $data = [
@@ -120,12 +120,12 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
         ];
         $pdf = PDF::loadView('myPDF', $data);
 
-        $path = public_path('storage/exports/bankAccounts/');
+        $path = public_path('storage/');
         $fileName = time() . '-bankAccountsDetailes.pdf';
-        $pdf->save($path . '/' . $fileName);
+        $pdf->save($path . $fileName);
 
         return response()->json([
-            'file_path' => asset('storage/exports/bankAccounts/' . $fileName),
+            'file_path' => asset('storage/' . $fileName),
         ]);
     }
 }
