@@ -90,7 +90,7 @@ class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
             return false;
         }elseif ($groupType->groups->isEmpty()){
             $groupType->delete();
-            return false;
+            return true;
         }
 
 

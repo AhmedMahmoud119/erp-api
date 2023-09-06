@@ -89,6 +89,7 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
                 'description' => $data['description'],
                 'date'        => $data['date'],
             ]);
+            $journalEntry->details()->delete();
             collect($data['details'])->map(function ($q) use ($id) {
                 $this->journalEntryDetail::updateOrCreate([
                     'account_id'       => $q['account_id'],
