@@ -57,7 +57,7 @@ class FinancialPeriodMySqlRepository implements FinancialPeriodRepositoryInterfa
 
     public function delete(string $id): bool
     {
-        $this->financialPeriod::findOrFail($id)?->delete();
+        $this->financialPeriod::findOrFail($id)->delete();
         return true;
     }
 }
