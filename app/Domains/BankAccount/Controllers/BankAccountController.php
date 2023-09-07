@@ -135,6 +135,7 @@ function list(FilterBankAccountRequest $request)
         return response()->json([
             'data' => $models,
             'status' => true,
+            'module' => $id == 1?'Accounting':'',
         ], 200);
     }
 

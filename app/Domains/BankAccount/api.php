@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => 'auth:sanctum','prefix' => 'data-center'],function (){
 
     Route::get('/modules', [\App\Domains\BankAccount\Controllers\BankAccountController::class, 'modules']);
-    Route::get('/models/{id}', [\App\Domains\BankAccount\Controllers\BankAccountController::class, 'models']);
+    Route::get('/modules/{id}', [\App\Domains\BankAccount\Controllers\BankAccountController::class, 'models']);
 
 });
 
