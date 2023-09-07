@@ -26,9 +26,11 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
     public function findById(string $id): JournalEntry
     {
         $entry = $this->journalEntry::findOrFail($id);
-        $entry->load(['details' => function ($q) {
-            $q->with(['account']);
-        }]);
+        $entry->load([
+            'details' => function ($q) {
+                $q->with(['account']);
+            }
+        ]);
 
         return $entry;
     }
@@ -61,13 +63,13 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
             $entry = $this->journalEntry::create($data + [
                 'creator_id' => auth()->user()->id,
             ]);
-            $details = collect($data['details'])->map(fn ($detail) => [
-                'account_id'       => $detail['account_id'],
-                'debit'            => $detail['debit'],
-                'credit'           => $detail['credit'],
+            $details = collect($data['details'])->map(fn($detail) => [
+                'account_id' => $detail['account_id'],
+                'debit' => $detail['debit'],
+                'credit' => $detail['credit'],
                 'journal_entry_id' => $entry->id,
-                'description'      => $detail['description'] ?? '',
-                'created_at'       => now(),
+                'description' => $detail['description'] ?? '',
+                'created_at' => now(),
             ])->toArray();
             $this->journalEntryDetail::insert($details);
             DB::commit();
@@ -83,19 +85,19 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
         try {
             DB::beginTransaction();
             $journalEntry = $this->journalEntry::findOrFail($id);
-            $data = $request->only('title', 'description',  'date', 'details');
+            $data = $request->only('title', 'description', 'date', 'details');
             $journalEntry->update([
-                'title'       => $data['title'],
+                'title' => $data['title'],
                 'description' => $data['description'],
-                'date'        => $data['date'],
+                'date' => $data['date'],
             ]);
             collect($data['details'])->map(function ($q) use ($id) {
                 $this->journalEntryDetail::updateOrCreate([
-                    'account_id'       => $q['account_id'],
+                    'account_id' => $q['account_id'],
                 ], [
-                    'debit'            => $q['debit'],
-                    'credit'           => $q['credit'],
-                    'description'      => $q['description'] ?? '',
+                    'debit' => $q['debit'],
+                    'credit' => $q['credit'],
+                    'description' => $q['description'] ?? '',
                     'journal_entry_id' => $id,
                 ]);
             })->toArray();
@@ -159,42 +161,42 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
             'code',
             1
         )->with('groups.accounts.journalEntryDetail.journalEntry')->whereHas(
-            'groups.accounts.journalEntryDetail.journalEntry',
-            function ($q) {
-                $q->when(request()->from, function ($q) {
-                    $q->whereDate('date', '>=', request()->from);
-                })->when(request()->to, function ($q) {
-                    $q->whereDate('date', '<=', request()->to);
-                });
-            }
-        )->first();
+                'groups.accounts.journalEntryDetail.journalEntry',
+                function ($q) {
+                    $q->when(request()->from, function ($q) {
+                        $q->whereDate('date', '>=', request()->from);
+                    })->when(request()->to, function ($q) {
+                        $q->whereDate('date', '<=', request()->to);
+                    });
+                }
+            )->first();
         $liabilities = GroupType::where(
             'code',
             2
         )->with('groups.accounts.journalEntryDetail.journalEntry')->whereHas(
-            'groups.accounts.journalEntryDetail.journalEntry',
-            function ($q) {
-                $q->when(request()->from, function ($q) {
-                    $q->whereDate('date', '>=', request()->from);
-                })->when(request()->to, function ($q) {
-                    $q->whereDate('date', '<=', request()->to);
-                });
-            }
-        )->first();
+                'groups.accounts.journalEntryDetail.journalEntry',
+                function ($q) {
+                    $q->when(request()->from, function ($q) {
+                        $q->whereDate('date', '>=', request()->from);
+                    })->when(request()->to, function ($q) {
+                        $q->whereDate('date', '<=', request()->to);
+                    });
+                }
+            )->first();
 
         $equity = GroupType::where(
             'code',
             3
         )->with('groups.accounts.journalEntryDetail.journalEntry')->whereHas(
-            'groups.accounts.journalEntryDetail.journalEntry',
-            function ($q) {
-                $q->when(request()->from, function ($q) {
-                    $q->whereDate('date', '>=', request()->from);
-                })->when(request()->to, function ($q) {
-                    $q->whereDate('date', '<=', request()->to);
-                });
-            }
-        )->first();
+                'groups.accounts.journalEntryDetail.journalEntry',
+                function ($q) {
+                    $q->when(request()->from, function ($q) {
+                        $q->whereDate('date', '>=', request()->from);
+                    })->when(request()->to, function ($q) {
+                        $q->whereDate('date', '<=', request()->to);
+                    });
+                }
+            )->first();
 
         return collect(['assets' => $assets, 'liabilities' => $liabilities, 'equity' => $equity]);
     }
@@ -205,15 +207,15 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
             4,
             5,
         ])->with('groups.accounts.journalEntryDetail.journalEntry')->whereHas(
-            'groups.accounts.journalEntryDetail.journalEntry',
-            function ($q) {
-                $q->when(request()->from, function ($q) {
-                    $q->whereDate('date', '>=', request()->from);
-                })->when(request()->to, function ($q) {
-                    $q->whereDate('date', '<=', request()->to);
-                });
-            }
-        )->get();
+                'groups.accounts.journalEntryDetail.journalEntry',
+                function ($q) {
+                    $q->when(request()->from, function ($q) {
+                        $q->whereDate('date', '>=', request()->from);
+                    })->when(request()->to, function ($q) {
+                        $q->whereDate('date', '<=', request()->to);
+                    });
+                }
+            )->get();
 
         return $groups;
     }

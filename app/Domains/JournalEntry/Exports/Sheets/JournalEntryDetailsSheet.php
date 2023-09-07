@@ -19,15 +19,13 @@ class JournalEntryDetailsSheet implements FromCollection, WithHeadings, WithMapp
       'debit',
       'credit',
       'journal_entry_id',
-      'tax_id',
-      'tax percentage',
       'description',
     ];
   }
 
   public function collection()
   {
-    return JournalEntryDetail::with('account', 'tax')->get();
+    return JournalEntryDetail::with('account')->get();
   }
   public function map($journalEntryDetail): array
   {
@@ -38,8 +36,6 @@ class JournalEntryDetailsSheet implements FromCollection, WithHeadings, WithMapp
       $journalEntryDetail->debit,
       $journalEntryDetail->credit,
       $journalEntryDetail->journal_entry_id,
-      $journalEntryDetail->tax_id,
-      $journalEntryDetail->tax->percentage ?? null,
       $journalEntryDetail->description,
     ];
   }
