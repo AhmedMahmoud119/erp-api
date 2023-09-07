@@ -6,6 +6,7 @@ use App\Domains\Customer\Models\EnumPermissionCustomer;
 use App\Domains\Customer\Request\StoreCustomerRequest;
 use App\Domains\Customer\Request\UpdateCustomerRequest;
 use App\Domains\Customer\Resources\CustomerResource;
+use App\Domains\Customer\Resources\CustomerSalesReportResource;
 use App\Domains\Customer\Services\CustomerService;
 use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -63,5 +64,29 @@ class CustomerController extends Controller
             'message' => __('Updated Successfully'),
             'status' => true,
         ], 200);
+    }
+
+    public function salesReport(Request $request)
+    {
+//    abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCustomer::edit_customer->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return CustomerSalesReportResource::collection($this->customerService->salesReport($request));
+
+    }
+
+    public function salesReportExportCSV(Request $request)
+    {
+//    abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCustomer::edit_customer->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return $this->customerService->salesReportExportCSV($request);
+
+    }
+
+    public function salesReportExportPDF(Request $request)
+    {
+//    abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCustomer::edit_customer->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return $this->customerService->salesReportExportPDF($request);
+
     }
 }

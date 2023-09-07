@@ -17,11 +17,12 @@ class UpdateBankAccountRequest extends FormRequest
     {
         return [
             'name' => 'required|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
-            'account_number' => ['required',Rule::unique('bank_accounts')->ignore(request()->id)],
+            'account_number' => ['required',Rule::unique('bank_accounts',
+                'account_number')->ignore(request()->id)],
             'holder_name' => 'nullable|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
 //            'account_type' => 'required',
 //            'chart_of_account' => 'required',
-            'currency_id' => 'nullable|exists:currencies,id',
+            'currency_id' => 'required|exists:currencies,id',
             'authorized_by.*' => 'nullable|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
             'status'=>Rule::in('Active','In-Active'),
             'current_balance'=>'gt:0',

@@ -10,7 +10,8 @@ class StockService
     public function __construct(private StockRepositoryInterface $stockRepository)
     {
     }
-    public function findById($id){
+    public function findById($id)
+    {
         return $this->stockRepository->findById($id);
     }
 
@@ -29,8 +30,16 @@ class StockService
         return $this->stockRepository->store($request);
     }
 
-    public function update($id,$request)
+    public function update($id, $request)
     {
-        return $this->stockRepository->update($id,$request);
+        return $this->stockRepository->update($id, $request);
+    }
+    public function exportInventoryReport()
+    {
+        return $this->stockRepository->exportInventoryReport();
+    }
+    public function inventoryReport()
+    {
+        return $this->stockRepository->inventoryReport();
     }
 }

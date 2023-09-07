@@ -16,11 +16,11 @@ class StoreBankAccountRequest extends FormRequest
     {
         return [
             'name' => 'required|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
-            'account_number' =>'required|unique:bank_accounts|numeric',
+            'account_number' =>'required|unique:bank_accounts,account_number|numeric',
             'holder_name' => 'nullable|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
 //            'account_type' => 'required',
 //            'chart_of_account' => 'required',
-            'currency_id' => 'exists:currencies,id|nullable',
+            'currency_id' => 'required|exists:currencies,id',
             'opening_balance' => 'required|numeric|gt:0',
             'authorized_by.*' => 'nullable|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
 

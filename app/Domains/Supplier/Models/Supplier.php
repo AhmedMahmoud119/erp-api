@@ -4,9 +4,11 @@ namespace App\Domains\Supplier\Models;
 
 use App\Domains\Account\Models\Account;
 use App\Domains\Currency\Models\Currency;
+use App\Domains\Purchase\Models\Purchase;
 use App\Domains\Vendor\Models\Address;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
@@ -33,5 +35,10 @@ class Supplier extends Model
     public function currency()
     {
         return $this->belongsTo(Currency::class);
+    }
+
+    public function purchase(): MorphOne
+    {
+        return $this->morphOne(Purchase::class, 'purchasable');
     }
 }

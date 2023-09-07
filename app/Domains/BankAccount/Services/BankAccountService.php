@@ -4,9 +4,8 @@ namespace App\Domains\BankAccount\Services;
 
 
 use App\Domains\BankAccount\Exports\BankAccountsExport;
+use App\Domains\BankAccount\Imports\BankAccountsImport;
 use App\Domains\BankAccount\Interfaces\BankAccountRepositoryInterface;
-use App\Mail\SendPassword;
-use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 
 class BankAccountService
@@ -53,5 +52,10 @@ class BankAccountService
         return response()->json([
             'file_path' => asset('storage/'.$path)
         ]);
+    }
+
+    public function import()
+    {
+        Excel::import(new BankAccountsImport, request()->file);
     }
 }

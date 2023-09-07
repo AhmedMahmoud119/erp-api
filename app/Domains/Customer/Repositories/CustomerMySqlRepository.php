@@ -130,4 +130,11 @@ class CustomerMySqlRepository implements CustomerRepositoryInterface
 
         return true;
     }
+
+    public function salesReport()
+    {
+        $customers = $this->customer::withSum('purchase','total')->get();
+
+        return $customers;
+    }
 }

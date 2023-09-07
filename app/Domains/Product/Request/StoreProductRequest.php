@@ -21,7 +21,7 @@ class StoreProductRequest extends FormRequest
             'description' => 'max:500',
             'quantity' => 'required|numeric',
             'opening_stock' => 'required|numeric|min:1',
-            'selling_price' => 'required|decimal:2',
+            'selling_price' => 'required|numeric',
             'purchase_price' => 'required|decimal:2',
 
             'category_id' => 'required|exists:categories,id',

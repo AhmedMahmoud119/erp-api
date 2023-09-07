@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Domains\Vendor\Models\State;
 use DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -43,6 +44,6 @@ class StatesTableSeeder extends Seeder
             $statesData[] = ['name' => $state, 'country_id' => 1];
         }
 
-        DB::table('states')->insert($statesData);
+        State::insert($statesData);
     }
 }
