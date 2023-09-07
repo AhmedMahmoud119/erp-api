@@ -78,5 +78,24 @@ class StockController extends Controller
 
         return InventoryReportResource::collection($this->stockService->inventoryReport());
     }
+    public function generatePDF()
+    {
+
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::generatePDF_bankAccounts->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return $this->bankAccountService->generatePDF();
+    }
+    public function formatRouting($extention){
+        switch ($extention) {
+            case '':
+                # code...
+                break;
+
+            default:
+                # code...
+                break;
+        }
+
+    }
 
 }

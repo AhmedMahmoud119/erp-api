@@ -76,6 +76,10 @@ class StockMySqlRepository implements StockRepositoryInterface
             $q->whereDate('created_at', '>=', request()->from);
         })->when(request()->to, function ($q) {
             $q->whereDate('created_at', '<=', request()->to);
+        })->when(request()->warehouse_name, function ($q) {
+            $q->whereHas('warehouse', function ($warehouseQuery) {
+                $warehouseQuery->where('name', 'like', '%' . request()->warehouse_name . '%');
+            });
         })->when(request()->sort_by, function ($q) {
             if (in_array(request()->sort_by, ['quantity', 'created_at', 'creator_id'])) {
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
