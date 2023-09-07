@@ -23,6 +23,6 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'stock'], function () 
     Route::get('/report/inventory', [StockController::class, 'inventoryReport']);
 });
 Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'report'], function () {
-    Route::get('/export', [StockController::class, 'exportInventoryReport']);
+    Route::get('/export/{extension}', [StockController::class, 'exportFile']);
     Route::get('/inventory', [StockController::class, 'inventoryReport']);
 });

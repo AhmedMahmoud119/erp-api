@@ -7,6 +7,7 @@ use App\Domains\Stock\Exports\InventorysExport;
 use App\Domains\Stock\Interfaces\StockRepositoryInterface;
 use App\Domains\Stock\Models\Stock;
 use Illuminate\Support\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class StockMySqlRepository implements StockRepositoryInterface
 {
@@ -97,6 +98,25 @@ class StockMySqlRepository implements StockRepositoryInterface
         ]);
 
         return true;
+    }
+    public function generatePDF()
+    {
+        $report = $this->inventoryReport();
+        $data = [
+            'title' => 'Inventory Report',
+            'date' => date('m/d/Y'),
+            'inventoryReport' => $report,
+        ];
+        $pdf = PDF::loadView('InventoryReportPDF', $data);
+
+        $path = public_path('storage/');
+        $fileName = time() . '-inventory-report.pdf';
+        $pdf->save($path . $fileName);
+
+        return response()->json([
+            'file_path' => asset('storage/' . $fileName),
+        ]);
+        // return true;
     }
 
     public function delete(string $id): bool
