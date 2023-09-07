@@ -3,8 +3,10 @@
 namespace App\Domains\Stock\Repositories;
 
 use App\Domains\Product\Models\Product;
+use App\Domains\Stock\Exports\InventorysExport;
 use App\Domains\Stock\Interfaces\StockRepositoryInterface;
 use App\Domains\Stock\Models\Stock;
+use Illuminate\Support\Carbon;
 
 class StockMySqlRepository implements StockRepositoryInterface
 {
@@ -55,6 +57,41 @@ class StockMySqlRepository implements StockRepositoryInterface
         $stock->update($request->validated() + [
             'creator_id' => auth()->user()->id,
         ]);
+        return true;
+    }
+
+    public function inventoryReport()
+    {
+        $query = $this->stock::when(request()->creator_id, function ($q) {
+            return $q->where('creator_id', request()->creator_id);
+        })->when(request()->selling_price_to, function ($q) {
+            $q->whereRaw('(quantity * selling_price) <= ?', [request()->selling_price_to]);
+        })->when(request()->selling_price_from, function ($q) {
+            $q->whereRaw('(quantity * selling_price) >= ?', [request()->selling_price_from]);
+        })->when(request()->purchasing_price_to, function ($q) {
+            $q->whereRaw('(quantity * purchasing_price) <= ?', [request()->purchasing_price_to]);
+        })->when(request()->purchasing_price_from, function ($q) {
+            $q->whereRaw('(quantity * purchasing_price) >= ?', [request()->purchasing_price_from]);
+        })->when(request()->from, function ($q) {
+            $q->whereDate('created_at', '>=', request()->from);
+        })->when(request()->to, function ($q) {
+            $q->whereDate('created_at', '<=', request()->to);
+        })->when(request()->sort_by, function ($q) {
+            if (in_array(request()->sort_by, ['quantity', 'created_at', 'creator_id'])) {
+                $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
+            }
+        })->with('warehouse')->paginate(request('limit', config('app.pagination_count')));
+        return $query;
+    }
+
+    public function exportInventoryReport()
+    {
+        $fileName = 'inventory_report_' . Carbon::now()->format('YmdHis') . '.xlsx';
+
+        (new InventorysExport())->queue($fileName)->chain([
+            logger('Inventory Report Exported'),
+        ]);
+
         return true;
     }
 
