@@ -63,15 +63,7 @@ class StockController extends Controller
             'status' => true,
         ], 200);
     }
-    // public function exportInventoryReport()
-    // {
-    //     abort_if(!auth()->user()->hasPermissionTo(EnumPermissionStock::export_inventory_report->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-    //     $this->stockService->exportInventoryReport();
-    //     return response()->json([
-    //         'message' => __('We are processing your request, you will receive an email once completed.'),
-    //         'status' => true,
-    //     ], Response::HTTP_OK);
-    // }
+
     public function inventoryReport()
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionStock::view_reports->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -80,7 +72,7 @@ class StockController extends Controller
     }
     public function exportFile($extension)
     {
-        // abort_if(!auth()->user()->hasPermissionTo(EnumPermissionStock::export_report_file->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionStock::export_report_file->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $this->stockService->exportFile($extension);
         return response()->json([
             'message' => __('We are processing your request, you will receive an email once completed.'),
