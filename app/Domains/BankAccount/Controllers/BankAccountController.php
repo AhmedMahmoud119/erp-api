@@ -123,6 +123,7 @@ function list(FilterBankAccountRequest $request)
     if ($id == 1) {
         $models = [
             [
+                'id' => 1,
                 'name' => 'bank account',
                 'url' => asset('examples/bank-account.csv'),
             ],
@@ -139,17 +140,29 @@ function list(FilterBankAccountRequest $request)
         ], 200);
     }
 
-    public function import()
+    public function import($id)
 {
     abort_if(! auth()->user()->hasPermissionTo(EnumPermissionBankAccount::export_bankAccounts->value,
         'api'),Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $this->bankAccountService->import();
+        $import = false;
+
+        if ($id == 1) {
+            $import = $this->bankAccountService->import();
+        }
+
+        if ($import) {
+            return response()->json([
+                'message' => __('Uploaded Successfully'),
+                'status'  => true,
+            ], 200);
+        }
 
         return response()->json([
-            'message' => __('Uploaded Successfully'),
-            'status'  => true,
-        ], 200);
+            'message' => __('This file cant upload'),
+            'status'  => false,
+        ], 400);
+
     }
 
 }
