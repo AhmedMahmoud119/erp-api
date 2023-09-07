@@ -17,96 +17,137 @@ use Illuminate\Http\Request;
 
 class BankAccountController extends Controller
 {
+
     public function __construct(private BankAccountService $bankAccountService)
     {
     }
 
-    public function list(FilterBankAccountRequest $request)
+public
+function list(FilterBankAccountRequest $request)
     {
 
-        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::view_bankAccounts->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(! auth()->user()->hasPermissionTo(EnumPermissionBankAccount::view_bankAccounts->value,
+            'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return  BankAccountResource::collection($this->bankAccountService->list());
+        return BankAccountResource::collection($this->bankAccountService->list());
     }
 
     public function delete($id)
-    {
-        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::delete_bankAccount->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+{
+    abort_if(! auth()->user()->hasPermissionTo(EnumPermissionBankAccount::delete_bankAccount->value,
+        'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->bankAccountService->delete($id);
         return response()->json([
             'message' => __('Deleted Successfully'),
-            'status' => true,
+            'status'  => true,
         ], 200);
     }
 
     public function findById($id)
-    {
-        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::view_bankAccounts->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+{
+    abort_if(! auth()->user()->hasPermissionTo(EnumPermissionBankAccount::view_bankAccounts->value,
+        'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new BankAccountResource($this->bankAccountService->findById($id));
     }
 
     public function create(StoreBankAccountRequest $request)
-    {
+{
 
-        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::create_bankAccount->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+    abort_if(! auth()->user()->hasPermissionTo(EnumPermissionBankAccount::create_bankAccount->value,
+        'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->bankAccountService->create($request);
         return response()->json([
             'message' => __('Created Successfully'),
-            'status' => true,
+            'status'  => true,
         ], 200);
     }
 
     public function update($id, UpdateBankAccountRequest $request)
-    {
+{
 
-        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::edit_bankAccount->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+    abort_if(! auth()->user()->hasPermissionTo(EnumPermissionBankAccount::edit_bankAccount->value,
+        'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->bankAccountService->update($id, $request);
         return response()->json([
             'message' => __('Updated Successfully'),
-            'status' => true,
+            'status'  => true,
         ], 200);
     }
     public function generatePDF()
-    {
+{
 
-        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::generatePDF_bankAccounts->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+    abort_if(! auth()->user()->hasPermissionTo(EnumPermissionBankAccount::generatePDF_bankAccounts->value,
+        'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return $this->bankAccountService->generatePDF();
     }
     public function export()
-    {
-        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::export_bankAccounts->value,'api'),Response::HTTP_FORBIDDEN, '403 Forbidden');
+{
+    abort_if(! auth()->user()->hasPermissionTo(EnumPermissionBankAccount::export_bankAccounts->value,
+        'api'),Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return $this->bankAccountService->export();
     }
 
-    public function models()
-    {
-        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::export_bankAccounts->value,'api'),Response::HTTP_FORBIDDEN, '403 Forbidden');
+    public function modules()
+{
+    abort_if(! auth()->user()->hasPermissionTo(EnumPermissionBankAccount::export_bankAccounts->value,
+        'api'),Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $models = [
-            'bank account' => asset('examples/bank-account.csv')
+        $modules = [
+            [
+                'id' => 1,
+                'name' => 'Accounting',
+            ] ,
+            [
+                'id' => 2,
+                'name' => 'Setup',
+            ]
         ];
 
         return response()->json([
-            'models' => $models,
+            'modules' => $modules,
+            'status'  => true,
+        ], 200);
+    }
+
+    public function models($id)
+{
+    abort_if(! auth()->user()->hasPermissionTo(EnumPermissionBankAccount::export_bankAccounts->value,
+        'api'),Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+    if ($id == 1) {
+        $models = [
+            [
+                'name' => 'bank account',
+                'url' => asset('examples/bank-account.csv'),
+            ],
+        ];
+    } else {
+        $models = [];
+    }
+
+
+        return response()->json([
+            'data' => $models,
             'status' => true,
         ], 200);
     }
 
     public function import()
-    {
-        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionBankAccount::export_bankAccounts->value,'api'),Response::HTTP_FORBIDDEN, '403 Forbidden');
+{
+    abort_if(! auth()->user()->hasPermissionTo(EnumPermissionBankAccount::export_bankAccounts->value,
+        'api'),Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->bankAccountService->import();
 
         return response()->json([
             'message' => __('Uploaded Successfully'),
-            'status' => true,
+            'status'  => true,
         ], 200);
     }
 
