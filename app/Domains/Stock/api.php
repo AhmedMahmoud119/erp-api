@@ -19,6 +19,10 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'stock'], function () 
     Route::delete('/{id}', [StockController::class, 'delete']);
     Route::post('/create', [StockController::class, 'create']);
     Route::post('/update/{id}', [StockController::class, 'update']);
-    Route::get('/export', [StockController::class, 'exportInventoryReport']);
+    Route::get('/report/export', [StockController::class, 'exportInventoryReport']);
     Route::get('/report/inventory', [StockController::class, 'inventoryReport']);
+});
+Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'report'], function () {
+    Route::get('/export', [StockController::class, 'exportInventoryReport']);
+    Route::get('/inventory', [StockController::class, 'inventoryReport']);
 });

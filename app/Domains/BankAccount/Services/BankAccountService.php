@@ -57,5 +57,7 @@ class BankAccountService
     public function import()
     {
         Excel::import(new BankAccountsImport, request()->file);
+
+        return 1;
     }
 }
