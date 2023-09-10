@@ -15,22 +15,34 @@ class SupplierMySqlRepository implements SupplierRepositoryInterface
     }
     public function list()
     {
-        return Supplier::when(request()->search, function ($q) {
+        $result = $this->supplier::when(request()->search, function ($q) {
             $searchTerm = '%' . request()->search . '%';
             $q->where(function ($query) use ($searchTerm) {
                 $query->where('name', 'like', $searchTerm);
+                $query->where('code', 'like', $searchTerm);
             });
-        })
-            ->when(request()->creator_id, function ($q) {
-                return $q->where('creator_id', request()->creator_id);
-            })
-            ->when(request()->sort_by, function ($q) {
-                if (in_array(request()->sort_by, ['name', 'created_at', 'code'])) {
-                    $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
-                }
-            })
-            ->with(['address', 'account', 'currency'])
-            ->orderBy('name')->paginate(request('limit', config('app.pagination_count')));
+        })->when(request()->transaction_from, function ($q) {
+            $q->whereHas('purchase', function ($query) {
+                $query->whereDate('date', '>=', request()->transaction_from);
+            });
+        })->when(request()->transaction_to, function ($q) {
+            $q->whereHas('purchase', function ($query) {
+                $query->whereDate('date', '<=', request()->transaction_to);
+            });
+        })->when(request()->from, function ($q) {
+            $q->whereDate('created_at', '>=', request()->from);
+        })->when(request()->to, function ($q) {
+            $q->whereDate('created_at', '<=', request()->to);
+        })->when(request()->creator_id, function ($q) {
+            return $q->where('creator_id', request()->creator_id);
+        })->when(request()->sort_by, function ($q) {
+            if (in_array(request()->sort_by, ['name', 'created_at', 'code', 'contact', 'email'])) {
+                $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
+            }
+        })->with(['address', 'account', 'currency', 'purchase'])->orderBy('name')
+            ->paginate(request('limit', config('app.pagination_count')));
+        $result->balance = $result->pluck('purchase')->flatten()->sum('total');
+        return $result;
     }
 
     public function store($request): bool
