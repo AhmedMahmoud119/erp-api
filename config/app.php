@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'pagination_count' => 10,
+    'pagination_count' => 100,
 
     'name' => env('APP_NAME', 'Laravel'),
 
