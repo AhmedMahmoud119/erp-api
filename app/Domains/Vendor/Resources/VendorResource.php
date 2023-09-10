@@ -23,7 +23,7 @@ class VendorResource extends JsonResource
             'account_code' => $this->account->code ?? null,
             'parent_account_id' => $this->parent_account_id,
             'creator' => $this->creator->name,
-            'balance' => $this->balance->balance ?? "",
+            'balance' => $this->purchase_sum_total ?? 0,
             'address' => new AddressResource($this->address),
             'billing_address' => new AddressResource($this->billingAddress),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),

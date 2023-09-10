@@ -20,7 +20,7 @@ class SupplierResource extends JsonResource
             'currency_id' => $this->currency_id,
             'account_code' => $this->account->code ?? null,
             'parent_account_id' => $this->parent_account_id,
-            'balance' => $this->balance->balance??"",
+            'balance' => $this->purchase_sum_total,
             'address' => new AddressResource($this->address),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),

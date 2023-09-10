@@ -39,9 +39,8 @@ class SupplierMySqlRepository implements SupplierRepositoryInterface
             if (in_array(request()->sort_by, ['name', 'created_at', 'code', 'contact', 'email'])) {
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
             }
-        })->with(['address', 'account', 'currency', 'purchase'])->orderBy('name')
+        })->with(['address', 'account', 'currency'])->withSum('purchase', 'total')->orderBy('name')
             ->paginate(request('limit', config('app.pagination_count')));
-        $result->balance = $result->pluck('purchase')->flatten()->sum('total');
         return $result;
     }
 
