@@ -3,6 +3,7 @@
 namespace App\Domains\BankAccount\Exports;
 
 use App\Domains\BankAccount\Models\BankAccount;
+use App\Domains\BankAccount\Repositories\BankAccountMySqlRepository;
 use App\Domains\BankAccount\Resources\BankAccountResource;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -14,7 +15,7 @@ class BankAccountsExport implements FromCollection, WithMapping, WithHeadings, W
 
     public function collection()
     {
-        return BankAccount::get();
+        return app(BankAccountMySqlRepository::class)->list();
     }
 
     public function map($data): array

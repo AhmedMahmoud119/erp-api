@@ -3,7 +3,11 @@
 namespace App\Domains\Customer\Services;
 
 
+use App\Domains\BankAccount\Exports\BankAccountsExport;
+use App\Domains\Customer\Exports\SalesReportExport;
 use App\Domains\Customer\Interfaces\CustomerRepositoryInterface;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CustomerService
 {
@@ -33,5 +37,42 @@ class CustomerService
     public function update($id,$request)
     {
         return $this->customerRepository->update($id,$request);
+    }
+
+    public function salesReport($request)
+    {
+        return $this->customerRepository->salesReport();
+    }
+
+    public function salesReportExportCSV($request)
+    {
+        $filename = time() . '-salesReport.csv';
+        $path = 'exports/salesReport/' . $filename;
+        Excel::store(new SalesReportExport(), $path, 'public');
+
+        return response()->json([
+            'file_path' => asset('storage/'.$path)
+        ]);
+    }
+
+    public function salesReportExportPDF($request)
+    {
+        $salesReport = $this->salesReport($request);
+
+
+        $data = [
+            'title'        => 'Sales Report',
+            'date'         => date('m/d/Y'),
+            'salesReport' => $salesReport,
+        ];
+        $pdf = PDF::loadView('SalesReportPDF', $data);
+
+        $path = public_path('storage/');
+        $fileName = time() . '-salesReport.pdf';
+        $pdf->save($path . $fileName);
+
+        return response()->json([
+            'file_path' => asset('storage/' . $fileName),
+        ]);
     }
 }

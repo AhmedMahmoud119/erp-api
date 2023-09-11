@@ -1,0 +1,4 @@
+Bank Name	Account Number	Holder Name	Authorized by	Account Type	Account Currency	Chart of Account	Opening Balance
+test bank	1234	test holder	auth	acc	USD	test	100
+test bank	12345	test holder	auth	acc	USD	test	100
+test bank	123456	test holder	auth	acc	USD	test	100

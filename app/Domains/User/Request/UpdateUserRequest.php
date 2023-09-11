@@ -2,6 +2,7 @@
 
 namespace App\Domains\User\Request;
 
+use App\Domains\User\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use \Illuminate\Validation\Rule;
@@ -17,13 +18,38 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => 'required|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
-            'phone' => ['digits:11','starts_with:010,011,012,015','numeric',Rule::unique('users')->ignore(request()->id)],
+            'phone' => ['digits:11', 'starts_with:010,011,012,015', 'numeric', Rule::unique('users')->ignore(request()->id)],
             'email' => ['required', 'regex:/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,3}$/ix', Rule::unique('users')->ignore(request()->id)],
-            'status' => ['required', Rule::in(['Disabled', 'Active' , 'Suspended'])],
-            'parent_id' => ['nullable','exists:users,id',Rule::notIn([$this->route('id')])],
+            'status' => ['required', Rule::in(['Disabled', 'Active', 'Suspended'])],
+            'parent_id' => [
+                'nullable',
+                'exists:users,id',
+                Rule::notIn([$this->route('id')])
+            ],
             'role_id' => 'required|exists:roles,id',
 
         ];
+    }
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            $parentId = $this->input('parent_id');
+            $user = User::find($this->route('id'));
+            $user->load('descendants');
+            $descendantIDs = $this->gitDescendantIds($user);
+            if (in_array($parentId, $descendantIDs)) {
+                $validator->errors()->add('parent_id', 'The selected parent user cannot be one of its childs.');
+            }
+        });
+    }
+    protected function gitDescendantIds($user)
+    {
+        $descendantIDs = [];
+        foreach ($user->descendants as $descendant) {
+            $descendantIDs[] = $descendant->id;
+            $descendantIDs = array_merge($descendantIDs, $this->gitDescendantIds($descendant));
+        }
+        return $descendantIDs;
     }
     public function messages()
     {
@@ -43,6 +69,7 @@ class UpdateUserRequest extends FormRequest
             'parent_id.exists' => __('The parent_id not exist'),
             'parent_id.notIn' => __('The parent_id is invalid'),
             'status.required' => __('The status field is required'),
+            'parent_id.not_in' => __('The User should not belongs to itself'),
 
         ];
 

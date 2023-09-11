@@ -27,7 +27,13 @@ class StoreAccountRequest extends FormRequest
     public function messages()
     {
         return [
-
+            'name.required'            => 'Account name is required',
+            'group_id.required'        => 'Account group is required',
+            'group_id.exists'          => 'Account group is invalid',
+            'opening_balance.numeric'  => 'Opening balance must be a number',
+            'account_type.required'    => 'Account type is required',
+            'account_type.in'          => 'Account type is invalid',
+            'parent_id.exists'         => 'Parent account is invalid',
         ];
 
     }

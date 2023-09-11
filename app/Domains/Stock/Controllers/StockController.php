@@ -5,6 +5,7 @@ namespace App\Domains\Stock\Controllers;
 use App\Domains\Stock\Models\EnumPermissionStock;
 use App\Domains\Stock\Request\StoreStockRequest;
 use App\Domains\Stock\Request\UpdateStockRequest;
+use App\Domains\Stock\Resources\InventoryReportResource;
 use App\Domains\Stock\Resources\StockResource;
 use App\Domains\Stock\Services\StockService;
 use App\Http\Controllers\Controller;
@@ -61,6 +62,24 @@ class StockController extends Controller
             'message' => __('Stock information updated successfully!'),
             'status' => true,
         ], 200);
+    }
+
+    public function inventoryReport()
+    {
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionStock::view_reports->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return InventoryReportResource::collection($this->stockService->inventoryReport());
+    }
+    public function exportFile($extension)
+    {
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionStock::export_report_file->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        $this->stockService->exportFile($extension);
+        return response()->json([
+            'message' => __('We are processing your request, you will receive an email once completed.'),
+            'status' => true,
+        ], Response::HTTP_OK);
+
+
     }
 
 }

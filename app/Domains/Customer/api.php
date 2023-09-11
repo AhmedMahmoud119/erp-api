@@ -20,4 +20,14 @@ Route::group(['middleware' => 'auth:sanctum','prefix' => 'customer'],function ()
     Route::delete('/{id}', [\App\Domains\Customer\Controllers\CustomerController::class, 'delete']);
     Route::post('/create', [\App\Domains\Customer\Controllers\CustomerController::class, 'create']);
     Route::post('/update/{id}', [\App\Domains\Customer\Controllers\CustomerController::class, 'update']);
+
+
+});
+
+Route::group(['middleware' => 'auth:sanctum','prefix' => 'report'],function (){
+
+    Route::get('/sales', [\App\Domains\Customer\Controllers\CustomerController::class, 'salesReport']);
+    Route::get('/sales/export/csv', [\App\Domains\Customer\Controllers\CustomerController::class, 'salesReportExportCSV']);
+    Route::get('/sales/export/pdf', [\App\Domains\Customer\Controllers\CustomerController::class, 'salesReportExportPDF']);
+
 });

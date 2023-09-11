@@ -13,7 +13,17 @@ class UpdateCustomerRequest extends FormRequest
 
     public function rules()
     {
-        return [
+        $rule=[];
+        if (request()->is_same_shipping_address) {
+            $rule = [
+                'billing_address'    => 'required_if:is_same_shipping_address,=,0|max:200',
+                'billing_country_id' => 'required_if:is_same_shipping_address,=,0|exists:countries,id',
+                'billing_state_id'   => 'required_if:is_same_shipping_address,=,0|exists:states,id',
+                'billing_city_id'    => 'required_if:is_same_shipping_address,=,0|exists:cities,id',
+                'billing_zip_code'   => 'required_if:is_same_shipping_address,=,0',
+            ];
+        }
+        return $rule+[
             'name'                     => 'required|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
             'contact'                  => 'required|digits:11|starts_with:010,011,012,015|numeric',
             'email'                    => 'required|email',
@@ -25,12 +35,6 @@ class UpdateCustomerRequest extends FormRequest
             'zip_code'                 => 'required',
             'parent_account_id'        => 'required|exists:accounts,id',
             'is_same_shipping_address' => 'required|integer|between:0,1',
-
-            'billing_address'    => 'required_if:is_same_shipping_address,=,0|max:200',
-            'billing_country_id' => 'required_if:is_same_shipping_address,=,0|exists:countries,id',
-            'billing_state_id'   => 'required_if:is_same_shipping_address,=,0|exists:states,id',
-            'billing_city_id'    => 'required_if:is_same_shipping_address,=,0|exists:cities,id',
-            'billing_zip_code'   => 'required_if:is_same_shipping_address,=,0',
         ];
     }
     public function messages()

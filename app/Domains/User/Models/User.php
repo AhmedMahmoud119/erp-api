@@ -18,7 +18,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
 
-    use HasApiTokens, HasFactory, Notifiable,SoftDeletes,HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasRoles;
 
     protected $fillable = [
         'name',
@@ -29,8 +29,8 @@ class User extends Authenticatable
         'parent_id',
         'creator_id',
     ];
-//    protected $appends = ['role'];
-    
+    //    protected $appends = ['role'];
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -49,28 +49,38 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    
-    public static function newFactory() {
+
+    public static function newFactory()
+    {
         return \App\Domains\User\Database\Factories\UserFactory::new();
     }
-    public function activeScope($query) {
+    public function activeScope($query)
+    {
         return $query->where('active', true);
     }
-    public function setPasswordAttribute($input){
-        if ($input) { $this->attributes['password'] = app('hash')->needsRehash($input) ? Hash::make($input) : $input;
+    public function setPasswordAttribute($input)
+    {
+        if ($input) {
+            $this->attributes['password'] = app('hash')->needsRehash($input) ? Hash::make($input) : $input;
         }
     }
 
     public function parent()
     {
-        return $this->belongsTo(User::class,'parent_id');
+        return $this->belongsTo(User::class, 'parent_id');
     }
     public function creator()
     {
-        return $this->belongsTo(User::class,'creator_id');
+        return $this->belongsTo(User::class, 'creator_id');
     }
     public function children()
     {
         return $this->hasMany(User::class, 'parent_id');
     }
+    public function descendants()
+    {
+        return $this->children()->with('descendants'); 
+    }
+
+
 }

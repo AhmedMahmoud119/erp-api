@@ -22,6 +22,7 @@ return [
         'localhost',
         'uktratest.com',
         'thekeyeg.com',
+        'key-erp.net',
     ],
 
     /**
