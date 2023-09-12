@@ -11,7 +11,7 @@ use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 
-class JournalEntriesDetailsSheet implements ToCollection,ShouldQueue 
+class JournalEntriesDetailsSheet implements ToCollection,ShouldQueue
 {
   use Importable;
 
@@ -26,7 +26,6 @@ class JournalEntriesDetailsSheet implements ToCollection,ShouldQueue
         'debit' => $row[3],
         'credit' => $row[4],
         'journal_entry_id' => $row[5],
-        'tax_id' => $row[6],
         'description' => $row[8],
       ]);
     }

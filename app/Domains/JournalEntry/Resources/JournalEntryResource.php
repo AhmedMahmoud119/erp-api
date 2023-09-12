@@ -17,6 +17,7 @@ class JournalEntryResource extends JsonResource
             'date' => $this->date,
             'description' => $this->description,
             'creator' => UserResource::make($this->whenLoaded('creator')),
+            'creator_id' => $this->creator_id,
             'details' => JournalEntryDetailsResource::collection($this->whenLoaded('details')),
             'total_debit' => $this->total_debit,
             'total_credit' => $this->total_credit,
