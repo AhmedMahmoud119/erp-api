@@ -29,7 +29,7 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
         $entry->load([
             'details' => function ($q) {
                 $q->with(['account']);
-            }
+            }, 'creator'
         ]);
 
         return $entry;
@@ -47,10 +47,10 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
         })->when(request()->to, function ($q) {
             $q->whereDate('created_at', '<=', request()->to);
         })->when(request()->sort_by ||  request()->sort_type, function ($q) {
-            if (in_array(request()->sort_by, ['id', 'title', 'entry_no', 'date', 'created_at', 'updated_at', 'creator_id'])) {
-                $q->orderBy(request()->sort_by, request()->sort_type ?? 'asc');
+            if (in_array(request()->sort_by, ['id', 'title', 'entry_no', 'date', 'description', 'created_at', 'updated_at', 'creator_id'])) {
+                $q->orderBy(request()->sort_by, request()->sort_type ? 'asc' : 'desc');
             }
-        })->with(['details'])->paginate(request('limit', config('app.pagination_count')));
+        })->with(['details', 'creator'])->paginate(request('limit', config('app.pagination_count')));
     }
 
     public function store($request): bool
