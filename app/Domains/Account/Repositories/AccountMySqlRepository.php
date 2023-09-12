@@ -82,14 +82,25 @@ class AccountMySqlRepository implements AccountRepositoryInterface
 
     public function delete(string $id): bool
     {
-        $this->account::findOrFail($id)->delete();
+        $account = $this->account::findOrFail($id);
 
-        return true;
+        if ($account->journalEntryDetail->isEmpty()) {
+            $account->delete();
+            return true;
+        }else{
+            return false;
+        }
     }
     public function bulkDelete(): bool
     {
-        $this->account::whereIn('id', request()->ids ?? [])->delete();
+        $accounts = $this->account::whereIn('id', request()->ids ?? [])->get();
 
-        return true;
+        if ($accounts->pluck('journalEntryDetail')->flatten()->isEmpty()) {
+            $accounts->delete();
+            return true;
+        }else{
+            return false;
+        }
+
     }
 }

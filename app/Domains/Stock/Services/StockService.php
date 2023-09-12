@@ -38,8 +38,26 @@ class StockService
     {
         return $this->stockRepository->exportInventoryReport();
     }
+    public function generatePDF()
+    {
+        return $this->stockRepository->generatePDF();
+    }
     public function inventoryReport()
     {
         return $this->stockRepository->inventoryReport();
+    }
+    public function exportFile($extension)
+    {
+        switch (strtoupper($extension)) {
+            case 'PDF':
+                $this->generatePDF();
+                break;
+            case 'CSV':
+                $this->exportInventoryReport();
+                break;
+            default:
+                //return false
+                break;
+        }
     }
 }

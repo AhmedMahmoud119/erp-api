@@ -10,6 +10,7 @@ interface StockRepositoryInterface
 {
     public function list();
     public function exportInventoryReport();
+    public function generatePDF();
     public function inventoryReport();
     public function findById(string $id): Stock;
     public function store($request): bool;

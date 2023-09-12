@@ -33,22 +33,39 @@ class AccountController extends Controller
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionAccount::delete_account->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $this->accountService->delete($id);
-        return response()->json([
-            'message' => __('Deleted Successfully'),
-            'status' => true,
-        ], 200);
+        $delete = $this->accountService->delete($id);
+
+        if ($delete == 1) {
+            return response()->json([
+                'message' => __('Deleted Successfully'),
+                'status' => true,
+            ], Response::HTTP_OK);
+        }else{
+            return response()->json([
+                'message' => __('Cant Delete this Account'),
+                'status' => false,
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
     }
 
     public function bulkDelete()
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionAccount::delete_account->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $this->accountService->bulkDelete();
-        return response()->json([
-            'message' => __('Deleted Successfully'),
-            'status' => true,
-        ], 200);
+        $delete = $this->accountService->bulkDelete();
+
+        if ($delete == 1) {
+            return response()->json([
+                'message' => __('Deleted Successfully'),
+                'status' => true,
+            ], Response::HTTP_OK);
+        }else{
+            return response()->json([
+                'message' => __('Cant Delete this Account'),
+                'status' => false,
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
     }
 
     public function findById($id)
