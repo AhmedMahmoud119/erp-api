@@ -15,18 +15,18 @@ class AccountMySqlRepository implements AccountRepositoryInterface
 
     public function list()
     {
-        return $this->account::when(request()->search, function ($q, $v) {
+        return $this->account::when(request()->search, function ($q) {
             $q->where('name', 'like', '%' . request()->search . '%')
-                ->orWhere('code', 'like', '%' . request()->code . '%');
-        })->when(request()->group_id, function ($q, $v) {
+                ->orWhere('code', 'like', '%' . request()->search . '%');
+        })->when(request()->group_id, function ($q) {
             $q->where('group_id', request()->group_id);
-        })->when(request()->creator_id, function ($q, $v) {
+        })->when(request()->creator_id, function ($q) {
             $q->where('creator_id', request()->creator_id);
-        })->when(request()->from, function ($q, $v) {
+        })->when(request()->from, function ($q) {
             $q->whereDate('created_at', '>=', request()->from);
-        })->when(request()->to, function ($q, $v) {
+        })->when(request()->to, function ($q) {
             $q->whereDate('created_at', '<=', request()->to);
-        })->when(request()->sort_by, function ($q, $v) {
+        })->when(request()->sort_by, function ($q) {
             if (in_array(request()->sort_by, ['name', 'code', 'created_at', 'updated_at', 'opening_balance', 'account_type', 'group_id', 'creator_id', 'parent_id'])) {
                 if (request()->sort_by == 'group_id') {
                     $q->whereHas('group', function ($q) {
@@ -65,7 +65,7 @@ class AccountMySqlRepository implements AccountRepositoryInterface
         $code = str_pad($lastAccountCode, 8, '0', STR_PAD_LEFT);
 
         $this->account::create($request->all() + [
-            'code'       => $code,
+            'code' => $code,
             'creator_id' => auth()->user()->id,
         ]);
 
@@ -87,7 +87,7 @@ class AccountMySqlRepository implements AccountRepositoryInterface
         if ($account->journalEntryDetail->isEmpty()) {
             $account->delete();
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -98,7 +98,7 @@ class AccountMySqlRepository implements AccountRepositoryInterface
         if ($accounts->pluck('journalEntryDetail')->flatten()->isEmpty()) {
             $accounts->delete();
             return true;
-        }else{
+        } else {
             return false;
         }
 
