@@ -26,9 +26,11 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
     public function findById(string $id): JournalEntry
     {
         $entry = $this->journalEntry::findOrFail($id);
-        $entry->load(['details' => function ($q) {
-            $q->with(['account']);
-        }]);
+        $entry->load([
+            'details' => function ($q) {
+                $q->with(['account']);
+            }, 'creator'
+        ]);
 
         return $entry;
     }
@@ -44,11 +46,11 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
             $q->whereDate('created_at', '>=', request()->from);
         })->when(request()->to, function ($q) {
             $q->whereDate('created_at', '<=', request()->to);
-        })->when(request()->sort_by, function ($q) {
-            if (in_array(request()->sort_by, ['title', 'entry_no', 'date', 'created_at', 'updated_at', 'creator_id'])) {
-                $q->orderBy(request()->sort_by, request()->sort_type);
+        })->when(request()->sort_by ||  request()->sort_type, function ($q) {
+            if (in_array(request()->sort_by, ['id', 'title', 'entry_no', 'date', 'description', 'created_at', 'updated_at', 'creator_id'])) {
+                $q->orderBy(request()->sort_by, request()->sort_type ? 'asc' : 'desc');
             }
-        })->with(['details'])->paginate(request('limit', config('app.pagination_count')));
+        })->with(['details', 'creator'])->paginate(request('limit', config('app.pagination_count')));
     }
 
     public function store($request): bool
@@ -62,12 +64,12 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
                 'creator_id' => auth()->user()->id,
             ]);
             $details = collect($data['details'])->map(fn ($detail) => [
-                'account_id'       => $detail['account_id'],
-                'debit'            => $detail['debit'],
-                'credit'           => $detail['credit'],
+                'account_id' => $detail['account_id'],
+                'debit' => $detail['debit'],
+                'credit' => $detail['credit'],
                 'journal_entry_id' => $entry->id,
-                'description'      => $detail['description'] ?? '',
-                'created_at'       => now(),
+                'description' => $detail['description'] ?? '',
+                'created_at' => now(),
             ])->toArray();
             $this->journalEntryDetail::insert($details);
             DB::commit();
@@ -83,20 +85,20 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
         try {
             DB::beginTransaction();
             $journalEntry = $this->journalEntry::findOrFail($id);
-            $data = $request->only('title', 'description',  'date', 'details');
+            $data = $request->only('title', 'description', 'date', 'details');
             $journalEntry->update([
-                'title'       => $data['title'],
+                'title' => $data['title'],
                 'description' => $data['description'],
-                'date'        => $data['date'],
+                'date' => $data['date'],
             ]);
             $journalEntry->details()->delete();
             collect($data['details'])->map(function ($q) use ($id) {
                 $this->journalEntryDetail::updateOrCreate([
-                    'account_id'       => $q['account_id'],
+                    'account_id' => $q['account_id'],
                 ], [
-                    'debit'            => $q['debit'],
-                    'credit'           => $q['credit'],
-                    'description'      => $q['description'] ?? '',
+                    'debit' => $q['debit'],
+                    'credit' => $q['credit'],
+                    'description' => $q['description'] ?? '',
                     'journal_entry_id' => $id,
                 ]);
             })->toArray();

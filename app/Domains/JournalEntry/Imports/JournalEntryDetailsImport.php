@@ -30,7 +30,6 @@ class JournalEntryDetailsImport implements ToModel, WithValidation, WithHeadingR
             'account_id'              =>     $row['account_id'],
             'debit'             => $row['debit'],
             'credit'            => $row['credit'],
-            'tax_id'            => $row['tax_id'],
             'description'       => $row['description'],
             'journal_entry_id'  => $this->id,
         ]);
@@ -44,7 +43,6 @@ class JournalEntryDetailsImport implements ToModel, WithValidation, WithHeadingR
             'debit'            => ['required_without:credit', 'numeric'],
             'credit'           => ['required_without:debit', 'numeric'],
             'description'      => ['nullable', 'string', 'max:255'],
-            'tax_id'           => ['nullable', 'exists:taxes,id'],
             'journal_entry_id' => ['required', 'exists:journal_entries,id'],
         ];
     }
