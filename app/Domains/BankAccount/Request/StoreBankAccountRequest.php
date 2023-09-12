@@ -16,10 +16,10 @@ class StoreBankAccountRequest extends FormRequest
     {
         return [
             'name' => 'required|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
-            'account_number' =>'required|unique:bank_accounts,account_number|numeric',
+            'account_number' => 'required|unique:bank_accounts,account_number|numeric',
             'holder_name' => 'nullable|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
-//            'account_type' => 'required',
-//            'chart_of_account' => 'required',
+            'account_type' => ['required', Rule::in(['current', 'saving', 'loan', 'dollar', 'salary'])],
+            // 'chart_of_account' => 'required|exists:accounts,id',
             'currency_id' => 'required|exists:currencies,id',
             'opening_balance' => 'required|numeric|gt:0',
             'authorized_by.*' => 'nullable|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
@@ -40,6 +40,7 @@ class StoreBankAccountRequest extends FormRequest
             'account_number.unique' => __('The account_number has already been taken'),
             'opening_balance.required' => __('The opening_balance field is required'),
             'opening_balance.numeric' => __('The opening_balance must be a number'),
+            'account_type.rule_in' => __('The selected account type is not supported'),
 
 
         ];
