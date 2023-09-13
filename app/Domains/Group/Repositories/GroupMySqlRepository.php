@@ -22,11 +22,8 @@ class GroupMySqlRepository implements GroupRepositoryInterface
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
             }
         })->when(request()->search, function ($q) {
-            $q->where('name', 'like', '%' . request()->search . '%')->orWhere(
-                'code',
-                'like',
-                '%' . request()->search . '%'
-            );
+            $q->where('name', 'like', '%' . request()->search . '%')
+                ->orWhere('code', 'like', '%' . request()->search . '%');
         })->when(request()->group_type_id, function ($q) {
             $q->where('group_type_id', request()->group_type_id);
         })->when(request()->code, function ($q) {
@@ -39,7 +36,7 @@ class GroupMySqlRepository implements GroupRepositoryInterface
             $q->whereDate('created_at', '<=', request()->to);
         })->when(request()->creator_id, function ($q) {
             $q->where('creator_id', request()->creator_id);
-        })
+        })->orderBy('name', 'asc')
             ->with('creator', 'group_type')->paginate(request('limit', config('app.pagination_count')));
     }
 
@@ -62,10 +59,10 @@ class GroupMySqlRepository implements GroupRepositoryInterface
         }
 
         $this->group::create([
-            'name'          => $request->name,
+            'name' => $request->name,
             'group_type_id' => $request->group_type_id,
-            'code'          => $code,
-            'creator_id'    => auth()->user()->id,
+            'code' => $code,
+            'creator_id' => auth()->user()->id,
 
         ]);
 
@@ -101,7 +98,7 @@ class GroupMySqlRepository implements GroupRepositoryInterface
         if ($group->accounts->isEmpty()) {
             $group->delete();
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -111,8 +108,8 @@ class GroupMySqlRepository implements GroupRepositoryInterface
         $groups = Group::with('creator', 'group_type')->get();
 
         $data = [
-            'title'  => 'Groups List',
-            'date'   => date('m/d/Y'),
+            'title' => 'Groups List',
+            'date' => date('m/d/Y'),
             'groups' => $groups,
         ];
         $pdf = PDF::loadView('GroupPDF', $data);
