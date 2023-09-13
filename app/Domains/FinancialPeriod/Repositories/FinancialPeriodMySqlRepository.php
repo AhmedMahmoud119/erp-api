@@ -24,6 +24,8 @@ class FinancialPeriodMySqlRepository implements FinancialPeriodRepositoryInterfa
     {
         return $this->financialPeriod::when(request()->search, function ($q) {
             $q->where('title', 'like', '%' . request()->search . '%');
+        })->when(request()->status, function ($q) {
+            $q->where('status', 'like', '%' . request()->status . '%');
         })->when(request()->creator_id, function ($q) {
             $q->where('creator_id', request()->creator_id);
         })->when(request()->from || request()->to, function ($q) {
