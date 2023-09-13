@@ -15,7 +15,7 @@ class FinancialPeriodMySqlRepository implements FinancialPeriodRepositoryInterfa
 
     public function findById(string $id): FinancialPeriod
     {
-        $data =  $this->financialPeriod::findOrFail($id);
+        $data = $this->financialPeriod::findOrFail($id);
         $data->load('creator');
         return $data;
     }
@@ -32,8 +32,8 @@ class FinancialPeriodMySqlRepository implements FinancialPeriodRepositoryInterfa
             if (in_array(request()->sort_by, ['start', 'end', 'title', 'status', 'created_at', 'id', 'creator_id'])) {
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
             }
-            $q->orderBy('id', 'asc');
-        })->with('creator')
+            $q->orderBy('start', 'desc');
+        })->orderBy('start', 'desc')->with('creator')
             ->paginate(request('limit', config('app.pagination_count')));
     }
 
