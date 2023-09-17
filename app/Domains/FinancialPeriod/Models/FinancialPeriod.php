@@ -2,10 +2,12 @@
 
 namespace App\Domains\FinancialPeriod\Models;
 
+use App\Domains\JournalEntry\Models\JournalEntry;
 use App\Domains\User\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 class FinancialPeriod extends Model
 {
@@ -30,5 +32,9 @@ class FinancialPeriod extends Model
     public function setEndAttribute($value)
     {
         $this->attributes['end'] = Carbon::parse($value)->format('Y-m-d');
+    }
+    public function jurnalEntry(): MorphToMany
+    {
+        return $this->morphedByMany(JournalEntry::class, 'financiables');
     }
 }

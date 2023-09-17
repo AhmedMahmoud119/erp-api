@@ -2,6 +2,7 @@
 
 namespace App\Domains\JournalEntry\Models;
 
+use App\Domains\FinancialPeriod\Models\FinancialPeriod;
 use App\Domains\User\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
@@ -45,5 +47,9 @@ class JournalEntry extends Model
     public function setDateAttribute($value)
     {
         $this->attributes['date'] = Carbon::parse($value)->format('Y-m-d');
+    }
+    public function financiables(): MorphToMany
+    {
+        return $this->morphedToMany(FinancialPeriod::class, 'financiables');
     }
 }
