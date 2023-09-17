@@ -5,6 +5,7 @@ namespace App\Domains\Stock\Models;
 use App\Domains\Product\Models\Product;
 use App\Domains\User\Models\User;
 use App\Domains\Warehouse\Models\Warehouse;
+use App\Traits\HasFinancialPeriod;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Stock extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes,HasFinancialPeriod;
 
     protected $fillable = [
         'quantity',

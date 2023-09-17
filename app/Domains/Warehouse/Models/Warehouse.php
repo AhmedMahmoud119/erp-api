@@ -4,6 +4,7 @@ namespace App\Domains\Warehouse\Models;
 
 use App\Domains\User\Models\User;
 use App\Domains\Vendor\Models\Address;
+use App\Traits\HasFinancialPeriod;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Warehouse extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes,HasFinancialPeriod;
 
     protected $fillable = [
         'name',
