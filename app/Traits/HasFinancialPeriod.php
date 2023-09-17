@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Traits;
 
 use App\Domains\FinancialPeriod\Models\FinancialPeriod;
@@ -10,9 +11,9 @@ trait HasFinancialPeriod
     {
         return $this->morphToMany(FinancialPeriod::class, 'financiables');
     }
-    public static function booted(){
+    public static function booted()
+    {
         static::created(function ($model) {
-            // logger($model->id);
             $model->financialPeriod()->attach(FinancialPeriod::current()->id);
         });
     }
