@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -60,5 +61,22 @@ class Handler extends ExceptionHandler
                 ], $e->getStatusCode());
             }
         });
+    }
+    public function render($request, Throwable $exception)
+    {
+        switch (true) {
+            case $exception instanceof NotFoundHttpException:
+                return response()->json(['message' => 'Not found', 'status' => false], 404);
+
+            case $exception instanceof AuthenticationException:
+                return response()->json(['message' => 'Unauthorized', 'status' => false], 401);
+            case $exception instanceof ValidationException:
+                $validationErrors = $exception->validator->errors();
+                return response()->json(['message' => $exception->getMessage(), 'errors' => $validationErrors, 'status' => false], 422);
+            default:
+                return response()->json(['message' => 'Internal server error. ' . get_class($exception) . ' - ' . $exception->getMessage()], 500);
+        }
+
+
     }
 }
