@@ -17,12 +17,7 @@ class UpdateBankAccountRequest extends FormRequest
     {
         return [
             'name' => 'required|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
-            'account_number' => [
-                'required', Rule::unique(
-                    'bank_accounts',
-                    'account_number'
-                )->ignore(request()->id)
-            ],
+            'account_number' => ['required', Rule::unique('bank_accounts', 'account_number')->ignore(request()->id)],
             'holder_name' => 'nullable|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
             'account_type' => ['required', Rule::in(['current', 'saving', 'loan', 'dollar', 'salary'])],
             //            'chart_of_account' => 'required',
@@ -50,6 +45,5 @@ class UpdateBankAccountRequest extends FormRequest
             'status.in' => __('The status is invalid'),
             'account_type.rule_in' => __('The selected account type is not supported'),
         ];
-
     }
 }

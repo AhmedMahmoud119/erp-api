@@ -14,8 +14,8 @@ return new class extends Migration {
     {
         Schema::create('financiables', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('financial_period_id')->constrained()->onDelete('cascade');
-            $table->morphs('module');
+            $table->foreignId('financial_period_id')->constrained('financial_periods');
+            $table->morphs('financiables');
             $table->timestamps();
         });
     }

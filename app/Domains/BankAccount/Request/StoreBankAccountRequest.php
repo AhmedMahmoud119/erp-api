@@ -16,7 +16,7 @@ class StoreBankAccountRequest extends FormRequest
     {
         return [
             'name' => 'required|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
-            'account_number' => 'required|unique:bank_accounts,account_number|numeric',
+            'account_number' =>'required|unique:bank_accounts',
             'holder_name' => 'nullable|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
             'account_type' => ['required', Rule::in(['current', 'saving', 'loan', 'dollar', 'salary'])],
             // 'chart_of_account' => 'required|exists:accounts,id',

@@ -37,4 +37,8 @@ class FinancialPeriod extends Model
     {
         return $this->morphedByMany(JournalEntry::class, 'financiables');
     }
+    public static function current()
+    {
+        return static::where('status', 'open')->first();
+    }
 }
