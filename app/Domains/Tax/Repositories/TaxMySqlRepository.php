@@ -37,8 +37,8 @@ class TaxMySqlRepository implements TaxRepositoryInterface
             if (in_array(request()->sort_by, ['percentage', 'id', 'creator_id', 'name', 'created_at'])) {
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
             }
-            $q->orderBy('id', 'asc');
-        })
+            $q->orderBy('name', 'asc');
+        })->orderBy('name', 'asc')
             ->with('creator')->paginate(request('limit', config('app.pagination_count')));
     }
 
