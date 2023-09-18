@@ -39,11 +39,26 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
     public function list()
     {
 
-        return $this->journalEntry::when(request()->search, function ($q) {
-            $q->where('title', request()->search)->orWhere('entry_no', request()->search);
-        })->when(request()->creator_id, function ($q) {
-            $q->where('creator_id', request()->creator_id);
-        })->when(request()->from, function ($q) {
+        return $this->journalEntry::when(request()->title, function ($q) {
+            $q->where('title', 'like', '%' . request()->title . '%');
+        })->when(request()->entry_no, function ($q) {
+            $q->where('entry_no', request()->entry_no);
+        })->when(request()->date, function ($q) {
+            $q->whereDate('date', request()->date);
+        })->when(request()->description, function ($q) {
+            $q->where('description', 'LIKE', '%' . request()->description . '%');
+        })
+            ->when(request()->amount, function ($q) {
+                $q->joinSub(function ($query) {
+                    $query->from('journal_entry_details')
+                        ->selectRaw('journal_entry_id, SUM(credit) as total_credit')
+                        ->groupBy('journal_entry_id');
+                }, 'sub', 'journal_entries.id', '=', 'sub.journal_entry_id')
+                    ->where('sub.total_credit', '=', request()->amount);
+            })
+            ->when(request()->creator_id, function ($q) {
+                $q->where('creator_id', request()->creator_id);
+            })->when(request()->from, function ($q) {
             $q->whereDate('created_at', '>=', request()->from);
         })->when(request()->to, function ($q) {
             $q->whereDate('created_at', '<=', request()->to);
@@ -51,7 +66,7 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
             if (in_array(request()->sort_by, ['id', 'title', 'entry_no', 'date', 'description', 'created_at', 'updated_at', 'creator_id'])) {
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
             }
-        })->orderBy('updated_at','desc')->with(['details', 'creator'])->paginate(request('limit', config('app.pagination_count')));
+        })->orderBy('updated_at', 'desc')->with(['details', 'creator'])->paginate(request('limit', config('app.pagination_count')));
     }
 
     public function store($request): bool
