@@ -114,12 +114,12 @@ class GroupMySqlRepository implements GroupRepositoryInterface
         ];
         $pdf = PDF::loadView('GroupPDF', $data);
 
-        $path = public_path('storage/exports/groups/');
-        $fileName = time() . '-GroupsDetailes.pdf';
+        $path = public_path('storage/exports/');
+        $fileName = 'GroupsDetailes-' . date("Y-m-d-his") . '.pdf';
         $pdf->save($path . '/' . $fileName);
 
         return response()->json([
-            'file_path' => asset('storage/exports/groups/' . $fileName),
+            'file_path' => asset('storage/exports/' . $fileName),
         ]);
     }
 }
