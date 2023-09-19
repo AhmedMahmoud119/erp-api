@@ -13,14 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('group_types', function (Blueprint $table) {
+        Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
+            $table->string('code');
             $table->string('name');
-            $table->integer('code');
-            $table->boolean('is_fixed')->default(false);
-            $table->foreignId('creator_id')->references('id')->on('users')->nullable();
-            $table->string('icon')->nullable();
+            $table->string('email')->unique();
+            $table->string('contact');
 
+            $table->foreignId('parent_account_id')->references('id')->on('accounts');
+            $table->foreignId('address_id')->nullable()->references('id')->on('addresses')->onDelete('cascade');
+            $table->foreignId('currency_id')->nullable()->references('id')->on('currencies');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -33,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('group_types');
+        Schema::dropIfExists('suppliers');
     }
 };

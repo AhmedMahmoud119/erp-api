@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('financial_periods', function (Blueprint $table) {
+        Schema::create('journal_entries', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->enum('status', ['open', 'closed'])->default('closed');
-            $table->date('start');
-            $table->date('end');
+            $table->string('entry_no');
+            $table->date('date');
+            $table->text('description');
             $table->foreignId('creator_id')->constrained('users');
             $table->timestamps();
             $table->softDeletes();
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('financial_periods');
+        Schema::dropIfExists('journal_entries');
     }
 };

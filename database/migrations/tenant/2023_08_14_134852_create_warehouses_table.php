@@ -13,16 +13,21 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('group_types', function (Blueprint $table) {
+        Schema::create('warehouses', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('code');
-            $table->boolean('is_fixed')->default(false);
-            $table->foreignId('creator_id')->references('id')->on('users')->nullable();
-            $table->string('icon')->nullable();
+            $table->string('description');
 
-            $table->timestamps();
+            $table->foreignId('address_id')->references('id')->on('addresses');
+
+            $table->foreignId('creator_id')->nullable()
+                ->references('id')->on('users');
+
+            $table->foreignId('assigned_id')
+                ->references('id')->on('users');
+
             $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -33,6 +38,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('group_types');
+        Schema::dropIfExists('warehouses');
     }
 };

@@ -13,15 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('financial_periods', function (Blueprint $table) {
+        Schema::create('countries', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->enum('status', ['open', 'closed'])->default('closed');
-            $table->date('start');
-            $table->date('end');
-            $table->foreignId('creator_id')->constrained('users');
-            $table->timestamps();
+            $table->string('name');
             $table->softDeletes();
+            $table->timestamps();
         });
     }
 
@@ -32,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('financial_periods');
+        Schema::dropIfExists('countries');
     }
 };
