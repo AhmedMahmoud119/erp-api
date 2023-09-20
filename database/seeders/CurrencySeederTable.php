@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use Database\Factories\VendorFactory;
+use Database\Factories\CurrencyFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class VendorSeeder extends Seeder
+class CurrencySeederTable extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,6 +15,6 @@ class VendorSeeder extends Seeder
      */
     public function run()
     {
-        VendorFactory::times(10)->create();
+        CurrencyFactory::times(50)->create();
     }
 }

@@ -7,9 +7,11 @@ use Database\Seeders\AddressesTableSeeder;
 use Database\Seeders\CategoriesTableSeeder;
 use Database\Seeders\CitiesTableSeeder;
 use Database\Seeders\CountriesTableSeeder;
+use Database\Seeders\CurrencyCodesSeeder;
 use Database\Seeders\ProductsTableSeeder;
 use Database\Seeders\StatesTableSeeder;
 use Database\Seeders\StocksTableSeeder;
+use Database\Seeders\SuppliersTableSeeder;
 use Database\Seeders\UnitTypesTableSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -35,10 +37,10 @@ class DatabaseSeeder extends Seeder
             GroupTypeSeeder::class,
             TaxSeeder::class,
             // CompanySeeder::class,
-
             FinancialPeriodSeeder::class,
             // JournalEntrySeeder::class,
             CurrencyCodesSeeder::class,
+            CurrencySeederTable::class,
             CountriesTableSeeder::class,
             StatesTableSeeder::class,
             CitiesTableSeeder::class,
@@ -50,6 +52,8 @@ class DatabaseSeeder extends Seeder
             WarehouseSeeder::class,
             StocksTableSeeder::class,
             PacksTableSeeder::class,
+            SuppliersTableSeeder::class,
+            VendorSeeder::class,
 
         ]);
 
