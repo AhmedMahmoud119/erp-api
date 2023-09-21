@@ -24,6 +24,12 @@ class SupplierController extends Controller
 
         return  SupplierResource::collection($this->supplierService->list());
     }
+    public function findById($id)
+    {
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionSupplier::view_suppliers->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return  SupplierResource::make($this->supplierService->findById($id));
+    }
 
     public function delete($id)
     {
