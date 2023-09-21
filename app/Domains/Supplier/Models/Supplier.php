@@ -34,4 +34,13 @@ class Supplier extends Model
     {
         return $this->belongsTo(Currency::class);
     }
+
+    public function purchase(): MorphOne
+    {
+        return $this->morphOne(Purchase::class, 'purchasable');
+    }
+    public function purchase_sum_total()
+    {
+        return $this->withSum('purchase', 'total');
+    }
 }

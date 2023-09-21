@@ -30,9 +30,26 @@ class DatabaseSeeder extends Seeder
         $this->call([
             PermissionsTableSeeder::class,
             GroupTypeSeeder::class,
-            //            FinancialPeriodSeeder::class,
-            // TaxSeeder::class,
-//            CurrencyCodesSeeder::class,
+            TaxSeeder::class,
+            // CompanySeeder::class,
+            FinancialPeriodSeeder::class,
+            JournalEntrySeeder::class,
+            CurrencyCodesSeeder::class,
+            CurrencySeederTable::class,
+            CountriesTableSeeder::class,
+            StatesTableSeeder::class,
+            CitiesTableSeeder::class,
+            AddressesTableSeeder::class,
+            AddressSeeder::class,
+            UnitTypesTableSeeder::class,
+            CategoriesTableSeeder::class,
+            ProductsTableSeeder::class,
+            WarehouseSeeder::class,
+            StocksTableSeeder::class,
+            PacksTableSeeder::class,
+            SuppliersTableSeeder::class,
+            VendorSeeder::class,
+
         ]);
 
 //        $user->roles()->sync([1]);

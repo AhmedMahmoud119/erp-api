@@ -32,6 +32,12 @@ class SupplierMySqlRepository implements SupplierRepositoryInterface
             ->with(['address', 'parent', 'currency'])
             ->orderBy('name')->paginate(request('limit', config('app.pagination_count')));
     }
+    public function findById($id) :Supplier
+    {
+        $supplier = $this->supplier::findOrFail($id);
+        $supplier->load(['address', 'account', 'currency','purchase_sum_total']);
+        return $supplier;
+    }
 
     public function store($request): bool
     {
