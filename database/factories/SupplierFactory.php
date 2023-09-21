@@ -17,21 +17,19 @@ class SupplierFactory extends Factory
      * @return array<string, mixed>
      */
     protected $model = Supplier::class;
+    protected $id = 0;
     public function definition()
     {
-        $acccount = Account::first();
-        $currency = Currency::first()->id;
-        $address = Address::first()->id;
-        $spplierMaxId = Supplier::max('id') ?? 0;
+        $account = Account::inRandomOrder()->first();
 
         return [
-                'code' => $acccount->code . ($spplierMaxId + 1),
-                'name' => $this->faker->name(),
-                'email' => $this->faker->email(),
-                'contact' => $this->faker->phoneNumber(),
-                'parent_account_id' => $acccount->id,
-                'currency_id' => $currency,
-                'address_id' => $address,
+            'code' => $account->code . Supplier::max('id') + ++$this->id,
+            'name' => $this->faker->name(),
+            'email' => $this->faker->email(),
+            'contact' => $this->faker->phoneNumber(),
+            'parent_account_id' => $account->id,
+            'currency_id' => Currency::inRandomOrder()->first()->id,
+            'address_id' => Address::inRandomOrder()->first()->id,
         ];
     }
 }
