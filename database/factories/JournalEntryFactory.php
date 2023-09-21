@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Domains\JournalEntry\Models\JournalEntry;
+use App\Domains\User\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,6 +16,8 @@ class JournalEntryFactory extends Factory
      *
      * @return array<string, mixed>
      */
+    protected $model = JournalEntry::class;
+
     public function definition()
     {
         return [
@@ -21,7 +25,7 @@ class JournalEntryFactory extends Factory
             'entry_no' => $this->faker->numberBetween(1, 10),
             'date' => $this->faker->date(),
             'description' => $this->faker->text(),
-            'creator_id' => $this->faker->numberBetween(1, 10),
+            'creator_id' => User::inRandomOrder()->first()->id,
         ];
     }
 }

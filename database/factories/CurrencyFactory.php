@@ -2,11 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Domains\Currency\Models\Currency;
+use App\Domains\User\Models\User;
+use DB;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Carbon;
 
-/**w
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\=Currency>
- */
+
 class CurrencyFactory extends Factory
 {
     /**
@@ -14,20 +16,23 @@ class CurrencyFactory extends Factory
      *
      * @return array<string, mixed>
      */
+    protected $model = Currency::class;
     public function definition()
     {
+        $startDate = fake()->date();
+        $currency_code = DB::table('currency_codes')->inRandomOrder()->first();
         return [
-            'name' => $this->faker->name(),
-            'code' => $this->faker->numberBetween(1000, 9999),
-            'symbol' => $this->faker->name(),
-            'creator_id' => $this->faker->numberBetween(1, 10),
-            'from' => $this->faker->numberBetween(1, 10),
-            'to' => $this->faker->numberBetween(1, 10),
-            'backup_changes' => $this->faker->numberBetween(1, 10),
-            'price_rate' => $this->faker->numberBetween(1, 10),
-            'price' => $this->faker->numberBetween(1, 10),
-            'default' => $this->faker->numberBetween(1, 10),
-
+            'name' => $currency_code->name,
+            'code' => $currency_code->code,
+            'symbol' => $currency_code->symbol,
+            'price_rate' => 'Custom',
+            'price' => fake()->randomFloat(3, 0, 1000),
+            'default' => fake()->numberBetween(0, 1),
+            'creator_id' => User::inRandomOrder()->first()->id,
+            'backup_changes' => null,
+            'from' => $startDate,
+            'to' => Carbon::parse($startDate)->addWeek(),
         ];
+
     }
 }

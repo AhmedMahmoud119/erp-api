@@ -3,18 +3,18 @@
 namespace App\Domains\JournalEntry\Models;
 
 use App\Domains\User\Models\User;
+use App\Traits\HasFinancialPeriod;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 class JournalEntry extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HasFinancialPeriod;
     protected $fillable = [
         'title',
         'entry_no',

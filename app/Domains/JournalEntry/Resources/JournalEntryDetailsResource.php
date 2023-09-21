@@ -3,7 +3,6 @@
 namespace App\Domains\JournalEntry\Resources;
 
 use App\Domains\Account\Resources\AccountResource;
-use App\Domains\Tax\Resources\TaxResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class JournalEntryDetailsResource extends JsonResource
@@ -18,8 +17,6 @@ class JournalEntryDetailsResource extends JsonResource
             'debit' => $this->debit,
             'credit' => $this->credit,
             'journal_entry_id' => $this->journal_entry_id,
-            'tax_id' => $this->tax_id,
-            'tax' => TaxResource::make($this->whenLoaded('tax')),
             'description' => $this->description,
         ];
     }

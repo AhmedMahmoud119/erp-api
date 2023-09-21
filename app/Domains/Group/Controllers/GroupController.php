@@ -35,11 +35,19 @@ class GroupController extends Controller
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionGroup::delete_group->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $this->groupService->delete($id);
-        return response()->json([
-            'message' => __('Deleted Successfully'),
-            'status' => true,
-        ], 200);
+        $delete = $this->groupService->delete($id);
+        if ($delete == 1) {
+            return response()->json([
+                'message' => __('Deleted Successfully'),
+                'status' => true,
+            ], Response::HTTP_OK);
+        }else{
+            return response()->json([
+                'message' => __('Cant Delete this Group'),
+                'status' => false,
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
     }
 
     public function findById($id)
@@ -95,6 +103,6 @@ class GroupController extends Controller
             'status' => true,
         ], 200);
     }
- 
+
 
 }

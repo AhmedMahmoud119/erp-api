@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'pagination_count' => 10,
+    'pagination_count' => 100,
 
     'name' => env('APP_NAME', 'Laravel'),
 
@@ -163,9 +163,9 @@ return [
 
     'providers' => [
 
-        /*
-         * Laravel Framework Service Providers...
-         */
+            /*
+             * Laravel Framework Service Providers...
+             */
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
@@ -192,16 +192,16 @@ return [
 
 
 
-        /*
-         * Package Service Providers...
-         */
+            /*
+             * Package Service Providers...
+             */
 
-        /*
-         * Application Service Providers...
-         */
+            /*
+             * Application Service Providers...
+             */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+            // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\TelescopeServiceProvider::class,
@@ -226,6 +226,15 @@ return [
         App\Domains\JournalEntry\Providers\JournalEntryServiceProvider::class,
         App\Domains\Supplier\Providers\SupplierServiceProvider::class,
         App\Domains\Vendor\Providers\VendorServiceProvider::class,
+        App\Domains\Warehouse\Providers\WarehouseServiceProvider::class,
+        App\Domains\UnitType\Providers\UnitTypeServiceProvider::class,
+        App\Domains\Customer\Providers\CustomerServiceProvider::class,
+        App\Domains\Category\Providers\CategoryServiceProvider::class,
+        App\Domains\Product\Providers\ProductServiceProvider::class,
+        App\Domains\Stock\Providers\StockServiceProvider::class,
+        App\Domains\PaymentType\Providers\PaymentTypeServiceProvider::class,
+        App\Domains\Purchase\Providers\PurchaseServiceProvider::class,
+        App\Domains\Pack\Providers\PackServiceProvider::class,
 
 
 

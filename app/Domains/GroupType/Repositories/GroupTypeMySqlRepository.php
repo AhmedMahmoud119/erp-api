@@ -5,6 +5,7 @@ namespace App\Domains\GroupType\Repositories;
 use App\Domains\Group\Models\Group;
 use App\Domains\GroupType\Interfaces\GroupTypeRepositoryInterface;
 use App\Domains\GroupType\Models\GroupType;
+use FontLib\TrueType\Collection;
 use Illuminate\Support\Facades\Storage;
 
 class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
@@ -39,6 +40,12 @@ class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
             })->with('creator')
             ->paginate(request('limit', config('app.pagination_count')));
     }
+    public function getTreeView()
+    {
+        return $this->groupType::with(['children' => function ($q) {
+            $q->with('children');
+        }])->get();
+    }
 
     public function findById(string $id): GroupType
     {
@@ -55,6 +62,7 @@ class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
             'code' => $groupType->code + 1,
             'is_fixed' => 0,
             'creator_id' => auth()->user()->id,
+            'icon' => $request->icon,
 
         ]);
 
@@ -79,11 +87,14 @@ class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
     {
         $groups = Group::where('group_type_id', $id)->count();
 
+        $groupType = $this->groupType::findOrFail($id);
         if ($groups > 0 || in_array($id, [1, 2, 3, 4, 5])) {
             return false;
+        }elseif ($groupType->groups->isEmpty()){
+            $groupType->delete();
+            return true;
         }
 
-        $this->groupType::findOrFail($id)->delete();
 
         return true;
     }

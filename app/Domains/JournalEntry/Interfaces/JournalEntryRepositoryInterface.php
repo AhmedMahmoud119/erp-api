@@ -6,6 +6,7 @@ use App\Domains\JournalEntry\Models\JournalEntry;
 use App\Domains\JournalEntry\Request\ImportJournalEntryDetailsRequest;
 use App\Domains\JournalEntry\Request\StoreJournalEntryRequest;
 use App\Domains\JournalEntry\Request\UpdateJournalEntryRequest;
+use Exception;
 
 interface JournalEntryRepositoryInterface
 {
@@ -18,4 +19,5 @@ interface JournalEntryRepositoryInterface
     public function exportJournalEntryDetailsToFile(string $id);
     public function exportJournalEntries();
     public function importJournalEntries();
+    public function balanceSheet();
 }

@@ -2,16 +2,19 @@
 
 namespace App\Domains\JournalEntry\Controllers;
 
-use App\Domains\JournalEntry\Exports\JournalEntriesExport;
-use App\Domains\JournalEntry\Imports\JournalEntriesImport;
+
 use App\Domains\JournalEntry\Models\EnumPermissionJournalEntry;
 use App\Domains\JournalEntry\Request\ImportJournalEntryDetailsRequest;
 use App\Domains\JournalEntry\Request\StoreJournalEntryRequest;
 use App\Domains\JournalEntry\Request\UpdateJournalEntryRequest;
+use App\Domains\JournalEntry\Resources\BalanceSheetResource;
+use App\Domains\JournalEntry\Resources\CollectionBalanceSheetResource;
 use App\Domains\JournalEntry\Resources\JournalEntryResource;
+use App\Domains\JournalEntry\Resources\ProfitLossGroupsResource;
+use App\Domains\JournalEntry\Resources\ProfitLossResource;
+use App\Domains\JournalEntry\Resources\TrialBalanceSheetResource;
 use App\Domains\JournalEntry\Services\JournalEntryService;
 use App\Http\Controllers\Controller;
-use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\Response;
 
 class JournalEntryController extends Controller
@@ -49,23 +52,35 @@ class JournalEntryController extends Controller
     {
 
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::create_journalEntry->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $this->journalEntryService->create($request);
-        return response()->json([
-            'message' => __('Created Successfully'),
-            'status' => true,
-        ], Response::HTTP_CREATED);
+        try {
+            $this->journalEntryService->create($request);
+            return response()->json([
+                'message' => __('Created Successfully'),
+                'status' => true,
+            ], Response::HTTP_CREATED);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'status' => false,
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     public function update($id, UpdateJournalEntryRequest $request)
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::edit_journalEntry->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        $this->journalEntryService->update($id, $request);
-        return response()->json([
-            'message' => __('Updated Successfully'),
-            'status' => true,
-        ], Response::HTTP_OK);
+        try {
+            $this->journalEntryService->update($id, $request);
+            return response()->json([
+                'message' => __('Updated Successfully'),
+                'status' => true,
+            ], Response::HTTP_OK);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'status' => false,
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     public function importJournalEntryDetailsFromFile($id, ImportJournalEntryDetailsRequest $request)
@@ -96,7 +111,7 @@ class JournalEntryController extends Controller
             'status' => true,
         ], Response::HTTP_OK);
     }
-    public function importJournalEntries()
+    public function importJournalEntries(ImportJournalEntryDetailsRequest $request)
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::import_journalEntry->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $this->journalEntryService->importJournalEntries();
@@ -104,5 +119,25 @@ class JournalEntryController extends Controller
             'message' => __('Imported Successfully'),
             'status' => true,
         ], Response::HTTP_OK);
+    }
+
+    public function balanceSheet()
+    {
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::view_balance_sheet->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return new CollectionBalanceSheetResource($this->journalEntryService->balanceSheet());
+    }
+
+    public function trialBalanceSheet()
+    {
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::view_trial_balance_sheet->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return new TrialBalanceSheetResource($this->journalEntryService->trialBalanceSheet());
+    }
+    public function profitLoss()
+    {
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionJournalEntry::view_profit_loss->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return new ProfitLossGroupsResource($this->journalEntryService->profitLoss());
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Domains\Supplier\Resources;
 
+use App\Domains\Vendor\Resources\AddressResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class SupplierResource extends JsonResource
@@ -11,13 +12,16 @@ class SupplierResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'code' => $this->code,
             'name' => $this->name,
-            'email'=> $this->email,
-            'code'=> $this->code,
-            'contact'=> $this->contact,
-            'parent'=> $this->parent,
-            'currency'=> $this->currency,
-            'address'=> $this->address,
+            'contact' => $this->contact,
+            'email' => $this->email,
+            'currency' => $this->currency->name ?? null,
+            'currency_id' => $this->currency_id,
+            'account_code' => $this->account->code ?? null,
+            'parent_account_id' => $this->parent_account_id,
+            'balance' => $this->purchase_sum_total,
+            'address' => new AddressResource($this->address),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
         ];

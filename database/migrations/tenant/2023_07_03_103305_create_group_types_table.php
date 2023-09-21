@@ -19,6 +19,8 @@ return new class extends Migration
             $table->integer('code');
             $table->boolean('is_fixed')->default(false);
             $table->foreignId('creator_id')->references('id')->on('users')->nullable();
+            $table->string('icon')->nullable();
+
             $table->timestamps();
             $table->softDeletes();
         });

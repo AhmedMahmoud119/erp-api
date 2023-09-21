@@ -2,6 +2,7 @@
 
 namespace App\Domains\Tax\Repositories;
 
+use App\Domains\Module\Models\Moduleables;
 use App\Domains\Tax\Interfaces\TaxRepositoryInterface;
 use App\Domains\Tax\Models\Tax;
 use Illuminate\Database\Eloquent\Collection;
@@ -22,24 +23,23 @@ class TaxMySqlRepository implements TaxRepositoryInterface
     {
         return $this->tax::when(request()->search, function ($q) {
             $q->where('name', 'like', '%' . request()->search . '%');
-        })->when(request()->percentage, function ($q) {
-            $q->where('percentage', request()->percentage);
+        })->when(request()->has('percentage'), function ($q) {
+            $term = intval(request()->percentage);
+            $q->where('percentage', '>=', $term);
+            $q->where('percentage', '<', ++$term);
         })->when(request()->creator_id, function ($q) {
             $q->where('creator_id', request()->creator_id);
-        })   ->when(request()->from, function ($q) {
+        })->when(request()->from, function ($q) {
             $q->whereDate('created_at', '>=', request()->from);
         })->when(request()->to, function ($q) {
             $q->whereDate('created_at', '<=', request()->to);
-        })
-            ->when(request()->created_at, function ($q) {
-            $q->whereBetween('created_at', [request()->date_from, request()->date_to]);
         })->when(request()->sort_by, function ($q) {
-            if (in_array(request()->sort_by, ['percentage',  'name', 'created_at'])) {
+            if (in_array(request()->sort_by, ['percentage', 'id', 'creator_id', 'name', 'created_at'])) {
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
             }
-            $q->orderBy('id', 'asc');
-        })
-            ->with('creator')->paginate(request('limit',config('app.pagination_count')));
+            $q->orderBy('name', 'asc');
+        })->orderBy('name', 'asc')
+            ->with('creator')->paginate(request('limit', config('app.pagination_count')));
     }
 
     public function store($request): bool
@@ -64,8 +64,16 @@ class TaxMySqlRepository implements TaxRepositoryInterface
             'name' => $request->name ?? $tax->name,
             'percentage' => $request->percentage ?? $tax->percentage,
         ]);
-        $modules = $request->modules;
-        $tax->modules()->sync($modules);
+        Moduleables::where('moduleables_id', $id)->where('moduleables_type', Tax::class)->delete();
+        $modules = collect($request->modules)->map(function ($module) use ($id) {
+            return [
+                'moduleables_id' => $id,
+                'moduleables_type' => Tax::class,
+                'module_id' => $module,
+            ];
+        });
+        Moduleables::insert($modules->toArray());
+
         return true;
     }
 

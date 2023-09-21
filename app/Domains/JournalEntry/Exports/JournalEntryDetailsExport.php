@@ -14,9 +14,12 @@ class JournalEntryDetailsExport implements FromCollection, WithMapping, WithHead
 {
     use Exportable;
 
+    public function __construct(private $id)
+    {
+    }
     public function collection()
     {
-        return JournalEntryDetail::get();
+        return JournalEntryDetail::where('journal_entry_id', $this->id)->get();
     }
 
     public function map($data): array
@@ -26,7 +29,6 @@ class JournalEntryDetailsExport implements FromCollection, WithMapping, WithHead
             $data->debit,
             $data->credit,
             $data->journal_entry_id,
-            $data->tax_id ?? '',
             $data->description,
 
         ];
@@ -39,7 +41,6 @@ class JournalEntryDetailsExport implements FromCollection, WithMapping, WithHead
             'Debit',
             'Credit',
             'Journal Entry Id',
-            'Tax Id',
             'Description',
         ];
     }

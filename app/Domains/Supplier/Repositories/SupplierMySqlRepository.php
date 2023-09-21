@@ -15,22 +15,33 @@ class SupplierMySqlRepository implements SupplierRepositoryInterface
     }
     public function list()
     {
-        return Supplier::when(request()->search, function ($q) {
+        $result = $this->supplier::when(request()->search, function ($q) {
             $searchTerm = '%' . request()->search . '%';
             $q->where(function ($query) use ($searchTerm) {
                 $query->where('name', 'like', $searchTerm);
+                $query->where('code', 'like', $searchTerm);
             });
-        })
-            ->when(request()->creator_id, function ($q) {
-                return $q->where('creator_id', request()->creator_id);
-            })
-            ->when(request()->sort_by, function ($q) {
-                if (in_array(request()->sort_by, ['name', 'created_at', 'code'])) {
-                    $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
-                }
-            })
-            ->with(['address', 'parent', 'currency'])
-            ->orderBy('name')->paginate(request('limit', config('app.pagination_count')));
+        })->when(request()->transaction_from, function ($q) {
+            $q->whereHas('purchase', function ($query) {
+                $query->whereDate('date', '>=', request()->transaction_from);
+            });
+        })->when(request()->transaction_to, function ($q) {
+            $q->whereHas('purchase', function ($query) {
+                $query->whereDate('date', '<=', request()->transaction_to);
+            });
+        })->when(request()->from, function ($q) {
+            $q->whereDate('created_at', '>=', request()->from);
+        })->when(request()->to, function ($q) {
+            $q->whereDate('created_at', '<=', request()->to);
+        })->when(request()->creator_id, function ($q) {
+            return $q->where('creator_id', request()->creator_id);
+        })->when(request()->sort_by, function ($q) {
+            if (in_array(request()->sort_by, ['name', 'created_at', 'code', 'contact', 'email'])) {
+                $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
+            }
+        })->with(['address', 'account', 'currency'])->withSum('purchase', 'total')->orderBy('name')
+            ->paginate(request('limit', config('app.pagination_count')));
+        return $result;
     }
     public function findById($id) :Supplier
     {
@@ -51,7 +62,7 @@ class SupplierMySqlRepository implements SupplierRepositoryInterface
             'country_id' => $request->country_id,
         ]);
 
-        $accountCode = Account::find($request->parent, 'code');
+        $accountCode = Account::find($request->parent_account_id);
         $spplierMaxId = $this->supplier::max('id') ?? 0;
         $data = [
             'code' => $accountCode->code . ($spplierMaxId + 1),
@@ -59,7 +70,7 @@ class SupplierMySqlRepository implements SupplierRepositoryInterface
             'email' => $request->email,
             'contact' => $request->contact,
             'address_id' => $address->id,
-            'parent' => $request->parent,
+            'parent_account_id' => $request->parent_account_id,
             'currency_id' => $request->currency_id,
         ];
         $this->supplier::create($data);
@@ -82,14 +93,14 @@ class SupplierMySqlRepository implements SupplierRepositoryInterface
             'country_id' => $request->country_id,
         ]);
 
-        $accountCode = Account::find($request->parent, 'code');
+        $accountCode = Account::find($request->parent_account_id);
         $spplierId = $id;
         $data = [
             'code' => $accountCode->code . ($spplierId),
             'name' => $request->name,
             'email' => $request->email,
             'contact' => $request->contact,
-            'parent' => $request->parent,
+            'parent_account_id' => $request->parent_account_id,
             'currency_id' => $request->currency_id,
         ];
         $supplier->update($data);

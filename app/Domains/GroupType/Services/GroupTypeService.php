@@ -36,5 +36,9 @@ class GroupTypeService
 
         return $this->groupTypeRepository->update($id,$request);
     }
+    public function getTreeView()
+    {
+        return $this->groupTypeRepository->getTreeView();
+    }
 
 }
