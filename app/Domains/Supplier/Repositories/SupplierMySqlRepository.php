@@ -46,7 +46,9 @@ class SupplierMySqlRepository implements SupplierRepositoryInterface
     public function findById($id) :Supplier
     {
         $supplier = $this->supplier::findOrFail($id);
-        $supplier->load(['address', 'account', 'currency','purchase_sum_total']);
+        $total = ($supplier->purchase)?->sum('total');
+        $supplier->purchase_sum_total = $total;
+        $supplier->load(['address', 'account', 'currency']);
         return $supplier;
     }
 

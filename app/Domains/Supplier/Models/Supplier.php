@@ -41,8 +41,4 @@ class Supplier extends Model
     {
         return $this->morphOne(Purchase::class, 'purchasable');
     }
-    public function purchase_sum_total()
-    {
-        return $this->withSum('purchase', 'total');
-    }
 }
