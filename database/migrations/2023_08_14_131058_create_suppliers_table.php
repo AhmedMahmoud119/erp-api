@@ -21,7 +21,8 @@ return new class extends Migration
             $table->string('contact');
 
             $table->foreignId('parent_account_id')->references('id')->on('accounts');
-            $table->foreignId('address_id')->nullable()->references('id')->on('addresses')->onDelete('cascade');
+            $table->foreignId('address_id')->nullable()->references('id')->on('addresses');
+            $table->foreignId('creator_id')->constrained('users');
             $table->foreignId('currency_id')->nullable()->references('id')->on('currencies');
             $table->timestamps();
             $table->softDeletes();
