@@ -5,7 +5,6 @@ namespace App\Domains\Supplier\Repositories;
 use App\Domains\Supplier\Interfaces\SupplierRepositoryInterface;
 use App\Domains\Supplier\Models\Supplier;
 use App\Domains\Vendor\Models\Address;
-use Illuminate\Database\Eloquent\Collection;
 use App\Domains\Account\Models\Account;
 
 class SupplierMySqlRepository implements SupplierRepositoryInterface
@@ -43,12 +42,11 @@ class SupplierMySqlRepository implements SupplierRepositoryInterface
             ->paginate(request('limit', config('app.pagination_count')));
         return $result;
     }
-    public function findById($id) :Supplier
+    public function findById($id): Supplier
     {
         $supplier = $this->supplier::findOrFail($id);
-        $total = ($supplier->purchase)?->sum('total');
-        $supplier->purchase_sum_total = $total;
-        $supplier->load(['address', 'account', 'currency','creator']);
+        $supplier->purchase_sum_total = $supplier->purchase->sum('total');
+        $supplier->load(['address', 'account', 'currency', 'creator']);
         return $supplier;
     }
 
