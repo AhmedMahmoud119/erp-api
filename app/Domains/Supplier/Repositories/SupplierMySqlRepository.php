@@ -13,35 +13,9 @@ class SupplierMySqlRepository implements SupplierRepositoryInterface
     public function __construct(private Supplier $supplier)
     {
     }
-    public function list()
+    public function list($filter)
     {
-        $result = $this->supplier::when(request()->search, function ($q) {
-            $searchTerm = '%' . request()->search . '%';
-            $q->where(function ($query) use ($searchTerm) {
-                $query->where('name', 'like', $searchTerm);
-                $query->where('code', 'like', $searchTerm);
-            });
-        })->when(request()->transaction_from, function ($q) {
-            $q->whereHas('purchase', function ($query) {
-                $query->whereDate('date', '>=', request()->transaction_from);
-            });
-        })->when(request()->transaction_to, function ($q) {
-            $q->whereHas('purchase', function ($query) {
-                $query->whereDate('date', '<=', request()->transaction_to);
-            });
-        })->when(request()->from, function ($q) {
-            $q->whereDate('created_at', '>=', request()->from);
-        })->when(request()->to, function ($q) {
-            $q->whereDate('created_at', '<=', request()->to);
-        })->when(request()->creator_id, function ($q) {
-            return $q->where('creator_id', request()->creator_id);
-        })->when(request()->sort_by, function ($q) {
-            if (in_array(request()->sort_by, ['name', 'created_at', 'code', 'contact', 'email'])) {
-                $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
-            }
-        })->with(['address', 'account', 'currency'])->withSum('purchase', 'total')->orderBy('name')
-            ->paginate(request('limit', config('app.pagination_count')));
-        return $result;
+        return $this->supplier::filter($filter)->with(['currency','account','address'])->withSum('purchase', 'total')->paginate(request('limit', config('app.pagination_count')));
     }
 
     public function store($request): bool

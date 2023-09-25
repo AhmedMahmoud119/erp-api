@@ -13,11 +13,11 @@ class SupplierService
     {
     }
 
-    public function list()
+    public function list($filter)
     {
-        return $this->supplierRepository->list();
+        return $this->supplierRepository->list($filter);
     }
-   
+
     public function delete($id)
     {
         return $this->supplierRepository->delete($id);

@@ -6,6 +6,7 @@ use App\Domains\Supplier\Models\EnumPermissionSupplier;
 use App\Domains\Supplier\Request\StoreSupplierRequest;
 use App\Domains\Supplier\Request\UpdateSupplierRequest;
 use App\Domains\Supplier\Resources\SupplierResource;
+use App\Domains\Supplier\Services\SupplierFilterService;
 use App\Domains\Supplier\Services\SupplierService;
 use App\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,11 +19,11 @@ class SupplierController extends Controller
     {
     }
 
-    public function list()
+    public function list(SupplierFilterService $filter)
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionSupplier::view_suppliers->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return  SupplierResource::collection($this->supplierService->list());
+        return  SupplierResource::collection($this->supplierService->list($filter));
     }
 
     public function delete($id)
@@ -51,18 +52,17 @@ class SupplierController extends Controller
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionSupplier::edit_supplier->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        if (!$this->supplierService->update($id, $request))
-        {
+        if (!$this->supplierService->update($id, $request)) {
             return response()->json([
                 'message' => __('Could not find the Supplier information!'),
                 'status' => false,
             ], 422);
         }
 
-       return response()->json([
-                'message' => __('Supplier information updated successfully!'),
-                'status' => true,
-            ], 200);
+        return response()->json([
+            'message' => __('Supplier information updated successfully!'),
+            'status' => true,
+        ], 200);
 
     }
 }
