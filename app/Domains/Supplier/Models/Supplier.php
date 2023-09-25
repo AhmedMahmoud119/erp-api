@@ -6,6 +6,7 @@ use App\Domains\Account\Models\Account;
 use App\Domains\Currency\Models\Currency;
 use App\Domains\Purchase\Models\Purchase;
 use App\Domains\Vendor\Models\Address;
+use App\Traits\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Supplier extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Filterable;
     protected $fillable = [
         'name',
         'email',
@@ -26,7 +27,7 @@ class Supplier extends Model
     ];
     public function address()
     {
-        return $this->belongsTo(Address::class);
+        return $this->belongsTo(Address::class)->with('country', 'state', 'city');
     }
     public function account()
     {
