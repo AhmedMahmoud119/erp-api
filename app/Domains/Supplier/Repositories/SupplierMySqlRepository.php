@@ -5,7 +5,6 @@ namespace App\Domains\Supplier\Repositories;
 use App\Domains\Supplier\Interfaces\SupplierRepositoryInterface;
 use App\Domains\Supplier\Models\Supplier;
 use App\Domains\Vendor\Models\Address;
-use Illuminate\Database\Eloquent\Collection;
 use App\Domains\Account\Models\Account;
 
 class SupplierMySqlRepository implements SupplierRepositoryInterface
@@ -39,9 +38,16 @@ class SupplierMySqlRepository implements SupplierRepositoryInterface
             if (in_array(request()->sort_by, ['name', 'created_at', 'code', 'contact', 'email'])) {
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
             }
-        })->with(['address', 'account', 'currency'])->withSum('purchase', 'total')->orderBy('name')
+        })->with(['address', 'account', 'currency','creator'])->withSum('purchase', 'total')->orderBy('name')
             ->paginate(request('limit', config('app.pagination_count')));
         return $result;
+    }
+    public function findById($id): Supplier
+    {
+        $supplier = $this->supplier::findOrFail($id);
+        $supplier->purchase_sum_total = $supplier->purchase->sum('total');
+        $supplier->load(['address', 'account', 'currency', 'creator']);
+        return $supplier;
     }
 
     public function store($request): bool
@@ -66,6 +72,7 @@ class SupplierMySqlRepository implements SupplierRepositoryInterface
             'address_id' => $address->id,
             'parent_account_id' => $request->parent_account_id,
             'currency_id' => $request->currency_id,
+            'creator_id' => auth()->user()->id,
         ];
         $this->supplier::create($data);
         return true;

@@ -17,7 +17,11 @@ class SupplierService
     {
         return $this->supplierRepository->list();
     }
-   
+    public function findById($id)
+    {
+        return $this->supplierRepository->findById($id);
+    }
+
     public function delete($id)
     {
         return $this->supplierRepository->delete($id);

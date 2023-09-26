@@ -5,10 +5,11 @@ namespace App\Domains\Supplier\Models;
 use App\Domains\Account\Models\Account;
 use App\Domains\Currency\Models\Currency;
 use App\Domains\Purchase\Models\Purchase;
+use App\Domains\User\Models\User;
 use App\Domains\Vendor\Models\Address;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 
@@ -23,6 +24,7 @@ class Supplier extends Model
         'parent_account_id',
         'currency_id',
         'address_id',
+        'creator_id',
     ];
     public function address()
     {
@@ -37,8 +39,12 @@ class Supplier extends Model
         return $this->belongsTo(Currency::class);
     }
 
-    public function purchase(): MorphOne
+    public function purchase(): MorphMany
     {
-        return $this->morphOne(Purchase::class, 'purchasable');
+        return $this->morphMany(Purchase::class, 'purchasable');
+    }
+    public function creator()
+    {
+        return $this->belongsTo(User::class,'creator_id');
     }
 }

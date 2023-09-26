@@ -38,7 +38,7 @@ class DatabaseSeeder extends Seeder
             TaxSeeder::class,
             // CompanySeeder::class,
             FinancialPeriodSeeder::class,
-            // JournalEntrySeeder::class,
+            JournalEntrySeeder::class,
             CurrencyCodesSeeder::class,
             CurrencySeederTable::class,
             CountriesTableSeeder::class,

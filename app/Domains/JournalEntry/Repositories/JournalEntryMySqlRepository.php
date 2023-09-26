@@ -64,7 +64,7 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
             $q->whereDate('created_at', '<=', request()->to);
         })->when(request()->sort_by || request()->sort_type, function ($q) {
             if (in_array(request()->sort_by, ['id', 'title', 'entry_no', 'date', 'description', 'created_at', 'updated_at', 'creator_id'])) {
-                $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
+                $q->orderBy(request()->sort_by, sortDir(request()->sort_type));
             }
         })->orderBy('updated_at', 'desc')->with(['details', 'creator'])->paginate(request('limit', config('app.pagination_count')));
     }
