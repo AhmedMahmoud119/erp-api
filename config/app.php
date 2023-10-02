@@ -235,6 +235,7 @@ return [
         App\Domains\PaymentType\Providers\PaymentTypeServiceProvider::class,
         App\Domains\Purchase\Providers\PurchaseServiceProvider::class,
         App\Domains\Pack\Providers\PackServiceProvider::class,
+        App\Domains\FixedAsset\Providers\FixedAssetServiceProvider::class,
 
 
 

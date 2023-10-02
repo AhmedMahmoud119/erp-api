@@ -1,0 +1,43 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('fixed_assets', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('code');
+            $table->string('description');
+            $table->date('acquisition_date');
+            $table->integer('acquisition_value');
+            $table->decimal('depreciation_ratio', 10, 2);
+            $table->integer('depreciation_value');
+            $table->integer('depreciation_duration_value');
+            $table->enum('depreciation_duration_type', ['D', 'M', 'Y']); // day | month | year
+            $table->foreignId('parent_account_id')->nullable()->constrained('accounts')->onDelete('cascade');
+            $table->foreignId('parent_Group_id')->nullable()->constrained('groups')->onDelete('cascade');
+            $table->foreignId('creator_id')->constrained('users')->onDelete('cascade');
+            $table->timestamps();
+            $table->softDeletes();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('fixed_assets');
+    }
+};
