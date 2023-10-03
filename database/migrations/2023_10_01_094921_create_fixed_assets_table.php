@@ -22,9 +22,9 @@ return new class extends Migration {
             $table->decimal('depreciation_ratio', 10, 2);
             $table->integer('depreciation_value');
             $table->integer('depreciation_duration_value');
-            $table->enum('depreciation_duration_type', ['D', 'M', 'Y']); // day | month | year
-            $table->foreignId('parent_account_id')->nullable()->constrained('accounts')->onDelete('cascade');
-            $table->foreignId('parent_Group_id')->nullable()->constrained('groups')->onDelete('cascade');
+            $table->enum('depreciation_duration_type', ['day', 'month', 'year']); 
+            $table->unsignedBigInteger('parent_id');
+            $table->string('parent_type');
             $table->foreignId('creator_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();

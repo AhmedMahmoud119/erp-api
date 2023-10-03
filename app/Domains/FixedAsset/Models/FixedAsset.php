@@ -31,12 +31,8 @@ class FixedAsset extends Model
     {
         return $this->belongsTo(User::class, 'creator_id');
     }
-    public function parent_group()
+   public function parent()
     {
-        return $this->belongsTo(Group::class, 'parent_group_id');
-    }
-    public function parent_account()
-    {
-        return $this->belongsTo(Account::class, 'parent_account_id');
+        return $this->morphTo();
     }
 } //End Of Model

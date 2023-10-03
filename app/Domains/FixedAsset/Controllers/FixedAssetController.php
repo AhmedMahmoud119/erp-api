@@ -21,7 +21,7 @@ class FixedAssetController extends Controller
 
     public function list()
     {
-        // abort_if(!auth()->user()->hasPermissionTo(EnumPermissionFixedAsset::view_FixedAssets->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionFixedAsset::view_FixedAssets->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return FixedAssetResource::collection($this->FixedAssetService->list());
     }
@@ -35,7 +35,7 @@ class FixedAssetController extends Controller
     public function create(StoreFixedAssetRequest $request)
     {
 
-        // abort_if(!auth()->user()->hasPermissionTo(EnumPermissionFixedAsset::create_FixedAsset->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionFixedAsset::create_FixedAsset->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->FixedAssetService->create($request);
         return response()->json([
@@ -46,7 +46,7 @@ class FixedAssetController extends Controller
 
     public function update($id, UpdateFixedAssetRequest $request)
     {
-        // abort_if(!auth()->user()->hasPermissionTo(EnumPermissionFixedAsset::edit_FixedAsset->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionFixedAsset::edit_FixedAsset->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->FixedAssetService->update($id, $request);
         return response()->json([

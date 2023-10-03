@@ -3,6 +3,7 @@
 namespace App\Domains\Group\Models;
 
 use App\Domains\Account\Models\Account;
+use App\Domains\FixedAsset\Models\FixedAsset;
 use App\Domains\GroupType\Models\GroupType;
 use App\Domains\User\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -40,5 +41,9 @@ class Group extends Model
         return $this->hasMany(Account::class)
             ->where('parent_id', null)
             ->with('children');
+    }
+    public function fixedAssets()
+    {
+        return $this->morphMany(FixedAsset::class, 'parent');
     }
 }
