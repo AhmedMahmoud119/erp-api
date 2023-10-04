@@ -19,10 +19,12 @@ class GroupFactory extends Factory
     protected $model = \App\Domains\Group\Models\Group::class;
     public function definition()
     {
+
+        $end = GroupType::count();
         return [
             'name' => $this->faker->name(),
             'group_type_id' => $this->faker->numberBetween(1, GroupType::count()),
-            'code' => $this->faker->numberBetween(1000, 9999),
+            'code' => $this->faker->numberBetween(1, $end).'00'. $this->faker->numberBetween(1,9),
             'creator_id' =>  User::inRandomOrder()->first()->id,
         ];
     }

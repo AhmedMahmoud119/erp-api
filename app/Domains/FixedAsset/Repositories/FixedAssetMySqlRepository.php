@@ -7,6 +7,7 @@ use App\Domains\FixedAsset\Interfaces\FixedAssetRepositoryInterface;
 use App\Domains\FixedAsset\Models\FixedAsset;
 use App\Domains\Group\Models\Group;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use PhpOffice\PhpSpreadsheet\Calculation\Financial\Depreciation;
 
 class FixedAssetMySqlRepository implements FixedAssetRepositoryInterface
@@ -36,11 +37,8 @@ class FixedAssetMySqlRepository implements FixedAssetRepositoryInterface
             if (in_array(request()->sort_by, ['code', 'name', 'acquisition_value', 'acquisition_date', 'depreciation_value', 'created_at', 'id', 'creator_id'])) {
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
             }
-        })->orderBy('updated_at', 'desc')->with(['creator', 'parent:id,name,code'])->paginate(request('limit', config('app.pagination_count')))
-            ->map(function ($fixedAsset) {
-                $fixedAsset->depreciation = $this->getDepreciation($fixedAsset);
-                return $fixedAsset;
-            });
+        })->orderBy('updated_at', 'desc')->with(['creator', 'parent:id,name,code'])->paginate(request('limit', config('app.pagination_count')));
+
         return $fixedAssets;
     }
 
@@ -51,15 +49,20 @@ class FixedAssetMySqlRepository implements FixedAssetRepositoryInterface
     }
     public function store($request)
     {
-        if ($request->parent_type === 'group') {
+        //check code to determin the parent
+        $codeLength = Str::length($request->parent_code);
+        if ($codeLength === 4) {
             $parent = Group::find($request->parent_id);
         }
-        if ($request->parent_type === 'account') {
+        if ($codeLength === 8) {
             $parent = Account::find($request->parent_id);
         }
+        $depreciation_ratio = isset($request->depreciation_ratio) ? $request->depreciation_ratio : $this->getDepreciationRatio($request->depreciation_duration_value, $request->acquisition_value, $request->depreciation_value);
         $asset = $this->FixedAsset::create(
             $request->validated() + [
-                'code' => $this->generateCode($request->parent_code, $request->parent_type),
+                'code' => $this->generateCode($request->parent_code, $codeLength),
+                'depreciation_ratio' => $depreciation_ratio,
+                'depreciation' => $this->getDepreciation($request->depreciation_duration_value, $request->acquisition_value, $request->depreciation_value),
                 'creator_id' => auth()->user()->id
             ]
         );
@@ -70,16 +73,20 @@ class FixedAssetMySqlRepository implements FixedAssetRepositoryInterface
     public function update(string $id, $request): bool
     {
         $asset = $this->FixedAsset::findOrFail($id);
-
-        if ($request->parent_type === 'group') {
-            $newParent = Group::find($request->parent_id);
-        } elseif ($request->parent_type === 'account') {
-            $newParent = Account::find($request->parent_id);
+        $codeLength = Str::length($request->parent_code);
+        if ($codeLength === 4) {
+            $parent = Group::find($request->parent_id);
         }
+        if ($codeLength === 8) {
+            $parent = Account::find($request->parent_id);
+        }
+        $depreciation_ratio = isset($request->depreciation_ratio) ? $request->depreciation_ratio : $this->getDepreciationRatio($request->depreciation_duration_value, $request->acquisition_value, $request->depreciation_value);
 
-        $asset->parent()->associate($newParent);
+        $asset->parent()->associate($parent);
         $asset->update(request()->except('parent_code', 'parent_id') + [
-            'code' => $this->generateCode($request->parent_code, $request->parent_type),
+            'code' => $this->generateCode($request->parent_code, $codeLength),
+            'depreciation_ratio' => $depreciation_ratio,
+            'depreciation' => $this->getDepreciation($request->depreciation_duration_value, $request->acquisition_value, $request->depreciation_value),
         ]);
         return true;
     }
@@ -93,65 +100,49 @@ class FixedAssetMySqlRepository implements FixedAssetRepositoryInterface
     /**
      * Generate new fixed asset code based on parent code and parent type
      * @param int $parentCode
-     * @param string $parentType
+     * @param int $codeLength
+     * @return string
      */
-    private function generateCode(int $parentCode, string $parentType)
+    private function generateCode(int $parentCode, int $codeLength)
     {
-        $code = '';
-        $codeLength = 12;
-        if ($parentType === 'group') {
-            $codeLength = 8;
-        }
-        $lastAsset = FixedAsset::where('code', 'like', $parentCode . '%')->orderBy('id', 'desc')->first();
+        $codeLength = $codeLength + 4;
+        $lastAsset = FixedAsset::where('code', 'like', $parentCode . '%')->whereRaw('LENGTH(code) = ?', [$codeLength])->orderBy('id', 'desc')->first();
         if ($lastAsset) {
             $lastAssetCode = $lastAsset->code + 1;
         } else {
             $lastAssetCode = (int) ($parentCode . '0001');
         }
         $code = str_pad($lastAssetCode, $codeLength, '0', STR_PAD_LEFT);
-
         return $code;
     }
 
     /**
-     * Calculate Depreciation value .
-     * @param \App\Domains\FixedAsset\Models\FixedAsset $fixedAsset
+     * Calculate the Depreciation of  assets .
+     * @param int $depreciationDuration
+     * @param float $acquisitionValue
+     * @param float $depreciationValue
      * @return float
      */
-    private function getDepreciation(FixedAsset $fixedAsset): float
+    private function getDepreciation(int $depreciationDuration, float $acquisitionValue, float $depreciationValue): float
     {
-        $depreciationDuration = $fixedAsset->depreciation_duration_value;
-        $acquisitionValue = $fixedAsset->acquisition_value;
-        $depreciationValue = $fixedAsset->depreciation_value;
-
-        if ($depreciationDuration === 0) {
+        if ($depreciationDuration == 0) {
             return 0.0;
         }
         return ($acquisitionValue - $depreciationValue) / $depreciationDuration;
     }
-    private function getDepreciation_(FixedAsset $fixedAsset): float
-    {
-        $depreciationDuration = $fixedAsset->depreciation_duration_value;
-        $depreciationDuration_type = $fixedAsset->depreciation_duration_type;
-        $acquisitionValue = $fixedAsset->acquisition_value;
-        $depreciationValue = $fixedAsset->depreciation_value;
 
-        if ($depreciationDuration === 0) {
+    /**
+     * Calculate Depreciation Ratio
+     * @param int $depreciationDuration
+     * @param float $acquisitionValue
+     * @param float $depreciationValue
+     * @return float
+     */
+    private function getDepreciationRatio(int $depreciationDuration, float $acquisitionValue, float $depreciationValue): float
+    {
+        if ($acquisitionValue == 0) {
             return 0.0;
         }
-        switch ($depreciationDuration_type) {
-            case 'day':
-                return ($acquisitionValue - $depreciationValue) / ($depreciationDuration);
-            case 'month':
-                # code...
-                break;
-            case 'year':
-                # code...
-                break;
-            default:
-                # code as a year...
-                break;
-        }
-        return ($acquisitionValue - $depreciationValue) / $depreciationDuration;
+        return ($this->getDepreciation($depreciationDuration, $acquisitionValue, $depreciationValue) / $acquisitionValue) * 100;
     }
 }
