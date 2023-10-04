@@ -29,6 +29,13 @@ class FixedAssetMySqlRepository implements FixedAssetRepositoryInterface
             $q->where('acquisition_value', request()->acquisition_value);
         })->when(request()->acquisition_date, function ($q) {
             $q->whereDate('acquisition_date', '>=', request()->acquisition_date);
+        })->when(request()->parent_id && request()->parent_code, function ($q) {
+            $parentModel = (Str::length(request()->parent_code) === 8) ? Account::class : Group::class;
+            $parentId = request()->parent_id;
+            $q->where(function ($query) use ($parentModel, $parentId) {
+                $query->where('parent_type', $parentModel)
+                    ->where('parent_id', $parentId);
+            });
         })->when(request()->creator_id, function ($q) {
             $q->where('creator_id', request()->creator_id);
         })->when(request()->from || request()->to, function ($q) {

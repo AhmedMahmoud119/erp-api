@@ -25,7 +25,7 @@ class UpdateFixedAssetRequest extends FormRequest
             'acquisition_value' => 'required|numeric|min:0',
             'depreciation_value' => 'required|numeric|min:0',
             'depreciation_ratio' => 'numeric',
-            'depreciation_duration_type' => 'required|in:day,month,year',
+            'depreciation_duration_type' => 'required|in:month,year',
             'depreciation_duration_value' => 'required|integer|min:1',
             'parent_id' => 'required',
             'parent_code' => 'required',

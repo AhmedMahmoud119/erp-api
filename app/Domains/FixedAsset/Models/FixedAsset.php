@@ -23,6 +23,7 @@ class FixedAsset extends Model
         'depreciation_duration_value',
         'depreciation_duration_type',
         'depreciation_value',
+        'depreciation',
         'parent_account_id',
         'parent_Group_id',
         'creator_id',
