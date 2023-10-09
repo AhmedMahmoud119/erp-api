@@ -118,6 +118,12 @@ class GroupMySqlRepository implements GroupRepositoryInterface
         $fileName = 'GroupsDetailes-' . date("Y-m-d-his") . '.pdf';
         $pdf->save($path . '/' . $fileName);
 
+        if(tenant('id')){
+            return response()->json([
+                'file_path' => url('storage/exports/' . $fileName),
+            ]);
+        }
+
         return response()->json([
             'file_path' => asset('storage/exports/' . $fileName),
         ]);
