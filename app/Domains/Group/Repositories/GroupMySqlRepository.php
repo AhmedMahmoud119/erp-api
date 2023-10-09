@@ -29,7 +29,7 @@ class GroupMySqlRepository implements GroupRepositoryInterface
         })->when(request()->code, function ($q) {
             $q->where('code', request()->code);
         })->when(request()->name, function ($q) {
-            $q->where('name', request()->name);
+            $q->where('name','like', '%' . request()->name . '%');
         })->when(request()->from, function ($q) {
             $q->whereDate('created_at', '>=', request()->from);
         })->when(request()->to, function ($q) {
