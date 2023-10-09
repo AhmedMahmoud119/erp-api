@@ -28,7 +28,7 @@ class VendorMySqlRepository implements VendorRepositoryInterface
             $searchTerm = '%' . request()->search . '%';
             $q->where(function ($query) use ($searchTerm) {
                 $query->where('name', 'like', $searchTerm);
-                $query->where('code', 'like', $searchTerm);
+                $query->orWhere('code', 'like', $searchTerm);
             });
         })->when(request()->transaction_from, function ($q) {
             $q->whereHas('purchase', function ($query) {

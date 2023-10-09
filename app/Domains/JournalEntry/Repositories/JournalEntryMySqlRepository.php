@@ -48,13 +48,13 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
         })->when(request()->description, function ($q) {
             $q->where('description', 'LIKE', '%' . request()->description . '%');
         })
-            ->when(request()->amount, function ($q) {
+            ->when(request()->total_credit, function ($q) {
                 $q->joinSub(function ($query) {
                     $query->from('journal_entry_details')
                         ->selectRaw('journal_entry_id, SUM(credit) as total_credit')
                         ->groupBy('journal_entry_id');
                 }, 'sub', 'journal_entries.id', '=', 'sub.journal_entry_id')
-                    ->where('sub.total_credit', '=', request()->amount);
+                    ->where('sub.total_credit', '=', request()->total_credit);
             })
             ->when(request()->creator_id, function ($q) {
                 $q->where('creator_id', request()->creator_id);
