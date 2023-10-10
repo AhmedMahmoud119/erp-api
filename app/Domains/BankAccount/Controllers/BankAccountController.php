@@ -181,4 +181,18 @@ class BankAccountController extends Controller
             'status'  => false,
         ], 400);
     }
+
+    public function types(){
+        return response()->json(
+            [
+                'data' => [
+                    'current',
+                    'saving',
+                    'loan',
+                    'dollar',
+                    'salary'
+                ]
+            ]
+            , 200);
+    }
 }
