@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('holder_name')->nullable();
             $table->string('account_type')->nullable();
             $table->string('chart_of_account')->nullable();
-            $table->json('authorized_by')->nullable();
+            $table->string('authorized_by')->nullable();
             $table->decimal('opening_balance');
             $table->decimal('current_balance');
             $table->string('status')->default('Active'); //   ['in-Active', 'Active',]

@@ -13,7 +13,7 @@ use Spatie\Translatable\HasTranslations;
 class BankAccount extends Model
 {
     use HasFactory,SoftDeletes,HasTranslations;
-    public $translatable = ['authorized_by'];
+    public $translatable = [];
 
     protected $fillable = [
         'name',
