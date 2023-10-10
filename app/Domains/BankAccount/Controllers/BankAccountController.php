@@ -186,11 +186,21 @@ class BankAccountController extends Controller
         return response()->json(
             [
                 'data' => [
-                    'current',
-                    'saving',
-                    'loan',
-                    'dollar',
-                    'salary'
+                    [
+                        'name' => 'current'
+                    ],
+                    [
+                        'name' => 'saving'
+                    ],
+                    [
+                        'name' => 'loan'
+                    ],
+                    [
+                        'name' => 'dollar'
+                    ],
+                    [
+                        'name' => 'salary'
+                    ]
                 ]
             ]
             , 200);
