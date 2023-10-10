@@ -22,7 +22,7 @@ class StoreBankAccountRequest extends FormRequest
             // 'chart_of_account' => 'required|exists:accounts,id',
             'currency_id' => 'required|exists:currencies,id',
             'opening_balance' => 'required|numeric|gt:0',
-            'authorized_by.*' => 'nullable|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
+            'authorized_by' => 'nullable|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
 
         ];
 
@@ -33,7 +33,7 @@ class StoreBankAccountRequest extends FormRequest
             'name.required' => __('The name field is required'),
             'name.regex' => __('The name must only contain letters'),
             'holder_name.regex' => __('The holder_name must be only contain letters'),
-            'authorized_by.*.regex' => __('The authorized_by.* must be only contain letters'),
+            'authorized_by.regex' => __('The authorized_by must be only contain letters'),
             'currency_id.exists' => __('The currency_id not exist'),
             'account_number.required' => __('The account_number field is required'),
             'account_number.numeric' => __('The account_number must be a number'),

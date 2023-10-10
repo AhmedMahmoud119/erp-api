@@ -19,11 +19,10 @@ class BankAccountResource extends JsonResource
             'currency'=>$this->currency->name??null,
             'currency_id'=>$this->currency->id??null,
             'creator'=>$this->creator->name??null,
-            'created_at'=>$this->created_at->format('Y-m-d'),
             'opening_balance'=>$this->opening_balance,
             'current_balance'=>$this->current_balance,
             'status'=>$this->status,
-            'authorized_by' => $this->getTranslations('authorized_by')??null,
+            'authorized_by' => $this->authorized_by??null,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
 
