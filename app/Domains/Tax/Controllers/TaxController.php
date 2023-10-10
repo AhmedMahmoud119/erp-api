@@ -21,8 +21,8 @@ class TaxController extends Controller
 
     public function list(FilterTaxRequest $request)
     {
-        // abort_if(!auth()->user()->hasPermissionTo(EnumPermissionTax::view_taxes->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-        return  TaxResource::collection($this->taxService->list());
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionTax::view_taxes->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        return TaxResource::collection($this->taxService->list());
     }
 
     public function delete($id)
@@ -40,12 +40,12 @@ class TaxController extends Controller
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionTax::view_taxes->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new TaxResource($this->taxService->findById($id));
+        return TaxResource::make($this->taxService->findById($id));
     }
 
     public function create(StoreTaxRequest $request)
     {
-        // abort_if(!auth()->user()->hasPermissionTo(EnumPermissionTax::create_tax->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionTax::create_tax->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $this->taxService->create($request);
         return response()->json([

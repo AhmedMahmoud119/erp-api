@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('code');
             $table->foreignId('group_type_id')->references('id')->on('group_types')->nullable();
             $table->foreignId('creator_id')->references('id')->on('users')->nullable();
+            $table->string('icon')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -51,6 +51,13 @@ class GroupService
         $path = 'exports/groups/' . $filename;
 //        $groups = GroupResource::collection( Group::with('creator','group_type')->get());
         Excel::store(new GroupsExport(), $path, 'public');
+
+        if(tenant('id')){
+            return response()->json([
+                'file_path' => url('storage/tenant'.tenant('id').'/app/public/exports/groups/' . $filename),
+            ]);
+        }
+
         return response()->json([
             'file_path' => asset('storage/'.$path)
         ]);

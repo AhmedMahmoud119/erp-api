@@ -4,13 +4,14 @@ namespace App\Domains\Pack\Models;
 
 use App\Domains\Product\Models\Product;
 use App\Domains\User\Models\User;
+use App\Traits\HasFinancialPeriod;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Pack extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes,HasFinancialPeriod;
 
     protected $fillable = [
         'name',

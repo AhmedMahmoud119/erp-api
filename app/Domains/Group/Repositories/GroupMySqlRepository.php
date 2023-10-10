@@ -22,24 +22,21 @@ class GroupMySqlRepository implements GroupRepositoryInterface
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
             }
         })->when(request()->search, function ($q) {
-            $q->where('name', 'like', '%' . request()->search . '%')->orWhere(
-                'code',
-                'like',
-                '%' . request()->search . '%'
-            );
+            $q->where('name', 'like', '%' . request()->search . '%')
+                ->orWhere('code', 'like', '%' . request()->search . '%');
         })->when(request()->group_type_id, function ($q) {
             $q->where('group_type_id', request()->group_type_id);
         })->when(request()->code, function ($q) {
             $q->where('code', request()->code);
         })->when(request()->name, function ($q) {
-            $q->where('name', request()->name);
+            $q->where('name','like', '%' . request()->name . '%');
         })->when(request()->from, function ($q) {
             $q->whereDate('created_at', '>=', request()->from);
         })->when(request()->to, function ($q) {
             $q->whereDate('created_at', '<=', request()->to);
         })->when(request()->creator_id, function ($q) {
             $q->where('creator_id', request()->creator_id);
-        })
+        })->orderBy('name', 'asc')
             ->with('creator', 'group_type')->paginate(request('limit', config('app.pagination_count')));
     }
 
@@ -62,10 +59,10 @@ class GroupMySqlRepository implements GroupRepositoryInterface
         }
 
         $this->group::create([
-            'name'          => $request->name,
+            'name' => $request->name,
             'group_type_id' => $request->group_type_id,
-            'code'          => $code,
-            'creator_id'    => auth()->user()->id,
+            'code' => $code,
+            'creator_id' => auth()->user()->id,
 
         ]);
 
@@ -101,7 +98,7 @@ class GroupMySqlRepository implements GroupRepositoryInterface
         if ($group->accounts->isEmpty()) {
             $group->delete();
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -111,18 +108,24 @@ class GroupMySqlRepository implements GroupRepositoryInterface
         $groups = Group::with('creator', 'group_type')->get();
 
         $data = [
-            'title'  => 'Groups List',
-            'date'   => date('m/d/Y'),
+            'title' => 'Groups List',
+            'date' => date('m/d/Y'),
             'groups' => $groups,
         ];
         $pdf = PDF::loadView('GroupPDF', $data);
 
-        $path = public_path('storage/exports/groups/');
-        $fileName = time() . '-GroupsDetailes.pdf';
+        $path = public_path('storage/exports/');
+        $fileName = 'GroupsDetailes-' . date("Y-m-d-his") . '.pdf';
         $pdf->save($path . '/' . $fileName);
 
+        if(tenant('id')){
+            return response()->json([
+                'file_path' => url('storage/exports/' . $fileName),
+            ]);
+        }
+
         return response()->json([
-            'file_path' => asset('storage/exports/groups/' . $fileName),
+            'file_path' => asset('storage/exports/' . $fileName),
         ]);
     }
 }

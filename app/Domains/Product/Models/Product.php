@@ -6,6 +6,7 @@ use App\Domains\Product\Models\Spec;
 use App\Domains\Tax\Models\Tax;
 use App\Domains\UnitType\Models\UnitType;
 use App\Domains\User\Models\User;
+use App\Traits\HasFinancialPeriod;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,7 +14,7 @@ use App\Domains\Category\Models\Category;
 
 class Product extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes,HasFinancialPeriod;
 
     protected $fillable = [
         'code',
