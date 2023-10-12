@@ -48,7 +48,13 @@ class FinancialPeriodController extends Controller
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionFinancialPeriod::edit_financialPeriod->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $this->financialPeriod->update($id, $request);
+        $financialPeriodUpdate = $this->financialPeriod->update($id, $request);
+        if ($financialPeriodUpdate == false) {
+            return response()->json([
+                'message' => __('messages.cant_update_this_financial_period'),
+                'status' => false,
+            ], 400);
+        }
         return response()->json([
             'message' => __('messages.updated_successfully'),
             'status' => true,

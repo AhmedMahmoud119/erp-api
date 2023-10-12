@@ -48,6 +48,11 @@ class FinancialPeriodMySqlRepository implements FinancialPeriodRepositoryInterfa
     public function store($request): bool
     {
         $data = $request->only('title', 'status', 'start', 'end');
+        if ($request->status == 'open') {
+            $this->financialPeriod::where('status','open')->update([
+                'status' => 'closed'
+            ]);
+        }
         $this->financialPeriod::create($data + [
             'creator_id' => Auth::user()->id
         ]);
@@ -57,8 +62,19 @@ class FinancialPeriodMySqlRepository implements FinancialPeriodRepositoryInterfa
     public function update(string $id, $request): bool
     {
         $data = $request->only('title', 'status', 'start', 'end');
+        if ($request->status == 'open') {
+            $this->financialPeriod::where('status','open')->update([
+                'status' => 'closed'
+            ]);
+        }else if($request->status == 'closed') {
+            $financialPeriod = $this->financialPeriod::where('status','open')->count();
+            if ($financialPeriod >= 1) {
+                return false;
+            }
+        }
         $financialPeriod = $this->financialPeriod::findOrFail($id);
         $financialPeriod->update($data);
+
 
         return true;
     }

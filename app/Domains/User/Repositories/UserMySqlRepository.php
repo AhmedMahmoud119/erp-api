@@ -6,6 +6,7 @@ use App\Domains\Role\Resources\RolePermissionsResource;
 use App\Domains\User\Interfaces\UserRepositoryInterface;
 use App\Domains\User\Models\User;
 use App\Domains\User\Resources\UserResource;
+use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -72,15 +73,18 @@ class UserMySqlRepository implements UserRepositoryInterface
         $subject = "Your Password For Your Email";
         $email = $request->email;
         $name = $request->name;
-        Mail::send(
-            'SendPasswordByEmail',
-            ['name' => $name, 'password' => $password],
-            function ($mail) use ($subject, $email) {
-                $mail->from('admin@mail.com');
-                $mail->to($email);
-                $mail->subject($subject);
-            }
-        );
+        try {
+            Mail::send(
+                'SendPasswordByEmail',
+                ['name' => $name, 'password' => $password],
+                function ($mail) use ($subject, $email) {
+                    $mail->from('admin@mail.com');
+                    $mail->to($email);
+                    $mail->subject($subject);
+                }
+            );
+        }catch (Exception $exception){}
+
 
         return true;
     }
