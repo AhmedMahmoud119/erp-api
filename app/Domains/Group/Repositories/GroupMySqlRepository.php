@@ -71,7 +71,10 @@ class GroupMySqlRepository implements GroupRepositoryInterface
 
     public function update(string $id, $request): bool
     {
-
+        $group = $this->group::findOrFail($id);
+        if (!$group->accounts->isEmpty()) {
+            return false;
+        }
         $group_type = GroupType::findOrFail($request->group_type_id);
         $group = Group::select("code")->whereBetween(
             'code',
@@ -82,11 +85,10 @@ class GroupMySqlRepository implements GroupRepositoryInterface
             $code = $group->code + 1;
         }
 
-        $group = $this->group::findOrFail($id);
-
         $group->update([
             'name' => $request->name,
             'code' => $code,
+            'group_type_id' => $request->group_type_id
         ]);
 
         return true;

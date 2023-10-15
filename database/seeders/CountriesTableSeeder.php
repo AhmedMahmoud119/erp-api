@@ -2,12 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Domains\Vendor\Models\Country;
 use DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class CountriesTableSeeder extends Seeder
 {
+
     /**
      * Run the database seeds.
      *
@@ -15,13 +17,18 @@ class CountriesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('countries')->insert([
-            [
-                'name' => 'Egypt',
-            ],
-            [
-                'name' => 'Saudi Arabia',
-            ],
+        Country::create([
+            'name' => [
+                'ar' => 'مصر',
+                'en' => 'Egypt',
+            ]
+        ]);
+
+        Country::create([
+            'name' => [
+                'ar' => 'السعودية',
+                'en' => 'Saudi Arabia',
+            ]
         ]);
     }
 }

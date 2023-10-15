@@ -22,7 +22,7 @@ class StoreProductRequest extends FormRequest
             'quantity' => 'required|numeric',
             'opening_stock' => 'required|numeric|min:1',
             'selling_price' => 'required|numeric',
-            'purchase_price' => 'required|decimal:2',
+            'purchase_price' => 'required|numeric',
 
             'category_id' => 'required|exists:categories,id',
             'taxes_id' => 'required|exists:taxes,id',

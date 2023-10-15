@@ -57,7 +57,11 @@
     'can_not_delete_because_the_role_assigned_to_users' => 'Can Not Delete because the Role assigned to users',
     'key_not_found' => 'Key not found',
     'imported_successfully' => 'Imported Successfully',
-
+    'the_financial_Year_field_is_required' => 'the financial Year field is required',
+    'the_financial_Year_Start_field_is_required' => 'the financial Year Start field is required',
+    'the_financial_Year_End_field_is_required' => 'the financial Year End field is required',
+    'the_financial_Year_Status_field_is_required' => 'the financial Year Status field is required',
+'cant_update_this_financial_period' => 'cant update this financial period'
 );
 
 

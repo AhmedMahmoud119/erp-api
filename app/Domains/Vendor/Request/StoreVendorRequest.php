@@ -15,7 +15,7 @@ class StoreVendorRequest extends FormRequest
     public function rules()
     {
         $rule=[];
-        if (request()->is_same_shipping_address) {
+        if (!request()->is_same_shipping_address) {
             $rule = [
                 'billing_address'    => 'required_if:is_same_shipping_address,=,0|max:200',
                 'billing_country_id' => 'required_if:is_same_shipping_address,=,0|exists:countries,id',

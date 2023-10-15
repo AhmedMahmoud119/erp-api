@@ -3,6 +3,7 @@
 namespace App\Domains\Account\Models;
 
 use App\Domains\Currency\Models\Currency;
+use App\Domains\FixedAsset\Models\FixedAsset;
 use App\Domains\Group\Models\Group;
 use App\Domains\JournalEntry\Models\JournalEntryDetail;
 use App\Domains\User\Models\User;
@@ -51,6 +52,10 @@ class Account extends Model
     public function children(): HasMany
     {
         return $this->hasMany(Account::class, 'parent_id')->with('children');
+    }
+    public function fixedAssets()
+    {
+        return $this->morphMany(FixedAsset::class, 'parent');
     }
 
 

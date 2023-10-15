@@ -10,6 +10,7 @@ use App\Domains\Currency\Models\EnumPermissionCurrency;
 use App\Domains\Customer\Models\EnumPermissionCustomer;
 use App\Domains\Field\Models\EnumPermissionField;
 use App\Domains\FinancialPeriod\Models\EnumPermissionFinancialPeriod;
+use App\Domains\FixedAsset\Models\EnumPermissionFixedAsset;
 use App\Domains\Form\Models\EnumPermissionForm;
 use App\Domains\Group\Models\EnumPermissionGroup;
 use App\Domains\GroupType\Models\EnumPermissionGroupType;
@@ -77,6 +78,7 @@ class PermissionsTableSeeder extends Seeder
                 'Stock'           => array_column(EnumPermissionStock::cases(), 'value'),
                 'Purchase'=> array_column(EnumPermissionPurchase::cases(), 'value'),
                 'Pack'        => array_column(EnumPermissionPack::cases(), 'value'),
+                'FixedAsset'        => array_column(EnumPermissionFixedAsset::cases(), 'value'),
             ],
 
         ];
