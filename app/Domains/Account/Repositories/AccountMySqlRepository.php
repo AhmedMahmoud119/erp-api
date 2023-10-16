@@ -103,4 +103,8 @@ class AccountMySqlRepository implements AccountRepositoryInterface
         }
 
     }
+    public function parents()
+    {
+        return $this->account::where('is_parent', 1)->get();
+    }
 }

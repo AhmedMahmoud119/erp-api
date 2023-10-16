@@ -29,7 +29,7 @@ class GroupMySqlRepository implements GroupRepositoryInterface
         })->when(request()->code, function ($q) {
             $q->where('code', request()->code);
         })->when(request()->name, function ($q) {
-            $q->where('name','like', '%' . request()->name . '%');
+            $q->where('name', 'like', '%' . request()->name . '%');
         })->when(request()->from, function ($q) {
             $q->whereDate('created_at', '>=', request()->from);
         })->when(request()->to, function ($q) {
@@ -48,20 +48,10 @@ class GroupMySqlRepository implements GroupRepositoryInterface
 
     public function store($request)
     {
-        $group_type = GroupType::findOrFail($request->group_type_id);
-        $group = Group::select("code")->whereBetween(
-            'code',
-            [$group_type->code * 1000, $group_type->code * 1000 + 999]
-        )->orderBy('id', 'DESC')->first();
-        $code = $group_type->code * 1000 + 1;
-        if ($group) {
-            $code = $group->code + 1;
-        }
-
         $this->group::create([
             'name' => $request->name,
             'group_type_id' => $request->group_type_id,
-            'code' => $code,
+            'code' => $this->generateCode($request->group_type_id),
             'creator_id' => auth()->user()->id,
 
         ]);
@@ -72,22 +62,9 @@ class GroupMySqlRepository implements GroupRepositoryInterface
     public function update(string $id, $request): bool
     {
         $group = $this->group::findOrFail($id);
-        if (!$group->accounts->isEmpty()) {
-            return false;
-        }
-        $group_type = GroupType::findOrFail($request->group_type_id);
-        $group = Group::select("code")->whereBetween(
-            'code',
-            [$group_type->code * 1000, $group_type->code * 1000 + 999]
-        )->orderBy('id', 'DESC')->first();
-        $code = $group_type->code * 1000 + 1;
-        if ($group) {
-            $code = $group->code + 1;
-        }
-
         $group->update([
             'name' => $request->name,
-            'code' => $code,
+            'code' => $this->generateCode($request->group_type_id),
             'group_type_id' => $request->group_type_id
         ]);
 
@@ -120,7 +97,7 @@ class GroupMySqlRepository implements GroupRepositoryInterface
         $fileName = 'GroupsDetailes-' . date("Y-m-d-his") . '.pdf';
         $pdf->save($path . '/' . $fileName);
 
-        if(tenant('id')){
+        if (tenant('id')) {
             return response()->json([
                 'file_path' => url('storage/exports/' . $fileName),
             ]);
@@ -130,4 +107,20 @@ class GroupMySqlRepository implements GroupRepositoryInterface
             'file_path' => asset('storage/exports/' . $fileName),
         ]);
     }
-}
+    /**
+     * Generate new Group code based on parent id
+     * @param int $parentId
+     * @return string
+     */
+    private function generateCode(int $parentId)
+    {
+        $groupType = GroupType::find($parentId);
+        $lastGroup = Group::where('code', 'like', $groupType->code . '%')->whereRaw('LENGTH(code) = ?', [4])->orderBy('id', 'desc')->first();
+
+        $lastGroupCode = $lastGroup ? ($lastGroup->code + 1) : $groupType->code . '001';
+        $code = str_pad($lastGroupCode, 4, '0', STR_PAD_LEFT);
+
+        return $code;
+    }
+
+} // End of Repo

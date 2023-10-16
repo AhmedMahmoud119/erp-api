@@ -24,6 +24,7 @@ class Account extends Model
         'name',
         'group_id',
         'parent_id',
+        'is_parent',
         'opening_balance',
         'account_type',
         'creator_id',

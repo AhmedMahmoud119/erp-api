@@ -3,11 +3,13 @@
 namespace App\Domains\Account\Controllers;
 
 
+use App\Domains\Account\Models\Account;
 use App\Domains\Account\Models\EnumPermissionAccount;
 use App\Domains\Account\Request\ImportAccountRequest;
 use App\Domains\Account\Request\ListAccountRequest;
 use App\Domains\Account\Request\StoreAccountRequest;
 use App\Domains\Account\Request\UpdateAccountRequest;
+use App\Domains\Account\Resources\AccountParentsResource;
 use App\Domains\Account\Resources\AccountResource;
 use App\Domains\Account\Services\AccountService;
 use App\Http\Controllers\Controller;
@@ -26,7 +28,14 @@ class AccountController extends Controller
 
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionAccount::view_accounts->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return  AccountResource::collection($this->accountService->list());
+        return AccountResource::collection($this->accountService->list());
+    }
+    public function parents()
+    {
+
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionAccount::view_accounts->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return AccountParentsResource::collection($this->accountService->parents());
     }
 
     public function delete($id)
@@ -40,7 +49,7 @@ class AccountController extends Controller
                 'message' => __('Deleted Successfully'),
                 'status' => true,
             ], Response::HTTP_OK);
-        }else{
+        } else {
             return response()->json([
                 'message' => __('Cant Delete this Account'),
                 'status' => false,
@@ -59,7 +68,7 @@ class AccountController extends Controller
                 'message' => __('Deleted Successfully'),
                 'status' => true,
             ], Response::HTTP_OK);
-        }else{
+        } else {
             return response()->json([
                 'message' => __('Cant Delete this Account'),
                 'status' => false,
@@ -101,7 +110,7 @@ class AccountController extends Controller
 
     public function import(ImportAccountRequest $request)
     {
-        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionAccount::import_accounts->value,'api'),Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionAccount::import_accounts->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         $this->accountService->import();
 
         return response()->json([

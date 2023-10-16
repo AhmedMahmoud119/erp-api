@@ -2,6 +2,7 @@
 
 namespace App\Domains\BankAccount\Models;
 
+use App\Domains\Account\Models\Account;
 use App\Domains\Currency\Models\Currency;
 use App\Domains\User\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,15 +13,16 @@ use Spatie\Translatable\HasTranslations;
 
 class BankAccount extends Model
 {
-    use HasFactory,SoftDeletes,HasTranslations;
+    use HasFactory, SoftDeletes, HasTranslations;
     public $translatable = [];
 
     protected $fillable = [
+        'code',
         'name',
         'account_number',
         'holder_name',
         'account_type',
-        'chart_of_account',
+        'account_id',
         'currency_id',
         'opening_balance',
         'creator_id',
@@ -32,12 +34,16 @@ class BankAccount extends Model
     ];
     public function creator()
     {
-        return $this->belongsTo(User::class,'creator_id');
+        return $this->belongsTo(User::class, 'creator_id');
     }
 
     public function currency()
     {
-        return $this->belongsTo(Currency::class,'currency_id');
+        return $this->belongsTo(Currency::class, 'currency_id');
+    }
+    public function parent()
+    {
+        return $this->belongsTo(Account::class, 'account_id');
     }
 
 
