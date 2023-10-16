@@ -6,6 +6,7 @@ namespace App\Domains\FixedAsset\Controllers;
 use App\Domains\FixedAsset\Models\EnumPermissionFixedAsset;
 use App\Domains\FixedAsset\Request\StoreFixedAssetRequest;
 use App\Domains\FixedAsset\Request\UpdateFixedAssetRequest;
+use App\Domains\FixedAsset\Resources\FixedAssetParentsResource;
 use App\Domains\FixedAsset\Resources\FixedAssetResource;
 use App\Domains\FixedAsset\Services\FixedAssetService;
 use App\Http\Controllers\Controller;
@@ -24,6 +25,12 @@ class FixedAssetController extends Controller
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionFixedAsset::view_FixedAssets->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return FixedAssetResource::collection($this->FixedAssetService->list());
+    }
+    public function parents()
+    {
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionFixedAsset::view_FixedAssets->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return FixedAssetParentsResource::collection($this->FixedAssetService->parents());
     }
     public function findById($id)
     {

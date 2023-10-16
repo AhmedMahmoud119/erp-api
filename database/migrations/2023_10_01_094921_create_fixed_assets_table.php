@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->string('code');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->date('acquisition_date');
             $table->integer('acquisition_value');
             $table->decimal('depreciation_ratio', 10, 2);

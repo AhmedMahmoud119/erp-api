@@ -103,6 +103,16 @@ class FixedAssetMySqlRepository implements FixedAssetRepositoryInterface
         $this->FixedAsset::findOrFail($id)?->delete();
         return true;
     }
+    public function parents()
+    {
+        $accounts = Account::where('is_parent', 1)
+            ->select('id', 'code', 'name');
+
+        $results = Group::select('id', 'code', 'name')->unionAll($accounts)
+            ->get();
+
+        return $results;
+    }
 
     /**
      * Generate new fixed asset code based on parent code and parent type
