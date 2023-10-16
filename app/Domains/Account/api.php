@@ -1,5 +1,6 @@
 <?php
 
+use App\Domains\Account\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => 'auth:sanctum','prefix' => 'account'],function (){
+Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'account'], function () {
     Route::get('/', [\App\Domains\Account\Controllers\AccountController::class, 'list']);
     Route::get('/{id}', [\App\Domains\Account\Controllers\AccountController::class, 'findById']);
     Route::delete('/{id}', [\App\Domains\Account\Controllers\AccountController::class, 'delete']);
@@ -22,5 +23,9 @@ Route::group(['middleware' => 'auth:sanctum','prefix' => 'account'],function (){
     Route::post('/create', [\App\Domains\Account\Controllers\AccountController::class, 'create']);
     Route::post('/update/{id}', [\App\Domains\Account\Controllers\AccountController::class, 'update']);
     Route::post('/import', [\App\Domains\Account\Controllers\AccountController::class, 'import']);
+
 });
 
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('parents/accounts', [\App\Domains\Account\Controllers\AccountController::class, 'parents']);
+});

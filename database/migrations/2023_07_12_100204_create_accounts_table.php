@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('code');
             $table->string('name');
             $table->string('icon')->nullable();
+            $table->tinyInteger('is_parent')->default(0); // 0 => is not parent
             $table->foreignId('group_id')->references('id')->on('groups');
 
             $table->foreignId('parent_id')->nullable()

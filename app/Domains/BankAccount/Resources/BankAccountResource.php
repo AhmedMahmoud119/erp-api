@@ -11,11 +11,13 @@ class BankAccountResource extends JsonResource
     {
         return [
             'id'=>$this->id,
+            'code'=>$this->code,
             'name'=>$this->name,
             'account_number'=>$this->account_number,
             'holder_name'=>$this->holder_name,
             'account_type'=>$this->account_type,
-            'chart_of_account'=>$this->chart_of_account,
+            'account_id'=>$this->account_id,
+            'account_name'=>$this->parent->name??null,
             'currency'=>$this->currency->name??null,
             'currency_id'=>$this->currency->id??null,
             'creator'=>$this->creator->name??null,

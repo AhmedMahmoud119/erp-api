@@ -17,6 +17,10 @@ class AccountService
     {
         return $this->accountRepository->list();
     }
+    public function parents()
+    {
+        return $this->accountRepository->parents();
+    }
     public function findById($id)
     {
         return $this->accountRepository->findById($id);
