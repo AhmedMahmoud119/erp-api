@@ -12,7 +12,7 @@ class StateResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'cities' => $this->cities
+            'cities' => CityResource::collection($this->cities)
 
         ];
     }

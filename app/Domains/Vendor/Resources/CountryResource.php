@@ -12,7 +12,7 @@ class CountryResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'states' => $this->states ?? ""
+            'states' => StateResource::collection($this->states)
 
         ];
     }
