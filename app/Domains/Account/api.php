@@ -28,5 +28,5 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'account'], function (
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('parents/accounts', [\App\Domains\Account\Controllers\AccountController::class, 'parents']);
-    Route::get('not-parents/accounts', [\App\Domains\Account\Controllers\AccountController::class, 'parents']);
+    Route::get('not-parents/accounts', [\App\Domains\Account\Controllers\AccountController::class, 'notParents']);
 });
