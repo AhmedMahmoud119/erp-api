@@ -13,7 +13,7 @@ class UpdateJournalEntryRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string', 'max:255'],
-            'entry_no' => ['required', 'numeric'],
+//            'entry_no' => ['required', 'numeric'],
             'date' => ['required', 'date'],
             'description' => ['required', 'string'],
             'details' => ['required', 'array'],
@@ -35,7 +35,7 @@ class UpdateJournalEntryRequest extends FormRequest
                     'credit' => $detail['credit'],
                 ]
             )->toArray();
-            
+
             $unique = collect($details)->unique('account_id');
             if ($unique->count() != count($details)) {
                 $validator->errors()->add('details', __('validation.unique'));
