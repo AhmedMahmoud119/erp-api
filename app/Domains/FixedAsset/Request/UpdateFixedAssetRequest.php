@@ -20,11 +20,11 @@ class UpdateFixedAssetRequest extends FormRequest
     {
         return [
             'name' => 'required|regex:/^[a-zA-Z0-9گچپژیلفقهكيىموي ء-ي\s\-_]*$/',
-            'description' => 'regex:/^[a-zA-Z0-9گچپژیلفقهكيىموي ء-ي\s\-_]*$/',
+            'description' => 'nullable|regex:/^[a-zA-Z0-9گچپژیلفقهكيىموي ء-ي\s\-_]*$/',
             'acquisition_date' => 'required|date',
             'acquisition_value' => 'required|numeric|min:0',
             'depreciation_value' => 'required|numeric|min:0',
-            'depreciation_ratio' => 'numeric',
+            'depreciation_ratio' => 'nullable|numeric',
             'depreciation_duration_type' => 'required|in:month,year',
             'depreciation_duration_value' => 'required|integer|min:1',
             'parent_id' => 'required',

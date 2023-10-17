@@ -30,5 +30,9 @@ class FixedAssetService
     {
         return $this->FixedAssetRepository->delete($id);
     }
+    public function parents()
+    {
+        return $this->FixedAssetRepository->parents();
+    }
 
 } // End Of Service

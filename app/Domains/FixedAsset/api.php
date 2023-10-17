@@ -21,3 +21,6 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'fixed-asset'], functi
     Route::post('/create', [FixedAssetController::class, 'create']);
     Route::post('/update/{id}', [FixedAssetController::class, 'update']);
 });
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('parent/fixed-asset', [FixedAssetController::class, 'parents']);
+});
