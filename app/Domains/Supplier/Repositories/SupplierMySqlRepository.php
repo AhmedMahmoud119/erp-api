@@ -2,6 +2,7 @@
 
 namespace App\Domains\Supplier\Repositories;
 
+use App\Domains\Account\Repositories\AccountMySqlRepository;
 use App\Domains\Supplier\Interfaces\SupplierRepositoryInterface;
 use App\Domains\Supplier\Models\Supplier;
 use App\Domains\Vendor\Models\Address;
@@ -39,32 +40,36 @@ class SupplierMySqlRepository implements SupplierRepositoryInterface
             if (in_array(request()->sort_by, ['name', 'created_at', 'code', 'contact', 'email'])) {
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
             }
-        })->with(['address', 'account', 'currency'])->withSum('purchase', 'total')->orderBy('name')
+        })->with(['account', 'currency'])->withSum('purchase', 'total')->orderBy('name')
             ->paginate(request('limit', config('app.pagination_count')));
         return $result;
     }
 
     public function store($request): bool
     {
-        $address = Address::create([
-            'address' => $request->address,
-            'phone' => $request->address_phone,
-            'name' => $request->address_name,
-            'zip_code' => $request->zip_code,
-            'state_id' => $request->state_id,
-            'city_id' => $request->city_id,
-            'country_id' => $request->country_id,
-        ]);
+//        $address = Address::create([
+//            'address' => $request->address,
+//            'phone' => $request->address_phone,
+//            'name' => $request->address_name,
+//            'zip_code' => $request->zip_code,
+//            'state_id' => $request->state_id,
+//            'city_id' => $request->city_id,
+//            'country_id' => $request->country_id,
+//        ]);
 
         $accountCode = Account::find($request->parent_account_id);
         $spplierMaxId = $this->supplier::max('id') ?? 0;
+
+        $data = app(AccountMySqlRepository::class)->storeFromSupplier($request->parent_account_id, $request->name);
+
         $data = [
             'code' => $accountCode->code . ($spplierMaxId + 1),
             'name' => $request->name,
             'email' => $request->email,
             'contact' => $request->contact,
-            'address_id' => $address->id,
+//            'address_id' => $address->id,
             'parent_account_id' => $request->parent_account_id,
+            'account_id' => $data['account_id'],
             'currency_id' => $request->currency_id,
         ];
         $this->supplier::create($data);
@@ -77,24 +82,24 @@ class SupplierMySqlRepository implements SupplierRepositoryInterface
         if (!$supplier) {
             return false;
         }
-        Address::find($supplier->address_id)->update([
-            'address' => $request->address,
-            'phone' => $request->address_phone,
-            'name' => $request->address_name,
-            'zip_code' => $request->zip_code,
-            'state_id' => $request->state_id,
-            'city_id' => $request->city_id,
-            'country_id' => $request->country_id,
-        ]);
+//        Address::find($supplier->address_id)->update([
+//            'address' => $request->address,
+//            'phone' => $request->address_phone,
+//            'name' => $request->address_name,
+//            'zip_code' => $request->zip_code,
+//            'state_id' => $request->state_id,
+//            'city_id' => $request->city_id,
+//            'country_id' => $request->country_id,
+//        ]);
 
-        $accountCode = Account::find($request->parent_account_id);
+//        $accountCode = Account::find($request->parent_account_id);
         $spplierId = $id;
         $data = [
-            'code' => $accountCode->code . ($spplierId),
+//            'code' => $accountCode->code . ($spplierId),
             'name' => $request->name,
             'email' => $request->email,
             'contact' => $request->contact,
-            'parent_account_id' => $request->parent_account_id,
+//            'parent_account_id' => $request->parent_account_id,
             'currency_id' => $request->currency_id,
         ];
         $supplier->update($data);

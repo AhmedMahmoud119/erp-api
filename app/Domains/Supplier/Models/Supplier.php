@@ -21,16 +21,22 @@ class Supplier extends Model
         'contact',
         'code',
         'parent_account_id',
+        'account_id',
         'currency_id',
-        'address_id',
+//        'address_id',
     ];
-    public function address()
+//    public function address()
+//    {
+//        return $this->belongsTo(Address::class);
+//    }
+
+    public function parent()
     {
-        return $this->belongsTo(Address::class);
+        return $this->belongsTo(Account::class,'parent_account_id');
     }
     public function account()
     {
-        return $this->belongsTo(Account::class,'parent_account_id');
+        return $this->belongsTo(Account::class,'account_id');
     }
     public function currency()
     {

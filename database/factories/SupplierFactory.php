@@ -20,6 +20,7 @@ class SupplierFactory extends Factory
     protected $id = 0;
     public function definition()
     {
+        $parent = Account::inRandomOrder()->first();
         $account = Account::inRandomOrder()->first();
 
         return [
@@ -27,9 +28,10 @@ class SupplierFactory extends Factory
             'name' => $this->faker->name(),
             'email' => $this->faker->email(),
             'contact' => $this->faker->phoneNumber(),
-            'parent_account_id' => $account->id,
+            'parent_account_id' => $parent->id,
+            'account_id' => $account->id,
             'currency_id' => Currency::inRandomOrder()->first()->id,
-            'address_id' => Address::inRandomOrder()->first()->id,
+//            'address_id' => Address::inRandomOrder()->first()->id,
         ];
     }
 }
