@@ -103,7 +103,7 @@ class AccountMySqlRepository implements AccountRepositoryInterface
         $code = str_pad($lastAccountCode, 8, '0', STR_PAD_LEFT);
 
         $expenses_account = $this->account::create([
-            'name' => $name,
+            'name' => 'expenses '.$name,
             'group_id' => $parent_expenses->group_id,
             'parent_id' => $parent_expenses_account_id,
             'is_parent' => 0,
