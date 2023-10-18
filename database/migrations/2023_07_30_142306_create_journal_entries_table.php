@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -16,7 +15,7 @@ return new class extends Migration
         Schema::create('journal_entries', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('entry_no');
+            $table->integer('entry_no');
             $table->date('date');
             $table->text('description');
             $table->foreignId('creator_id')->constrained('users');
