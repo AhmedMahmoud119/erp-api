@@ -16,8 +16,20 @@ class BankAccountResource extends JsonResource
             'account_number'=>$this->account_number,
             'holder_name'=>$this->holder_name,
             'account_type'=>$this->account_type,
+
             'account_id'=>$this->account_id,
-            'account_name'=>$this->parent->name??null,
+            'account_name'=>$this->account->name??null,
+
+            'parent_account_id'=>$this->parent->id??null,
+            'parent_account_name'=>$this->parent->name??null,
+
+            'parent_expenses_account_id'=>$this->parentExpenses->id??null,
+            'parent_expenses_account_name'=>$this->parentExpenses->name??null,
+
+            'expenses_account_id'=>$this->accountExpenses->id??null,
+            'expenses_account_name'=>$this->accountExpenses->name??null,
+
+
             'currency'=>$this->currency->name??null,
             'currency_id'=>$this->currency->id??null,
             'creator'=>$this->creator->name??null,

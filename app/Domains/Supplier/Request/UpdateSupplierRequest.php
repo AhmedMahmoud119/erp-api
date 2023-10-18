@@ -17,13 +17,13 @@ class UpdateSupplierRequest extends FormRequest
             'name' => "required|regex:/^[a-zA-Z0-9ء-ي,\'\-,\s]*$/",
             'email' => 'required|email|max:100',
             'contact' => 'required|min:5|max:20',
-            'address' => 'required|min:5|max:100',
-            'zip_code'=>'required|min:2|max:50',
+//            'address' => 'required|min:5|max:100',
+//            'zip_code'=>'required|min:2|max:50',
             'currency_id' => 'required|exists:currencies,id',
-            'city_id' => 'required|exists:cities,id',
-            'state_id' => 'required|exists:states,id',
-            'country_id' => 'required|exists:countries,id',
-            'parent_account_id' => 'required|numeric|exists:accounts,id',
+//            'city_id' => 'required|exists:cities,id',
+//            'state_id' => 'required|exists:states,id',
+//            'country_id' => 'required|exists:countries,id',
+//            'parent_account_id' => 'required|numeric|exists:accounts,id',
         ];
     }
     public function messages()

@@ -13,6 +13,8 @@ class AccountResource extends JsonResource
             'id'             => $this->id,
             'code'            => $this->code,
             'name'            => $this->name,
+            'name_code'       => $this->name.'-'.$this->code,
+
             'group'           => $this->group->name ?? '',
             'group_id'           => $this->group->id ?? '',
             'parent'          => $this->parent->name ?? '',

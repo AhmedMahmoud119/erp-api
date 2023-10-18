@@ -65,11 +65,85 @@ class AccountMySqlRepository implements AccountRepositoryInterface
         $code = str_pad($lastAccountCode, 8, '0', STR_PAD_LEFT);
 
         $this->account::create($request->all() + [
+                'code' => $code,
+                'creator_id' => auth()->user()->id,
+            ]);
+
+        return true;
+    }
+
+    public function storeFromBankAccount($parent_account_id, $parent_expenses_account_id, $name)
+    {
+        $parent = $this->account::find($parent_account_id);
+        $group = Group::find($parent->group_id);
+
+        $lastAccount = Account::where('code', 'like', $group->code . '%')->orderBy('id', 'desc')->first();
+
+        $lastAccountCode = $lastAccount ? ($lastAccount->code + 1) : $group->code . '0001';
+        $code = str_pad($lastAccountCode, 8, '0', STR_PAD_LEFT);
+
+        $account = $this->account::create([
+            'name' => $name,
+            'group_id' => $parent->group_id,
+            'parent_id' => $parent_account_id,
+            'is_parent' => 0,
+            'opening_balance' => 0,
+            'account_type' => $parent->account_type,
             'code' => $code,
             'creator_id' => auth()->user()->id,
         ]);
 
-        return true;
+
+        $parent_expenses = $this->account::find($parent_expenses_account_id);
+        $group = Group::find($parent_expenses->group_id);
+
+        $lastAccount = Account::where('code', 'like', $group->code . '%')->orderBy('id', 'desc')->first();
+
+        $lastAccountCode = $lastAccount ? ($lastAccount->code + 1) : $group->code . '0001';
+        $code = str_pad($lastAccountCode, 8, '0', STR_PAD_LEFT);
+
+        $expenses_account = $this->account::create([
+            'name' => 'expenses '.$name,
+            'group_id' => $parent_expenses->group_id,
+            'parent_id' => $parent_expenses_account_id,
+            'is_parent' => 0,
+            'opening_balance' => 0,
+            'account_type' => $parent_expenses->account_type,
+            'code' => $code,
+            'creator_id' => auth()->user()->id,
+        ]);
+
+        return [
+            'account_id' => $account->id,
+            'expenses_account_id' => $expenses_account->id,
+        ];
+    }
+
+
+    public function storeFromSupplier($parent_account_id, $name)
+    {
+        $parent = $this->account::find($parent_account_id);
+        $group = Group::find($parent->group_id);
+
+        $lastAccount = Account::where('code', 'like', $group->code . '%')->orderBy('id', 'desc')->first();
+
+        $lastAccountCode = $lastAccount ? ($lastAccount->code + 1) : $group->code . '0001';
+        $code = str_pad($lastAccountCode, 8, '0', STR_PAD_LEFT);
+
+        $account = $this->account::create([
+            'name' => $name,
+            'group_id' => $parent->group_id,
+            'parent_id' => $parent_account_id,
+            'is_parent' => 0,
+            'opening_balance' => 0,
+            'account_type' => $parent->account_type,
+            'code' => $code,
+            'creator_id' => auth()->user()->id,
+        ]);
+
+        return [
+            'account_id' => $account->id,
+        ];
     }
 
     public function update(string $id, $request): bool
@@ -91,6 +165,7 @@ class AccountMySqlRepository implements AccountRepositoryInterface
             return false;
         }
     }
+
     public function bulkDelete(): bool
     {
         $accounts = $this->account::whereIn('id', request()->ids ?? [])->get();
@@ -103,6 +178,7 @@ class AccountMySqlRepository implements AccountRepositoryInterface
         }
 
     }
+
     public function parents()
     {
         return $this->account::where('is_parent', 1)->get();

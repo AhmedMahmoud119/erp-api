@@ -23,14 +23,21 @@ class Customer extends Model
         'contact',
         'email',
         'currency_id',
+        'account_id',
         'parent_account_id',
         'address_id',
         'billing_address_id',
         'creator_id',
     ];
-    public function account()
+
+    public function parent()
     {
         return $this->belongsTo(Account::class, 'parent_account_id');
+    }
+
+    public function account()
+    {
+        return $this->belongsTo(Account::class, 'account_id');
     }
 
     public function currency()

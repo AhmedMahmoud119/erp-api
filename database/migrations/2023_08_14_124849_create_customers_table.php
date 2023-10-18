@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreignId('address_id')->references('id')->on('addresses');
             $table->foreignId('billing_address_id')->references('id')->on('addresses');
             $table->foreignId('currency_id')->references('id')->on('currencies');
+            $table->foreignId('account_id')->references('id')->on('accounts');
             $table->foreignId('parent_account_id')->references('id')->on('accounts');
             $table->foreignId('creator_id')->nullable()
                 ->references('id')->on('users');
