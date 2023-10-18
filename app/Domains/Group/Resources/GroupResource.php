@@ -14,6 +14,7 @@ class GroupResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'code' => $this->code,
+            'name_code'       => $this->name.'-'.$this->code,
             'group_type_id' => $this->group_type->id ?? null,
             'group_type_name' => $this->group_type->name ?? null,
             'creator' => $this->creator->name ?? null,
