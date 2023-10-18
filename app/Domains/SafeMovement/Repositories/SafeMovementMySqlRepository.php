@@ -14,13 +14,19 @@ class SafeMovementMySqlRepository implements SafeMovementRepositoryInterface
 
     public function list()
     {
-        $safeMovements = $this->safeMovement::when(request()->date, function ($q) {
+        $safeMovements = $this->safeMovement::when(request()->search, function ($q) {
+            $q->where('description', 'like', '%' . request()->search . '%');
+        })->when(request()->date, function ($q) {
             $q->whereDate('date', '>=', request()->date);
+        })->when(request()->source, function ($q) {
+            $q->where('source_id', request()->source);
+        })->when(request()->destination, function ($q) {
+            $q->where('destination_id', request()->destination);
         })->when(request()->sort_by, function ($q) {
-            if (in_array(request()->sort_by, ['created_at', 'id', 'creator_id'])) {
+            if (in_array(request()->sort_by, ['date', 'amount', 'source_id', 'destination_id', 'created_at', 'id', 'creator_id'])) {
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
             }
-        })->orderBy('updated_at', 'desc')->with(['creator'])->paginate(request('limit', config('app.pagination_count')));
+        })->orderBy('updated_at', 'desc')->with(['creator:id,name', 'destination:id,name', 'source:id,name'])->paginate(request('limit', config('app.pagination_count')));
 
         return $safeMovements;
     }
@@ -28,17 +34,23 @@ class SafeMovementMySqlRepository implements SafeMovementRepositoryInterface
 
     public function findById(string $id): SafeMovement
     {
-        return $this->safeMovement::findOrFail($id);
+        $safeMovement = $this->safeMovement::findOrFail($id);
+        $safeMovement->load(['creator:id,name', 'destination:id,name', 'source:id,name']);
+        return $safeMovement;
     }
     public function store($request)
     {
+        $this->safeMovement::create($request->validated() + [
+            'creator_id' => auth()->user()->id,
+        ]);
 
         return true;
     }
 
     public function update(string $id, $request): bool
     {
-
+        $safeMovement = $this->safeMovement::findOrFail($id);
+        $safeMovement->update($request->validated());
         return true;
     }
 

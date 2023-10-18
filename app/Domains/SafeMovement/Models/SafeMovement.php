@@ -17,9 +17,9 @@ class SafeMovement extends Model
         'date',
         'description',
         'amount',
+        'assets_involved',
         'source_id',
         'destination_id',
-        'assets_involved',
         'creator_id',
     ];
     public function creator()

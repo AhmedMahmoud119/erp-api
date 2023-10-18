@@ -37,7 +37,7 @@ class CashManagmentController extends Controller
 
         $this->cashManagmentService->create($request);
         return response()->json([
-            'message' => __('Asset Created Successfully'),
+            'message' => __('payment Created Successfully'),
             'status' => true,
         ], 200);
     }
@@ -48,7 +48,7 @@ class CashManagmentController extends Controller
 
         $this->cashManagmentService->update($id, $request);
         return response()->json([
-            'message' => __('Asset Updated Successfully'),
+            'message' => __('payment Updated Successfully'),
             'status' => true,
         ], 200);
     }
@@ -58,7 +58,7 @@ class CashManagmentController extends Controller
 
         $this->cashManagmentService->delete($id);
         return response()->json([
-            'message' => __('Asset Deleted Successfully'),
+            'message' => __('payment Deleted Successfully'),
             'status' => true,
         ], Response::HTTP_OK);
     }

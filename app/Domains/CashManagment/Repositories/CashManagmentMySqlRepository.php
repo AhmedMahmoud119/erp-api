@@ -32,6 +32,9 @@ class CashManagmentMySqlRepository implements CashManagmentRepositoryInterface
     }
     public function store($request)
     {
+        $this->cashManagment::create($request->validated +[
+            'creator_id'=> auth()->user()->id,
+        ]);
 
         return true;
     }

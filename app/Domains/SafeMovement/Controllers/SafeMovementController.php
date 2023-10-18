@@ -37,7 +37,7 @@ class SafeMovementController extends Controller
 
         $this->safeMovementService->create($request);
         return response()->json([
-            'message' => __('Asset Created Successfully'),
+            'message' => __('Safe movement Created Successfully'),
             'status' => true,
         ], 200);
     }
@@ -48,7 +48,7 @@ class SafeMovementController extends Controller
 
         $this->safeMovementService->update($id, $request);
         return response()->json([
-            'message' => __('Asset Updated Successfully'),
+            'message' => __('Safe movement Updated Successfully'),
             'status' => true,
         ], 200);
     }
@@ -58,7 +58,7 @@ class SafeMovementController extends Controller
 
         $this->safeMovementService->delete($id);
         return response()->json([
-            'message' => __('Asset Deleted Successfully'),
+            'message' => __('Safe movement Deleted Successfully'),
             'status' => true,
         ], Response::HTTP_OK);
     }
