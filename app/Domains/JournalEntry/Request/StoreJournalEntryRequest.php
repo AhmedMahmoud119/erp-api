@@ -18,7 +18,7 @@ class StoreJournalEntryRequest extends FormRequest
 
         return [
             'title'                  => ['required', 'string', 'max:255'],
-            'entry_no'               => ['required', 'numeric'],
+//            'entry_no'               => ['required', 'numeric'],
             'date'                   => ['required', 'date'],
             'description'            => ['required', 'string'],
             'details'               => ['required', 'array'],

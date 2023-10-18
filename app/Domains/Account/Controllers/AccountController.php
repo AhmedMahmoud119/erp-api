@@ -37,6 +37,13 @@ class AccountController extends Controller
 
         return AccountParentsResource::collection($this->accountService->parents());
     }
+    public function notParents()
+    {
+
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionAccount::view_accounts->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return AccountParentsResource::collection($this->accountService->notParents());
+    }
 
     public function delete($id)
     {

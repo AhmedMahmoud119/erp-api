@@ -54,6 +54,10 @@ class Account extends Model
     {
         return $this->hasMany(Account::class, 'parent_id')->with('children');
     }
+    public function customers(): HasMany
+    {
+        return $this->hasMany(Account::class, 'parent_account_id');
+    }
     public function fixedAssets()
     {
         return $this->morphMany(FixedAsset::class, 'parent');
