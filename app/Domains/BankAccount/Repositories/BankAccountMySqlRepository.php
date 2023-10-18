@@ -3,6 +3,7 @@
 namespace App\Domains\BankAccount\Repositories;
 
 use App\Domains\Account\Models\Account;
+use App\Domains\Account\Repositories\AccountMySqlRepository;
 use App\Domains\BankAccount\Interfaces\BankAccountRepositoryInterface;
 use App\Domains\BankAccount\Models\BankAccount;
 use Illuminate\Support\Facades\Storage;
@@ -45,14 +46,14 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
                 'like',
                 '%' . request()->search . '%'
             )->orWhere(
-                    'opening_balance',
-                    'like',
-                    '%' . request()->search . '%'
-                )->orWhere(
-                    'account_number',
-                    'like',
-                    '%' . request()->search . '%'
-                )->orWhere('account_type', 'like', '%' . request()->search . '%');
+                'opening_balance',
+                'like',
+                '%' . request()->search . '%'
+            )->orWhere(
+                'account_number',
+                'like',
+                '%' . request()->search . '%'
+            )->orWhere('account_type', 'like', '%' . request()->search . '%');
         })->when(request()->name, function ($q) {
             $q->where('name', 'like', '%' . request()->name . '%');
         })->when(request()->from, function ($q) {
@@ -79,13 +80,20 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
 
     public function store($request): bool
     {
+
+        $data = app(AccountMySqlRepository::class)->storeFromBankAccount($request->parent_account_id,$request->parent_expenses_account_id
+            , $request->name);
+
         $this->bankAccount::create([
             'name' => $request->name,
-            'code' => $this->generateCode($request->account_id),
+            'code' => $this->generateCode($request->parent_account_id),
             'account_number' => $request->account_number,
             'holder_name' => $request->holder_name,
             'account_type' => $request->account_type,
-            'account_id' => $request->account_id,
+            'account_id' => $data['account_id'],
+            'expenses_account_id' => $data['expenses_account_id'],
+            'parent_account_id' => $request->parent_account_id,
+            'parent_expenses_account_id' => $request->parent_expenses_account_id,
             'currency_id' => $request->currency_id,
             'opening_balance' => $request->opening_balance,
             'current_balance' => $request->opening_balance,
@@ -108,7 +116,7 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
             'holder_name' => $request->holder_name,
             'account_type' => $request->account_type,
             'authorized_by' => $request->authorized_by,
-            'account_id' => $request->account_id,
+//            'account_id' => $request->account_id,
             'current_balance' => $request->current_balance,
             'currency_id' => $request->currency_id,
             'status' => $request->status,

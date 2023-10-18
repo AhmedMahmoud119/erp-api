@@ -20,7 +20,7 @@ class UpdateBankAccountRequest extends FormRequest
             'account_number' => ['required', Rule::unique('bank_accounts', 'account_number')->ignore(request()->id)],
             'holder_name' => 'nullable|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
             'account_type' => ['required', Rule::in(['current', 'saving', 'loan', 'dollar', 'salary'])],
-            'account_id' => 'required|exists:accounts,id',
+//            'account_id' => 'required|exists:accounts,id',
             'currency_id' => 'required|exists:currencies,id',
             'authorized_by' => 'nullable|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
             'status' => Rule::in('Active', 'In-Active'),

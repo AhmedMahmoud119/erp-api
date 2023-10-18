@@ -22,7 +22,10 @@ class BankAccount extends Model
         'account_number',
         'holder_name',
         'account_type',
+        'parent_account_id',
         'account_id',
+        'parent_expenses_account_id',
+        'expenses_account_id',
         'currency_id',
         'opening_balance',
         'creator_id',
@@ -43,7 +46,20 @@ class BankAccount extends Model
     }
     public function parent()
     {
+        return $this->belongsTo(Account::class, 'parent_account_id');
+    }
+    public function account()
+    {
         return $this->belongsTo(Account::class, 'account_id');
+    }
+
+    public function parentExpenses()
+    {
+        return $this->belongsTo(Account::class, 'parent_expenses_account_id');
+    }
+    public function accountExpenses()
+    {
+        return $this->belongsTo(Account::class, 'expenses_account_id');
     }
 
 
