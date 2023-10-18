@@ -110,7 +110,7 @@ class BankAccountMySqlRepository implements BankAccountRepositoryInterface
         $bankAccount = $this->bankAccount::findOrFail($id);
 
         $bankAccount->update([
-            'code' => $this->generateCode($request->account_id),
+//            'code' => $this->generateCode($request->account_id),
             'name' => $request->name,
             'account_number' => $request->account_number,
             'holder_name' => $request->holder_name,
