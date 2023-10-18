@@ -119,6 +119,33 @@ class AccountMySqlRepository implements AccountRepositoryInterface
         ];
     }
 
+
+    public function storeFromSupplier($parent_account_id, $name)
+    {
+        $parent = $this->account::find($parent_account_id);
+        $group = Group::find($parent->group_id);
+
+        $lastAccount = Account::where('code', 'like', $group->code . '%')->orderBy('id', 'desc')->first();
+
+        $lastAccountCode = $lastAccount ? ($lastAccount->code + 1) : $group->code . '0001';
+        $code = str_pad($lastAccountCode, 8, '0', STR_PAD_LEFT);
+
+        $account = $this->account::create([
+            'name' => $name,
+            'group_id' => $parent->group_id,
+            'parent_id' => $parent_account_id,
+            'is_parent' => 0,
+            'opening_balance' => 0,
+            'account_type' => $parent->account_type,
+            'code' => $code,
+            'creator_id' => auth()->user()->id,
+        ]);
+
+        return [
+            'account_id' => $account->id,
+        ];
+    }
+
     public function update(string $id, $request): bool
     {
         $account = $this->account::findOrFail($id);
