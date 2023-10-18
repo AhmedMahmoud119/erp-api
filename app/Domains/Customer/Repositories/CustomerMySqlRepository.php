@@ -2,6 +2,7 @@
 
 namespace App\Domains\Customer\Repositories;
 
+use App\Domains\Account\Repositories\AccountMySqlRepository;
 use App\Domains\Account\Services\AccountService;
 use App\Domains\Customer\Interfaces\CustomerRepositoryInterface;
 use App\Domains\Vendor\Models\Address;
@@ -77,13 +78,19 @@ class CustomerMySqlRepository implements CustomerRepositoryInterface
         }
         $account = app(AccountService::class)->findById($request->parent_account_id);
         $customerMaxId = $this->customer::max('id') ?? 0;
+
+        $data = app(AccountMySqlRepository::class)->storeFromSupplier($request->parent_account_id, $request->name);
+
         $this->customer::create([
             'code' => $account->code . ($customerMaxId + 1),
             'name' => $request->name,
             'contact' => $request->contact,
             'email' => $request->email,
             'currency_id' => $request->currency_id,
+
             'parent_account_id' => $request->parent_account_id,
+            'account_id' => $data['account_id'],
+
             'address_id' => $address->id,
             'billing_address_id' => $billingAddress->id ?? $address->id,
             'creator_id' => auth()->user()->id,
@@ -136,7 +143,7 @@ class CustomerMySqlRepository implements CustomerRepositoryInterface
             'contact' => $request->contact,
             'email' => $request->email,
             'currency_id' => $request->currency_id,
-            'parent_account_id' => $request->parent_account_id,
+//            'parent_account_id' => $request->parent_account_id,
             'billing_address_id' => $request->is_same_shipping_address ? $customer->address_id : $billingAddress->id,
             'creator_id' => auth()->user()->id,
         ]);
