@@ -44,7 +44,7 @@ class JournalEntryMySqlRepository implements JournalEntryRepositoryInterface
         })->when(request()->entry_no, function ($q) {
             $q->where('entry_no', request()->entry_no);
         })->when(request()->date, function ($q) {
-            $q->whereDate('date','>=', request()->date);
+            $q->whereDate('date', '>=', request()->date);
         })->when(request()->description, function ($q) {
             $q->where('description', 'LIKE', '%' . request()->description . '%');
         })
