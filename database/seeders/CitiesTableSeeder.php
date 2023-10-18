@@ -18,81 +18,81 @@ class CitiesTableSeeder extends Seeder
     {
         $CairoCities = [
             [
-                'ar' => "Nasr City",
-                'en' => 'مدينة نصر'
+                'en' => "Nasr City",
+                'ar'=> 'مدينة نصر'
             ],
             [
-                'ar' => 'Abbasiya',
-                'en' => 'عباسية',
+                'en' => 'Abbasiya',
+                'ar'=> 'عباسية',
             ],[
-                'ar' => 'Agouza',
-                'en' => 'العجوزة',
+                'en' => 'Agouza',
+                'ar'=> 'العجوزة',
             ],[
-                'ar' => 'Ain Shams',
-                'en' => 'عين شمس',
+                'en' => 'Ain Shams',
+                'ar'=> 'عين شمس',
             ],[
-                'ar' => 'Bulaq',
-                'en' => 'بولاق',
+                'en' => 'Bulaq',
+                'ar'=> 'بولاق',
             ],[
-                'ar' => 'Downtown Cairo',
-                'en' => 'وسط البلد',
+                'en' => 'Downtown Cairo',
+                'ar'=> 'وسط البلد',
             ],[
-                'ar' => 'El Basatin',
-                'en' => 'البساتين',
+                'en' => 'El Basatin',
+                'ar'=> 'البساتين',
             ],[
-                'ar' => 'El Marg',
-                'en' => 'المرج',
+                'en' => 'El Marg',
+                'ar'=> 'المرج',
             ],[
-                'ar' => 'El Matareya',
-                'en' => 'المطرية',
+                'en' => 'El Matareya',
+                'ar'=> 'المطرية',
             ],[
-                'ar' => 'El Mosky',
-                'en' => 'الموسكي',
+                'en' => 'El Mosky',
+                'ar'=> 'الموسكي',
             ],[
-                'ar' => 'El Nozha',
-                'en' => 'النزهة',
+                'en' => 'El Nozha',
+                'ar'=> 'النزهة',
             ],[
-                'ar' => 'El Sayeda Zeinab',
-                'en' => 'السيدة زينت',
+                'en' => 'El Sayeda Zeinab',
+                'ar'=> 'السيدة زينت',
             ],[
-                'ar' => 'El Shorouk',
-                'en' => 'الشروق',
+                'en' => 'El Shorouk',
+                'ar'=> 'الشروق',
             ],[
-                'ar' => 'El Tagamu El Khames',
-                'en' => 'التجمع الخامس',
+                'en' => 'El Tagamu El Khames',
+                'ar'=> 'التجمع الخامس',
             ],[
-                'ar' => 'Garden City',
-                'en' => 'جاردن سيتي',
+                'en' => 'Garden City',
+                'ar'=> 'جاردن سيتي',
             ],[
-                'ar' => 'Giza',
-                'en' => 'الجيزة',
+                'en' => 'Giza',
+                'ar'=> 'الجيزة',
             ],[
-                'ar' => 'Heliopolis',
-                'en' => 'هيليوبوليس',
+                'en' => 'Heliopolis',
+                'ar'=> 'هيليوبوليس',
             ],[
-                'ar' => 'Maadi',
-                'en' => 'المعادي',
+                'en' => 'Maadi',
+                'ar'=> 'المعادي',
             ],[
-                'ar' => 'Mohandessin',
-                'en' => 'المهندسين',
+                'en' => 'Mohandessin',
+                'ar'=> 'المهندسين',
             ],[
-                'ar' => 'New Cairo',
-                'en' => 'القاهره الجديدة',
+                'en' => 'New Cairo',
+                'ar'=> 'القاهره الجديدة',
             ],[
-                'ar' => 'Obour',
-                'en' => 'العبور',
+                'en' => 'Obour',
+                'ar'=> 'العبور',
             ],[
-                'ar' => 'Old Cairo',
-                'en' => 'مصر القديمة',
+                'en' => 'Old Cairo',
+                'ar'=> 'مصر القديمة',
             ],[
-                'ar' => 'Rod El Farag',
-                'en' => 'روض الفرج',
+                'en' => 'Rod El Farag',
+                'ar'=> 'روض الفرج',
             ],[
-                'ar' => 'Shubra',
-                'en' => 'شبرا',
+                'en' => 'Shubra',
+                'ar'=> 'شبرا',
             ],[
-                'ar' => 'Zamalek',
-                'en' => 'الزمالك',
+                'en' => 'Zamalek',
+                'ar'=> 'الزمالك',
             ]
         ];
 
