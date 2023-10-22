@@ -5,6 +5,7 @@ namespace App\Domains\SafeMovement\Repositories;
 use App\Domains\Account\Models\Account;
 use App\Domains\SafeMovement\Interfaces\SafeMovementRepositoryInterface;
 use App\Domains\SafeMovement\Models\SafeMovement;
+use DB;
 
 class SafeMovementMySqlRepository implements SafeMovementRepositoryInterface
 {
@@ -20,6 +21,9 @@ class SafeMovementMySqlRepository implements SafeMovementRepositoryInterface
             $q->whereDate('date', '>=', request()->date);
         })->when(request()->source, function ($q) {
             $q->where('source_id', request()->source);
+        })->when(request()->amount, function ($q) {
+            $q->where('amount', '>=', (request()->amount));
+            $q->where('amount', '<', (request()->amount + 1));
         })->when(request()->destination, function ($q) {
             $q->where('destination_id', request()->destination);
         })->when(request()->sort_by, function ($q) {
@@ -40,18 +44,32 @@ class SafeMovementMySqlRepository implements SafeMovementRepositoryInterface
     }
     public function store($request)
     {
-        $this->safeMovement::create($request->validated() + [
-            'creator_id' => auth()->user()->id,
-        ]);
+        try {
+            DB::beginTransaction();
+            $this->safeMovement::create($request->validated() + [
+                'creator_id' => auth()->user()->id,
+            ]);
+            DB::commit();
+            return true;
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            throw $e;
+        }
 
-        return true;
     }
 
     public function update(string $id, $request): bool
     {
-        $safeMovement = $this->safeMovement::findOrFail($id);
-        $safeMovement->update($request->validated());
-        return true;
+        try {
+            DB::beginTransaction();
+            $safeMovement = $this->safeMovement::findOrFail($id);
+            $safeMovement->update($request->validated());
+            DB::commit();
+            return true;
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     public function delete(string $id): bool
