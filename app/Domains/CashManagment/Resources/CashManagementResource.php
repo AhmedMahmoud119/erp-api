@@ -4,7 +4,7 @@ namespace App\Domains\CashManagment\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CashManagmentResource extends JsonResource
+class CashManagementResource extends JsonResource
 {
 
     public function toArray($request)
@@ -14,11 +14,15 @@ class CashManagmentResource extends JsonResource
             'date' => $this->date,
             'description' => $this->description,
             'amount' => $this->amount,
+            'payment_method' => $this->payment_method,
+
+            'cashable_id' => $this->cashable_id,
+            'cashable_name' => $this->whenLoaded('cashable')->name ?? null,
+            'account_id' => $this->account_id,
+            'account_name' => $this->whenLoaded('account')->name ?? null,
             'creator_id' => $this->creator_id,
             'creator' => $this->whenLoaded('creator')->name ?? null,
-            'payment_method' => $this->payment_method,
-            'account_id' => $this->whenLoaded('account')->name ?? null,
-            'buyer_id' => $this->whenLoaded('buyer')->name ?? null,
+
             'created_at' => $this->created_at->format('Y-m-d'),
             'updated_at' => $this->updated_at->format('Y-m-d'),
         ];

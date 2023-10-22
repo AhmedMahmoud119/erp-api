@@ -1,6 +1,6 @@
 <?php
 
-use App\Domains\CashManagment\Controllers\CashManagmentController;
+use App\Domains\CashManagment\Controllers\CashManagementController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,10 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'cash-managment'], function () {
-    Route::get('/', [CashManagmentController::class, 'list']);
-    Route::get('/{id}', [CashManagmentController::class, 'findById']);
-    Route::delete('/{id}', [CashManagmentController::class, 'delete']);
-    Route::post('/create', [CashManagmentController::class, 'create']);
-    Route::post('/update/{id}', [CashManagmentController::class, 'update']);
+Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'cash-management'], function () {
+    Route::get('/reciept', [CashManagementController::class, 'listReciept']);
+    Route::get('/payment', [CashManagementController::class, 'listPayment']);
+    Route::get('/{id}', [CashManagementController::class, 'findById']);
+    Route::delete('/{id}', [CashManagementController::class, 'delete']);
+    Route::post('/create', [CashManagementController::class, 'create']);
+    Route::post('/update/{id}', [CashManagementController::class, 'update']);
 });

@@ -237,6 +237,7 @@ return [
         App\Domains\Pack\Providers\PackServiceProvider::class,
         App\Domains\FixedAsset\Providers\FixedAssetServiceProvider::class,
         App\Domains\SafeMovement\Providers\SafeMovementServiceProvider::class,
+        App\Domains\CashManagment\Providers\CashManagmentServiceProvider::class,
 
 
 

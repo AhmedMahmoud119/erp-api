@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Domains\Account\Models\EnumPermissionAccount;
 use App\Domains\BankAccount\Models\EnumPermissionBankAccount;
+use App\Domains\CashManagment\Models\EnumPermissionCashManagment;
 use App\Domains\Category\Models\EnumPermissionCategory;
 use App\Domains\Company\Models\EnumPermissionCompany;
 use App\Domains\Currency\Models\EnumPermissionCurrency;
@@ -81,6 +82,7 @@ class PermissionsTableSeeder extends Seeder
                 'Pack'            => array_column(EnumPermissionPack::cases(), 'value'),
                 'FixedAsset'      => array_column(EnumPermissionFixedAsset::cases(), 'value'),
                 'SafeMovement'    => array_column(EnumPermissionSafeMovement::cases(), 'value'),
+                'CashManagment'    => array_column(EnumPermissionCashManagment::cases(), 'value'),
             ],
 
         ];

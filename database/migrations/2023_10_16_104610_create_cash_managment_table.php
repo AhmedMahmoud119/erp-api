@@ -12,16 +12,17 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('cash_managment', function (Blueprint $table) {
+        Schema::create('cash_managments', function (Blueprint $table) {
             $table->id();
             $table->date('date');
             $table->string('description')->nullable();
             $table->string('payment_method');
             $table->float('amount', 12, 2);
-
-            $table->foreignId('buyer_id')->constrained('customers')->onDelete('cascade');
-            $table->foreignId('account_id')->constrained('accounts')->onDelete('cascade');
+            // $table->enum('cash_type', ['payment', 'receipt']);
+            $table->nullableMorphs('cashable');
+            $table->foreignId('account_id')->nullable()->constrained('accounts')->onDelete('cascade');
             $table->foreignId('creator_id')->constrained('users')->onDelete('cascade');
+
             $table->timestamps();
             $table->softDeletes();
         });
@@ -34,6 +35,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('cash_managment');
+        Schema::dropIfExists('cash_managments');
     }
 };
