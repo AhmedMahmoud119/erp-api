@@ -40,31 +40,46 @@ class CashManagementController extends Controller
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCashManagment::create_CashManagement->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $this->cashManagementService->create($request);
+        if ($this->cashManagementService->create($request))
+            return response()->json([
+                'message' => __('payment Created Successfully'),
+                'status' => true,
+            ], 200);
+
         return response()->json([
-            'message' => __('payment Created Successfully'),
-            'status' => true,
-        ], 200);
+            'message' => __('Can not processing your request, please try again.'),
+            'status' => false,
+        ], 500);
     }
     public function update($id, UpdateCashManagmentRequest $request)
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCashManagment::edit_CashManagement->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $this->cashManagementService->update($id, $request);
+        if ($this->cashManagementService->update($id, $request))
+            return response()->json([
+                'message' => __('payment Updated Successfully'),
+                'status' => true,
+            ], 200);
+
         return response()->json([
-            'message' => __('payment Updated Successfully'),
-            'status' => true,
-        ], 200);
+            'message' => __('Can not processing your request, please try again.'),
+            'status' => false,
+        ], 500);
     }
     public function delete($id)
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCashManagment::delete_CashManagement->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $this->cashManagementService->delete($id);
+        if ($this->cashManagementService->delete($id))
+            return response()->json([
+                'message' => __('payment Deleted Successfully'),
+                'status' => true,
+            ], Response::HTTP_OK);
+
         return response()->json([
-            'message' => __('payment Deleted Successfully'),
-            'status' => true,
-        ], Response::HTTP_OK);
+            'message' => __('The item does not exists.'),
+            'status' => false,
+        ], 500);
     }
 
 } //End Of Controller

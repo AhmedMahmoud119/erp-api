@@ -14,7 +14,7 @@ class StoreSafeMovementRequest extends FormRequest
     {
         return [
             'date' => 'required|date',
-            'description' => 'nullable|regex:/^[a-zA-Z0-9گچپژیلفقهكيىموي ء-ي\s\-_]*$/',
+            'description' => 'nullable|string',
             'amount' => 'required|numeric|min:0',
             'source_id' => 'required|exists:accounts,id',
             'destination_id' => 'required|exists:accounts,id',
@@ -32,7 +32,7 @@ class StoreSafeMovementRequest extends FormRequest
             'source_id.exists' => __('The source safe does not exist.'),
             'source_id.required' => __('The source safe field is required'),
             'date.required' => __('The date field is required'),
-            'description.regex' => __('Description field contains invalid letters'),
+            'description.string' => __('Description field contains invalid letters'),
         ];
 
     }

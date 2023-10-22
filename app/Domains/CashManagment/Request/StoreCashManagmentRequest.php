@@ -47,7 +47,7 @@ class StoreCashManagmentRequest extends FormRequest
     public function messages()
     {
         return [
-            'description.regex' => __('Description field contains invalid letters'),
+            'description.string' => __('Description field contains invalid letters'),
             'amount.required' => __('The amount field is required'),
             'date.required' => __('The date field is required'),
             'account_id.required' => __('please select  account'),
