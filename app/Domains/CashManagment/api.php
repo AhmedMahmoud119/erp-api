@@ -15,8 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'cash-management'], function () {
-    Route::get('/reciept', [CashManagementController::class, 'listReciept']);
-    Route::get('/payment', [CashManagementController::class, 'listPayment']);
+    Route::get('/', [CashManagementController::class, 'list']);
     Route::get('/{id}', [CashManagementController::class, 'findById']);
     Route::delete('/{id}', [CashManagementController::class, 'delete']);
     Route::post('/create', [CashManagementController::class, 'create']);

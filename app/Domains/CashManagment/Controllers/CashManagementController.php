@@ -17,13 +17,7 @@ class CashManagementController extends Controller
     {
     }
 
-    public function listPayment()
-    {
-        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCashManagment::view_CashManagements->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return CashManagementResource::collection($this->cashManagementService->list());
-    }
-    public function listReciept()
+    public function list()
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionCashManagment::view_CashManagements->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 

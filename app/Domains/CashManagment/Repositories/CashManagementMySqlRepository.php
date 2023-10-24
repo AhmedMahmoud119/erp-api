@@ -24,6 +24,8 @@ class CashManagementMySqlRepository implements CashManagmentRepositoryInterface
             $q->whereDate('date', '<=', request()->date_to);
         })->when(request()->account_id, function ($q) {
             $q->where('account_id', request()->account_id);
+        })->when(request()->cashable_id, function ($q) {
+            $q->where('cashable_id', request()->cashable_id);
         })->when(request()->amount, function ($q) {
             $q->where('amount', '>=', (request()->amount));
             $q->where('amount', '<', (request()->amount + 1));
