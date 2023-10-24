@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -68,6 +69,8 @@ class Handler extends ExceptionHandler
         switch (true) {
             case $exception instanceof NotFoundHttpException:
                 return response()->json(['message' => 'Not found', 'status' => false], 404);
+            case $exception instanceof ModelNotFoundException:
+                return response()->json(['message' => 'No Data found', 'status' => false], 404);
 
             case $exception instanceof AuthenticationException:
                 return response()->json(['message' => 'Unauthorized', 'status' => false], 401);
