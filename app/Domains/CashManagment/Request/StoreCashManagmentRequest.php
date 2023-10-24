@@ -27,8 +27,8 @@ class StoreCashManagmentRequest extends FormRequest
     public function withValidator($validator)
     {
         $validator->after(function ($validator) {
+            $result = true;
             if (isset($this->cashable_id)) {
-                $result = false;
                 $result = Account::where([
                     ['parent_id', $this->account_id],
                     ['id', $this->cashable_id]
