@@ -3,6 +3,7 @@
 namespace App\Domains\Customer\Models;
 
 use App\Domains\Account\Models\Account;
+use App\Domains\CashManagment\Models\CashManagment;
 use App\Domains\Currency\Models\Currency;
 use App\Domains\Purchase\Models\Purchase;
 use App\Domains\User\Models\User;
@@ -62,5 +63,9 @@ class Customer extends Model
     public function purchase(): MorphOne
     {
         return $this->morphOne(Purchase::class, 'purchasable');
+    }
+    public function cash()
+    {
+        return $this->morphMany(CashManagment::class, 'cashable');
     }
 }

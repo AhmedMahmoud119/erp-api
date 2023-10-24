@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Domains\Account\Models\EnumPermissionAccount;
 use App\Domains\BankAccount\Models\EnumPermissionBankAccount;
+use App\Domains\CashManagment\Models\EnumPermissionCashManagment;
 use App\Domains\Category\Models\EnumPermissionCategory;
 use App\Domains\Company\Models\EnumPermissionCompany;
 use App\Domains\Currency\Models\EnumPermissionCurrency;
@@ -24,6 +25,7 @@ use App\Domains\Permission\Models\Permission;
 use App\Domains\Permission\Models\PermissionCategory;
 use App\Domains\RevisionHistory\Models\EnumPermissionRevisionHistory;
 use App\Domains\Role\Models\Role;
+use App\Domains\SafeMovement\Models\EnumPermissionSafeMovement;
 use App\Domains\Supplier\Models\EnumPermissionSupplier;
 use App\Domains\Purchase\Models\EnumPermissionPurchase;
 use App\Domains\Tax\Models\EnumPermissionTax;
@@ -76,9 +78,11 @@ class PermissionsTableSeeder extends Seeder
                 'PaymentType'     => array_column(EnumPermissionPaymentType::cases(), 'value'),
                 'Product'         => array_column(EnumPermissionProduct::cases(), 'value'),
                 'Stock'           => array_column(EnumPermissionStock::cases(), 'value'),
-                'Purchase'=> array_column(EnumPermissionPurchase::cases(), 'value'),
-                'Pack'        => array_column(EnumPermissionPack::cases(), 'value'),
-                'FixedAsset'        => array_column(EnumPermissionFixedAsset::cases(), 'value'),
+                'Purchase'        => array_column(EnumPermissionPurchase::cases(), 'value'),
+                'Pack'            => array_column(EnumPermissionPack::cases(), 'value'),
+                'FixedAsset'      => array_column(EnumPermissionFixedAsset::cases(), 'value'),
+                'SafeMovement'    => array_column(EnumPermissionSafeMovement::cases(), 'value'),
+                'CashManagment'    => array_column(EnumPermissionCashManagment::cases(), 'value'),
             ],
 
         ];
