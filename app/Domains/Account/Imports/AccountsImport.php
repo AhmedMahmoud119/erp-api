@@ -20,13 +20,20 @@ class AccountsImport implements ToModel, WithValidation, WithHeadingRow
     public function model(array $row)
     {
 
+        $group = Group::where('code', $row['account_group_code'])->first();
+        $lastAccount = Account::where('code', 'like', $group->code . '%')->orderBy('id', 'desc')->first();
+
+        $lastAccountCode = $lastAccount ? ($lastAccount->code + 1) : $group->code . '0001';
+        $code = str_pad($lastAccountCode, 8, '0', STR_PAD_LEFT);
+
+
         return new Account([
             'name'            => $row['account_name'],
-            'group_id'        => Group::where('code', $row['account_group_code'])->first()->id ?? null,
+            'group_id'        => $group->id ?? null,
             'opening_balance' => $row['opening_balance'],
             'account_type'    => $row['account_type'],
             'parent_id'       => Account::where('code', $row['account_parent_code'])->first()->id ?? null,
-            'code'            => $row['account_code'],
+            'code'            => $code,
             'creator_id'      => auth()->user()->id,
         ]);
     }
