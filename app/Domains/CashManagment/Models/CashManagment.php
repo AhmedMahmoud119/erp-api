@@ -21,26 +21,20 @@ class CashManagment extends Model
         'amount',
         'payment_method',
         'account_id',
+        'cashable_id',
         'creator_id'
     ];
     public function creator()
     {
         return $this->belongsTo(User::class, 'creator_id');
     }
-//    public function debtor()
-//     {
-//         return $this->belongsTo(Customer::class, 'debtor_id');
-//     }
-//     public function creditor()
-//     {
-//         return $this->belongsTo(Supplier::class, 'creditor_id');
-//     }
-   public function account()
+
+    public function account()
     {
         return $this->belongsTo(Account::class, 'account_id');
     }
     public function cashable()
     {
-        return $this->morphTo();
+        return $this->belongsTo(Account::class, 'cashable_id');
     }
 } //End Of Model

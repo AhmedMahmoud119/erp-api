@@ -34,13 +34,20 @@ class CashManagementMySqlRepository implements CashManagmentRepositoryInterface
         })->when(request()->to, function ($q) {
             $q->whereDate('created_at', '<=', request()->to);
         })->when(request()->sort_by, function ($q) {
-            if (in_array(request()->sort_by, ['id', 'date', 'amount', 'created_at', 'creator_id'])) {
+            if (in_array(request()->sort_by, ['id', 'date', 'amount', 'created_at', 'creator_id', 'cashable_id'])) {
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
             }
-        })
-            ->when(request()->has('type'), function ($q) {
-                return $q->where('cashable_type', 'like', '%' . request()->type . '%');
-            })->orderBy('updated_at', 'desc')->with(['creator:id,name', 'account:id,name', 'cashable:id,name,code'])->paginate(request('limit', config('app.pagination_count')));
+        })->when(request()->has('type'), function ($q) {
+            if (request()->type === 'debtor') {
+                $q->whereHas('cashable', function ($q) {
+                    $q->whereIn('account_type', ['debit', 'both']);
+                });
+            } elseif (request()->type === 'creditor') {
+                $q->whereHas('cashable', function ($q) {
+                    $q->whereIn('account_type', ['credit', 'both']);
+                });
+            }
+        })->orderBy('updated_at', 'desc')->with(['creator:id,name', 'account:id,name,code', 'cashable:id,name,code'])->paginate(request('limit', config('app.pagination_count')));
 
         return $cashManagments;
     }
@@ -52,16 +59,14 @@ class CashManagementMySqlRepository implements CashManagmentRepositoryInterface
     }
     public function store($request)
     {
-        $cashable = $this->getCashableAccount($request->cashable_id, $request->cashable_id);
         try {
             DB::beginTransaction();
             $cashManagment = $this->cashManagment::create($request->validated() + [
                 'creator_id' => auth()->user()->id,
             ]);
-            
-            if (!$cashable)
+
+            if (!$cashManagment)
                 throw new Exception;
-            $cashable->cash()->save($cashManagment);
             DB::commit();
             return true;
         } catch (Exception $e) {
@@ -74,12 +79,7 @@ class CashManagementMySqlRepository implements CashManagmentRepositoryInterface
         try {
             DB::beginTransaction();
             $cashManagement = $this->cashManagment::findOrFail($id);
-            $cashManagement->update(request()->except('cashable_id', 'cashable'));
-            $cashable = $this->getCashableAccount($request->cashable, $request->cashable_id);
-
-            if (!$cashable)
-                throw new Exception;
-            $cashManagement->cashable()->associate($cashable);
+            $cashManagement->update($request->validated());
             DB::commit();
             return true;
         } catch (Exception $e) {

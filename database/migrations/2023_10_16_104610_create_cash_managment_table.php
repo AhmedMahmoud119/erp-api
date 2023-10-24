@@ -18,8 +18,7 @@ return new class extends Migration {
             $table->string('description')->nullable();
             $table->string('payment_method');
             $table->float('amount', 12, 2);
-            // $table->enum('cash_type', ['payment', 'receipt']);
-            $table->nullableMorphs('cashable');
+            $table->foreignId('cashable_id')->nullable()->constrained('accounts');
             $table->foreignId('account_id')->nullable()->constrained('accounts')->onDelete('cascade');
             $table->foreignId('creator_id')->constrained('users')->onDelete('cascade');
 
