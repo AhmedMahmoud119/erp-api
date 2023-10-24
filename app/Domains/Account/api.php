@@ -24,6 +24,8 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'account'], function (
     Route::post('/update/{id}', [\App\Domains\Account\Controllers\AccountController::class, 'update']);
     Route::post('/import', [\App\Domains\Account\Controllers\AccountController::class, 'import']);
 
+    Route::get('/export/example', [\App\Domains\Account\Controllers\AccountController::class, 'exportExample']);
+
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {

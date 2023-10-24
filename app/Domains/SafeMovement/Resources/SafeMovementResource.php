@@ -18,6 +18,7 @@ class SafeMovementResource extends JsonResource
             'destination_safe' => $this->whenLoaded('destination')->name ?? null,
             'source_safe_id' => $this->source_id,
             'source_safe' => $this->whenLoaded('source')->name ?? null,
+            'assets_involved' => $this->assets_involved,
             'creator_id' => $this->creator_id,
             'creator' => $this->whenLoaded('creator')->name ?? null,
             'created_at' => $this->created_at->format('Y-m-d'),

@@ -24,4 +24,6 @@ Route::group(['middleware' => 'auth:sanctum', 'prefix' => 'group'], function () 
     Route::get('/export/csv', [\App\Domains\Group\Controllers\GroupController::class, 'export']);
     Route::post('/import/csv', [\App\Domains\Group\Controllers\GroupController::class, 'import']);
 
+    Route::get('/export/example', [\App\Domains\Group\Controllers\GroupController::class, 'exportExample']);
+
 });

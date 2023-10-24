@@ -16,10 +16,10 @@ class UpdateSafeMovementRequest extends FormRequest
     {
         return [
             'date' => 'required|date',
-            'description' => 'nullable|regex:/^[a-zA-Z0-9گچپژیلفقهكيىموي ء-ي\s\-_]*$/',
+            'description' => 'nullable|string',
             'amount' => 'required|numeric|min:0',
-            'source_id' => 'required|exists:accounts,id',
-            'destination_id' => 'required|exists:accounts,id',
+            'source_id' => 'required|exists:accounts,id,is_parent,1',
+            'destination_id' => 'required|different:source_id|exists:accounts,id,is_parent,1',
             'assets_involved' => 'nullable|string',
         ];
 
