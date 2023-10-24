@@ -186,6 +186,8 @@ class AccountMySqlRepository implements AccountRepositoryInterface
 
     public function notParents()
     {
-        return $this->account::where('is_parent', 0)->get();
+        return $this->account::where('is_parent', 0)->when(request()->has('parent_id'),function($q){
+            $q->where('parent_id', request()->parent_id);
+        })->get();
     }
 }
