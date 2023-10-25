@@ -18,7 +18,7 @@ class FixedAssetMySqlRepository implements FixedAssetRepositoryInterface
 
     public function list()
     {
-        $fixedAssets = $this->FixedAsset::when(request()->search, function ($q) {
+        $fixedAssets = $this->FixedAsset::when(request()->filled('search'), function ($q) {
             $q->where('name', 'like', '%' . request()->search . '%');
             $q->orWhere('description', 'like', '%' . request()->search . '%');
         })->when(request()->depreciation_ratio, function ($q) {
@@ -38,10 +38,12 @@ class FixedAssetMySqlRepository implements FixedAssetRepositoryInterface
             });
         })->when(request()->creator_id, function ($q) {
             $q->where('creator_id', request()->creator_id);
-        })->when(request()->from || request()->to, function ($q) {
-            $q->whereBetween('created_at', [request()->from, request()->to]);
+        })->when(request()->from, function ($q) {
+            $q->whereDate('created_at', '>=', request()->from);
+        })->when(request()->to, function ($q) {
+            $q->whereDate('created_at', '<=', request()->to);
         })->when(request()->sort_by, function ($q) {
-            if (in_array(request()->sort_by, ['code', 'name', 'acquisition_value', 'acquisition_date', 'depreciation_value', 'created_at', 'id', 'creator_id'])) {
+            if (in_array(request()->sort_by, ['code', 'name', 'acquisition_value', 'acquisition_date', 'depreciation_value', 'depreciation_ratio', 'created_at', 'id', 'creator_id'])) {
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
             }
         })->orderBy('updated_at', 'desc')->with(['creator', 'parent:id,name,code'])->paginate(request('limit', config('app.pagination_count')));
