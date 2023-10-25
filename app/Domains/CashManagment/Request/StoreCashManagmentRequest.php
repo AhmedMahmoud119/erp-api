@@ -20,6 +20,7 @@ class StoreCashManagmentRequest extends FormRequest
             'payment_method' => 'required',
             'account_id' => 'required_with:cashable_id|nullable||exists:accounts,id',
             'cashable_id' => 'required_with:account_id|nullable|exists:accounts,id',
+            'type' => 'required|in:creditor,debtor',
 
         ];
 

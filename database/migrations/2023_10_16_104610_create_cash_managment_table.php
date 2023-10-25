@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->date('date');
             $table->string('description')->nullable();
             $table->string('payment_method');
+            $table->enum('type',['creditor','debtor']);
             $table->float('amount', 12, 2);
             $table->foreignId('cashable_id')->nullable()->constrained('accounts');
             $table->foreignId('account_id')->nullable()->constrained('accounts')->onDelete('cascade');

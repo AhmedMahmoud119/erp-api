@@ -67,13 +67,14 @@ class FixedAssetMySqlRepository implements FixedAssetRepositoryInterface
             $parent = Account::find($request->parent_id);
         }
         $depreciation_ratio = isset($request->depreciation_ratio) ? $request->depreciation_ratio : $this->getDepreciationRatio($request->depreciation_duration_value, $request->acquisition_value, $request->depreciation_value);
+
         $asset = $this->FixedAsset::create(
-            $request->validated() + [
+            [
                 'code' => $this->generateCode($request->parent_code, $codeLength),
                 'depreciation_ratio' => $depreciation_ratio,
                 'depreciation' => $this->getDepreciation($request->depreciation_duration_value, $request->acquisition_value, $request->depreciation_value),
                 'creator_id' => auth()->user()->id
-            ]
+            ]+$request->validated()
         );
         $parent->fixedAssets()->save($asset);
         return $asset;
@@ -92,11 +93,11 @@ class FixedAssetMySqlRepository implements FixedAssetRepositoryInterface
         $depreciation_ratio = isset($request->depreciation_ratio) ? $request->depreciation_ratio : $this->getDepreciationRatio($request->depreciation_duration_value, $request->acquisition_value, $request->depreciation_value);
 
         $asset->parent()->associate($parent);
-        $asset->update(request()->except('parent_code', 'parent_id') + [
+        $asset->update([
             'code' => $this->generateCode($request->parent_code, $codeLength),
             'depreciation_ratio' => $depreciation_ratio,
             'depreciation' => $this->getDepreciation($request->depreciation_duration_value, $request->acquisition_value, $request->depreciation_value),
-        ]);
+        ] + request()->except('parent_code', 'parent_id'));
         return true;
     }
 

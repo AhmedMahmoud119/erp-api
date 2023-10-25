@@ -20,6 +20,7 @@ class CashManagment extends Model
         'description',
         'amount',
         'payment_method',
+        'type',
         'account_id',
         'cashable_id',
         'creator_id'
