@@ -35,19 +35,20 @@ class CashManagementMySqlRepository implements CashManagmentRepositoryInterface
             $q->whereDate('created_at', '>=', request()->from);
         })->when(request()->to, function ($q) {
             $q->whereDate('created_at', '<=', request()->to);
+        })->when(request()->has('type'), function ($q) {
+            if (request()->type === 'debtor') {
+                $q->where('type', 'debtor');
+            } elseif (request()->type === 'creditor') {
+                $q->where('type', 'creditor');
+            }
         })->when(request()->sort_by, function ($q) {
             if (in_array(request()->sort_by, ['id', 'date', 'amount', 'created_at', 'creator_id', 'cashable_id'])) {
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
-            }
-        })->when(request()->has('type'), function ($q) {
-            if (request()->type === 'debtor') {
-                $q->whereHas('cashable', function ($q) {
-                    $q->whereIn('account_type', ['debit', 'both']);
-                });
-            } elseif (request()->type === 'creditor') {
-                $q->whereHas('cashable', function ($q) {
-                    $q->whereIn('account_type', ['credit', 'both']);
-                });
+                if (request()->sort_by == 'parent_id') {
+                    $q->whereHas('cashable', function ($q) {
+                        $q->orderBy('cashable_id', request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
+                    });
+                }
             }
         })->orderBy('updated_at', 'desc')->with(['creator:id,name', 'account:id,name,code', 'cashable:id,name,code'])->paginate(request('limit', config('app.pagination_count')));
 
