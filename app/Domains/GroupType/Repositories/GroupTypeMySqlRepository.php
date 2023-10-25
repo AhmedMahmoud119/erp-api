@@ -7,6 +7,7 @@ use App\Domains\GroupType\Interfaces\GroupTypeRepositoryInterface;
 use App\Domains\GroupType\Models\GroupType;
 use FontLib\TrueType\Collection;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
 {
@@ -45,6 +46,33 @@ class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
         return $this->groupType::with(['children' => function ($q) {
             $q->with('children');
         }])->get();
+    }
+
+    public function treeViewPDF()
+    {
+        $tree = $this->getTreeView();
+
+        $data = [
+            'title' => 'Accounts',
+            'tree' => $tree,
+        ];
+        $pdf = PDF::loadView('treeViewPDF', $data);
+
+        $path = public_path('storage/exports/');
+        $fileName = 'Account-tree'
+//            . date("Y-m-d-his")
+            . '.pdf';
+        $pdf->save($path . '/' . $fileName);
+
+        if (tenant('id')) {
+            return response()->json([
+                'file_path' => url('storage/exports/' . $fileName),
+            ]);
+        }
+
+        return response()->json([
+            'file_path' => asset('storage/exports/' . $fileName),
+        ]);
     }
 
     public function findById(string $id): GroupType

@@ -41,4 +41,10 @@ class GroupTypeService
         return $this->groupTypeRepository->getTreeView();
     }
 
+
+    public function treeViewPDF()
+    {
+        return $this->groupTypeRepository->treeViewPDF();
+    }
+
 }

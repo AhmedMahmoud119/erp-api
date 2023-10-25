@@ -22,6 +22,8 @@ Route::group(['middleware' => 'auth:sanctum','prefix' => 'groupType'],function (
     Route::post('/create', [\App\Domains\GroupType\Controllers\GroupTypeController::class, 'create']);
     Route::post('/update/{id}', [\App\Domains\GroupType\Controllers\GroupTypeController::class, 'update']);
 
+    Route::get('/export/tree-view-pdf', [\App\Domains\GroupType\Controllers\GroupTypeController::class, 'treeViewPDF']);
+
 });
 Route::get('/docs/swagger', function () {
     return view('swagger.index');

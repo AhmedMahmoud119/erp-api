@@ -36,6 +36,13 @@ class GroupTypeController extends Controller
         return  ChartOfAccountsResource::collection($this->groupTypeService->getTreeView());
     }
 
+    public function treeViewPDF()
+    {
+        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionGroupType::view_groupTypes->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return  $this->groupTypeService->treeViewPDF();
+    }
+
     public function delete($id)
     {
         abort_if(!auth()->user()->hasPermissionTo(EnumPermissionGroupType::delete_groupType->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
