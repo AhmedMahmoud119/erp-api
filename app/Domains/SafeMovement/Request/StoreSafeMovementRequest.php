@@ -16,8 +16,8 @@ class StoreSafeMovementRequest extends FormRequest
             'date' => 'required|date',
             'description' => 'nullable|string',
             'amount' => 'required|numeric|min:0',
-            'source_id' => 'required|exists:accounts,id,is_parent,1',
-            'destination_id' => 'required|different:source_id|exists:accounts,id,is_parent,1',
+            'source_id' => 'required|exists:accounts,id,is_parent,0',
+            'destination_id' => 'required|different:source_id|exists:accounts,id,is_parent,0',
             'assets_involved' => 'nullable|string',
         ];
 
