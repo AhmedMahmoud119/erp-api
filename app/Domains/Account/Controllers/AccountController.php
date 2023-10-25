@@ -126,4 +126,15 @@ class AccountController extends Controller
         ], 200);
     }
 
+    public function exportExample()
+    {
+//        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionAccount::import_accounts->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+//        $this->accountService->import();
+
+
+        return response()->json([
+            'file_path' => asset('account-example-import.xlsx'),
+        ]);
+    }
+
 }
