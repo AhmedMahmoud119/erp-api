@@ -229,9 +229,21 @@
     "the balance  must be number": "الرصيد يجب ان يكون ارقام فقط ",
     "The parent field is required": "حقل  الاب الي مطلوب ",
     "The parent must be 0 or 1 only": "الاب يجب ان يكون 0 او 1 فقط  ",
-    "Can not Deleted because it belong to Group": "لا تستطيع حذف نوع المجموعه لانه ينتمي الي  مجموعه"
-
-
-
-
+    "Can not Deleted because it belong to Group": "لا تستطيع حذف نوع المجموعه لانه ينتمي الي  مجموعه",
+    "(and :count more error)": "(و :count خطأ إضافي)",
+    "The item does not exists.": "العنصر غير موجود.",
+    "Can not processing your request, please try again.": "تعذر تنفيذ العملية يرجى المحاولة مرة اخرى",
+    "Cash Account does not belongs to the parent, Please select the right one.": "حساب الدفع لا ينتمى للحساب الأصلى",
+    "Please select cash account.": "من فضلك حدد حساب الدفع.",
+    "The parent code is incorrect.": "كود الحساب الأب غير صحيح",
+    "The parent code does not match the specified parent id, Or may be does not exist.": "كود الحساب الأصل لا يتماشى مع الحساب المحدد, أو ربما يكون غير موجود.",
+    "payment Created Successfully":"تم إنشاء عملية الدفع بنجاح",
+    "Asset Created Successfully":"تم إنشاء الأصل بنجاح",
+    "Safe movement Created Successfully":"تم اضافة حركة الخزينة بنجاح",
+    "payment Updated Successfully":"تم تعديل الأصل بنجاح",
+    "Asset Updated Successfully":"تم تعديل الأصل بنجاح",
+    "Safe movement Updated Successfully":"تم تعديل حركة الخزينة بنجاح",
+    "payment Deleted Successfully":"تم مسح عملية الدفع ",
+    "Asset Deleted Successfully":"تم مسح الأصل ",
+    "Safe movement Deleted Successfully":"تم مسح حركة الخزينة "
 }

@@ -43,20 +43,20 @@ class StoreFixedAssetRequest extends FormRequest
                     ->where('code', $this->parent_code)
                     ->exists();
             } else {
-                $validator->errors()->add('parent_code', 'The parent code is incorrect.');
+                $validator->errors()->add('parent_code', __('The parent code is incorrect.'));
                 return;
             }
             if (!$result) {
-                $validator->errors()->add('parent_code', 'The parent code does not match the specified parent id, Or may be does not exist.');
+                $validator->errors()->add('parent_code', __('The parent code does not match the specified parent id, Or may be does not exist.'));
             }
         });
     }
     public function messages()
     {
         return [
-            'name.required' => __('The name field is required'),
-            'name.regex' => __('The name contains invalid letters'),
-            'description.regex' => __('Description field contains invalid letters'),
+            // 'name.required' => __('The name field is required'),
+            // 'name.regex' => __('The name contains invalid letters'),
+            // 'description.regex' => __('Description field contains invalid letters'),
         ];
 
     }

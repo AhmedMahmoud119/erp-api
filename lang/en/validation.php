@@ -169,6 +169,14 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'account_id' => 'Account',
+        'cashable_id' => 'Cashable',
+        'parent_id' => 'Parent',
+        'source_id' => 'Source',
+        'destination_id' => 'Destination',
+        'depreciation_duration_type' => ' depreciation type',
+        'depreciation_duration_value' => 'depreciation value',
+    ],
 
 ];
