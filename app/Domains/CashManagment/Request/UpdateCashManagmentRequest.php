@@ -38,7 +38,7 @@ class UpdateCashManagmentRequest extends FormRequest
                 ])->exists();
             }
             if (!$result) {
-                $validator->errors()->add('cashable_id', 'Cash Account does not belongs to the parent, Please select the right one.');
+                $validator->errors()->add('cashable_id', __('Cash Account does not belongs to the parent, Please select the right one.'));
                 return;
             }
         });
@@ -47,13 +47,13 @@ class UpdateCashManagmentRequest extends FormRequest
     public function messages()
     {
         return [
-            'description.string' => __('Description field contains invalid letters'),
-            'amount.required' => __('The amount field is required'),
-            'date.required' => __('The date field is required'),
-            'account_id.required_with' => __('Please select  account'),
-            'account_id.exists' => __('The Account does not exist.'),
-            'cashable_id.exists' => __('The Cash Account does not exist.'),
-            'cashable_id.required_with' => __('Please select cash account.'),
+            // 'description.string' => __('Description field contains invalid letters'),
+            // 'amount.required' => __('The amount field is required'),
+            // 'date.required' => __('The date field is required'),
+            // 'account_id.required_with' => __('Please select  account'),
+            // 'account_id.exists' => __('The Account does not exist.'),
+            // 'cashable_id.exists' => __('The Cash Account does not exist.'),
+            // 'cashable_id.required_with' => __('Please select cash account.'),
         ];
     }
 
