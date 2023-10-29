@@ -61,6 +61,10 @@ class GroupsImport implements ToModel, WithValidation, WithHeadingRow
     {
         return [
             'group_type_id.exists' => 'The selected value of row number :attribute does not exists in Groups or Group Types.',
+            'code.required' => 'The selected value of row number :attribute is required',
+            'name.required' => 'The selected value of row number :attribute is required',
+            'name.regex' => 'The selected value of row number :attribute is contains invalid character',
+
         ];
     }
 
