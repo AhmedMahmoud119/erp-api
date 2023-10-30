@@ -17,7 +17,7 @@ trait HasFinancialPeriod
         static::creating(function ($model) {
             if (!FinancialPeriod::current()) {
 
-                throw ValidationException::withMessages(['Financial Period' => 'You can not creating on closed Financial Period']);
+                throw ValidationException::withMessages(['financial_period' => 'You can not creating on closed Financial Period']);
             }
         });
         static::created(function ($model) {

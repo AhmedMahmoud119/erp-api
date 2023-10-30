@@ -16,6 +16,6 @@ class FinancialPeriodSeeder extends Seeder
      */
     public function run()
     {
-        FinancialPeriodFactory::new()->count(10)->create();
+        FinancialPeriodFactory::new()->count(1)->create();
     }
 }
