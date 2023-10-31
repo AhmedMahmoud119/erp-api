@@ -54,6 +54,9 @@ class DatabaseSeeder extends Seeder
             PacksTableSeeder::class,
             SuppliersTableSeeder::class,
             VendorSeeder::class,
+            FixedAssetSeeder::class,
+            SafeMovementSeeder::class,
+            CashManagementSeeder::class,
 
         ]);
 

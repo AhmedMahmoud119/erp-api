@@ -28,7 +28,7 @@ class FixedAssetMySqlRepository implements FixedAssetRepositoryInterface
         })->when(request()->acquisition_value, function ($q) {
             $q->where('acquisition_value', request()->acquisition_value);
         })->when(request()->acquisition_date, function ($q) {
-            $q->whereDate('acquisition_date', '>=', request()->acquisition_date);
+            $q->whereDate('acquisition_date', request()->acquisition_date);
         })->when(request()->parent_id && request()->parent_code, function ($q) {
             $parentModel = (Str::length(request()->parent_code) === 8) ? Account::class : Group::class;
             $parentId = request()->parent_id;
@@ -43,8 +43,13 @@ class FixedAssetMySqlRepository implements FixedAssetRepositoryInterface
         })->when(request()->to, function ($q) {
             $q->whereDate('created_at', '<=', request()->to);
         })->when(request()->sort_by, function ($q) {
-            if (in_array(request()->sort_by, ['code', 'name', 'acquisition_value', 'acquisition_date', 'depreciation_value', 'depreciation_ratio', 'created_at', 'id', 'creator_id'])) {
+            if (in_array(request()->sort_by, ['id','code', 'name', 'acquisition_value', 'acquisition_date', 'depreciation_value', 'depreciation_ratio', 'created_at','parent_id', 'creator_id'])) {
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
+                if (request()->sort_by == 'parent_id') {
+                    $q->whereHas('parent', function ($q) {
+                        $q->orderBy('parent_id', request()->sort_type === 'asc' ? 'asc' : 'desc');
+                    });
+                }
             }
         })->orderBy('updated_at', 'desc')->with(['creator', 'parent:id,name,code'])->paginate(request('limit', config('app.pagination_count')));
 

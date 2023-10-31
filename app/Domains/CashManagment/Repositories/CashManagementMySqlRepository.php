@@ -44,11 +44,6 @@ class CashManagementMySqlRepository implements CashManagmentRepositoryInterface
         })->when(request()->sort_by, function ($q) {
             if (in_array(request()->sort_by, ['id', 'date', 'amount', 'created_at', 'creator_id', 'cashable_id'])) {
                 $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
-                if (request()->sort_by == 'parent_id') {
-                    $q->whereHas('cashable', function ($q) {
-                        $q->orderBy('cashable_id', request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
-                    });
-                }
             }
         })->orderBy('updated_at', 'desc')->with(['creator:id,name', 'account:id,name,code', 'cashable:id,name,code'])->paginate(request('limit', config('app.pagination_count')));
 

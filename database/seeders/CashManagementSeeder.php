@@ -2,12 +2,11 @@
 
 namespace Database\Seeders;
 
+use Database\Factories\CashManagementFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Domains\FinancialPeriod\Models\FinancialPeriod;
-use Database\Factories\FinancialPeriodFactory;
 
-class FinancialPeriodSeeder extends Seeder
+class CashManagementSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,6 +15,6 @@ class FinancialPeriodSeeder extends Seeder
      */
     public function run()
     {
-        FinancialPeriodFactory::new()->count(1)->create();
+        CashManagementFactory::new()->count(10)->create();
     }
 }

@@ -109,7 +109,7 @@ class GroupController extends Controller
 //        abort_if(!auth()->user()->hasPermissionTo(EnumPermissionAccount::import_accounts->value, 'api'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return response()->json([
-            'file_path' => asset('group-example-import.xlsx'),
+            'file_path' => url('group-example-import.xlsx'),
         ]);
     }
 

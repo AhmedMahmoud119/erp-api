@@ -133,7 +133,7 @@ class AccountController extends Controller
 
 
         return response()->json([
-            'file_path' => asset('account-example-import.xlsx'),
+            'file_path' => url('/account-example-import.xlsx'),
         ]);
     }
 

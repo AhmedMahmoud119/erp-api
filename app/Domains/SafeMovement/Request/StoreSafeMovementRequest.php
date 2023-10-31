@@ -26,13 +26,13 @@ class StoreSafeMovementRequest extends FormRequest
     public function messages()
     {
         return [
-            'amount.required' => __('The amount field is required'),
-            'destination_id.required' => __('The destination safe field is required'),
-            'destination_id.exists' => __('The destination safe does not exist.'),
-            'source_id.exists' => __('The source safe does not exist.'),
-            'source_id.required' => __('The source safe field is required'),
-            'date.required' => __('The date field is required'),
-            'description.string' => __('Description field contains invalid letters'),
+            // 'amount.required' => __('The amount field is required'),
+            // 'destination_id.required' => __('The destination safe field is required'),
+            // 'destination_id.exists' => __('The destination safe does not exist.'),
+            // 'source_id.exists' => __('The source safe does not exist.'),
+            // 'source_id.required' => __('The source safe field is required'),
+            // 'date.required' => __('The date field is required'),
+            // 'description.string' => __('Description field contains invalid letters'),
         ];
 
     }
