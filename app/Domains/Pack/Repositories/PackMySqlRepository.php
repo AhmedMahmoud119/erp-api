@@ -36,8 +36,8 @@ class PackMySqlRepository implements PackRepositoryInterface
                 $q->where('quantity', '<=', request()->quantity_to);
             })
             ->when(request()->filled('price'), function ($q) {
-                $q->where('price', '<=', (request()->price + 1));
-                $q->where('price', '>=', (request()->price - 1));
+                $q->where('price', '<', (request()->price + 1));
+                $q->where('price', '>=', (request()->price));
             })
             ->when(request()->sort_by, function ($q) {
                 if (in_array(request()->sort_by, ['id', 'name', 'quantity', 'price', 'creator_id'])) {
