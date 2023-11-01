@@ -15,6 +15,7 @@ use App\Domains\Category\Models\Category;
 class Product extends Model
 {
     use HasFactory, SoftDeletes,HasFinancialPeriod;
+    protected $hidden = ['pivot'];
 
     protected $fillable = [
         'code',

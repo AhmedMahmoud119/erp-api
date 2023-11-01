@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->string('material');
             $table->integer('quantity');
 
-            $table->unsignedDecimal('price', 10, 2);
+            $table->unsignedDecimal('price', 16, 2);
 
             $table->unsignedDecimal('weight', 10, 2);
             $table->unsignedDecimal('width', 10, 2);

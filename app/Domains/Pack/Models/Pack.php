@@ -16,9 +16,9 @@ class Pack extends Model
     protected $fillable = [
         'name',
         'description',
-        'matrial',
         'quantity',
         'price',
+        'material',
         'weight',
         'width',
         'length',
