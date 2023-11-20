@@ -32,7 +32,8 @@ class ProductMySqlRepository implements ProductRepositoryInterface
                 return $q->where('creator_id', request()->creator_id);
             })
             ->when(request()->sort_by, function ($q) {
-                if (in_array(request()->sort_by, ['name', 'purchase_prirce', 'selling_prirce', 'creator_id'])) {
+                if (in_array(request()->sort_by, ['name', 'purchase_prirce', 'selling_prirce', 'creator_id'
+                , 'quantity'])) {
                     $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
                 }
             })->with(
