@@ -23,7 +23,7 @@ class PackResource extends JsonResource
                 'height' => $this->height,
                 'weight' => $this->weight,
             ],
-            'products' => $this->products,
+            'products' => $this->whenLoaded('products'),
             'creator' => $this->creator,
 
             'created_at' => $this->created_at->format('Y-m-d'),

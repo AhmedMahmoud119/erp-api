@@ -1,4 +1,4 @@
-<?php return array (
+<?php return array(
     'created_successfully' => 'Created Successfully',
     'deleted_successfully' => 'Deleted Successfully',
     'updated_successfully' => 'updated_successfully',
@@ -61,7 +61,16 @@
     'the_financial_Year_Start_field_is_required' => 'the financial Year Start field is required',
     'the_financial_Year_End_field_is_required' => 'the financial Year End field is required',
     'the_financial_Year_Status_field_is_required' => 'the financial Year Status field is required',
-'cant_update_this_financial_period' => 'cant update this financial period'
+    'cant_update_this_financial_period' => 'cant update this financial period',
+    'payment Created Successfully' => 'payment Created Successfully',
+    'Asset Created Successfully' => 'Asset Created Successfully',
+    'Safe movement Created Successfully' => 'Safe movement Created Successfully',
+    'payment Updated Successfully' => 'payment Updated Successfully',
+    'Asset Updated Successfully' => 'Asset Updated Successfully',
+    'Safe movement Updated Successfully' => 'Safe movement Updated Successfully',
+    'payment Deleted Successfully' => 'payment Deleted Successfully',
+    'Asset Deleted Successfully' => 'Asset Deleted Successfully',
+    'Safe movement Deleted Successfully' =>'Safe movement Deleted Successfully'
 );
 
 

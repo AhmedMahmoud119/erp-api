@@ -65,7 +65,7 @@ class AccountMySqlRepository implements AccountRepositoryInterface
         $code = str_pad($lastAccountCode, 8, '0', STR_PAD_LEFT);
 
         $this->account::create($request->all() + [
-                'code' => $code,
+                'code' => $this->generateCode($request->group_id),
                 'creator_id' => auth()->user()->id,
             ]);
 
@@ -149,7 +149,7 @@ class AccountMySqlRepository implements AccountRepositoryInterface
     public function update(string $id, $request): bool
     {
         $account = $this->account::findOrFail($id);
-        $account->update($request->except('code'));
+        $account->update($request->except('code')+['code' => $this->generateCode($request->group_id)]);
 
         return true;
     }
@@ -189,5 +189,15 @@ class AccountMySqlRepository implements AccountRepositoryInterface
         return $this->account::where('is_parent', 0)->when(request()->has('parent_id'),function($q){
             $q->where('parent_id', request()->parent_id);
         })->get();
+    }
+    private function generateCode(int $parentId)
+    {
+        $group = Group::find($parentId);
+        $lastAccount = Account::where('code', 'like', $group->code . '%')->whereRaw('LENGTH(code) = ?', [8])->orderBy('id', 'desc')->first();
+
+        $lastAccountCode = $lastAccount ? ($lastAccount->code + 1) : $group->code . '0001';
+        $code = str_pad($lastAccountCode, 8, '0', STR_PAD_LEFT);
+
+        return $code;
     }
 }

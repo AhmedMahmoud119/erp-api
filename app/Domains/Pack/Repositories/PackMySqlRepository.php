@@ -13,7 +13,9 @@ class PackMySqlRepository implements PackRepositoryInterface
     }
     public function findById(string $id): Pack
     {
-        return $this->pack::findOrFail($id);
+        $pack = $this->pack::findOrFail($id);
+        $pack->load(['creator', 'products']);
+        return $pack;
     }
     public function list()
     {
@@ -25,13 +27,23 @@ class PackMySqlRepository implements PackRepositoryInterface
             });
         })
             ->when(request()->creator_id, function ($q) {
-                return $q->where('creator_id', request()->creator_id);
+                $q->where('creator_id', request()->creator_id);
+            })
+            ->when(request()->filled('quantity_from'), function ($q) {
+                $q->where('quantity', '>=', request()->quantity_from);
+            })
+            ->when(request()->filled('quantity_to'), function ($q) {
+                $q->where('quantity', '<=', request()->quantity_to);
+            })
+            ->when(request()->filled('price'), function ($q) {
+                $q->where('price', '<', (request()->price + 1));
+                $q->where('price', '>=', (request()->price));
             })
             ->when(request()->sort_by, function ($q) {
-                if (in_array(request()->sort_by, ['name', 'quantity', 'price', 'creator_id'])) {
+                if (in_array(request()->sort_by, ['id', 'name', 'quantity', 'price', 'creator_id'])) {
                     $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
                 }
-            })->with(['creator', 'products'])
+            })->with(['creator:name,id,email', 'products:id,code,name'])
             ->orderBy('name')->paginate(request('limit', config('app.pagination_count')));
 
     }

@@ -18,6 +18,7 @@ class StoreWarehouseRequest extends FormRequest
             'name'        => 'required|regex:/^[a-zA-Zگچپژیلفقهكيىموي ء-ي\s]*$/',
             'description' => 'required',
             'address'     => 'required|max:200',
+            'address_phone'=> 'nullable|min:5|max:20',
             'assigned_id' => 'required|exists:users,id',
             'state_id'    => 'required|exists:states,id',
             'country_id'  => 'required|exists:countries,id',
