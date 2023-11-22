@@ -23,12 +23,23 @@ class WarehouseMySqlRepository implements WarehouseRepositoryInterface
 
     public function list()
     {
-        return $this->warehouse::when(request()->creator_id, function ($q) {
+        return $this->warehouse::when(request()->search, function ($q) {
+            $searchTerm = '%' . request()->search . '%';
+            $q->where(function ($query) use ($searchTerm) {
+                $query->where('name', 'like', $searchTerm)
+                    ->orWhere('description', 'like', $searchTerm);
+            });
+        })
+            ->when(request()->creator_id, function ($q) {
             $q->where('creator_id', request()->creator_id);
         })->when(request()->from, function ($q) {
             $q->whereDate('created_at', '>=', request()->from);
         })->when(request()->to, function ($q) {
             $q->whereDate('created_at', '<=', request()->to);
+        })->when(request()->sort_by, function ($q) {
+            if (in_array(request()->sort_by, ['name', 'created_at', 'creator_id'])) {
+                $q->orderBy(request()->sort_by, request()->sort_type === 'asc' ? 'asc' : 'desc');
+            }
         })->with('creator','assigned')->paginate(request('limit', config('app.pagination_count')));
     }
 
