@@ -72,7 +72,7 @@ class AccountMySqlRepository implements AccountRepositoryInterface
         }else{
             $parent = Account::find($request->parent_id);
 
-            $this->account::create($request->all() + [
+            $this->account::create($request->except('group_id') + [
                 'code' => $this->generateCode($parent->group_id),
                 'group_id' => $parent->group_id,
                 'creator_id' => auth()->user()->id,
