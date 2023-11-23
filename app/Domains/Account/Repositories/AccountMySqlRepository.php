@@ -91,7 +91,7 @@ class AccountMySqlRepository implements AccountRepositoryInterface
             $account->update($request->except('code')+['code' => $this->generateCode($request->group_id)]);
         }else{
             $parent = Account::find($request->parent_id);
-            $account->update($request->except('code')+[
+            $account->update($request->except('code','group_id')+[
                 'code' => $this->generateCode($parent->group_id),
                 'group_id' => $parent->group_id,
             ]);
