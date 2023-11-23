@@ -58,19 +58,48 @@ class AccountMySqlRepository implements AccountRepositoryInterface
 
     public function store($request): bool
     {
-        $group = Group::find($request->group_id);
-        $lastAccount = Account::where('code', 'like', $group->code . '%')->orderBy('id', 'desc')->first();
+        if($request->is_parent == 1){
+            $group = Group::find($request->group_id);
+            $lastAccount = Account::where('code', 'like', $group->code . '%')->orderBy('id', 'desc')->first();
+    
+            $lastAccountCode = $lastAccount ? ($lastAccount->code + 1) : $group->code . '0001';
+            $code = str_pad($lastAccountCode, 8, '0', STR_PAD_LEFT);
+    
+            $this->account::create($request->all() + [
+                    'code' => $this->generateCode($request->group_id),
+                    'creator_id' => auth()->user()->id,
+                ]);
+        }else{
+            $parent = Account::find($request->parent_id);
 
-        $lastAccountCode = $lastAccount ? ($lastAccount->code + 1) : $group->code . '0001';
-        $code = str_pad($lastAccountCode, 8, '0', STR_PAD_LEFT);
-
-        $this->account::create($request->all() + [
-                'code' => $this->generateCode($request->group_id),
+            $this->account::create($request->all() + [
+                'code' => $this->generateCode($parent->group_id),
+                'group_id' => $parent->group_id,
                 'creator_id' => auth()->user()->id,
             ]);
+        }
+        
 
         return true;
     }
+
+    public function update(string $id, $request): bool
+    {
+        $account = $this->account::findOrFail($id);
+        
+        if($request->is_parent == 1){
+            $account->update($request->except('code')+['code' => $this->generateCode($request->group_id)]);
+        }else{
+            $parent = Account::find($request->parent_id);
+            $account->update($request->except('code')+[
+                'code' => $this->generateCode($parent->group_id),
+                'group_id' => $parent->group_id,
+            ]);
+        }
+
+        return true;
+    }
+
 
     public function storeFromBankAccount($parent_account_id, $parent_expenses_account_id, $name)
     {
@@ -146,13 +175,7 @@ class AccountMySqlRepository implements AccountRepositoryInterface
         ];
     }
 
-    public function update(string $id, $request): bool
-    {
-        $account = $this->account::findOrFail($id);
-        $account->update($request->except('code')+['code' => $this->generateCode($request->group_id)]);
-
-        return true;
-    }
+    
 
     public function delete(string $id): bool
     {
