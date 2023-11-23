@@ -7,7 +7,8 @@ use App\Domains\GroupType\Interfaces\GroupTypeRepositoryInterface;
 use App\Domains\GroupType\Models\GroupType;
 use FontLib\TrueType\Collection;
 use Illuminate\Support\Facades\Storage;
-use Barryvdh\DomPDF\Facade\Pdf;
+// use Barryvdh\DomPDF\Facade\Pdf;
+use niklasravnsborg\LaravelPdf\Facades\Pdf;
 
 class GroupTypeMySqlRepository implements GroupTypeRepositoryInterface
 {
