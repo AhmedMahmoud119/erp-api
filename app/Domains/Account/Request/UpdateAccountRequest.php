@@ -21,7 +21,7 @@ class UpdateAccountRequest extends FormRequest
             'group_id'        => 'required_if:is_parent,eq,1|nullable|exists:groups,id',
             'opening_balance' => 'numeric',
             'account_type'    => ['required', Rule::in(['debit', 'credit', 'both'])],
-            'parent_id'       => 'required_if:is_parent,eq,0|exists:accounts,id',
+            'parent_id'       => 'required_if:is_parent,eq,0|nullable|exists:accounts,id',
             'is_parent'       => ['nullable', Rule::in([0,1])],
             'icon'            => 'nullable',
         ];
